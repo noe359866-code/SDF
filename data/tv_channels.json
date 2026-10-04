@@ -1,504 +1,478 @@
 [
   {
-    "name": "CBS en espanol",
-    "url": "https://jmp2.uk/plu-668c5cb4f01dbe0008dd4082.m3u8",
-    "group": "Entertainment",
-    "tvg_id": "CBSenespanol.us@SD",
+    "name": "36 TV Huacho",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Flive-evg10.tv360.bitel.com.pe%2Fbitel%2F36tvSRT%2Fplaylist.m3u8",
+    "group": "General",
+    "tvg_id": "36TVHuacho.pe@SD",
     "tvg_name": "",
-    "logo": "https://images.pluto.tv/channels/668c5cb4f01dbe0008dd4082/colorLogoPNG.png",
-    "language": "es",
-    "country": "US",
+    "logo": "https://iptv.bbyte.app/icons/36tvhuacho720p.jpg",
+    "language": "unknown",
+    "country": "PE",
     "category": "general",
-    "source": "IPTV-org",
+    "source": "BByte Jellyfin, IPTV-org",
     "source_url": "",
     "attributes": {
-      "tvg-id": "CBSenespanol.us@SD",
-      "tvg-logo": "https://images.pluto.tv/channels/668c5cb4f01dbe0008dd4082/colorLogoPNG.png",
-      "group-title": "Entertainment"
+      "tvg-id": "36TVHuacho.pe@SD",
+      "tvg-logo": "https://iptv.bbyte.app/icons/36tvhuacho720p.jpg",
+      "group-title": "General"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/668c5cb4f01dbe0008dd4082/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Flive-evg10.tv360.bitel.com.pe%2Fbitel%2F36tvSRT%2Fplaylist.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "Africa 24 English",
-    "url": "https://edge20.vedge.infomaniak.com/livecast/ik:africa24english/manifest.m3u8",
+    "name": "Al Jazeera English",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Flive-hls-apps-aje-fa.getaj.net%2FAJE%2Findex.m3u8",
     "group": "News",
-    "tvg_id": "Africa24English.fr@SD",
+    "tvg_id": "AlJazeera.qa@English",
     "tvg_name": "",
-    "logo": "https://africa24tv.com/wp-content/uploads/2023/12/logo-Africa24TVEnglish.png",
+    "logo": "https://i.imgur.com/7bRVpnu.png",
     "language": "en",
-    "country": "FR",
+    "country": "unknown",
     "category": "news",
-    "source": "IPTV-org, BByte Jellyfin",
+    "source": "BByte Jellyfin, IPTV-org",
     "source_url": "",
     "attributes": {
-      "tvg-id": "Africa24English.fr@SD",
-      "tvg-logo": "https://africa24tv.com/wp-content/uploads/2023/12/logo-Africa24TVEnglish.png",
+      "tvg-id": "AlJazeera.qa@English",
+      "tvg-logo": "https://i.imgur.com/7bRVpnu.png",
       "group-title": "News"
     },
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
+      "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://edge20.vedge.infomaniak.com/livecast/ik:africa24english/manifest.m3u8",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Flive-hls-apps-aje-fa.getaj.net%2FAJE%2Findex.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "CDN Deportes",
-    "url": "https://hls.tvabierta.net/hls/036.m3u8",
-    "group": "Sports",
-    "tvg_id": "CDNDeportes.do@SD",
+    "name": "AMC Europe Hungary",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F88.212.15.19%2Flive%2Famc_hun%2Findex.m3u8",
+    "group": "Unknown",
+    "tvg_id": "AMCEurope.uk@Hungary",
     "tvg_name": "",
-    "logo": "https://i.imgur.com/yU5LqTL.png",
-    "language": "es",
-    "country": "DO",
-    "category": "sports",
-    "source": "IPTV-org",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/AMC_logo_2019.svg/960px-AMC_logo_2019.svg.png",
+    "language": "unknown",
+    "country": "GB",
+    "category": "movies",
+    "source": "BByte Jellyfin, IPTV-org",
     "source_url": "",
     "attributes": {
-      "tvg-id": "CDNDeportes.do@SD",
-      "tvg-logo": "https://i.imgur.com/yU5LqTL.png",
-      "group-title": "Sports"
-    },
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://hls.tvabierta.net/hls/036.m3u8",
-      "detail": "Playlist header detected; segments were not tested"
-    }
-  },
-  {
-    "name": "AMC en Español",
-    "url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Fpb-fmbyorn1d0n1n.akamaized.net%2Fv1%2Famc_amcespanol_3%2Fsamsungheadend_us%2Flatest%2Fmain%2Fhls%2Fplaylist.m3u8",
-    "group": "Entertainment",
-    "tvg_id": "AMCenEspanol.us@SD",
-    "tvg_name": "",
-    "logo": "https://i.imgur.com/L1h6W5Q.png",
-    "language": "es",
-    "country": "US",
-    "category": "movies",
-    "source": "BByte Jellyfin, CXTv",
-    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/amc-en-espanol",
-    "attributes": {
-      "tvg-id": "AMCenEspanol.us@SD",
-      "tvg-logo": "https://i.imgur.com/L1h6W5Q.png",
-      "group-title": "Entertainment"
+      "tvg-id": "AMCEurope.uk@Hungary",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/AMC_logo_2019.svg/960px-AMC_logo_2019.svg.png",
+      "group-title": "Unknown",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Fpb-fmbyorn1d0n1n.akamaized.net%2Fv1%2Famc_amcespanol_3%2Fsamsungheadend_us%2Flatest%2Fmain%2Fhls%2Fplaylist.m3u8",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F88.212.15.19%2Flive%2Famc_hun%2Findex.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "Comedy Central en Espanol",
-    "url": "https://jmp2.uk/plu-5cf96dad1652631e36d43320.m3u8",
-    "group": "Comedy",
-    "tvg_id": "ComedyCentralenEspanol.us@SD",
+    "name": "Andromeda Italy",
+    "url": "https://jmp2.uk/plu-60802d37ee238e0007c94e64.m3u8",
+    "group": "Series",
+    "tvg_id": "Andromeda.us@Italy",
     "tvg_name": "",
-    "logo": "https://i.imgur.com/6xTD3G8.png",
-    "language": "es",
+    "logo": "https://i.imgur.com/6ot2lmd.png",
+    "language": "unknown",
     "country": "US",
     "category": "series",
     "source": "IPTV-org",
     "source_url": "",
     "attributes": {
-      "tvg-id": "ComedyCentralenEspanol.us@SD",
-      "tvg-logo": "https://i.imgur.com/6xTD3G8.png",
-      "group-title": "Comedy"
+      "tvg-id": "Andromeda.us@Italy",
+      "tvg-logo": "https://i.imgur.com/6ot2lmd.png",
+      "group-title": "Series"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/x-mpegurl",
-      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/5cf96dad1652631e36d43320/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
+      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/60802d37ee238e0007c94e64/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "Terra Mater WILD English",
-    "url": "https://amg01775-amg01775c1-amgplt0343.playout.now3.amagi.tv/playlist/amg01775-amg01775c1-amgplt0343/playlist.m3u8",
+    "name": "Dokusat",
+    "url": "https://muc3.iptv-playoutcenter.de/dokusat/dokusat1/playlist.m3u8",
     "group": "Documentary",
-    "tvg_id": "TerraMaterWILD.de@English",
+    "tvg_id": "Dokusat.de@SD",
     "tvg_name": "",
-    "logo": "https://i.imgur.com/EbMK3Ph.png",
-    "language": "en",
+    "logo": "https://i.imgur.com/GadfTwF.png",
+    "language": "unknown",
     "country": "DE",
     "category": "documentary",
     "source": "IPTV-org",
     "source_url": "",
     "attributes": {
-      "tvg-id": "TerraMaterWILD.de@English",
-      "tvg-logo": "https://i.imgur.com/EbMK3Ph.png",
+      "tvg-id": "Dokusat.de@SD",
+      "tvg-logo": "https://i.imgur.com/GadfTwF.png",
       "group-title": "Documentary"
     },
     "stream_check": {
       "status": "http_ok",
-      "http_status": 200,
+      "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://amg01775-amg01775c1-amgplt0343.playout.now3.amagi.tv/playlist/amg01775-amg01775c1-amgplt0343/playlist.m3u8",
+      "final_url": "https://muc3.iptv-playoutcenter.de/dokusat/dokusat1/playlist.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "BabyFirst Spanish",
-    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F168.196.127.137%3A6001%2Fplay%2Fa06j%2Findex.m3u8",
+    "name": "BabyTV Spain",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F181.78.12.119%3A16123%2Fplay%2Fch01%2Findex.m3u8",
     "group": "Kids",
-    "tvg_id": "BabyFirst.us@Spanish",
+    "tvg_id": "BabyTV.uk@Spain",
     "tvg_name": "",
-    "logo": "https://i.imgur.com/WxLHBwu.png",
-    "language": "es",
-    "country": "US",
+    "logo": "https://i.imgur.com/4BDJ5FT.png",
+    "language": "unknown",
+    "country": "GB",
     "category": "kids",
-    "source": "BByte Jellyfin, IPTV-org",
+    "source": "BByte Jellyfin",
     "source_url": "",
     "attributes": {
-      "tvg-id": "BabyFirst.us@Spanish",
-      "tvg-logo": "https://i.imgur.com/WxLHBwu.png",
+      "tvg-id": "BabyTV.uk@Spain",
+      "tvg-logo": "https://i.imgur.com/4BDJ5FT.png",
       "group-title": "Kids"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F168.196.127.137%3A6001%2Fplay%2Fa06j%2Findex.m3u8",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F181.78.12.119%3A16123%2Fplay%2Fch01%2Findex.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "MTV en Espanol",
-    "url": "https://jmp2.uk/plu-5cf96d351652631e36d4331f.m3u8",
-    "group": "Entertainment",
-    "tvg_id": "MTVenEspanol.us@SD",
-    "tvg_name": "",
-    "logo": "https://i.imgur.com/vQWWfyW.png",
-    "language": "es",
-    "country": "US",
-    "category": "music",
-    "source": "IPTV-org",
-    "source_url": "",
-    "attributes": {
-      "tvg-id": "MTVenEspanol.us@SD",
-      "tvg-logo": "https://i.imgur.com/vQWWfyW.png",
-      "group-title": "Entertainment"
-    },
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/5cf96d351652631e36d4331f/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
-      "detail": "Playlist header detected; segments were not tested"
-    }
-  },
-  {
-    "name": "Tastemade en Espanol",
-    "url": "https://tastemadees16us-xumo.amagi.tv/playlist.m3u8",
-    "group": "Cooking",
-    "tvg_id": "TastemadeenEspanol.us@SD",
-    "tvg_name": "",
-    "logo": "https://i.imgur.com/8s6aRwv.png",
-    "language": "es",
-    "country": "US",
-    "category": "cooking",
-    "source": "IPTV-org",
-    "source_url": "",
-    "attributes": {
-      "tvg-id": "TastemadeenEspanol.us@SD",
-      "tvg-logo": "https://i.imgur.com/8s6aRwv.png",
-      "group-title": "Cooking"
-    },
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://tastemadees16us-xumo.amagi.tv/playlist.m3u8",
-      "detail": "Playlist header detected; segments were not tested"
-    }
-  },
-  {
-    "name": "Beach TV Florida & Alabama",
-    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2Fmedia4.tripsmarter.com%3A1935%2FLiveTV%2FDTVHD%2Fplaylist.m3u8",
-    "group": "Travel",
-    "tvg_id": "BeachTVFloridaAlabama.us@SD",
-    "tvg_name": "",
-    "logo": "https://iptv.bbyte.app/icons/beachtvfloridaalabama720p.png",
+    "name": "Activa TV España",
+    "url": "https://streamtv.mediasector.es/hls/activatv/index.m3u8",
+    "group": "Musicales",
+    "tvg_id": "ActivaTV.es@SD",
+    "tvg_name": "Activa TV España",
+    "logo": "https://graph.facebook.com/activafm.radiomusical/picture?width=200&height=200",
     "language": "unknown",
-    "country": "US",
-    "category": "travel",
-    "source": "BByte Jellyfin, IPTV-org",
+    "country": "ES",
+    "category": "music",
+    "source": "TDTChannels, IPTV-org, Teleonline, Teleonline M3U",
     "source_url": "",
     "attributes": {
-      "tvg-id": "BeachTVFloridaAlabama.us@SD",
-      "tvg-logo": "https://iptv.bbyte.app/icons/beachtvfloridaalabama720p.png",
-      "group-title": "Travel"
+      "tvg-logo": "https://graph.facebook.com/activafm.radiomusical/picture?width=200&height=200",
+      "group-title": "Musicales",
+      "tvg-name": "Activa TV España",
+      "tvg-id": "ActivaTV.es@SD"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2Fmedia4.tripsmarter.com%3A1935%2FLiveTV%2FDTVHD%2Fplaylist.m3u8",
+      "final_url": "https://streamtv.mediasector.es/hls/activatv/index.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "30A Investment Pitch",
-    "url": "https://30a-tv.com/feeds/xodglobal/30atv.m3u8",
+    "name": "Bloomberg TV EMEA Live Event",
+    "url": "https://bloomberg.com/media-manifest/streams/eu-event.m3u8",
     "group": "Business",
-    "tvg_id": "30AInvestmentPitch.us@SD",
+    "tvg_id": "BloombergTV.us@EMEALiveEvent",
     "tvg_name": "",
-    "logo": "https://i.imgur.com/CKCtZo7.png",
+    "logo": "https://i.imgur.com/OuogLHx.png",
     "language": "unknown",
     "country": "US",
     "category": "business",
     "source": "IPTV-org",
     "source_url": "",
     "attributes": {
-      "tvg-id": "30AInvestmentPitch.us@SD",
-      "tvg-logo": "https://i.imgur.com/CKCtZo7.png",
+      "tvg-id": "BloombergTV.us@EMEALiveEvent",
+      "tvg-logo": "https://i.imgur.com/OuogLHx.png",
       "group-title": "Business"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://30a-tv.com/feeds/xodglobal/30atv.m3u8",
+      "final_url": "https://www.bloomberg.com/media-manifest/streams/eu-event.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "3Cat Càmeres del temps",
-    "url": "https://directes-tv-int.3catdirectes.cat/live-content/beauties-hls/master.m3u8",
-    "group": "Cataluña",
-    "tvg_id": "3CatCameresdeltemps.es@SD",
-    "tvg_name": "3Cat Càmeres del temps",
-    "logo": "https://graph.facebook.com/3CatInfoElTemps/picture?width=200&height=200",
+    "name": "360 RFTV",
+    "url": "https://acceso.mediosdecostarica.com:3638/live/360rftvcrlive.m3u8",
+    "group": "General",
+    "tvg_id": "360RFTV.cr@SD",
+    "tvg_name": "",
+    "logo": "https://i.imgur.com/EBtgnxR.png",
     "language": "unknown",
-    "country": "ES",
-    "category": "weather",
-    "source": "TDTChannels, IPTV-org, Teleonline, Teleonline M3U, BByte Jellyfin",
+    "country": "CR",
+    "category": "general",
+    "source": "IPTV-org, BByte Jellyfin",
     "source_url": "",
     "attributes": {
-      "tvg-logo": "https://graph.facebook.com/3CatInfoElTemps/picture?width=200&height=200",
-      "group-title": "Cataluña",
-      "tvg-name": "3Cat Càmeres del temps",
-      "tvg-id": "3CatCameresdeltemps.es@SD"
+      "tvg-id": "360RFTV.cr@SD",
+      "tvg-logo": "https://i.imgur.com/EBtgnxR.png",
+      "group-title": "General"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://directes-tv-int.3catdirectes.cat/live-content/beauties-hls/master.m3u8",
+      "final_url": "https://acceso.mediosdecostarica.com:3638/live/360rftvcrlive.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "3ABN USA",
-    "url": "https://3abn.bozztv.com/3abn2/Lat_live/smil:Lat_live.smil/playlist.m3u8",
-    "group": "Religiosos",
-    "tvg_id": "3ABNLatino.us@SD",
-    "tvg_name": "3ABN USA",
-    "logo": "https://graph.facebook.com/3abn.org/picture?width=200&height=200",
-    "language": "es",
-    "country": "US",
-    "category": "religious",
-    "source": "TDTChannels, IPTV-org, Teleonline, Teleonline M3U",
+    "name": "DW English | DE",
+    "url": "https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8?PlaylistM3UCL",
+    "group": "",
+    "tvg_id": "1030",
+    "tvg_name": "DW English",
+    "logo": "https://cdn.m3u.cl/logo/1030_DW_English.png",
+    "language": "en",
+    "country": "unknown",
+    "category": "news",
+    "source": "m3u.cl Top",
     "source_url": "",
     "attributes": {
-      "tvg-logo": "https://graph.facebook.com/3abn.org/picture?width=200&height=200",
-      "group-title": "Religiosos",
-      "tvg-name": "3ABN USA",
-      "tvg-id": "3ABNLatino.us@SD"
+      "tvg-id": "1030",
+      "tvg-name": "DW English",
+      "tvg-logo": "https://cdn.m3u.cl/logo/1030_DW_English.png"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://3abn.bozztv.com/3abn2/Lat_live/smil:Lat_live.smil/playlist.m3u8",
+      "final_url": "https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/index.m3u8?PlaylistM3UCL",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "CSI: Miami en espanol",
-    "url": "https://jmp2.uk/plu-632b5950b515b000079e6b81.m3u8",
-    "group": "Entertainment",
-    "tvg_id": "CSIMiamienespanol.us@SD",
+    "name": "AMC Latin America Brazil",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F170.83.49.66%3A8083%2FAMCHD%2Findex.m3u8",
+    "group": "Movies",
+    "tvg_id": "AMCLatinAmerica.us@Brazil",
     "tvg_name": "",
-    "logo": "https://images.pluto.tv/channels/632b5950b515b000079e6b81/colorLogoPNG_1731837336190.png",
-    "language": "es",
-    "country": "US",
-    "category": "general",
-    "source": "IPTV-org",
-    "source_url": "",
-    "attributes": {
-      "tvg-id": "CSIMiamienespanol.us@SD",
-      "tvg-logo": "https://images.pluto.tv/channels/632b5950b515b000079e6b81/colorLogoPNG_1731837336190.png",
-      "group-title": "Entertainment"
-    },
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/632b5950b515b000079e6b81/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
-      "detail": "Playlist header detected; segments were not tested"
-    }
-  },
-  {
-    "name": "Africanews English",
-    "url": "https://cdn-euronews.akamaized.net/live/eds/africanews-en/25049/index.m3u8",
-    "group": "News",
-    "tvg_id": "AfricanewsEnglish.fr@SD",
-    "tvg_name": "",
-    "logo": "https://i.imgur.com/5UxU4zc.png",
-    "language": "en",
-    "country": "FR",
-    "category": "news",
-    "source": "IPTV-org",
-    "source_url": "",
-    "attributes": {
-      "tvg-id": "AfricanewsEnglish.fr@SD",
-      "tvg-logo": "https://i.imgur.com/5UxU4zc.png",
-      "group-title": "News"
-    },
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://cdn-euronews.akamaized.net/live/eds/africanews-en/25049/index.m3u8",
-      "detail": "Playlist header detected; segments were not tested"
-    }
-  },
-  {
-    "name": "Cine en espanol",
-    "url": "https://jmp2.uk/plu-5cf96b1c4f1ca3f0629f4bf0.m3u8",
-    "group": "Entertainment",
-    "tvg_id": "Cineenespanol.us@SD",
-    "tvg_name": "",
-    "logo": "https://images.pluto.tv/channels/5cf96b1c4f1ca3f0629f4bf0/colorLogoPNG.png",
-    "language": "es",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/AMC_logo_2019.svg/960px-AMC_logo_2019.svg.png",
+    "language": "unknown",
     "country": "US",
     "category": "movies",
-    "source": "IPTV-org",
-    "source_url": "",
-    "attributes": {
-      "tvg-id": "Cineenespanol.us@SD",
-      "tvg-logo": "https://images.pluto.tv/channels/5cf96b1c4f1ca3f0629f4bf0/colorLogoPNG.png",
-      "group-title": "Entertainment"
-    },
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/5cf96b1c4f1ca3f0629f4bf0/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
-      "detail": "Playlist header detected; segments were not tested"
-    }
-  },
-  {
-    "name": ".sci-fi",
-    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2Fstream.mcquack.net%2F180%2Findex.m3u8",
-    "group": "Science",
-    "tvg_id": "scifi.ru@SD",
-    "tvg_name": "",
-    "logo": "https://iptv.bbyte.app/icons/.sci-fi576p.png",
-    "language": "unknown",
-    "country": "RU",
-    "category": "documentary",
     "source": "BByte Jellyfin, IPTV-org",
     "source_url": "",
     "attributes": {
-      "tvg-id": "scifi.ru@SD",
-      "tvg-logo": "https://iptv.bbyte.app/icons/.sci-fi576p.png",
-      "group-title": "Science",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
+      "tvg-id": "AMCLatinAmerica.us@Brazil",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/AMC_logo_2019.svg/960px-AMC_logo_2019.svg.png",
+      "group-title": "Movies"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2Fstream.mcquack.net%2F180%2Findex.m3u8",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F170.83.49.66%3A8083%2FAMCHD%2Findex.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "Naruto en espanol",
-    "url": "https://jmp2.uk/plu-5ee92e72fb286e0007285fec.m3u8",
-    "group": "Animation",
-    "tvg_id": "Narutoenespanol.us@SD",
+    "name": "Auction Hunters (Sweden) DK",
+    "url": "https://jmp2.uk/plu-62da73c4ec46c000070f4cb1.m3u8",
+    "group": "Series",
+    "tvg_id": "AuctionHunters.se@DK",
     "tvg_name": "",
-    "logo": "https://i.imgur.com/hG8F0RY.png",
-    "language": "es",
-    "country": "US",
-    "category": "kids",
+    "logo": "https://images.pluto.tv/channels/62da73c4ec46c000070f4cb1/colorLogoPNG.png",
+    "language": "unknown",
+    "country": "SE",
+    "category": "series",
     "source": "IPTV-org",
     "source_url": "",
     "attributes": {
-      "tvg-id": "Narutoenespanol.us@SD",
-      "tvg-logo": "https://i.imgur.com/hG8F0RY.png",
-      "group-title": "Animation"
+      "tvg-id": "AuctionHunters.se@DK",
+      "tvg-logo": "https://images.pluto.tv/channels/62da73c4ec46c000070f4cb1/colorLogoPNG.png",
+      "group-title": "Series"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/x-mpegurl",
-      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/5ee92e72fb286e0007285fec/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
+      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/62da73c4ec46c000070f4cb1/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "MTV Flow Latino",
-    "url": "https://jmp2.uk/plu-5d3609cd6a6c78d7672f2a81.m3u8",
-    "group": "Music",
-    "tvg_id": "MTVFlowLatino.us@SD",
+    "name": "Dossiers FBI",
+    "url": "https://jmp2.uk/plu-5f8edad922b10b000753bc37.m3u8",
+    "group": "Documentary",
+    "tvg_id": "DossiersFBI.us@France",
     "tvg_name": "",
-    "logo": "https://images.pluto.tv/channels/62b218fc511d4b00070ddc0c/colorLogoPNG.png",
-    "language": "es",
+    "logo": "https://i.imgur.com/8Zx6dA7.png",
+    "language": "unknown",
     "country": "US",
+    "category": "documentary",
+    "source": "IPTV-org",
+    "source_url": "",
+    "attributes": {
+      "tvg-id": "DossiersFBI.us@France",
+      "tvg-logo": "https://i.imgur.com/8Zx6dA7.png",
+      "group-title": "Documentary"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/x-mpegurl",
+      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/5f8edad922b10b000753bc37/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Alcance FM PLAY TV",
+    "url": "https://video.wilohosting.com:19360/alcancefmtv/alcancefmtv.m3u8",
+    "group": "Music",
+    "tvg_id": "AlcanceFMPLAYTV.py@SD",
+    "tvg_name": "",
+    "logo": "https://i.imgur.com/ymcWecA.png",
+    "language": "unknown",
+    "country": "PY",
     "category": "music",
     "source": "IPTV-org",
     "source_url": "",
     "attributes": {
-      "tvg-id": "MTVFlowLatino.us@SD",
-      "tvg-logo": "https://images.pluto.tv/channels/62b218fc511d4b00070ddc0c/colorLogoPNG.png",
+      "tvg-id": "AlcanceFMPLAYTV.py@SD",
+      "tvg-logo": "https://i.imgur.com/ymcWecA.png",
       "group-title": "Music"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/5d3609cd6a6c78d7672f2a81/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://video.wilohosting.com:19360/alcancefmtv/alcancefmtv.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "America's Test Kitchen",
-    "url": "https://jmp2.uk/plu-5e84f54a82f05300080e6746.m3u8",
-    "group": "Cooking",
-    "tvg_id": "AmericasTestKitchen.us@SD",
+    "name": "3sat",
+    "url": "https://dash4.antik.sk/live/test_drei_sat_tizen/playlist.m3u8",
+    "group": "General",
+    "tvg_id": "3sat.de@SD",
     "tvg_name": "",
-    "logo": "https://i.imgur.com/prMkTsZ.png",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/3sat_2019.svg/960px-3sat_2019.svg.png",
     "language": "unknown",
-    "country": "US",
-    "category": "cooking",
-    "source": "IPTV-org",
+    "country": "DE",
+    "category": "general",
+    "source": "IPTV-org, BByte Jellyfin",
     "source_url": "",
     "attributes": {
-      "tvg-id": "AmericasTestKitchen.us@SD",
-      "tvg-logo": "https://i.imgur.com/prMkTsZ.png",
-      "group-title": "Cooking"
+      "tvg-id": "3sat.de@SD",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/3sat_2019.svg/960px-3sat_2019.svg.png",
+      "group-title": "General"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/x-mpegurl",
-      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/5e84f54a82f05300080e6746/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
+      "final_url": "https://dash4.antik.sk/live/test_drei_sat_tizen/playlist.m3u8",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "DW Español | DE",
+    "url": "https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8?PlaylistM3UCL",
+    "group": "",
+    "tvg_id": "511",
+    "tvg_name": "DW Español",
+    "logo": "https://cdn.m3u.cl/logo/511_DW_Espanol.png",
+    "language": "es",
+    "country": "unknown",
+    "category": "news",
+    "source": "m3u.cl Top",
+    "source_url": "",
+    "attributes": {
+      "tvg-id": "511",
+      "tvg-name": "DW Español",
+      "tvg-logo": "https://cdn.m3u.cl/logo/511_DW_Espanol.png"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://dwamdstream104.akamaized.net/hls/live/2015530/dwstream104/index.m3u8?PlaylistM3UCL",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Avatar (Germany)",
+    "url": "https://jmp2.uk/plu-656df599c0fc8800089c75ab.m3u8",
+    "group": "Animation;Kids;Series",
+    "tvg_id": "Avatar.de@GB",
+    "tvg_name": "",
+    "logo": "https://images.pluto.tv/channels/656df599c0fc8800089c75ab/colorLogoPNG.png",
+    "language": "unknown",
+    "country": "DE",
+    "category": "series",
+    "source": "IPTV-org",
+    "source_url": "",
+    "attributes": {
+      "tvg-id": "Avatar.de@GB",
+      "tvg-logo": "https://images.pluto.tv/channels/656df599c0fc8800089c75ab/colorLogoPNG.png",
+      "group-title": "Animation;Kids;Series"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/x-mpegurl",
+      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/656df599c0fc8800089c75ab/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Ecovision",
+    "url": "https://streaming.grupomediosdelnorte.com:19360/ecovision/ecovision.m3u8",
+    "group": "Documentary",
+    "tvg_id": "Ecovision.do@SD",
+    "tvg_name": "",
+    "logo": "https://imgur.com/Y4ahiYu.png",
+    "language": "unknown",
+    "country": "DO",
+    "category": "documentary",
+    "source": "IPTV-org",
+    "source_url": "",
+    "attributes": {
+      "tvg-id": "Ecovision.do@SD",
+      "tvg-logo": "https://imgur.com/Y4ahiYu.png",
+      "group-title": "Documentary"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://streaming.grupomediosdelnorte.com:19360/ecovision/ecovision.m3u8",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Avatar (Sweden)",
+    "url": "https://jmp2.uk/plu-61c09b48d6d97900076e91c5.m3u8",
+    "group": "Animation;Kids;Series",
+    "tvg_id": "Avatar.se@DK",
+    "tvg_name": "",
+    "logo": "https://images.pluto.tv/channels/61c09b48d6d97900076e91c5/colorLogoPNG.png",
+    "language": "unknown",
+    "country": "SE",
+    "category": "series",
+    "source": "IPTV-org",
+    "source_url": "",
+    "attributes": {
+      "tvg-id": "Avatar.se@DK",
+      "tvg-logo": "https://images.pluto.tv/channels/61c09b48d6d97900076e91c5/colorLogoPNG.png",
+      "group-title": "Animation;Kids;Series"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/x-mpegurl",
+      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/61c09b48d6d97900076e91c5/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMTc4MDQ5LCJpYXQiOjE3OTEwOTE2NDksImp0aSI6ImQ0NWNiNDJkLTZmYWYtNDM0Ni1hNjgyLWQ5ZWMxODhjNzk5YyJ9.Rn5gR5G_SnLGRCljSom8OCwKqUSfp2au4qxojZ8VnJA",
       "detail": "Playlist header detected; segments were not tested"
     }
   }
