@@ -1,5 +1,6 @@
 import csv
 import json
+import os
 import tempfile
 import unittest
 from pathlib import Path
@@ -7,17 +8,27 @@ from unittest.mock import patch
 from urllib.error import HTTPError, URLError
 
 from sdf_tv_channels import (
+    DEFAULT_MAX_CHANNELS,
     DEFAULT_SOURCES,
     Channel,
+    LinkParser,
     SourceConfig,
     StreamCheck,
+    _canonical_channel_key,
     _dedupe,
     _fetch_source,
+    channel_slug,
     check_stream,
     check_streams,
     classify_channel,
+    clean_channel_name,
+    dedupe_unique_channels,
+    fetch_existing_supabase_channels,
+    main,
     parse_m3u,
     read_playlist,
+    select_channels_with_checks,
+    sync_to_supabase,
     write_output,
 )
 
@@ -74,8 +85,10 @@ class PlaylistParserTests(unittest.TestCase):
         # A Spanish-language brand/group is still a useful language signal.
         self.assertEqual(classify_channel("ESPN Deportes", "Deportes")[:2], ("sports", "es"))
 
-    def test_country_from_standard_tvg_id_suffix(self):
+    def test_country_from_standard_tvg_id_suffix_and_prefix(self):
         self.assertEqual(classify_channel("CNN", attrs={"tvg-id": "CNN.us"})[2], "US")
+        self.assertEqual(classify_channel("CNN", attrs={"tvg-id": "CNN.us@HD"})[2], "US")
+        self.assertEqual(classify_channel("[MX] Azteca Uno")[2], "MX")
 
     def test_supports_more_language_codes(self):
         self.assertEqual(classify_channel("Canal", attrs={"tvg-language": "ru-RU"})[1], "ru")
@@ -183,6 +196,196 @@ class PlaylistParserTests(unittest.TestCase):
         self.assertEqual(errors, [])
         fetch.assert_called_once_with(source.url, 1)
 
+    def test_link_parser_preserves_anchor_label(self):
+        parser = LinkParser()
+        parser.feed('<a href="/canal/antena-3">Antena 3</a>')
+        parser.close()
+        self.assertEqual(parser.links, [("/canal/antena-3", "Antena 3")])
+
+
+class DedupeAndLimitTests(unittest.TestCase):
+    def test_clean_channel_name_and_canonical_key_normalize_variants(self):
+        self.assertEqual(
+            clean_channel_name("101. [MX] Ver Azteca Uno [1080p] [Geo-blocked] En Vivo - CXTv"),
+            "Azteca Uno",
+        )
+        self.assertEqual(_canonical_channel_key("Antena 3 HD"), "antena-3")
+        self.assertEqual(_canonical_channel_key("Antena 3 (1080p) Señal 2"), "antena-3")
+        self.assertEqual(_canonical_channel_key("Antena 3 En Vivo"), "antena-3")
+        self.assertEqual(_canonical_channel_key("Discovery Channel"), "discovery")
+        self.assertEqual(_canonical_channel_key("Canal Discovery Latam"), "discovery")
+        self.assertEqual(_canonical_channel_key("Canal 24 Horas"), "24-horas")
+        self.assertEqual(_canonical_channel_key("Canal 13 HD"), "canal-13")
+        self.assertEqual(channel_slug("Antena 3 [720p]"), "antena-3")
+
+    def test_m3u_export_and_logo_sanitization(self):
+        channels = parse_m3u(
+            '#EXTM3U\n'
+            '#EXTINF:-1 tvg-id="a3.es" tvg-logo="N/A" group-title="General",Antena 3\n'
+            'https://example.com/a3.m3u8\n'
+            '#EXTINF:-1 tvg-id="la1.es" tvg-logo="/logos/la1.png" group-title="General",La 1\n'
+            'https://example.com/la1.m3u8\n',
+            base_url="https://example.com/lists/tv.m3u8",
+        )
+        self.assertEqual(channels[0].logo, "")
+        self.assertEqual(channels[1].logo, "https://example.com/logos/la1.png")
+        with tempfile.TemporaryDirectory() as temp_dir:
+            m3u_path = Path(temp_dir) / "exported.m3u8"
+            write_output(channels, m3u_path, "m3u")
+            exported_text = m3u_path.read_text(encoding="utf-8")
+            reparsed = parse_m3u(exported_text)
+            self.assertEqual(len(reparsed), 2)
+            self.assertEqual(reparsed[1].logo, "https://example.com/logos/la1.png")
+
+    def test_dedupe_unique_channels_prevents_repeated_names_tvg_ids_and_urls(self):
+        channels = [
+            Channel("CNN", "http://example.com/cnn-low.m3u8", category="news"),
+            Channel(
+                "CNN HD [1080p]",
+                "https://example.com/cnn-hd.m3u8",
+                tvg_id="CNN.us",
+                logo="https://example.com/cnn.png",
+                country="US",
+                language="en",
+                category="news",
+            ),
+            Channel("CNN En Vivo", "https://example.com/cnn-mirror.m3u8", category="news"),
+            Channel("Cable News Network", "https://example.com/cnn-other.m3u8", tvg_id="CNN.us", category="news"),
+            Channel("ESPN Deportes", "https://example.com/espn.m3u8", category="sports", language="es"),
+        ]
+        unique = dedupe_unique_channels(channels, limit=20)
+        self.assertEqual(len(unique), 2)
+        names = {c.name for c in unique}
+        self.assertEqual(names, {"CNN HD", "ESPN Deportes"})
+        cnn = next(c for c in unique if "CNN" in c.name)
+        self.assertEqual(cnn.url, "https://example.com/cnn-hd.m3u8")
+        self.assertEqual(cnn.logo, "https://example.com/cnn.png")
+
+    def test_limits_to_20_unique_channels_by_default(self):
+        channels = [
+            Channel(f"Canal Único {i}", f"https://example.com/stream-{i}.m3u8", category="news")
+            for i in range(1, 35)
+        ]
+        # Add duplicates of each channel with HD/mirror suffixes
+        channels.extend(
+            Channel(f"Canal Único {i} HD [1080p]", f"https://mirror.example.com/stream-{i}.m3u8", category="news")
+            for i in range(1, 35)
+        )
+        selected = dedupe_unique_channels(channels, limit=DEFAULT_MAX_CHANNELS)
+        self.assertEqual(len(selected), 20)
+        slugs = [channel_slug(c.name) for c in selected]
+        self.assertEqual(len(slugs), len(set(slugs)))
+
+    def test_select_channels_with_checks_stops_early_and_uses_fallback_stream(self):
+        channels = [
+            Channel("Canal Uno", "https://example.com/uno-dead.m3u8", category="news"),
+            Channel("Canal Uno HD", "https://example.com/uno-live.m3u8", category="news"),
+            Channel("Canal Dos", "https://example.com/dos-live.m3u8", category="sports"),
+            Channel("Canal Tres", "https://example.com/tres-live.m3u8", category="movies"),
+        ]
+
+        def fake_check(url, timeout=10):
+            if "dead" in url:
+                return StreamCheck("unreachable", detail="offline")
+            return StreamCheck("http_ok", 200, "application/vnd.apple.mpegurl", url)
+
+        with patch("sdf_tv_channels.check_stream", side_effect=fake_check):
+            selected, checks = select_channels_with_checks(
+                channels, limit=2, timeout=1, workers=2, only_http_ok=True,
+            )
+        self.assertEqual(len(selected), 2)
+        selected_slugs = {_canonical_channel_key(c.name) for c in selected}
+        self.assertEqual(len(selected_slugs), 2)
+        for ch in selected:
+            self.assertEqual(checks[ch.url].status, "http_ok")
+
+    def test_sync_to_supabase_adds_at_most_20_non_repeating_channels(self):
+        channels = []
+        checks = {}
+        for i in range(1, 30):
+            url = f"https://example.com/ch-{i}.m3u8"
+            mirror_url = f"https://mirror.example.com/ch-{i}.m3u8"
+            channels.append(Channel(f"Canal {i}", url, country="MX", category="general"))
+            channels.append(Channel(f"Canal {i} [1080p]", mirror_url, country="MX", category="general"))
+            checks[url] = StreamCheck("http_ok", 200, "application/vnd.apple.mpegurl", url)
+            checks[mirror_url] = StreamCheck("http_ok", 200, "application/vnd.apple.mpegurl", mirror_url)
+
+        captured_payload = []
+
+        def fake_urlopen(req, timeout=30):
+            captured_payload.extend(json.loads(req.data.decode("utf-8")))
+            return FakeResponse(b"", status=201)
+
+        with patch("sdf_tv_channels.urlopen", side_effect=fake_urlopen):
+            synced = sync_to_supabase(
+                channels,
+                "https://project.supabase.co",
+                "secret-key",
+                stream_checks=checks,
+                activation_mode="automatic",
+            )
+
+        self.assertEqual(synced, 20)
+        self.assertEqual(len(captured_payload), 20)
+        slugs = [row["slug"] for row in captured_payload]
+        urls = [row["stream_url"] for row in captured_payload]
+        self.assertEqual(len(slugs), len(set(slugs)))
+        self.assertEqual(len(urls), len(set(urls)))
+        self.assertTrue(all(row["is_active"] for row in captured_payload))
+
+    def test_sync_to_supabase_skips_existing_channels_when_new_ones_available(self):
+        channels = [
+            Channel("Canal Existente", "https://example.com/existing.m3u8", country="ES"),
+            Channel("Canal Nuevo", "https://example.com/new.m3u8", country="ES"),
+        ]
+        existing_keys = ({"canal-existente"}, {"https://example.com/existing.m3u8"}, {"canal-existente"})
+        captured_payload = []
+
+        def fake_urlopen(req, timeout=30):
+            captured_payload.extend(json.loads(req.data.decode("utf-8")))
+            return FakeResponse(b"", status=201)
+
+        with patch("sdf_tv_channels.urlopen", side_effect=fake_urlopen):
+            synced = sync_to_supabase(
+                channels,
+                "https://project.supabase.co",
+                "secret-key",
+                activation_mode="manual",
+                existing_keys=existing_keys,
+            )
+
+        self.assertEqual(synced, 1)
+        self.assertEqual(captured_payload[0]["slug"], "canal-nuevo")
+
+    def test_fetch_existing_supabase_channels_parses_response(self):
+        body = json.dumps([
+            {"slug": "antena-3", "stream_url": "https://example.com/a3.m3u8", "name": "Antena 3 HD"},
+        ]).encode("utf-8")
+        with patch("sdf_tv_channels.urlopen", return_value=FakeResponse(body, status=200, content_type="application/json")):
+            slugs, urls, names = fetch_existing_supabase_channels("https://project.supabase.co", "secret")
+        self.assertIn("antena-3", slugs)
+        self.assertIn("https://example.com/a3.m3u8", urls)
+        self.assertIn("antena-3", names)
+
+    def test_cli_main_exports_20_unique_channels_by_default(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            playlist = Path(temp_dir) / "input.m3u"
+            output = Path(temp_dir) / "out.json"
+            lines = ["#EXTM3U"]
+            for i in range(1, 28):
+                lines.append(f'#EXTINF:-1 group-title="News",Canal {i}')
+                lines.append(f"https://example.com/live-{i}.m3u8")
+                lines.append(f'#EXTINF:-1 group-title="News",Canal {i} HD [1080p]')
+                lines.append(f"https://mirror.example.com/live-{i}.m3u8")
+            playlist.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+            rc = main([str(playlist), "-o", str(output)])
+            self.assertEqual(rc, 0)
+            exported = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(len(exported), 20)
+            slugs = {channel_slug(item["name"]) for item in exported}
+            self.assertEqual(len(slugs), 20)
+
 
 class StreamCheckTests(unittest.TestCase):
     def test_recognizes_hls_and_reads_only_a_small_range(self):
@@ -194,6 +397,16 @@ class StreamCheckTests(unittest.TestCase):
         self.assertIn("Playlist header detected", result.detail)
         request = open_url.call_args.args[0]
         self.assertEqual(request.get_header("Range"), "bytes=0-4095")
+
+    def test_retries_without_range_on_http_416(self):
+        err_416 = HTTPError("https://example.com/live.m3u8", 416, "Range Not Satisfiable", {}, None)
+        ok_response = FakeResponse(b"#EXTM3U\n#EXT-X-VERSION:3\n", status=200)
+        with patch("sdf_tv_channels.urlopen", side_effect=[err_416, ok_response]) as open_url:
+            result = check_stream("https://example.com/live.m3u8")
+        self.assertEqual(result.status, "http_ok")
+        self.assertEqual(open_url.call_count, 2)
+        retry_request = open_url.call_args_list[1].args[0]
+        self.assertIsNone(retry_request.get_header("Range"))
 
     def test_flags_html_returned_for_m3u_url(self):
         response = FakeResponse(b"<html>sign in</html>", status=200)
