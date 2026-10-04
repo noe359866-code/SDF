@@ -1,6 +1,21 @@
-# SDF — TV Channel Extractor & Classifier
+# SDF — Extractor y clasificador de canales de TV
 
-Extractor y clasificador de canales de TV para SDF.
+Herramienta de línea de comandos para leer listas M3U/M3U8 locales o fuentes públicas, normalizar
+los canales y exportarlos a JSON o CSV.
+
+## Qué hace
+
+- Lee playlists con nombres que incluyen comas, metadatos `tvg-*`, `#EXTGRP` y URLs relativas.
+- Resuelve rutas relativas de listas locales y remotas; no confunde segmentos de una playlist HLS
+  con canales de TV.
+- Clasifica categoría, idioma y país usando primero los metadatos explícitos. Como alternativa usa
+  nombres/grupos y sufijos de país habituales en `tvg-id` (por ejemplo, `cnn.us`). Las coincidencias
+  usan límites de palabra para reducir falsos positivos como inferir español porque un nombre
+  contiene `ESPN`.
+- Deduplica URLs sin tratar como iguales rutas que distinguen mayúsculas, y conserva metadatos y
+  fuentes alternativos.
+- Puede comprobar, de forma opcional, si una URL HTTP(S) responde y si un manifiesto M3U contiene
+  una cabecera válida. La comprobación es acotada y concurrente.
 
 ## Fuentes configuradas
 
@@ -12,29 +27,57 @@ Extractor y clasificador de canales de TV para SDF.
 - IPTV-org — https://iptv-org.github.io/iptv/index.m3u
 - Teleonline — https://teleonline.org/; también detecta su playlist pública M3U8.
 
+Lista las fuentes y sus claves con:
+
+```sh
+python sdf_tv_channels.py --list-sources
+```
+
 ## Uso
 
-    python sdf_tv_channels.py --list-sources
-    python sdf_tv_channels.py --all-sources -o data/tv_channels.json
-    python sdf_tv_channels.py --source tdtchannels --source teleonline -o data/tv_channels.json
-    python sdf_tv_channels.py --all-sources --category sports -o data/sports.json
-    python sdf_tv_channels.py --all-sources --language es -o data/spanish.json
-    python sdf_tv_channels.py --all-sources --country MX -o data/mexico.csv --format csv
+```sh
+# Leer una lista local
+python sdf_tv_channels.py ./playlist.m3u -o channels.json
 
-También se mantiene el modo local:
+# Descargar todas las fuentes configuradas
+python sdf_tv_channels.py --all-sources -o data/tv_channels.json
 
-    python sdf_tv_channels.py ./playlist.m3u -o channels.json
+# Elegir varias fuentes
+python sdf_tv_channels.py --source tdtchannels --source teleonline -o data/tv_channels.json
+
+# Filtrar antes de exportar
+python sdf_tv_channels.py --all-sources --category sports -o data/sports.json
+python sdf_tv_channels.py --all-sources --language es -o data/spanish.json
+python sdf_tv_channels.py --all-sources --country MX -o data/mexico.csv --format csv
+
+# Añadir un diagnóstico de alcance HTTP al resultado
+python sdf_tv_channels.py ./playlist.m3u --check-streams -o comprobados.csv
+```
+
+`--check-streams` añade `stream_check` a cada objeto JSON; en CSV añade `stream_status`,
+`stream_http_status`, `stream_content_type`, `stream_final_url` y `stream_detail`. También imprime
+un resumen por estado. Usa `--timeout` para limitar cada petición y `--workers` para ajustar el
+paralelismo.
+
+Estados habituales: `http_ok` (respuesta HTTP satisfactoria; en M3U se reconoce `#EXTM3U`),
+`invalid_playlist`, `restricted` (por ejemplo, HTTP 401/403), `http_error`, `unreachable` y
+`unsupported` (protocolo distinto de HTTP(S)). La comprobación solicita como máximo los primeros
+4 KiB y **no garantiza que el canal se pueda reproducir**: no verifica todos los segmentos, codecs,
+audio, geobloqueos ni disponibilidad futura. No intenta saltarse autenticación, DRM, paywalls,
+geo-bloqueos ni protecciones anti-bot.
 
 ## Clasificación
 
-Categorías principales: sports, news, movies, series, kids, documentary, music, business,
-culture, travel, cooking, religious, weather, general y other.
+Categorías principales: `sports`, `news`, `movies`, `series`, `kids`, `documentary`, `music`,
+`business`, `culture`, `travel`, `cooking`, `religious`, `weather`, `general` y `other`.
 
-El idioma y país se infieren de metadatos y del texto del canal; cuando no hay señales
-suficientes se conserva unknown.
+La clasificación es heurística. Se conserva `unknown` cuando no hay señales suficientes para idioma
+o país; la nacionalidad de una cadena o canal no se usa automáticamente como idioma.
 
-## Límites
+## Desarrollo y pruebas
 
-Procesa contenido públicamente accesible. No intenta saltarse autenticación, DRM,
-paywalls, geo-bloqueos ni protecciones anti-bot, y no prueba la disponibilidad de cada stream.
-La clasificación es heurística.
+Requiere Python 3.11 o posterior. Las pruebas unitarias se ejecutan sin acceder a Internet:
+
+```sh
+python -m unittest discover -s tests -v
+```
