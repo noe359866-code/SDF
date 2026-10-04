@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import re
 import sys
 import unicodedata
@@ -406,6 +407,13 @@ def _page_title(html: str, fallback: str) -> str:
                 return text
     return fallback
 
+def _page_logo(html: str, base_url: str) -> str:
+    """Extract a page logo without executing JavaScript."""
+    match = re.search(r'<meta[^>]+(?:property|name)=["\'](?:og:image|twitter:image)["\'][^>]+content=["\']([^"\']+)', html, re.I)
+    if not match:
+        match = re.search(r'<img[^>]+(?:src|data-src)=["\']([^"\']+)', html, re.I)
+    return urljoin(base_url, unescape(match.group(1))) if match else ""
+
 def _fetch_text(url: str, timeout: int = 20, max_bytes: int = 25 * 1024 * 1024) -> str:
     req = Request(url, headers={
         "User-Agent": USER_AGENT,
@@ -602,12 +610,13 @@ def _fetch_source(source: SourceConfig, timeout: int,
             errors.append(f"{source.key}: page {page}: {exc}")
             continue
         name = label or _page_title(html, source.name)
+        logo = _page_logo(html, page)
         for stream in _urls_from_html(html, page):
             if ".m3u8" not in stream.lower() and ".m3u" not in stream.lower():
                 continue
             category, language, country = classify_channel(name, source.name)
             channels.append(Channel(
-                name=name, url=stream, group=source.name,
+                name=name, url=stream, group=source.name, logo=logo,
                 language=language, country=country, category=category,
                 source=source.name, source_url=page,
             ))
@@ -683,6 +692,43 @@ def write_output(channels: Iterable[Channel], output: Path, fmt: str,
         writer.writeheader()
         writer.writerows(csv_rows)
 
+def sync_to_supabase(channels: Iterable[Channel], url: str, key: str,
+                     stream_checks: dict[str, StreamCheck] | None = None,
+                     activation_mode: str = "manual", default_country: str = "US") -> int:
+    """Upsert channels into public.tv_channels using Supabase REST.
+
+    The service-role key is read from the environment and is never written to output.
+    In automatic mode only streams returning HTTP 2xx are activated.
+    """
+    # Deliberadamente fijo: esta integración solo escribe en public.tv_channels,
+    # nunca en tv_channel, channels u otra tabla del proyecto.
+    endpoint = url.rstrip("/") + "/rest/v1/tv_channels?on_conflict=slug"
+    rows = []
+    for channel in channels:
+        country = (channel.country if len(channel.country) == 2 else default_country).upper()
+        slug = re.sub(r"[^a-z0-9]+", "-", channel.name.casefold()).strip("-")
+        if not slug or not channel.url:
+            continue
+        check = stream_checks.get(channel.url) if stream_checks else None
+        active = True if activation_mode == "manual" else bool(check and check.status == "http_ok")
+        rows.append({"name": channel.name, "slug": slug, "logo_url": channel.logo or None,
+                     "stream_url": channel.url, "stream_type": "hls",
+                     "category": channel.category, "country_code": country,
+                     "is_active": active})
+    if not rows:
+        return 0
+    request = Request(endpoint, data=json.dumps(rows, ensure_ascii=False).encode(), method="POST",
+                      headers={"apikey": key, "Authorization": f"Bearer {key}",
+                               "Content-Type": "application/json", "Prefer": "resolution=merge-duplicates,return=minimal"})
+    try:
+        with urlopen(request, timeout=30) as response:
+            if response.status >= 300:
+                raise RuntimeError(f"Supabase HTTP {response.status}")
+    except (HTTPError, URLError, OSError) as exc:
+        raise RuntimeError(f"No se pudo sincronizar con Supabase: {exc}") from exc
+    return len(rows)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=(
@@ -705,6 +751,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--max-pages", type=int, default=30)
     parser.add_argument("--check-streams", action="store_true",
                         help="Probe a small HTTP byte range and include reachability results")
+    parser.add_argument("--sync-supabase", action="store_true",
+                        help="Upsert the result into public.tv_channels")
+    parser.add_argument("--activation-mode", choices=("manual", "automatic"), default="manual",
+                        help="manual activates imported channels; automatic activates only HTTP-ok streams")
+    parser.add_argument("--supabase-country", default="US",
+                        help="Country fallback when the channel country is unknown (must exist in countries)")
     args = parser.parse_args(argv)
 
     if args.list_sources:
@@ -756,6 +808,26 @@ def main(argv: list[str] | None = None) -> int:
     fmt = args.format or ("csv" if args.output.suffix.lower() == ".csv" else "json")
     write_output(channels, args.output, fmt, stream_checks=stream_checks)
     print(f"Exported {len(channels)} channels to {args.output}")
+
+    if args.sync_supabase:
+        # Se aceptan los nombres habituales y las variantes usadas por el proyecto.
+        supabase_url = (os.environ.get("SUPABASE_URL") or os.environ.get("Supabase_URL")
+                        or os.environ.get("supabase_url"))
+        supabase_key = (os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+                        or os.environ.get("SUPABASE_SECRET_KEY")
+                        or os.environ.get("SUPABASE_KEY")
+                        or os.environ.get("Secret_Key")
+                        or os.environ.get("SUPABASE_SECRET"))
+        if not supabase_url or not supabase_key:
+            parser.error("--sync-supabase requiere SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY (o SUPABASE_SECRET_KEY)")
+        if args.activation_mode == "automatic" and stream_checks is None:
+            parser.error("--activation-mode automatic requiere también --check-streams")
+        try:
+            synced = sync_to_supabase(channels, supabase_url, supabase_key, stream_checks,
+                                      args.activation_mode, args.supabase_country)
+        except RuntimeError as exc:
+            parser.error(str(exc))
+        print(f"Sincronizados {synced} canales en Supabase ({args.activation_mode})")
 
     for source_key, source_errors in sorted(errors.items()):
         for error in source_errors[:10]:
