@@ -11,6 +11,7 @@
     "category": "general",
     "source": "BByte Jellyfin, IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "36TVHuacho.pe@SD",
       "tvg-logo": "https://iptv.bbyte.app/icons/36tvhuacho720p.jpg",
@@ -36,6 +37,7 @@
     "category": "news",
     "source": "BByte Jellyfin, IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "AlJazeera.qa@English",
       "tvg-logo": "https://i.imgur.com/7bRVpnu.png",
@@ -61,6 +63,7 @@
     "category": "movies",
     "source": "BByte Jellyfin, IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "AMCEurope.uk@Hungary",
       "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/AMC_logo_2019.svg/960px-AMC_logo_2019.svg.png",
@@ -87,6 +90,7 @@
     "category": "series",
     "source": "IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "Andromeda.us@Italy",
       "tvg-logo": "https://i.imgur.com/6ot2lmd.png",
@@ -112,6 +116,7 @@
     "category": "documentary",
     "source": "IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "Dokusat.de@SD",
       "tvg-logo": "https://i.imgur.com/GadfTwF.png",
@@ -137,6 +142,7 @@
     "category": "kids",
     "source": "BByte Jellyfin",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "BabyTV.uk@Spain",
       "tvg-logo": "https://i.imgur.com/4BDJ5FT.png",
@@ -162,6 +168,7 @@
     "category": "music",
     "source": "TDTChannels, IPTV-org, Teleonline, Teleonline M3U",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-logo": "https://graph.facebook.com/activafm.radiomusical/picture?width=200&height=200",
       "group-title": "Musicales",
@@ -188,6 +195,7 @@
     "category": "business",
     "source": "IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "BloombergTV.us@EMEALiveEvent",
       "tvg-logo": "https://i.imgur.com/OuogLHx.png",
@@ -213,6 +221,7 @@
     "category": "general",
     "source": "IPTV-org, BByte Jellyfin",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "360RFTV.cr@SD",
       "tvg-logo": "https://i.imgur.com/EBtgnxR.png",
@@ -238,6 +247,7 @@
     "category": "news",
     "source": "m3u.cl Top",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "1030",
       "tvg-name": "DW English",
@@ -263,6 +273,7 @@
     "category": "movies",
     "source": "BByte Jellyfin, IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "AMCLatinAmerica.us@Brazil",
       "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/AMC_logo_2019.svg/960px-AMC_logo_2019.svg.png",
@@ -288,6 +299,7 @@
     "category": "series",
     "source": "IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "AuctionHunters.se@DK",
       "tvg-logo": "https://images.pluto.tv/channels/62da73c4ec46c000070f4cb1/colorLogoPNG.png",
@@ -313,6 +325,7 @@
     "category": "documentary",
     "source": "IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "DossiersFBI.us@France",
       "tvg-logo": "https://i.imgur.com/8Zx6dA7.png",
@@ -338,6 +351,7 @@
     "category": "music",
     "source": "IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "AlcanceFMPLAYTV.py@SD",
       "tvg-logo": "https://i.imgur.com/ymcWecA.png",
@@ -363,6 +377,7 @@
     "category": "general",
     "source": "IPTV-org, BByte Jellyfin",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "3sat.de@SD",
       "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/3sat_2019.svg/960px-3sat_2019.svg.png",
@@ -388,6 +403,7 @@
     "category": "news",
     "source": "m3u.cl Top",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "511",
       "tvg-name": "DW Español",
@@ -413,6 +429,7 @@
     "category": "series",
     "source": "IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "Avatar.de@GB",
       "tvg-logo": "https://images.pluto.tv/channels/656df599c0fc8800089c75ab/colorLogoPNG.png",
@@ -438,6 +455,7 @@
     "category": "documentary",
     "source": "IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "Ecovision.do@SD",
       "tvg-logo": "https://imgur.com/Y4ahiYu.png",
@@ -463,6 +481,7 @@
     "category": "series",
     "source": "IPTV-org",
     "source_url": "",
+    "stream_type": "hls",
     "attributes": {
       "tvg-id": "Avatar.se@DK",
       "tvg-logo": "https://images.pluto.tv/channels/61c09b48d6d97900076e91c5/colorLogoPNG.png",

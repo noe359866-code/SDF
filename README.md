@@ -8,6 +8,9 @@ los canales, eliminar duplicados y exportarlos a JSON, CSV o Supabase.
 - **Límite por defecto de 20 canales únicos (`--limit 20`)**: selecciona hasta 20 canales variados,
   priorizados por calidad de metadatos (logo, país, idioma, categoría, HTTPS/HLS) y distribuidos
   entre distintas categorías. Usa `--limit 0` si deseas exportar sin límite.
+- **Cupo repartible entre fuentes (`--max-per-source`)**: con 11 fuentes configuradas, limita
+  cuántos canales aporta cada una (por ejemplo `--max-per-source 8`) para que ninguna lista
+  acapare el resultado. `0` (valor por defecto) no aplica límite.
 - **Sin canales repetidos**: deduplica por identidad canónica de canal (normalizando sufijos como
   `HD`, `FHD`, `4K`, `1080p`, `720p`, `[Geo-blocked]`, `En Vivo`, `Señal 2`, prefijos de país y
   numeración), `slug`, `tvg-id`, URL del stream y URL final tras redirecciones HTTP. Además, al
@@ -31,6 +34,39 @@ los canales, eliminar duplicados y exportarlos a JSON, CSV o Supabase.
 - IPTV-org — https://iptv-org.github.io/iptv/index.m3u
 - Teleonline — https://teleonline.org/; también detecta su playlist pública M3U8.
 - Teleonline M3U — https://teleonline.github.io/listas/tv.m3u8 (lista directa, sin scraping).
+- Teleonline TV — https://www.teleonline.tv/ (WordPress con reproductor propio).
+- TV en Vivo — https://www.tvenvivo.org/ (wrappers PHP `/live/core.php?canal=…`).
+- TV Libre Online — https://tvlibreonline.st/ (wrapper `/html/fl/` + `cv.json`).
+
+### Cómo se resuelven los reproductores
+
+Las tres últimas fuentes no publican el `.m3u8` en la página del canal: lo cargan con
+JavaScript. Para cada página de canal el extractor:
+
+1. Descarga la página y busca streams HLS/MPD, incluso dentro de JavaScript con las barras
+   escapadas (`https:\/\/…`).
+2. Extrae **embeds de YouTube** (`/embed/ID`, `/live/ID`) como canales con
+   `stream_type: "youtube"`; se consideran activos solo si el embed declara una emisión en vivo.
+3. Sigue hasta `max_depth` saltos los **iframes**, los wrappers (`/html/fl/?get=…`) y las
+   URLs de reproductor que aparecen en el JS del propio sitio.
+4. Resuelve los **JSON de configuración** (`/html/cv.json`) y reconstruye la URL del
+   reproductor tal como la arma el navegador (`//host/cvatt.html?get=<token>`), conservando
+   el token de la URL original.
+
+Las opciones **(FL)** de TV Libre Online están geo-restringidas a Argentina, Uruguay y
+Paraguay; fuera de esos países solo responderá la opción de YouTube. Igual que el resto de
+fuentes, si algo falla se imprime un `WARNING` y se continúa con las demás.
+
+### Tipos de stream
+
+Cada canal exporta `stream_type`:
+
+- `hls`: URL HLS/MPD reproducible (es el valor por defecto y el que ya se usaba).
+- `youtube`: embed de YouTube en vivo (`https://www.youtube.com/embed/ID`).
+
+En JSON y CSV aparece como `stream_type`; en M3U solo se añade el atributo
+`stream-type="youtube"` cuando no es HLS, para no ensuciar las listas normales. En Supabase
+se guarda en la columna `stream_type`.
 
 Lista las fuentes y sus claves con:
 
@@ -70,6 +106,9 @@ python sdf_tv_channels.py --all-sources --sync-supabase --limit 20
 
 # Sincronización automática: solo agrega y activa hasta 20 streams únicos que responden HTTP OK
 python sdf_tv_channels.py --all-sources --check-streams --sync-supabase --activation-mode automatic --limit 20
+
+# Repartir el cupo entre fuentes (ninguna lista aporta más de 8 canales)
+python sdf_tv_channels.py --all-sources --check-streams --limit 20 --max-per-source 8
 ```
 
 ### Errores frecuentes
@@ -88,8 +127,9 @@ paralelismo y `--max-checks` para acotar la cantidad máxima de pruebas cuando s
 el cupo de `--limit`.
 
 Estados habituales: `http_ok` (respuesta HTTP satisfactoria; en M3U se reconoce `#EXTM3U`),
-`invalid_playlist`, `restricted` (por ejemplo, HTTP 401/403), `http_error`, `unreachable` y
-`unsupported` (protocolo distinto de HTTP(S)). Si un servidor rechaza la cabecera `Range` (por
+`invalid_playlist`, `restricted` (por ejemplo, HTTP 401/403), `http_error`, `unreachable`,
+`not_live` (embed de YouTube que no declara emisión en vivo) y `unsupported` (protocolo
+distinto de HTTP(S)). Si un servidor rechaza la cabecera `Range` (por
 ejemplo con HTTP 416), se reintenta automáticamente sin `Range` leyendo únicamente los primeros
 4 KiB.
 
@@ -127,7 +167,8 @@ Cada ejecución deja tres rastros del resultado:
    por fuente.
 
 El workflow usa `--deadline 420` para que nunca supere el `timeout-minutes: 15` del job aunque
-alguna fuente responda muy lento.
+alguna fuente responda muy lento y `--max-per-source 8` para repartir el cupo entre las 11
+fuentes configuradas (ajústalo o quítalo si prefieres que una sola lista llene los 20 canales).
 
 Configura estos secretos en **Settings → Secrets and variables → Actions**:
 
