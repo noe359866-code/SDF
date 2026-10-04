@@ -2,9 +2,27 @@ name: Sync TV channels to Supabase
 
 on:
   workflow_dispatch:
+    inputs:
+      limit:
+        description: "Cantidad máxima de canales únicos a agregar"
+        required: false
+        default: "20"
+        type: string
+      activation_mode:
+        description: "Modo de activación (automatic o manual)"
+        required: false
+        default: "automatic"
+        type: choice
+        options:
+          - automatic
+          - manual
   schedule:
     # GitHub Actions usa UTC; se ejecuta cada 5 horas (00, 05, 10, 15, 20 UTC).
     - cron: "0 */5 * * *"
+
+concurrency:
+  group: sync-tv-channels
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -12,7 +30,7 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
     env:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || secrets.SUPABASE_SECRET_KEY }}
@@ -29,16 +47,18 @@ jobs:
       - name: Ejecutar pruebas
         run: python -m unittest discover -s tests -v
 
-      - name: Sincronizar canales y activar disponibles
+      - name: Sincronizar 20 canales únicos y activar disponibles
         run: >-
           python sdf_tv_channels.py
           --all-sources
           --check-streams
           --sync-supabase
-          --activation-mode automatic
-          --timeout 20
-          --workers 8
-          --max-pages 50
+          --activation-mode ${{ inputs.activation_mode || 'automatic' }}
+          --limit ${{ inputs.limit || '20' }}
+          --max-checks 120
+          --timeout 10
+          --workers 12
+          --max-pages 20
           -o data/tv_channels.json
 
       - name: Guardar resultado del scraper
