@@ -1,0 +1,51 @@
+name: Sync TV channels to Supabase
+
+on:
+  workflow_dispatch:
+  schedule:
+    # GitHub Actions usa UTC; se ejecuta cada 5 horas (00, 05, 10, 15, 20 UTC).
+    - cron: "0 */5 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || secrets.SUPABASE_SECRET_KEY }}
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Ejecutar pruebas
+        run: python -m unittest discover -s tests -v
+
+      - name: Sincronizar canales y activar disponibles
+        run: >-
+          python sdf_tv_channels.py
+          --all-sources
+          --check-streams
+          --sync-supabase
+          --activation-mode automatic
+          --timeout 20
+          --workers 8
+          --max-pages 50
+          -o data/tv_channels.json
+
+      - name: Guardar resultado del scraper
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tv-channels-${{ github.run_number }}
+          path: data/tv_channels.json
+          if-no-files-found: ignore
+          retention-days: 7

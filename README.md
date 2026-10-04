@@ -52,6 +52,14 @@ python sdf_tv_channels.py --all-sources --country MX -o data/mexico.csv --format
 
 # Añadir un diagnóstico de alcance HTTP al resultado
 python sdf_tv_channels.py ./playlist.m3u --check-streams -o comprobados.csv
+
+# Activación manual: importa y activa los canales encontrados
+export SUPABASE_URL="https://tu-proyecto.supabase.co"
+export SUPABASE_SERVICE_ROLE_KEY="tu-secret-key"
+python sdf_tv_channels.py --all-sources --sync-supabase
+
+# Activación automática: solo activa streams que responden correctamente
+python sdf_tv_channels.py --all-sources --check-streams --sync-supabase --activation-mode automatic
 ```
 
 `--check-streams` añade `stream_check` a cada objeto JSON; en CSV añade `stream_status`,
@@ -81,3 +89,17 @@ Requiere Python 3.11 o posterior. Las pruebas unitarias se ejecutan sin acceder 
 ```sh
 python -m unittest discover -s tests -v
 ```
+
+## GitHub Actions: sincronización automática
+
+El workflow `.github/workflows/sync-tv-channels.yml` permite ejecutarse manualmente desde
+**Actions → Sync TV channels to Supabase → Run workflow** y también se ejecuta automáticamente
+cada 5 horas. La activación automática comprueba los streams y escribe `is_active = true`
+únicamente para los que responden correctamente.
+
+Configura estos secretos en **Settings → Secrets and variables → Actions**:
+
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY` (o `SUPABASE_SECRET_KEY`)
+
+La programación `0 */5 * * *` usa UTC y corre a las horas 00, 05, 10, 15 y 20 UTC.
