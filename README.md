@@ -30,12 +30,18 @@ los canales, eliminar duplicados y exportarlos a JSON, CSV o Supabase.
 - m3u.cl LATAM — https://m3u.cl/lista/LATAM.m3u
 - IPTV-org — https://iptv-org.github.io/iptv/index.m3u
 - Teleonline — https://teleonline.org/; también detecta su playlist pública M3U8.
+- Teleonline M3U — https://teleonline.github.io/listas/tv.m3u8 (lista directa, sin scraping).
 
 Lista las fuentes y sus claves con:
 
 ```sh
 python sdf_tv_channels.py --list-sources
 ```
+
+Las fuentes son públicas y pueden caerse o cambiar de URL. Cuando una falla no se detiene la
+ejecución: se imprime un `WARNING` con el motivo y se continúa con el resto. El resumen final
+indica cuántos canales aportó cada fuente (`Canales encontrados por fuente: ...`), de modo que
+si una lista deja de funcionar se ve de inmediato en el log del workflow.
 
 ## Uso
 
@@ -65,6 +71,15 @@ python sdf_tv_channels.py --all-sources --sync-supabase --limit 20
 # Sincronización automática: solo agrega y activa hasta 20 streams únicos que responden HTTP OK
 python sdf_tv_channels.py --all-sources --check-streams --sync-supabase --activation-mode automatic --limit 20
 ```
+
+### Errores frecuentes
+
+| Situación | Comportamiento actual |
+| --- | --- |
+| `Process completed with exit code 2` | Solo se produce por un argumento inválido (por ejemplo, un archivo de entrada inexistente). Antes también salía con código 2 cuando faltaban los secretos de Supabase o la sincronización fallaba; ahora esos casos **avisa y continúa**, así que el archivo de canales se exporta igual. |
+| Faltan `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | Imprime `WARNING: --sync-supabase ignorado…`, exporta el archivo y termina con código 0. |
+| Supabase responde 401/404/500 o no existe la tabla | Imprime `ERROR: No se pudo sincronizar con Supabase…` y termina con código 0. Usa `--fail-on-sync-error` si prefieres que el trabajo falle en ese caso. |
+| La ejecución se corta por tiempo | Usa `--deadline <segundos>` para limitar la descarga de fuentes y la comprobación de streams; al agotarse se exporta lo ya verificado. |
 
 `--check-streams` añade `stream_check` a cada objeto JSON; en CSV añade `stream_status`,
 `stream_http_status`, `stream_content_type`, `stream_final_url` y `stream_detail`. También imprime
@@ -98,11 +113,26 @@ python -m unittest discover -s tests -v
 
 El workflow `.github/workflows/sync-tv-channels.yml` permite ejecutarse manualmente desde
 **Actions → Sync TV channels to Supabase → Run workflow** (con opción para elegir el límite de
-canales, por defecto `20`, y el modo de activación) y también se ejecuta automáticamente cada
-5 horas (`0 */5 * * *` UTC). En cada ejecución verifica candidatos por lotes y agrega hasta
-20 canales únicos y activos (`is_active = true`) sin repetir.
+canales, por defecto `20`, el modo de activación y si guardar el resultado en el repositorio) y
+también se ejecuta automáticamente cada 5 horas (`0 */5 * * *` UTC). En cada ejecución verifica
+candidatos por lotes y agrega hasta 20 canales únicos y activos (`is_active = true`) sin repetir.
+
+Cada ejecución deja tres rastros del resultado:
+
+1. `data/tv_channels.json` en el repositorio: se confirma automáticamente cuando la lista cambia
+   (commits `chore: actualizar data/tv_channels.json [skip ci]`), así los canales quedan
+   guardados y son consultables sin depender de los artefactos.
+2. Un artefacto `tv-channels-<número>` con el mismo JSON, conservado 7 días.
+3. Un resumen en la pestaña del job con los canales exportados, los sincronizados y el detalle
+   por fuente.
+
+El workflow usa `--deadline 420` para que nunca supere el `timeout-minutes: 15` del job aunque
+alguna fuente responda muy lento.
 
 Configura estos secretos en **Settings → Secrets and variables → Actions**:
 
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY` (o `SUPABASE_SECRET_KEY`)
+
+Si los secretos no están configurados, el workflow **no falla**: avisa de que se omite la
+sincronización y sigue exportando y guardando `data/tv_channels.json`.

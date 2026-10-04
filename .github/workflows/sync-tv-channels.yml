@@ -16,6 +16,11 @@ on:
         options:
           - automatic
           - manual
+      save_to_repo:
+        description: "Guardar el resultado también en el repositorio (data/tv_channels.json)"
+        required: false
+        default: true
+        type: boolean
   schedule:
     # GitHub Actions usa UTC; se ejecuta cada 5 horas (00, 05, 10, 15, 20 UTC).
     - cron: "0 */5 * * *"
@@ -25,7 +30,8 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  contents: read
+  # "write" es necesario para el paso que guarda data/tv_channels.json en el repo.
+  contents: write
 
 jobs:
   sync:
@@ -47,7 +53,9 @@ jobs:
       - name: Ejecutar pruebas
         run: python -m unittest discover -s tests -v
 
-      - name: Sincronizar 20 canales únicos y activar disponibles
+      - name: Extraer, comprobar y sincronizar canales
+        # La sincronización con Supabase ya no aborta el trabajo: si faltan los secretos
+        # o la tabla responde con error, se avisa y el archivo se exporta igualmente.
         run: >-
           python sdf_tv_channels.py
           --all-sources
@@ -59,6 +67,7 @@ jobs:
           --timeout 10
           --workers 12
           --max-pages 20
+          --deadline 420
           -o data/tv_channels.json
 
       - name: Guardar resultado del scraper
@@ -69,3 +78,17 @@ jobs:
           path: data/tv_channels.json
           if-no-files-found: ignore
           retention-days: 7
+
+      - name: Confirmar los canales en el repositorio
+        if: always() && github.event_name != 'pull_request' && (inputs.save_to_repo || github.event_name == 'schedule')
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/tv_channels.json
+          if git diff --cached --quiet; then
+            echo "Los canales no cambiaron; no hay nada que confirmar."
+            exit 0
+          fi
+          git commit -m "chore: actualizar data/tv_channels.json [skip ci]"
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
