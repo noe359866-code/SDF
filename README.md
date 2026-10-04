@@ -1,30 +1,40 @@
 # SDF — TV Channel Extractor & Classifier
 
-A lightweight Python 3.10+ CLI that parses **local, user-supplied M3U/M3U8 playlists**, extracts channel metadata, classifies channels, and exports JSON or CSV.
+Extractor y clasificador de canales de TV para SDF.
 
-> Use only playlists and streams you are authorized to access. This tool parses playlist metadata only; it does not crawl third-party websites, bypass authentication/DRM, or probe stream availability.
+## Fuentes configuradas
 
-## Features
+- BByte Jellyfin — https://iptv.bbyte.app/jellyfin/live.m3u
+- CXTv — https://www.cxtvenvivo.com/
+- TDTChannels — https://www.tdtchannels.com/lists/tv.m3u8
+- m3u.cl Top — https://m3u.cl/lista/top.m3u
+- m3u.cl LATAM — https://m3u.cl/lista/LATAM.m3u
+- IPTV-org — https://iptv-org.github.io/iptv/index.m3u
+- Teleonline — https://teleonline.org/; también detecta su playlist pública M3U8.
 
-- Extracts channel name, URL, group, `tvg-id`, `tvg-name`, and `tvg-logo`.
-- Rule-based categories: sports, news, movies, series, kids, documentary, music, general, or other.
-- Detects common language and country labels when metadata/name hints are available; unknown values remain explicit.
-- Removes exact duplicate name/URL pairs but preserves alternate sources.
-- Exports JSON or CSV, with category/language/country filters.
-- Standard library only; no third-party dependencies.
+## Uso
 
-## Usage
+    python sdf_tv_channels.py --list-sources
+    python sdf_tv_channels.py --all-sources -o data/tv_channels.json
+    python sdf_tv_channels.py --source tdtchannels --source teleonline -o data/tv_channels.json
+    python sdf_tv_channels.py --all-sources --category sports -o data/sports.json
+    python sdf_tv_channels.py --all-sources --language es -o data/spanish.json
+    python sdf_tv_channels.py --all-sources --country MX -o data/mexico.csv --format csv
 
-`python sdf_tv_channels.py ./playlist.m3u -o channels.json`
+También se mantiene el modo local:
 
-`python sdf_tv_channels.py ./playlist.m3u8 -o channels.csv`
+    python sdf_tv_channels.py ./playlist.m3u -o channels.json
 
-`python sdf_tv_channels.py ./playlist.m3u --category sports -o sports.json`
+## Clasificación
 
-`python sdf_tv_channels.py ./playlist.m3u --language es -o spanish.json`
+Categorías principales: sports, news, movies, series, kids, documentary, music, business,
+culture, travel, cooking, religious, weather, general y other.
 
-`python sdf_tv_channels.py ./playlist.m3u --country MX -o mexico.csv --format csv`
+El idioma y país se infieren de metadatos y del texto del canal; cuando no hay señales
+suficientes se conserva unknown.
 
-Run tests with `python -m unittest discover -s tests -v`.
+## Límites
 
-Classification is heuristic; playlist naming conventions vary, so review results before production use. Unsupported language/country values fall back to keyword detection or `unknown`.
+Procesa contenido públicamente accesible. No intenta saltarse autenticación, DRM,
+paywalls, geo-bloqueos ni protecciones anti-bot, y no prueba la disponibilidad de cada stream.
+La clasificación es heurística.
