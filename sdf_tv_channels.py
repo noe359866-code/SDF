@@ -16,7 +16,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlparse
 from urllib.request import Request, urlopen
 
-ATTR_RE = re.compile(r'([\\w-]+)\\s*=\\s*("(?:[^"\\\\]|\\\\.)*"|[^\\s]*)')
+ATTR_RE = re.compile(r'([\w-]+)\s*=\s*("(?:[^"\\]|\\.)*"|[^\s]*)')
 
 CATEGORY_RULES = {
     "sports": ("sport", "sports", "futbol", "fútbol", "football", "soccer", "deporte",
