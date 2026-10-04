@@ -43,7 +43,8 @@ CATEGORY_RULES = {
              "24 horas", "franceinfo", "sky news", "fox news", "abc news", "nbc news",
              "msnbc", "reuters", "dw", "rt", "telesur", "ntn24", "adn 40", "milenio",
              "todo noticias", "c5n", "canal n", "24h", "informativo", "informativos",
-             "france 24", "cbc news", "telediario", "noticiero"),
+             "france 24", "cbc news", "telediario", "noticiero",
+             "tn", "cronica", "canal 26", "el destape", "ip noticias", "la nacion"),
     "movies": ("movie", "movies", "cinema", "cine", "pelicula", "peliculas", "film",
                "hbo", "cinemax", "paramount movies", "film4", "tcm", "space", "golden",
                "de pelicula", "studio universal", "cinecanal", "amc", "fxm", "syfy",
@@ -190,9 +191,14 @@ SEO_PREFIX_RE = re.compile(
     r"^\s*(?:ver|watch|mirar)\s+(.+?)(?=\s+(?:en\s+vivo|en\s+directo|online|live|gratis)\b|$)",
     re.I,
 )
+SEO_TAIL_TERM = (
+    r"(?:en\s+(?:vivo|directo)(?:\s+online)?|online(?:\s+gratis)?|gratis|"
+    r"live\s+stream(?:ing)?|ver\s+(?:canal|ahora|en\s+vivo|en\s+directo)|"
+    r"watch\s+(?:live|now|channel))"
+)
 SEO_SUFFIX_RE = re.compile(
     r"\s*(?:[-|–—:]\s*(?:cxtv(?:\s*en\s*vivo)?|teleonline|tv\s*en\s*vivo|en\s*vivo|en\s*directo|online\s*gratis).*|"
-    r"\b(?:en\s+vivo(?:\s+online)?(?:\s+gratis)?|en\s+directo|online\s+gratis|live\s+stream(?:ing)?)\s*)$",
+    rf"\b{SEO_TAIL_TERM}(?:\s*(?:y|,|[-|–—:])\s*{SEO_TAIL_TERM})*\s*)$",
     re.I,
 )
 VARIANT_TAIL_TOKENS = {
@@ -211,6 +217,61 @@ GENERIC_CHANNEL_NAMES = {
 }
 INVALID_LOGO_VALUES = {"", "n/a", "na", "null", "none", "undefined", "false", "0"}
 
+# Nombres de país en una sola palabra ("Argentina", "México", "Colombia"…) que algunas
+# webs añaden como etiqueta delante del canal ("Argentina Telefe Ver canal").
+COUNTRY_NAME_TOKENS = frozenset(
+    value for values in COUNTRY_RULES.values() for value in values
+    if " " not in value and len(value) >= 4
+)
+
+STREAM_TYPE_HLS = "hls"
+STREAM_TYPE_YOUTUBE = "youtube"
+
+# Rutas que suelen ser un reproductor intermedio en el que hay que entrar (iframe,
+# wrapper `/html/fl/`, `core.php`, `cvatt.html`, `/embed/`…).
+PLAYER_URL_HINTS = (
+    "iframe", "player", "reproductor", "embed", "/cvatt", "core.php", "/html/",
+    "vercanal", "watch", "play.php", "stream.php", "en-vivo", "envivo",
+)
+
+# ``urlopen`` nunca devuelve el HTML "escapado" que sí aparece dentro de JS/JSON:
+# estas expresiones trabajan sobre una copia ya des-escapada del documento.
+ESCAPED_SLASH_RE = re.compile(r"\\/")
+UNICODE_ESCAPE_RE = re.compile(r"\\u00(?:26|3d|3f|2f)", re.I)
+UNICODE_ESCAPE_MAP = {"\\u0026": "&", "\\u003d": "=", "\\u003f": "?", "\\u002f": "/"}
+
+IFRAME_SRC_RE = re.compile(r"<iframe[^>]+?src\s*=\s*[\"']([^\"']+)[\"']", re.I)
+JS_STRING_RE = re.compile(r"[\"']((?:https?:)?//[^\"'\s<>\\]+|/[^\"'\s<>\\]{2,300})[\"']")
+JSON_ENDPOINT_RE = re.compile(r"[\"']([^\"'\s<>\\]*\.json(?:\?[^\"'\s<>\\]*)?)[\"']", re.I)
+BASIC_JSON_NAME_RE = re.compile(
+    r"^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,}$", re.I,
+)
+
+YOUTUBE_EMBED_RE = re.compile(
+    r"(?:https?:)?//(?:www\.|m\.)?(?:youtube(?:-nocookie)?\.com/(?:embed|live|v)/|youtu\.be/)"
+    r"([A-Za-z0-9_-]{6,})",
+    re.I,
+)
+YOUTUBE_HOSTS = {
+    "youtube.com", "www.youtube.com", "m.youtube.com", "youtu.be",
+    "youtube-nocookie.com", "www.youtube-nocookie.com",
+}
+YOUTUBE_LIVE_MARKERS = (
+    '"islive":true',
+    '"islivecontent":true',
+    '"islivebroadcast":true',
+    '"livebroadcastcontent":"live"',
+    '"livestream":true',
+    "livestreamability",
+)
+
+# Cuántos documentos como máximo se descargan para resolver un canal y cuántos
+# candidatos se siguen por documento (evita que un reproductor con anuncios
+# encadene decenas de peticiones).
+MAX_PLAYER_DOCS = 6
+MAX_PLAYER_CANDIDATES = 6
+MAX_CONFIG_ENDPOINTS = 2
+
 
 @dataclass
 class Channel:
@@ -225,6 +286,7 @@ class Channel:
     category: str = "other"
     source: str = ""
     source_url: str = ""
+    stream_type: str = STREAM_TYPE_HLS
     attributes: dict[str, str] | None = None
 
 
@@ -241,12 +303,23 @@ class StreamCheck:
 
 @dataclass(frozen=True)
 class SourceConfig:
+    """Descripción de una fuente remota.
+
+    ``kind="site"`` recorre las páginas del sitio (``page_prefixes``/``page_patterns``)
+    y entra en los reproductores/iframes que encuentra. ``embed_hosts`` amplía los
+    dominios de reproductor permitidos y ``max_depth`` cuántos saltos se siguen
+    dentro del reproductor (iframe → wrapper → player).
+    """
+
     key: str
     name: str
     url: str
     kind: str = "playlist"
     playlist_hints: tuple[str, ...] = ()
     page_prefixes: tuple[str, ...] = ()
+    page_patterns: tuple[str, ...] = ()
+    embed_hosts: tuple[str, ...] = ()
+    max_depth: int = 2
 
 
 DEFAULT_SOURCES = (
@@ -261,6 +334,13 @@ DEFAULT_SOURCES = (
                  page_prefixes=("/canal/",)),
     SourceConfig("teleonline_m3u", "Teleonline M3U",
                  "https://teleonline.github.io/listas/tv.m3u8"),
+    # Sitios con reproductor propio (WordPress, wrappers PHP/iframe y YouTube en vivo).
+    SourceConfig("teleonline_tv", "Teleonline TV", "https://www.teleonline.tv/", "site",
+                 page_prefixes=("/canal/",), max_depth=1),
+    SourceConfig("tvenvivo", "TV en Vivo", "https://www.tvenvivo.org/", "site",
+                 page_patterns=(r"-en-vivo(?:-online)?\.php$", r"/canal"), max_depth=2),
+    SourceConfig("tvlibreonline", "TV Libre Online", "https://tvlibreonline.st/", "site",
+                 page_prefixes=("/en-vivo/",), max_depth=3),
 )
 
 USER_AGENT = "SDF-TV-Channel-Extractor/1.4"
@@ -376,8 +456,29 @@ def clean_channel_name(name: str) -> str:
             text = seo_match.group(1).strip()
         text = SEO_SUFFIX_RE.sub("", text).strip()
         text = NOISE_BRACKET_RE.sub("", text).strip()
-    text = " ".join(text.split()).strip(" -|:/")
+    text = _strip_leading_country_name(" ".join(text.split()).strip(" -|:/"))
     return text or " ".join(unescape(name or "").split())
+
+
+def _strip_leading_country_name(text: str) -> str:
+    """Quita etiquetas de país de una sola palabra ("Argentina Telefe" → "Telefe").
+
+    Solo se elimina cuando queda un nombre con contenido propio, así "Cuba TV" o
+    "Panamá TV" se conservan intactos.
+    """
+    if not text:
+        return text
+    match = re.match(r"^([^\s]+)\s+(.+)$", text)
+    if not match:
+        return text
+    first, rest = match.group(1), match.group(2)
+    if _fold_text(first) not in COUNTRY_NAME_TOKENS:
+        return text
+    remaining = [token for token in re.findall(r"[a-z0-9]+", _fold_text(rest))
+                 if token not in CHANNEL_WRAPPER_TOKENS and token not in VARIANT_TAIL_TOKENS]
+    if not any(len(token) >= 3 and not token.isdigit() for token in remaining):
+        return text
+    return rest.strip()
 
 
 def channel_slug(name: str) -> str:
@@ -634,6 +735,259 @@ def _urls_from_html(html: str, base: str) -> list[str]:
     return out
 
 
+def _unescape_markup(text: str) -> str:
+    """Devuelve el documento con las URLs "escapadas" de JS/JSON ya legibles.
+
+    Los reproductores escriben a menudo ``https:\\/\\/host\\/embed`` (slashes escapadas)
+    o ``&#038;``/``\\u0026`` en los parámetros; sin desescapar no se pueden enlazar.
+    """
+    if not text:
+        return ""
+    if "\\" in text:
+        text = ESCAPED_SLASH_RE.sub("/", text)
+        if UNICODE_ESCAPE_RE.search(text):
+            for escaped, char in UNICODE_ESCAPE_MAP.items():
+                text = re.sub(re.escape(escaped), char, text, flags=re.I)
+    if "&" in text:
+        text = unescape(text)
+    return text
+
+
+def _is_stream_url(url: str) -> bool:
+    """True para URLs que un reproductor puede abrir directamente.
+
+    Un wrapper de reproductor (`/live/core.php?canal=…`, `/cvatt.html?get=…`) también
+    contiene `/live/`, así que las extensiones de página se descartan primero.
+    """
+    path = urlparse(url).path.lower()
+    if path.endswith((".m3u8", ".m3u", ".mpd")):
+        return True
+    if path.endswith((".php", ".html", ".htm", ".json", ".js", ".css", ".jpg", ".jpeg",
+                      ".png", ".gif", ".webp", ".svg", ".ico", ".woff", ".woff2", ".ttf",
+                      ".mp4", ".webm", ".mp3", ".pdf", ".xml", ".txt")):
+        return False
+    return "/hls/" in path or "/live/" in path
+
+
+def _looks_like_player_url(url: str) -> bool:
+    """Heurística de "aquí hay un reproductor", no un recurso estático ni un anuncio."""
+    parsed = urlparse(url)
+    if parsed.scheme.lower() not in {"http", "https"} or not parsed.netloc:
+        return False
+    path = parsed.path.lower()
+    if path.endswith((".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg", ".ico", ".css",
+                      ".js", ".woff", ".woff2", ".ttf", ".mp4", ".webm", ".mp3", ".pdf",
+                      ".xml", ".txt", ".zip")):
+        return False
+    if _is_stream_url(url):
+        return True
+    if any(hint in parsed.netloc.lower() for hint in ("doubleclick", "googlesyndication",
+                                                      "adsystem", "adservice", "analytics")):
+        return False
+    return path.endswith((".php", ".html", ".htm", ".json")) or any(
+        hint in path for hint in PLAYER_URL_HINTS
+    )
+
+
+def _stream_urls_from_document(html: str, base: str) -> list[str]:
+    """URLs reproducibles (HLS/MPD) presentes en el HTML o dentro de su JavaScript."""
+    if not html:
+        return []
+    text = _unescape_markup(html)
+    raw = list(_urls_from_html(text, base))
+    raw += JS_STRING_RE.findall(text)
+    out: list[str] = []
+    seen: set[str] = set()
+    for item in raw:
+        url = _clean_url(item, base)
+        if not _is_stream_url(url):
+            continue
+        key = _url_key(url)
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(url)
+    return out
+
+
+def _player_links_from_document(html: str, base: str) -> tuple[list[str], list[str]]:
+    """Devuelve ``(iframes, urls_de_reproductor_en_js)``.
+
+    Los iframes se aceptan aunque sean de otro dominio (son embeds explícitos); las
+    URLs que aparecen dentro del JavaScript solo se siguen si son del propio sitio o
+    de los dominios declarados en la fuente.
+    """
+    if not html:
+        return [], []
+    text = _unescape_markup(html)
+    iframes: list[str] = []
+    for value in IFRAME_SRC_RE.findall(text):
+        url = _clean_url(value, base)
+        if _looks_like_player_url(url):
+            iframes.append(url)
+    js_urls: list[str] = []
+    for value in JS_STRING_RE.findall(text):
+        url = _clean_url(value, base)
+        if not _looks_like_player_url(url):
+            continue
+        # Los fragmentos que el JS completa en el navegador (`"/cvatt.html?get="`)
+        # no son URLs utilizables: se reconstruyen en `_player_urls_from_config`.
+        if url.rstrip("/").endswith(("=", "&", "?")):
+            continue
+        if urlparse(url).netloc.lower() == urlparse(base).netloc.lower():
+            js_urls.append(url)
+    return _unique_urls(iframes), _unique_urls(js_urls)
+
+
+def _youtube_embed_urls(html: str) -> list[str]:
+    """Convierte los embeds de YouTube (``/embed/ID``, ``/live/ID``) en URLs estables."""
+    text = _unescape_markup(html)
+    out: list[str] = []
+    for match in YOUTUBE_EMBED_RE.finditer(text):
+        video_id = match.group(1)
+        url = f"https://www.youtube.com/embed/{video_id}"
+        if url not in out:
+            out.append(url)
+        if len(out) >= 4:
+            break
+    return out
+
+
+def _json_config_urls(html: str, base: str) -> list[str]:
+    """Endpoints ``*.json`` citados en el JavaScript (por ejemplo ``/html/cv.json``)."""
+    text = _unescape_markup(html)
+    out: list[str] = []
+    for value in JSON_ENDPOINT_RE.findall(text):
+        url = _clean_url(value, base)
+        if urlparse(url).scheme.lower() not in {"http", "https"}:
+            continue
+        if url not in out:
+            out.append(url)
+        if len(out) >= MAX_CONFIG_ENDPOINTS:
+            break
+    return out
+
+
+def _without_youtube(urls: Iterable[str]) -> list[str]:
+    """Los embeds de YouTube se extraen aparte; no hace falta descargarlos."""
+    return [
+        url for url in urls
+        if urlparse(url).netloc.lower() not in YOUTUBE_HOSTS
+    ]
+
+
+def _unique_urls(values: Iterable[str]) -> list[str]:
+    out: list[str] = []
+    seen: set[str] = set()
+    for value in values:
+        key = _url_key(value)
+        if not key or key in seen:
+            continue
+        seen.add(key)
+        out.append(value)
+    return out
+
+
+def _strings_in_json(payload: object) -> list[str]:
+    out: list[str] = []
+
+    def walk(node: object) -> None:
+        if isinstance(node, dict):
+            for value in node.values():
+                walk(value)
+        elif isinstance(node, (list, tuple)):
+            for value in node:
+                walk(value)
+        elif isinstance(node, str):
+            out.append(node)
+
+    walk(payload)
+    return out
+
+
+def _hosts_in_json(payload: object) -> list[str]:
+    """Dominios publicados en un JSON de configuración (``{"urls": ["host.com"]}``)."""
+    hosts: list[str] = []
+    for value in _strings_in_json(payload):
+        candidate = value.strip().strip("/").lower()
+        if not candidate or "://" in candidate or "/" in candidate or " " in candidate:
+            continue
+        if not BASIC_JSON_NAME_RE.match(candidate):
+            continue
+        if candidate.endswith((".png", ".jpg", ".jpeg", ".webp", ".svg", ".css", ".js")):
+            continue
+        if candidate not in hosts:
+            hosts.append(candidate)
+    return hosts[:4]
+
+
+def _absolute_urls_in_json(payload: object) -> list[str]:
+    return _unique_urls(
+        value for value in _strings_in_json(payload)
+        if value.strip().lower().startswith(("http://", "https://"))
+    )
+
+
+def _player_path_fragments(html: str, document_url: str) -> list[str]:
+    """Rutas de reproductor que el wrapper arma en JS: ``"/cvatt.html?get=" + token``.
+
+    Cuando el fragmento termina en ``=`` se completa con el valor del mismo parámetro
+    de la propia URL (o con el primer valor disponible), que es como el navegador
+    reconstruye el enlace del reproductor.
+    """
+    text = _unescape_markup(html)
+    query_values = {
+        key: value for key, value in
+        (pair.split("=", 1) if "=" in pair else (pair, "") for pair in urlparse(document_url).query.split("&"))
+        if key
+    }
+    out: list[str] = []
+    for value in JS_STRING_RE.findall(text):
+        if not value.startswith("/") or value.startswith("//"):
+            continue
+        resolved = _clean_url(value, document_url)
+        if urlparse(resolved).path.lower().endswith(".json"):
+            # Los JSON de configuración se resuelven aparte, no son el reproductor.
+            continue
+        if not _looks_like_player_url(resolved):
+            continue
+        fragment = value
+        match = re.search(r"[?&]([A-Za-z0-9_-]+)=$", fragment)
+        if match:
+            name = match.group(1)
+            token = query_values.get(name) or next(
+                (v for v in query_values.values() if v), ""
+            )
+            fragment = fragment + token
+        if fragment not in out:
+            out.append(fragment)
+    return out[:4]
+
+
+def _player_urls_from_config(payload: object, referrer_html: str,
+                             referrer_url: str) -> list[str]:
+    """Reproduce la URL del reproductor que el wrapper construye con su JSON de config."""
+    candidates = list(_absolute_urls_in_json(payload))
+    paths = _player_path_fragments(referrer_html, referrer_url)
+    for host in _hosts_in_json(payload):
+        for path in paths:
+            candidates.append(f"https://{host}{path}")
+    return [
+        url for url in _unique_urls(candidates)
+        if _looks_like_player_url(url) or _is_stream_url(url)
+    ]
+
+
+def _site_channel(name: str, url: str, source: SourceConfig, page: str, logo: str,
+                  stream_type: str = STREAM_TYPE_HLS) -> Channel:
+    category, language, country = classify_channel(name, source.name)
+    return Channel(
+        name=name, url=url, group=source.name, logo=logo,
+        language=language, country=country, category=category,
+        source=source.name, source_url=page, stream_type=stream_type,
+    )
+
+
 def _page_title(html: str, fallback: str) -> str:
     for tag in ("h1", "title"):
         match = re.search(rf"<{tag}[^>]*>(.*?)</{tag}>", html, re.I | re.S)
@@ -745,11 +1099,67 @@ def _looks_like_m3u(text: str) -> bool:
     return sample.startswith("#EXTM3U") or "#EXTINF:" in sample[:100000]
 
 
+def _is_youtube_embed(url: str) -> bool:
+    parsed = urlparse(url)
+    return parsed.netloc.lower() in YOUTUBE_HOSTS and "/embed/" in parsed.path
+
+
+def _check_youtube_embed(url: str, timeout: int) -> StreamCheck:
+    """Comprueba un embed de YouTube: HTTP 200 y emisión en vivo detectada.
+
+    Muchas fuentes (Teleonline TV, TV en Vivo, TV Libre Online) solo publican embeds
+    de YouTube; se consideran activos únicamente cuando la página del embed declara
+    una emisión en vivo, para no sincronizar vídeos grabados como si fueran canales.
+    """
+    _apply_socket_timeout(timeout)
+    headers = {
+        "User-Agent": BROWSER_HEADERS["User-Agent"],
+        "Accept": "text/html,application/xhtml+xml,*/*;q=0.8",
+        "Accept-Language": BROWSER_HEADERS["Accept-Language"],
+    }
+    try:
+        with urlopen(Request(url, headers=headers), timeout=max(1, timeout)) as response:
+            status = int(response.status)
+            content_type = response.headers.get("Content-Type", "").split(";", 1)[0].strip().lower()
+            final_url = response.geturl()
+            sample = response.read(512 * 1024)
+    except HTTPError as exc:
+        content_type = exc.headers.get("Content-Type", "").split(";", 1)[0].strip().lower() \
+            if exc.headers else ""
+        state = "restricted" if exc.code in {401, 403, 407, 451} else "http_error"
+        try:
+            final_url = exc.geturl()
+        except AttributeError:
+            final_url = url
+        exc.close()
+        return StreamCheck(state, exc.code, content_type, final_url, f"HTTP {exc.code}")
+    except (URLError, TimeoutError, OSError, ValueError) as exc:
+        reason = getattr(exc, "reason", exc)
+        return StreamCheck("unreachable", detail=str(reason)[:240])
+
+    if not 200 <= status < 300:
+        return StreamCheck("http_error", status, content_type, final_url, f"HTTP {status}")
+
+    haystack = sample.decode("utf-8", errors="replace").casefold()
+    if any(marker in haystack for marker in YOUTUBE_LIVE_MARKERS):
+        return StreamCheck(
+            "http_ok", status, content_type, final_url,
+            "YouTube: emisión en vivo detectada (no se probaron segmentos)",
+        )
+    return StreamCheck(
+        "not_live", status, content_type, final_url,
+        "YouTube respondió, pero el embed no declara una emisión en vivo",
+    )
+
+
 def check_stream(url: str, timeout: int = 10) -> StreamCheck:
     """Check a small HTTP byte range; never download a full live stream."""
     parsed = urlparse(url)
     if parsed.scheme.lower() not in {"http", "https"} or not parsed.netloc:
         return StreamCheck("unsupported", detail="Only absolute HTTP(S) URLs can be checked")
+
+    if _is_youtube_embed(url):
+        return _check_youtube_embed(url, timeout)
 
     _apply_socket_timeout(timeout)
     headers = {
@@ -938,17 +1348,24 @@ def _channel_quality_score(channel: Channel,
     has_logo = 1 if bool(channel.logo) else 0
     has_tvg_id = 1 if bool(channel.tvg_id) else 0
     is_https = 1 if channel.url.lower().startswith("https://") else 0
-    is_hls = 1 if ".m3u8" in channel.url.lower() else 0
+    playable = 1 if (".m3u8" in channel.url.lower()
+                     or channel.stream_type == STREAM_TYPE_YOUTUBE) else 0
     return (
         check_rank,
         non_generic,
         has_category + has_country + has_language + has_logo + has_tvg_id,
         preferred_lang,
-        is_https + is_hls,
+        is_https + playable,
+        playable,
         has_logo,
         has_country,
         has_language,
     )
+
+
+def _source_bucket(channel: Channel) -> str:
+    """Fuente "principal" de un canal, para repartir el cupo entre fuentes distintas."""
+    return (channel.source.split(",")[0].strip().casefold() or "unknown")
 
 
 def dedupe_unique_channels(
@@ -959,6 +1376,7 @@ def dedupe_unique_channels(
     only_http_ok: bool = False,
     diversify: bool = True,
     exclude_keys: tuple[set[str], set[str], set[str]] | None = None,
+    max_per_source: int = 0,
 ) -> list[Channel]:
     """Select unique channels without repeating name/slug, tvg_id, URL or final redirect URL.
 
@@ -1031,6 +1449,7 @@ def dedupe_unique_channels(
             category=channel.category,
             source=channel.source,
             source_url=channel.source_url,
+            stream_type=channel.stream_type,
             attributes=dict(channel.attributes) if channel.attributes else None,
         )
         seen_canonical[canonical] = normalized_channel
@@ -1043,7 +1462,7 @@ def dedupe_unique_channels(
             seen_tvg_ids.add(tvg_key)
         unique.append(normalized_channel)
 
-    if not diversify:
+    if not diversify and max_per_source <= 0:
         unique.sort(key=lambda x: (x.category, x.language, x.name.casefold(), x.url))
         return unique[:limit] if (limit and limit > 0) else unique
 
@@ -1056,20 +1475,28 @@ def dedupe_unique_channels(
         if cat not in ordered_categories:
             ordered_categories.append(cat)
 
+    if not diversify:
+        ordered_categories = [""]
+        by_category[""] = sorted(unique, key=lambda x: (x.category, x.language, x.name.casefold(), x.url))
+
     interleaved: list[Channel] = []
-    round_index = 0
+    per_source: Counter[str] = Counter()
     while True:
         added_in_round = False
         for cat in ordered_categories:
             bucket = by_category[cat]
-            if round_index < len(bucket):
-                interleaved.append(bucket[round_index])
+            while bucket:
+                candidate = bucket.pop(0)
+                if max_per_source > 0 and per_source[_source_bucket(candidate)] >= max_per_source:
+                    continue
+                interleaved.append(candidate)
+                per_source[_source_bucket(candidate)] += 1
                 added_in_round = True
-                if limit and limit > 0 and len(interleaved) >= limit:
-                    return interleaved
+                break
         if not added_in_round:
             break
-        round_index += 1
+        if limit and limit > 0 and len(interleaved) >= limit:
+            return interleaved
 
     return interleaved[:limit] if (limit and limit > 0) else interleaved
 
@@ -1084,6 +1511,7 @@ def select_channels_with_checks(
     max_probes: int = DEFAULT_MAX_STREAM_PROBES,
     exclude_keys: tuple[set[str], set[str], set[str]] | None = None,
     deadline: float | None = None,
+    max_per_source: int = 0,
 ) -> tuple[list[Channel], dict[str, StreamCheck]]:
     """Probe candidate streams in bounded batches until ``limit`` unique channels are found.
 
@@ -1103,6 +1531,7 @@ def select_channels_with_checks(
             stream_checks=checks,
             only_http_ok=only_http_ok,
             exclude_keys=exclude_keys,
+            max_per_source=max_per_source,
         )
         return selected, checks
 
@@ -1199,32 +1628,114 @@ def select_channels_with_checks(
         stream_checks=all_checks,
         only_http_ok=only_http_ok,
         exclude_keys=exclude_keys,
+        max_per_source=max_per_source,
     )
     return selected, all_checks
 
 
+def _page_matches_source(source: SourceConfig, path: str) -> bool:
+    """Decide si una ruta del sitio es una página de canal según la configuración."""
+    if not source.page_prefixes and not source.page_patterns:
+        return True
+    lowered = path.lower()
+    if any(lowered.startswith(prefix.lower()) for prefix in source.page_prefixes):
+        return True
+    return any(re.search(pattern, path, re.I) for pattern in source.page_patterns)
+
+
 def _fetch_site_page(source: SourceConfig, page: str, label: str,
                      timeout: int) -> tuple[list[Channel], str | None]:
+    """Descarga una página de canal y resuelve su reproductor.
+
+    Partiendo de la página del canal se siguen iframes, wrappers PHP (`/html/fl/`),
+    configuraciones JSON (`cv.json` → `cvatt.html`) y embeds de YouTube en vivo hasta
+    ``source.max_depth`` saltos, siempre con un número acotado de documentos.
+    """
     try:
-        html = _fetch_text(page, timeout)
+        root_html = _fetch_text(page, timeout)
     except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
         return [], f"{source.key}: page {page}: {exc}"
+
     raw_name = clean_channel_name(label) if label else ""
     if not raw_name or _canonical_channel_key(raw_name) in GENERIC_CHANNEL_NAMES:
-        raw_name = _page_title(html, source.name)
+        raw_name = _page_title(root_html, source.name)
     name = clean_channel_name(raw_name) or raw_name or source.name
-    logo = _page_logo(html, page)
+    logo = _page_logo(root_html, page)
+
     found: list[Channel] = []
-    for stream in _urls_from_html(html, page):
-        if ".m3u8" not in stream.lower() and ".m3u" not in stream.lower():
+    errors: list[str] = []
+    for stream in _stream_urls_from_document(root_html, page):
+        found.append(_site_channel(name, stream, source, page, logo))
+    for embed in _youtube_embed_urls(root_html):
+        found.append(_site_channel(name, embed, source, page, logo, STREAM_TYPE_YOUTUBE))
+
+    allowed_hosts = {urlparse(source.url).netloc.lower()}
+    allowed_hosts.update(host.lower() for host in source.embed_hosts)
+    queue: list[tuple[str, int]] = []
+    seen: set[str] = {_url_key(page)}
+    documents = 1
+
+    def enqueue(candidates: Iterable[str], depth: int) -> None:
+        for candidate in candidates:
+            key = _url_key(candidate)
+            if not key or key in seen:
+                continue
+            if len(queue) >= MAX_PLAYER_CANDIDATES * 2:
+                return
+            seen.add(key)
+            queue.append((candidate, depth))
+
+    if source.max_depth > 0:
+        iframes, js_urls = _player_links_from_document(root_html, page)
+        enqueue(_without_youtube(iframes), 1)
+        enqueue([url for url in js_urls
+                 if urlparse(url).netloc.lower() in allowed_hosts], 1)
+
+    while queue and documents < MAX_PLAYER_DOCS:
+        url, depth = queue.pop(0)
+        try:
+            html = _fetch_text(url, timeout)
+        except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
+            errors.append(f"{source.key}: player {url}: {exc}")
             continue
-        category, language, country = classify_channel(name, source.name)
-        found.append(Channel(
-            name=name, url=stream, group=source.name, logo=logo,
-            language=language, country=country, category=category,
-            source=source.name, source_url=page,
-        ))
-    return found, None
+        documents += 1
+
+        if _looks_like_m3u(html):
+            for channel in parse_m3u(html, source=source.name, base_url=url):
+                channel.name = name or channel.name
+                channel.group = channel.group or source.name
+                channel.source_url = page
+                found.append(channel)
+            continue
+
+        if not logo:
+            logo = _page_logo(html, url)
+        for stream in _stream_urls_from_document(html, url):
+            found.append(_site_channel(name, stream, source, page, logo))
+        for embed in _youtube_embed_urls(html):
+            found.append(_site_channel(name, embed, source, page, logo, STREAM_TYPE_YOUTUBE))
+
+        if depth >= source.max_depth:
+            continue
+        iframes, js_urls = _player_links_from_document(html, url)
+        enqueue(_without_youtube(iframes), depth + 1)
+        enqueue([candidate for candidate in js_urls
+                 if urlparse(candidate).netloc.lower() in allowed_hosts], depth + 1)
+
+        payload: object
+        for config_url in _json_config_urls(html, url):
+            try:
+                payload = json.loads(_fetch_text(config_url, timeout, max_bytes=4 * 1024 * 1024))
+            except (HTTPError, URLError, TimeoutError, OSError, ValueError,
+                    json.JSONDecodeError) as exc:
+                errors.append(f"{source.key}: config {config_url}: {exc}")
+                continue
+            config_urls = _player_urls_from_config(payload, html, url)
+            allowed_hosts.update(urlparse(candidate).netloc.lower() for candidate in config_urls)
+            # Solo se prueban los primeros candidatos: suelen ser espejos del mismo player.
+            enqueue(config_urls[:2], depth + 1)
+
+    return _dedupe(found), ("; ".join(errors[:3]) if errors and not found else None)
 
 
 def _fetch_source(source: SourceConfig, timeout: int,
@@ -1265,9 +1776,7 @@ def _fetch_source(source: SourceConfig, timeout: int,
         parsed = urlparse(page)
         if parsed.scheme not in {"http", "https"} or parsed.netloc.lower() != host:
             continue
-        if source.page_prefixes and not any(
-            parsed.path.lower().startswith(prefix.lower()) for prefix in source.page_prefixes
-        ):
+        if not _page_matches_source(source, parsed.path):
             continue
         if page in seen_pages:
             idx = seen_pages[page]
@@ -1378,6 +1887,8 @@ def write_output(channels: Iterable[Channel], output: Path, fmt: str,
                 attrs.append(f'tvg-language="{channel.language}"')
             if channel.country and channel.country != "unknown":
                 attrs.append(f'tvg-country="{channel.country}"')
+            if channel.stream_type and channel.stream_type != STREAM_TYPE_HLS:
+                attrs.append(f'stream-type="{channel.stream_type}"')
             group_title = channel.group or channel.category
             if group_title:
                 attrs.append(f'group-title="{group_title}"')
@@ -1388,7 +1899,7 @@ def write_output(channels: Iterable[Channel], output: Path, fmt: str,
         return
 
     fields = ["name", "url", "group", "tvg_id", "tvg_name", "logo",
-              "language", "country", "category", "source", "source_url"]
+              "language", "country", "category", "source", "source_url", "stream_type"]
     csv_rows = rows
     if stream_checks is not None:
         fields.extend(("stream_status", "stream_http_status", "stream_content_type",
@@ -1530,7 +2041,7 @@ def sync_to_supabase(
             "slug": slug,
             "logo_url": _clean_logo_url(channel.logo) or None,
             "stream_url": channel.url,
-            "stream_type": "hls",
+            "stream_type": channel.stream_type or STREAM_TYPE_HLS,
             "category": channel.category,
             "country_code": country,
             "is_active": active,
@@ -1644,6 +2155,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--max-checks", type=int, default=DEFAULT_MAX_STREAM_PROBES,
         help=f"Maximum candidate URLs to probe when --check-streams and --limit are used (default: {DEFAULT_MAX_STREAM_PROBES})",
+    )
+    parser.add_argument(
+        "--max-per-source", type=int, default=0,
+        help="Máximo de canales por fuente al repartir el cupo (0 = sin límite, "
+             "recomendado al usar --all-sources para que ninguna lista acapare el resultado)",
     )
     parser.add_argument("--timeout", type=int, default=15)
     parser.add_argument("--workers", type=int, default=8)
@@ -1762,6 +2278,7 @@ def main(argv: list[str] | None = None) -> int:
             max_probes=max(0, args.max_checks),
             exclude_keys=existing_keys if any(existing_keys) else None,
             deadline=deadline,
+            max_per_source=max(0, args.max_per_source),
         )
         summary = Counter(check.status for check in stream_checks.values())
         counts = ", ".join(f"{status}={count}" for status, count in sorted(summary.items()))
@@ -1771,6 +2288,7 @@ def main(argv: list[str] | None = None) -> int:
             candidate_pool,
             limit=limit if limit > 0 else None,
             exclude_keys=existing_keys if any(existing_keys) else None,
+            max_per_source=max(0, args.max_per_source),
         )
 
     suffix = args.output.suffix.lower()

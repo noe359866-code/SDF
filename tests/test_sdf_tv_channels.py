@@ -14,14 +14,18 @@ from urllib.error import HTTPError, URLError
 from sdf_tv_channels import (
     DEFAULT_MAX_CHANNELS,
     DEFAULT_SOURCES,
+    STREAM_TYPE_YOUTUBE,
     Channel,
     LinkParser,
     SourceConfig,
     StreamCheck,
     _canonical_channel_key,
     _dedupe,
+    _fetch_site_page,
     _fetch_source,
     _fetch_text,
+    _page_matches_source,
+    _player_urls_from_config,
     channel_slug,
     check_stream,
     check_streams,
@@ -189,8 +193,15 @@ class PlaylistParserTests(unittest.TestCase):
                 "https://iptv-org.github.io/iptv/index.m3u",
                 "https://teleonline.org/",
                 "https://teleonline.github.io/listas/tv.m3u8",
+                "https://www.teleonline.tv/",
+                "https://www.tvenvivo.org/",
+                "https://tvlibreonline.st/",
             },
         )
+        kinds = {s.key: s.kind for s in DEFAULT_SOURCES}
+        self.assertEqual(kinds["teleonline_tv"], "site")
+        self.assertEqual(kinds["tvenvivo"], "site")
+        self.assertEqual(kinds["tvlibreonline"], "site")
 
     def test_remote_source_resolves_playlist_relative_to_its_url(self):
         source = SourceConfig("remote", "Remote", "https://example.com/lists/tv.m3u")
@@ -217,6 +228,135 @@ class PlaylistParserTests(unittest.TestCase):
         parser.close()
         self.assertEqual(parser.links, [("/canal/antena-3", "Antena 3")])
 
+    def test_page_matching_accepts_prefixes_and_patterns(self):
+        by_prefix = SourceConfig("p", "P", "https://example.com/", "site",
+                                 page_prefixes=("/en-vivo/",))
+        self.assertTrue(_page_matches_source(by_prefix, "/en-vivo/tn"))
+        self.assertFalse(_page_matches_source(by_prefix, "/eventos/sin-chat/"))
+        by_pattern = SourceConfig("q", "Q", "https://example.com/", "site",
+                                  page_patterns=(r"-en-vivo(?:-online)?\.php$",))
+        self.assertTrue(_page_matches_source(by_pattern, "/espn-argentina-en-vivo-online.php"))
+        self.assertFalse(_page_matches_source(by_pattern, "/index.php"))
+        self.assertTrue(_page_matches_source(
+            SourceConfig("r", "R", "https://example.com/"), "/cualquier/cosa"))
+
+
+class SitePlayerExtractionTests(unittest.TestCase):
+    """Las tres fuentes nuevas publican el stream dentro de un reproductor (JS/iframe)."""
+
+    TELEONLINE_PAGE = (
+        "<html><head><title>Tyc Sports &#8211; Tele Online TV</title></head><body>"
+        "<script>jQuery('#beeteam368_player_1').beeteam368_pro_player("
+        r'{"video_mode":"embed","video_url":"<div class=\"teleonline-live-container\">'
+        r"<iframe src=\"https:\/\/www.youtube.com\/embed\/OR8A19Hsp5w?autoplay=1"
+        r'&#038;mute=1&#038;rel=0\" allowfullscreen><\/iframe><\/div>",'
+        '"video_id":"OR8A19Hsp5w","post_id":4112});</script></body></html>'
+    )
+
+    TVENVIVO_PAGE = (
+        "<html><head><title>ESPN COLOMBIA EN VIVO HD | TV EN VIVO</title></head><body>"
+        '<h1>ESPN COLOMBIA EN VIVO</h1><iframe id="videoFrame"></iframe>'
+        "<script>const SOURCES={1:\"https://www.tvenvivo.org/live/core.php?canal=espn\"};"
+        "videoFrame.src=SOURCES[1];</script></body></html>"
+    )
+    TVENVIVO_PLAYER = '<html><body><iframe src="https://embed.example.net/player"></iframe></body></html>'
+    TVENVIVO_EMBED = '<html><body><script>var s="https:\\/\\/cdn.example.com\\/hls\\/espn.m3u8";</script></body></html>'
+
+    TVLIBRE_PAGE = (
+        "<html><head><title>El Canal TN en VIVO ONLINE por Internet en DIRECTO.</title>"
+        '</head><body><h1>Canal TN Online en VIVO y en directo</h1>'
+        '<iframe src="https://tvlibreonline.st/html/fl/?get=VG9kb05vdGljaWFz"></iframe>'
+        "</body></html>"
+    )
+    TVLIBRE_FL = (
+        "<html><body><script>"
+        "var xhttp = new XMLHttpRequest();"
+        'xhttp.open("GET", "/html/cv.json?" + Math.random(), true);'
+        'var urls = data["urls"];'
+        'document.getElementById("iframe").src = \'//\' + randomUrl + "/cvatt.html?get=" + getVal;'
+        "</script></body></html>"
+    )
+
+    def test_teleonline_tv_uses_youtube_embed_from_escaped_javascript(self):
+        source = SourceConfig("teleonline_tv", "Teleonline TV", "https://www.teleonline.tv/",
+                              "site", page_prefixes=("/canal/",), max_depth=1)
+        page = "https://www.teleonline.tv/canal/tyc-sports/"
+        with patch("sdf_tv_channels._fetch_text", return_value=self.TELEONLINE_PAGE) as fetch:
+            channels, error = _fetch_site_page(source, page, "Tyc Sports", 1)
+        self.assertIsNone(error)
+        self.assertEqual(len(channels), 1)
+        channel = channels[0]
+        self.assertEqual(channel.name, "Tyc Sports")
+        self.assertEqual(channel.url, "https://www.youtube.com/embed/OR8A19Hsp5w")
+        self.assertEqual(channel.stream_type, STREAM_TYPE_YOUTUBE)
+        self.assertEqual(channel.category, "sports")
+        # El embed de YouTube no se descarga: se extrae del propio HTML.
+        fetch.assert_called_once()
+
+    def test_tvenvivo_follows_php_wrapper_to_the_final_playlist(self):
+        source = SourceConfig("tvenvivo", "TV en Vivo", "https://www.tvenvivo.org/", "site",
+                              max_depth=2)
+        page = "https://www.tvenvivo.org/espn-argentina-en-vivo-online.php"
+
+        def fake_fetch_with_embed(url, timeout=20, max_bytes=None, retries=2):
+            url = str(url)
+            if url.endswith(".php"):
+                return self.TVENVIVO_PAGE
+            if "live/core.php" in url:
+                return self.TVENVIVO_PLAYER
+            if "embed.example.net" in url:
+                return self.TVENVIVO_EMBED
+            self.fail(f"URL inesperada: {url}")
+
+        with patch("sdf_tv_channels._fetch_text", side_effect=fake_fetch_with_embed):
+            channels, error = _fetch_site_page(source, page, "", 1)
+        self.assertIsNone(error)
+        urls = {channel.url for channel in channels}
+        self.assertIn("https://cdn.example.com/hls/espn.m3u8", urls)
+        self.assertNotIn("https://www.tvenvivo.org/live/core.php?canal=espn", urls)
+        channel = next(c for c in channels if c.url.endswith("espn.m3u8"))
+        self.assertEqual(channel.name, "ESPN COLOMBIA")
+        self.assertEqual(channel.country, "CO")
+        self.assertEqual(channel.stream_type, "hls")
+
+    def test_tvlibreonline_rebuilds_the_player_url_from_its_json_config(self):
+        source = SourceConfig("tvlibreonline", "TV Libre Online", "https://tvlibreonline.st/",
+                              "site", page_prefixes=("/en-vivo/",), max_depth=3)
+        page = "https://tvlibreonline.st/en-vivo/tn"
+        requested = []
+
+        def fake_fetch(url, timeout=20, max_bytes=None, retries=2):
+            url = str(url)
+            requested.append(url)
+            if url.endswith("/en-vivo/tn"):
+                return self.TVLIBRE_PAGE
+            if "/html/fl/" in url:
+                return self.TVLIBRE_FL
+            if "/html/cv.json" in url:
+                return json.dumps({"urls": ["player1.example.net", "player2.example.net"]})
+            if "cvatt.html" in url:
+                # Solo el primer espejo responde; el segundo se prueba como respaldo.
+                if "player1" in url:
+                    return '<script>var hls="https:\\/\\/cdn2.example.com\\/live\\/tn.m3u8";</script>'
+                raise URLError("mirror offline")
+            self.fail(f"URL inesperada: {url}")
+
+        with patch("sdf_tv_channels._fetch_text", side_effect=fake_fetch):
+            channels, error = _fetch_site_page(source, page, "Canal TN", 1)
+        self.assertIsNone(error)
+        self.assertEqual([c.url for c in channels], ["https://cdn2.example.com/live/tn.m3u8"])
+        self.assertEqual(channels[0].name, "Canal TN")
+        played = next(url for url in requested if "cvatt.html" in url)
+        # El token `get` del wrapper se conserva al reconstruir la URL del reproductor.
+        self.assertTrue(played.endswith("/cvatt.html?get=VG9kb05vdGljaWFz"))
+
+    def test_player_urls_from_config_ignores_non_player_json(self):
+        payload = {"version": 3, "urls": ["cdn.example.com"], "image": "https://x/logo.png"}
+        urls = _player_urls_from_config(payload, '<script>"/cvatt.html?get="</script>',
+                                        "https://host/html/fl/?get=ABC")
+        self.assertTrue(all("/cvatt.html?get=ABC" in url for url in urls))
+        self.assertEqual(len(urls), 1)
+
 
 class DedupeAndLimitTests(unittest.TestCase):
     def test_clean_channel_name_and_canonical_key_normalize_variants(self):
@@ -232,6 +372,53 @@ class DedupeAndLimitTests(unittest.TestCase):
         self.assertEqual(_canonical_channel_key("Canal 24 Horas"), "24-horas")
         self.assertEqual(_canonical_channel_key("Canal 13 HD"), "canal-13")
         self.assertEqual(channel_slug("Antena 3 [720p]"), "antena-3")
+
+    def test_clean_channel_name_removes_country_labels_and_seo_tails(self):
+        self.assertEqual(clean_channel_name("Argentina Telefe Ver canal"), "Telefe")
+        self.assertEqual(clean_channel_name("Canal TN Online en VIVO y en directo"), "Canal TN")
+        self.assertEqual(clean_channel_name("México TV Azteca"), "TV Azteca")
+        # Un nombre que depende del país se conserva intacto.
+        self.assertEqual(clean_channel_name("Cuba TV"), "Cuba TV")
+
+    def test_max_per_source_spreads_the_quota_between_sources(self):
+        channels = [
+            Channel(f"Canal Uno {i}", f"https://uno.example.com/{i}.m3u8",
+                    category="news", source="Fuente Uno")
+            for i in range(1, 6)
+        ]
+        channels += [
+            Channel(f"Canal Dos {i}", f"https://dos.example.com/{i}.m3u8",
+                    category="news", source="Fuente Dos")
+            for i in range(1, 6)
+        ]
+        selected = dedupe_unique_channels(channels, limit=6, max_per_source=2)
+        self.assertEqual(len(selected), 4)
+        self.assertEqual(sum(1 for c in selected if c.name.startswith("Canal Uno")), 2)
+        self.assertEqual(sum(1 for c in selected if c.name.startswith("Canal Dos")), 2)
+        unlimited = dedupe_unique_channels(channels, limit=6)
+        self.assertEqual(len(unlimited), 6)
+
+    def test_stream_type_is_exported_and_marked_in_m3u(self):
+        hls_channel = Channel("Canal HLS", "https://example.com/live.m3u8")
+        youtube_channel = Channel("Canal YouTube", "https://www.youtube.com/embed/OR8A19Hsp5w",
+                                  stream_type=STREAM_TYPE_YOUTUBE)
+        with tempfile.TemporaryDirectory() as temp_dir:
+            json_path = Path(temp_dir) / "channels.json"
+            csv_path = Path(temp_dir) / "channels.csv"
+            m3u_path = Path(temp_dir) / "channels.m3u"
+
+            write_output([hls_channel, youtube_channel], json_path, "json")
+            rows = json.loads(json_path.read_text(encoding="utf-8"))
+            self.assertEqual([row["stream_type"] for row in rows], ["hls", "youtube"])
+
+            write_output([youtube_channel], csv_path, "csv")
+            with csv_path.open(encoding="utf-8-sig", newline="") as handle:
+                self.assertEqual(next(csv.DictReader(handle))["stream_type"], "youtube")
+
+            write_output([youtube_channel], m3u_path, "m3u")
+            self.assertIn('stream-type="youtube"', m3u_path.read_text(encoding="utf-8"))
+            write_output([hls_channel], m3u_path, "m3u")
+            self.assertNotIn("stream-type", m3u_path.read_text(encoding="utf-8"))
 
     def test_m3u_export_and_logo_sanitization(self):
         channels = parse_m3u(
@@ -456,6 +643,21 @@ class StreamCheckTests(unittest.TestCase):
                 csv_row = next(csv.DictReader(handle))
             self.assertEqual(csv_row["stream_status"], "http_ok")
             self.assertEqual(csv_row["stream_http_status"], "200")
+
+    def test_youtube_embed_requires_a_live_signal(self):
+        live = FakeResponse(b'<html>{"isLive":true}</html>', status=200, content_type="text/html",
+                            url="https://www.youtube.com/embed/OR8A19Hsp5w")
+        with patch("sdf_tv_channels.urlopen", return_value=live) as open_url:
+            result = check_stream("https://www.youtube.com/embed/OR8A19Hsp5w")
+        self.assertEqual(result.status, "http_ok")
+        self.assertIn("YouTube", result.detail)
+        # Un embed no admite peticiones Range.
+        self.assertIsNone(open_url.call_args.args[0].get_header("Range"))
+
+        recorded = FakeResponse(b"<html>no live signal</html>", status=200, content_type="text/html")
+        with patch("sdf_tv_channels.urlopen", return_value=recorded):
+            self.assertEqual(check_stream("https://www.youtube.com/embed/OR8A19Hsp5w").status,
+                             "not_live")
 
     def test_non_http_streams_are_returned_as_unsupported(self):
         channel = Channel("UDP Canal", "udp://239.0.0.1:1234")

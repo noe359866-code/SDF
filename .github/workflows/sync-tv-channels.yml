@@ -64,6 +64,7 @@ jobs:
           --activation-mode ${{ inputs.activation_mode || 'automatic' }}
           --limit ${{ inputs.limit || '20' }}
           --max-checks 120
+          --max-per-source 8
           --timeout 10
           --workers 12
           --max-pages 20
