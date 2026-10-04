@@ -74,7 +74,7 @@ def _match_label(text: str, rules: dict[str, tuple[str, ...]]) -> str:
 def classify_channel(name: str, group: str = "", attrs: dict[str, str] | None = None) -> tuple[str, str, str]:
     attrs = attrs or {}
     metadata = " ".join((attrs.get("tvg-name", ""), attrs.get("tvg-id", ""), attrs.get("tvg-language", ""), attrs.get("tvg-country", "")))
-    category = _match_label(" ".join((name, group)), CATEGORY_RULES)
+    category = _match_label(" ".join((name, group)), CATEGORY_RULES)\n    if category == "unknown":\n        category = "other"
     language_value = attrs.get("tvg-language", "").strip().lower()
     language = language_value if language_value in LANGUAGE_RULES else _match_label(" ".join((name, group, metadata)), LANGUAGE_RULES)
     country_value = attrs.get("tvg-country", "").strip().upper()
