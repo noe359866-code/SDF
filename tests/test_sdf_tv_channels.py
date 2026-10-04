@@ -1,8 +1,12 @@
 import csv
+import email.message
+import gzip
 import json
 import os
 import tempfile
+import time
 import unittest
+import zlib
 from pathlib import Path
 from unittest.mock import patch
 from urllib.error import HTTPError, URLError
@@ -17,6 +21,7 @@ from sdf_tv_channels import (
     _canonical_channel_key,
     _dedupe,
     _fetch_source,
+    _fetch_text,
     channel_slug,
     check_stream,
     check_streams,
@@ -31,6 +36,15 @@ from sdf_tv_channels import (
     sync_to_supabase,
     write_output,
 )
+
+
+class Headers(email.message.Message):
+    """Minimal stand-in for ``http.client.HTTPMessage``."""
+
+    def __init__(self, values=None):
+        super().__init__()
+        for key, value in (values or {}).items():
+            self[key] = value
 
 
 class FakeResponse:
@@ -174,6 +188,7 @@ class PlaylistParserTests(unittest.TestCase):
                 "https://m3u.cl/lista/LATAM.m3u",
                 "https://iptv-org.github.io/iptv/index.m3u",
                 "https://teleonline.org/",
+                "https://teleonline.github.io/listas/tv.m3u8",
             },
         )
 
@@ -445,6 +460,148 @@ class StreamCheckTests(unittest.TestCase):
     def test_non_http_streams_are_returned_as_unsupported(self):
         channel = Channel("UDP Canal", "udp://239.0.0.1:1234")
         self.assertEqual(check_streams([channel])[channel.url].status, "unsupported")
+
+
+class FetchTextTests(unittest.TestCase):
+    """Regression tests for the HTTP download layer (compression, size, retries)."""
+
+    class Response:
+        def __init__(self, body, encoding="", charset="utf-8"):
+            self.body = body
+            self.headers = Headers({"Content-Encoding": encoding})
+            self._charset = charset
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_args):
+            return None
+
+        def read(self, limit=-1):
+            return self.body if limit < 0 else self.body[:limit]
+
+        def get_content_charset(self):
+            return self._charset
+
+    def test_decodes_gzip_responses(self):
+        body = gzip.compress("#EXTM3U\n#EXTINF:-1,Canal\nhttps://example.com/live.m3u8\n".encode())
+        with patch("sdf_tv_channels.urlopen", return_value=self.Response(body, "gzip")):
+            text = _fetch_text("https://example.com/list.m3u", timeout=1, retries=0)
+        self.assertIn("#EXTM3U", text)
+        self.assertEqual(len(parse_m3u(text)), 1)
+
+    def test_decodes_deflate_responses(self):
+        body = zlib.compress("#EXTM3U\n#EXTINF:-1,Canal\nhttps://example.com/live.m3u8\n".encode())
+        with patch("sdf_tv_channels.urlopen", return_value=self.Response(body, "deflate")):
+            text = _fetch_text("https://example.com/list.m3u", timeout=1, retries=0)
+        self.assertIn("#EXTM3U", text)
+
+    def test_truncates_oversized_responses_instead_of_failing(self):
+        body = b"#EXTM3U\n" + b"x" * 5000
+        with patch("sdf_tv_channels.urlopen", return_value=self.Response(body)):
+            text = _fetch_text("https://example.com/list.m3u", timeout=1,
+                               max_bytes=1024, retries=0)
+        self.assertEqual(len(text), 1024)
+
+    def test_retries_transient_statuses(self):
+        error = HTTPError("https://example.com/l.m3u", 503, "Busy", {}, None)
+        body = b"#EXTM3U\n"
+        with patch("sdf_tv_channels.urlopen", side_effect=[error, self.Response(body)]) as open_url:
+            text = _fetch_text("https://example.com/l.m3u", timeout=1, retries=2)
+        self.assertIn("#EXTM3U", text)
+        self.assertEqual(open_url.call_count, 2)
+
+    def test_raises_after_retries_are_exhausted(self):
+        error = HTTPError("https://example.com/l.m3u", 404, "Not Found", {}, None)
+        with patch("sdf_tv_channels.urlopen", side_effect=error):
+            with self.assertRaises(HTTPError):
+                _fetch_text("https://example.com/l.m3u", timeout=1, retries=1)
+
+    def test_deadline_marks_pending_checks_as_timeout(self):
+        def slow_check(url, timeout=10):
+            time.sleep(0.05)
+            return StreamCheck("http_ok", 200, "application/vnd.apple.mpegurl", url)
+
+        channels = [Channel(f"Canal {i}", f"https://example.com/{i}.m3u8") for i in range(5)]
+        with patch("sdf_tv_channels.check_stream", side_effect=slow_check):
+            results = check_streams(channels, timeout=1, workers=5,
+                                    deadline=time.monotonic() + 0.01)
+        self.assertTrue(results)
+        self.assertTrue(any(check.status == "timeout" for check in results.values()))
+
+
+class ExitCodeTests(unittest.TestCase):
+    """The CLI must keep working (and keep the exported file) when Supabase fails."""
+
+    def _playlist(self, temp_dir):
+        playlist = Path(temp_dir) / "input.m3u"
+        playlist.write_text(
+            "#EXTM3U\n"
+            '#EXTINF:-1 group-title="News",Canal Uno\nhttps://example.com/uno.m3u8\n'
+            '#EXTINF:-1 group-title="Sports",Canal Dos\nhttps://example.com/dos.m3u8\n',
+            encoding="utf-8",
+        )
+        return playlist
+
+    def test_missing_credentials_exports_file_and_returns_zero(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            playlist = self._playlist(temp_dir)
+            output = Path(temp_dir) / "out.json"
+            env = {k: v for k, v in os.environ.items()
+                   if k not in {"SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY",
+                                "SUPABASE_SECRET_KEY", "SUPABASE_KEY"}}
+            with patch.dict(os.environ, env, clear=True):
+                rc = main([str(playlist), "--sync-supabase", "-o", str(output)])
+            self.assertEqual(rc, 0)
+            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))), 2)
+
+    def test_sync_failure_does_not_abort_the_export(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            playlist = self._playlist(temp_dir)
+            output = Path(temp_dir) / "out.json"
+            with patch.dict(os.environ,
+                            {"SUPABASE_URL": "https://project.supabase.co",
+                             "SUPABASE_SERVICE_ROLE_KEY": "secret"}, clear=True), \
+                 patch("sdf_tv_channels.fetch_existing_supabase_channels",
+                       return_value=(set(), set(), set())), \
+                 patch("sdf_tv_channels.sync_to_supabase",
+                       side_effect=RuntimeError("No se pudo sincronizar con Supabase: HTTP 401")):
+                rc = main([str(playlist), "--sync-supabase", "-o", str(output)])
+            self.assertEqual(rc, 0)
+            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))), 2)
+
+    def test_sync_failure_can_still_fail_the_run_on_demand(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            playlist = self._playlist(temp_dir)
+            output = Path(temp_dir) / "out.json"
+            with patch.dict(os.environ,
+                            {"SUPABASE_URL": "https://project.supabase.co",
+                             "SUPABASE_SERVICE_ROLE_KEY": "secret"}, clear=True), \
+                 patch("sdf_tv_channels.fetch_existing_supabase_channels",
+                       return_value=(set(), set(), set())), \
+                 patch("sdf_tv_channels.sync_to_supabase",
+                       side_effect=RuntimeError("boom")):
+                rc = main([str(playlist), "--sync-supabase", "--fail-on-sync-error",
+                           "-o", str(output)])
+            self.assertEqual(rc, 1)
+
+    def test_automatic_activation_enables_stream_checks(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            playlist = self._playlist(temp_dir)
+            output = Path(temp_dir) / "out.json"
+            with patch("sdf_tv_channels.check_stream",
+                       return_value=StreamCheck("http_ok", 200,
+                                                "application/vnd.apple.mpegurl")) as check:
+                rc = main([str(playlist), "--activation-mode", "automatic",
+                           "--limit", "5", "-o", str(output)])
+            self.assertEqual(rc, 0)
+            self.assertEqual(check.call_count, 2)
+
+    def test_missing_input_file_is_still_a_usage_error(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            with self.assertRaises(SystemExit) as ctx:
+                main([str(Path(temp_dir) / "nope.m3u"), "-o", str(Path(temp_dir) / "o.json")])
+            self.assertEqual(ctx.exception.code, 2)
 
 
 if __name__ == "__main__":

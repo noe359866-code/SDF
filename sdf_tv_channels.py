@@ -4,14 +4,18 @@ from __future__ import annotations
 
 import argparse
 import csv
+import gzip
 import json
 import os
 import re
+import socket
 import sys
 import time
 import unicodedata
+import zlib
 from collections import Counter, defaultdict
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
+from concurrent.futures import as_completed
 from dataclasses import asdict, dataclass
 from functools import lru_cache
 from html import unescape
@@ -24,6 +28,7 @@ from urllib.request import Request, urlopen
 
 DEFAULT_MAX_CHANNELS = 20
 DEFAULT_MAX_STREAM_PROBES = 120
+DEFAULT_MAX_BYTES = 64 * 1024 * 1024
 
 ATTR_RE = re.compile(r'([\w-]+)\s*=\s*("(?:[^"\\]|\\.)*"|[^\s]*)')
 
@@ -254,9 +259,23 @@ DEFAULT_SOURCES = (
     SourceConfig("teleonline", "Teleonline", "https://teleonline.org/", "site",
                  playlist_hints=("https://teleonline.github.io/listas/tv.m3u8",),
                  page_prefixes=("/canal/",)),
+    SourceConfig("teleonline_m3u", "Teleonline M3U",
+                 "https://teleonline.github.io/listas/tv.m3u8"),
 )
 
-USER_AGENT = "SDF-TV-Channel-Extractor/1.3"
+USER_AGENT = "SDF-TV-Channel-Extractor/1.4"
+# Muchos servidores rechazan agentes no navegador, por lo que las peticiones usan
+# cabeceras realistas y todavía se identifican mediante USER_AGENT en las pruebas.
+BROWSER_HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+        "(KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+    ),
+    "Accept": ("text/html,application/xhtml+xml,application/xml;q=0.9,"
+               "application/x-mpegURL,text/plain;q=0.8,*/*;q=0.5"),
+    "Accept-Language": "es-ES,es;q=0.9,en;q=0.8",
+}
+RETRY_STATUS = {403, 408, 425, 429, 500, 502, 503, 504}
 M3U_URL_RE = re.compile(r'(?:(?:https?:)?//|/)[^<>"\'\s\\]+?\.m3u8?(?:\?[^<>"\'\s\\]*)?', re.I)
 STREAM_URL_RE = re.compile(r'https?://[^<>"\'\s\\]+?(?:\.m3u8?|/hls/|/live/)[^<>"\'\s\\]*', re.I)
 
@@ -643,17 +662,82 @@ def _page_logo(html: str, base_url: str) -> str:
     return _clean_logo_url(match.group(1), base_url) if match else ""
 
 
-def _fetch_text(url: str, timeout: int = 20, max_bytes: int = 25 * 1024 * 1024) -> str:
-    req = Request(url, headers={
-        "User-Agent": USER_AGENT,
-        "Accept": "application/x-mpegURL, text/plain, text/html, */*",
-    })
-    with urlopen(req, timeout=timeout) as response:
-        data = response.read(max_bytes + 1)
-        if len(data) > max_bytes:
-            raise ValueError(f"response exceeds {max_bytes} bytes")
-        encoding = response.headers.get_content_charset() or "utf-8"
-    return data.decode(encoding, errors="replace")
+def _apply_socket_timeout(timeout: int) -> None:
+    """Bound every socket created afterwards, including body reads.
+
+    ``urlopen(timeout=...)`` only covers connection and header reads; without this a
+    slow server could keep ``response.read()`` blocked forever and hang the whole run.
+    """
+    try:
+        socket.setdefaulttimeout(max(15, int(timeout) * 2))
+    except (TypeError, ValueError):
+        socket.setdefaulttimeout(30)
+
+
+def _decode_body(data: bytes, content_encoding: str) -> bytes:
+    """Decompress gzip/deflate bodies, which urllib never does automatically."""
+    encoding = (content_encoding or "").strip().lower()
+    if encoding in {"", "identity"}:
+        return data
+    if encoding == "gzip":
+        return gzip.decompress(data)
+    if encoding == "deflate":
+        try:
+            return zlib.decompress(data)
+        except zlib.error:
+            return zlib.decompress(data, -zlib.MAX_WBITS)
+    if encoding == "br":
+        try:
+            import brotli  # type: ignore[import-not-found]
+        except ImportError as exc:  # pragma: no cover - optional dependency
+            raise ValueError("unsupported Content-Encoding: br") from exc
+        return brotli.decompress(data)
+    raise ValueError(f"unsupported Content-Encoding: {encoding}")
+
+
+def _fetch_text_once(url: str, timeout: int, max_bytes: int) -> str:
+    _apply_socket_timeout(timeout)
+    req = Request(url, headers={**BROWSER_HEADERS, "Accept-Encoding": "gzip, deflate"})
+    with urlopen(req, timeout=max(1, timeout)) as response:
+        raw = response.read(max_bytes)
+        content_encoding = response.headers.get("Content-Encoding", "")
+        charset = response.headers.get_content_charset() or "utf-8"
+    data = _decode_body(raw, content_encoding)
+    try:
+        text = data.decode(charset, errors="replace")
+    except LookupError:
+        text = data.decode("utf-8", errors="replace")
+    if not text.lstrip("\ufeff \r\n\t") and raw:
+        # Algunas listas se publican con una codificación distinta de la declarada.
+        text = data.decode("latin-1", errors="replace")
+    return text
+
+
+def _fetch_text(url: str, timeout: int = 20, max_bytes: int = DEFAULT_MAX_BYTES,
+                retries: int = 2) -> str:
+    """Download text with bounded reads, compression support and a couple of retries.
+
+    Responses larger than ``max_bytes`` are truncated instead of rejected so a huge
+    playlist (iptv-org publishes tens of MB) still yields channels.
+    """
+    last_error: Exception | None = None
+    for attempt in range(max(0, retries) + 1):
+        if attempt:
+            time.sleep(min(2 ** attempt, 5))
+        try:
+            return _fetch_text_once(url, timeout, max_bytes)
+        except HTTPError as exc:
+            exc.close()
+            last_error = exc
+            if exc.code in RETRY_STATUS and attempt < max(0, retries):
+                continue
+            raise
+        except (URLError, TimeoutError, OSError, ValueError) as exc:
+            last_error = exc
+            if attempt < max(0, retries):
+                continue
+            raise
+    raise last_error if last_error else RuntimeError(f"could not download {url}")
 
 
 def _looks_like_m3u(text: str) -> bool:
@@ -667,6 +751,7 @@ def check_stream(url: str, timeout: int = 10) -> StreamCheck:
     if parsed.scheme.lower() not in {"http", "https"} or not parsed.netloc:
         return StreamCheck("unsupported", detail="Only absolute HTTP(S) URLs can be checked")
 
+    _apply_socket_timeout(timeout)
     headers = {
         "User-Agent": USER_AGENT,
         "Accept": "application/vnd.apple.mpegurl, application/x-mpegURL, */*",
@@ -741,21 +826,43 @@ def check_stream(url: str, timeout: int = 10) -> StreamCheck:
     return StreamCheck("http_ok", status, content_type, final_url, detail)
 
 
+def _remaining_seconds(deadline: float | None) -> float | None:
+    """Seconds left before ``deadline`` (``time.monotonic`` based), None when unbounded."""
+    if deadline is None:
+        return None
+    return max(0.0, deadline - time.monotonic())
+
+
 def check_streams(channels: Iterable[Channel], timeout: int = 10,
-                  workers: int = 4) -> dict[str, StreamCheck]:
+                  workers: int = 4,
+                  deadline: float | None = None) -> dict[str, StreamCheck]:
     urls = list(dict.fromkeys(channel.url for channel in channels if channel.url))
     if not urls:
         return {}
 
     results: dict[str, StreamCheck] = {}
-    with ThreadPoolExecutor(max_workers=max(1, min(workers, len(urls)))) as pool:
+    pool = ThreadPoolExecutor(max_workers=max(1, min(workers, len(urls))))
+    try:
         futures = {pool.submit(check_stream, url, timeout): url for url in urls}
-        for future in as_completed(futures):
-            url = futures[future]
-            try:
-                results[url] = future.result()
-            except Exception as exc:
-                results[url] = StreamCheck("error", detail=str(exc)[:240])
+        waiter = as_completed(futures, timeout=_remaining_seconds(deadline)) \
+            if deadline is not None else as_completed(futures)
+        try:
+            for future in waiter:
+                url = futures[future]
+                try:
+                    results[url] = future.result()
+                except Exception as exc:
+                    results[url] = StreamCheck("error", detail=str(exc)[:240])
+        except FuturesTimeout:
+            for future, url in futures.items():
+                if not future.done():
+                    future.cancel()
+                    results[url] = StreamCheck(
+                        "timeout", detail="comprobación cancelada: se agotó el tiempo",
+                    )
+    finally:
+        # Nunca bloquear el proceso esperando hebras que se quedaron sin presupuesto.
+        pool.shutdown(wait=False, cancel_futures=True)
     return results
 
 
@@ -976,17 +1083,20 @@ def select_channels_with_checks(
     only_http_ok: bool = False,
     max_probes: int = DEFAULT_MAX_STREAM_PROBES,
     exclude_keys: tuple[set[str], set[str], set[str]] | None = None,
+    deadline: float | None = None,
 ) -> tuple[list[Channel], dict[str, StreamCheck]]:
     """Probe candidate streams in bounded batches until ``limit`` unique channels are found.
 
     This avoids checking 10,000+ URLs when only 20 working, non-repeating channels are needed.
+    ``deadline`` is a ``time.monotonic()`` value; once it passes no further batches are probed.
     """
     candidates = _dedupe(channels)
     if not candidates:
         return [], {}
 
     if limit <= 0:
-        checks = check_streams(candidates, timeout=timeout, workers=workers)
+        checks = check_streams(candidates, timeout=timeout, workers=workers,
+                               deadline=deadline)
         selected = dedupe_unique_channels(
             candidates,
             limit=None,
@@ -1057,8 +1167,17 @@ def select_channels_with_checks(
     batch_size = max(limit, min(max(limit * 2, 24), 48))
 
     for offset in range(0, len(probe_queue), batch_size):
+        remaining = _remaining_seconds(deadline)
+        if remaining is not None and remaining <= 1:
+            print(
+                "WARNING: se agotó el tiempo de comprobación; se exporta lo verificado "
+                f"hasta ahora ({len(all_checks)} URLs comprobadas).",
+                file=sys.stderr,
+            )
+            break
         batch = probe_queue[offset:offset + batch_size]
-        batch_checks = check_streams(batch, timeout=timeout, workers=workers)
+        batch_checks = check_streams(batch, timeout=timeout, workers=workers,
+                                     deadline=deadline)
         all_checks.update(batch_checks)
         probed_channels.extend(batch)
 
@@ -1186,34 +1305,49 @@ def _fetch_source(source: SourceConfig, timeout: int,
 def fetch_sources(
     sources: Iterable[SourceConfig], timeout: int = 20,
     workers: int = 4, max_pages: int = 30,
-) -> tuple[list[Channel], dict[str, list[str]]]:
+    deadline: float | None = None,
+) -> tuple[list[Channel], dict[str, list[str]], dict[str, int]]:
+    """Fetch every source in parallel and return channels, errors and per-source counts."""
     source_list = list(sources)
     if not source_list:
-        return [], {}
+        return [], {}, {}
 
     results: list[tuple[list[Channel], list[str]]] = [([], []) for _ in source_list]
     worker_count = max(1, min(workers, len(source_list)))
-    with ThreadPoolExecutor(max_workers=worker_count) as pool:
+    pool = ThreadPoolExecutor(max_workers=worker_count)
+    try:
         futures = {
             pool.submit(_fetch_source, source, timeout, max_pages): (index, source)
             for index, source in enumerate(source_list)
         }
-        for future in as_completed(futures):
-            index, source = futures[future]
-            try:
-                results[index] = future.result()
-            except Exception as exc:
-                results[index] = ([], [f"{source.key}: unexpected error: {exc}"])
+        waiter = as_completed(futures, timeout=_remaining_seconds(deadline)) \
+            if deadline is not None else as_completed(futures)
+        try:
+            for future in waiter:
+                index, source = futures[future]
+                try:
+                    results[index] = future.result()
+                except Exception as exc:
+                    results[index] = ([], [f"{source.key}: unexpected error: {exc}"])
+        except FuturesTimeout:
+            for future, (index, source) in futures.items():
+                if not future.done():
+                    future.cancel()
+                    results[index] = ([], [f"{source.key}: sin tiempo de respuesta"])
+    finally:
+        pool.shutdown(wait=False, cancel_futures=True)
 
     channels: list[Channel] = []
     errors: dict[str, list[str]] = {}
+    counts: dict[str, int] = {}
     for source, (items, source_errors) in zip(source_list, results):
         channels.extend(items)
+        counts[source.key] = len(items)
         if source_errors:
             errors[source.key] = source_errors
     channels = _dedupe(channels)
     channels.sort(key=lambda x: (x.category, x.language, x.name.casefold(), x.url))
-    return channels, errors
+    return channels, errors, counts
 
 
 def write_output(channels: Iterable[Channel], output: Path, fmt: str,
@@ -1291,14 +1425,25 @@ def fetch_existing_supabase_channels(url: str, key: str,
             "Accept": "application/json",
         },
     )
+    payload: object
     try:
-        with urlopen(request, timeout=timeout) as response:
+        _apply_socket_timeout(timeout)
+        with urlopen(request, timeout=max(1, timeout)) as response:
             raw = response.read(10 * 1024 * 1024)
-            payload = json.loads(raw.decode("utf-8", errors="replace"))
-    except Exception:
+            payload = json.loads(_decode_body(
+                raw, response.headers.get("Content-Encoding", "")
+            ).decode("utf-8", errors="replace"))
+    except Exception as exc:
+        # Sin la lista previa no se puede evitar repetir; se avisa y se continúa.
+        print(
+            f"WARNING: no se pudieron leer los canales existentes de Supabase: {exc}",
+            file=sys.stderr,
+        )
         return set(), set(), set()
 
     if not isinstance(payload, list):
+        print("WARNING: Supabase devolvió una respuesta inesperada al listar canales.",
+              file=sys.stderr)
         return set(), set(), set()
 
     slugs: set[str] = set()
@@ -1440,6 +1585,41 @@ def sync_to_supabase(
     return len(rows)
 
 
+def _write_step_summary(channels: list[Channel], source_counts: dict[str, int],
+                        errors: dict[str, list[str]], synced: int | None,
+                        sync_error: str) -> None:
+    """Write a markdown summary so GitHub Actions shows exactly what was extracted."""
+    summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
+    if not summary_path:
+        return
+    lines = ["## SDF — extracción de canales", ""]
+    lines.append(f"- Canales exportados: **{len(channels)}**")
+    if synced is not None:
+        lines.append(f"- Canales sincronizados en Supabase: **{synced}**")
+    elif sync_error:
+        lines.append(f"- Sincronización con Supabase: **falló** (`{sync_error}`)")
+    lines.append("")
+    if source_counts:
+        lines.append("| Fuente | Canales | Avisos |")
+        lines.append("| --- | --- | --- |")
+        for key, count in sorted(source_counts.items()):
+            lines.append(f"| `{key}` | {count} | {len(errors.get(key, ()))} |")
+        lines.append("")
+    if errors:
+        lines.append("<details><summary>Avisos por fuente</summary>")
+        lines.append("")
+        for key, source_errors in sorted(errors.items()):
+            for error in source_errors[:5]:
+                lines.append(f"- `{key}`: {error}")
+        lines.append("")
+        lines.append("</details>")
+    try:
+        with open(summary_path, "a", encoding="utf-8") as handle:
+            handle.write("\n".join(lines) + "\n")
+    except OSError:
+        pass
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=(
@@ -1468,10 +1648,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--timeout", type=int, default=15)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--max-pages", type=int, default=25)
+    parser.add_argument("--deadline", type=int, default=0,
+                        help="Tiempo máximo en segundos para descargar fuentes y comprobar "
+                             "streams (0 = sin límite)")
     parser.add_argument("--check-streams", action="store_true",
                         help="Probe a small HTTP byte range and include reachability results")
     parser.add_argument("--sync-supabase", action="store_true",
                         help="Upsert the result into public.tv_channels")
+    parser.add_argument("--fail-on-sync-error", action="store_true",
+                        help="Return a non-zero exit code when the Supabase sync fails")
     parser.add_argument("--activation-mode", choices=("manual", "automatic"), default="manual",
                         help="manual activates imported channels; automatic activates only HTTP-ok streams")
     parser.add_argument("--supabase-country", default="US",
@@ -1482,6 +1667,9 @@ def main(argv: list[str] | None = None) -> int:
         for source in DEFAULT_SOURCES:
             print(f"{source.key}\t{source.name}\t{source.url}")
         return 0
+
+    if not args.list_sources:
+        _apply_socket_timeout(max(1, args.timeout))
 
     supabase_url = ""
     supabase_key = ""
@@ -1503,12 +1691,26 @@ def main(argv: list[str] | None = None) -> int:
             or ""
         )
         if not supabase_url or not supabase_key:
-            parser.error("--sync-supabase requiere SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY (o SUPABASE_SECRET_KEY)")
-        if args.activation_mode == "automatic" and not args.check_streams:
-            parser.error("--activation-mode automatic requiere también --check-streams")
-        existing_keys = fetch_existing_supabase_channels(
-            supabase_url, supabase_key, timeout=max(1, args.timeout),
+            # Antes esto abortaba con exit code 2 y no se guardaba ningún canal.
+            print(
+                "WARNING: --sync-supabase ignorado: faltan SUPABASE_URL y "
+                "SUPABASE_SERVICE_ROLE_KEY (o SUPABASE_SECRET_KEY). "
+                "Se exporta el archivo sin sincronizar.",
+                file=sys.stderr,
+            )
+            args.sync_supabase = False
+        else:
+            existing_keys = fetch_existing_supabase_channels(
+                supabase_url, supabase_key, timeout=max(1, args.timeout),
+            )
+
+    if args.activation_mode == "automatic" and not args.check_streams:
+        print(
+            "WARNING: --activation-mode automatic necesita --check-streams; "
+            "se activa la comprobación de streams.",
+            file=sys.stderr,
         )
+        args.check_streams = True
 
     channels: list[Channel] = []
     for path in args.input:
@@ -1524,14 +1726,18 @@ def main(argv: list[str] | None = None) -> int:
     else:
         selected = ()
 
+    deadline = time.monotonic() + args.deadline if args.deadline and args.deadline > 0 else None
+
     if selected:
-        remote_channels, errors = fetch_sources(
+        remote_channels, errors, source_counts = fetch_sources(
             selected, timeout=max(1, args.timeout),
             workers=max(1, args.workers), max_pages=max(0, args.max_pages),
+            deadline=deadline,
         )
         channels.extend(remote_channels)
     else:
         errors = {}
+        source_counts = {}
 
     channels = _dedupe(channels)
     if args.category:
@@ -1555,6 +1761,7 @@ def main(argv: list[str] | None = None) -> int:
             only_http_ok=only_http_ok,
             max_probes=max(0, args.max_checks),
             exclude_keys=existing_keys if any(existing_keys) else None,
+            deadline=deadline,
         )
         summary = Counter(check.status for check in stream_checks.values())
         counts = ", ".join(f"{status}={count}" for status, count in sorted(summary.items()))
@@ -1572,6 +1779,18 @@ def main(argv: list[str] | None = None) -> int:
     write_output(channels, args.output, fmt, stream_checks=stream_checks)
     print(f"Exported {len(channels)} channels to {args.output}")
 
+    if source_counts:
+        detail = ", ".join(f"{key}={count}" for key, count in sorted(source_counts.items()))
+        print(f"Canales encontrados por fuente: {detail}")
+    if not channels:
+        print(
+            "WARNING: no se extrajo ningún canal. Revisa los avisos de cada fuente y la "
+            "conectividad del entorno.",
+            file=sys.stderr,
+        )
+
+    synced: int | None = None
+    sync_error = ""
     if args.sync_supabase:
         try:
             synced = sync_to_supabase(
@@ -1585,12 +1804,20 @@ def main(argv: list[str] | None = None) -> int:
                 existing_keys=existing_keys if any(existing_keys) else None,
             )
         except RuntimeError as exc:
-            parser.error(str(exc))
-        print(f"Sincronizados {synced} canales en Supabase ({args.activation_mode})")
+            # Un fallo de Supabase ya no debe tirar el trabajo: el archivo sigue servido.
+            sync_error = str(exc)
+            print(f"ERROR: {sync_error}", file=sys.stderr)
+            if args.fail_on_sync_error:
+                _write_step_summary(channels, source_counts, errors, None, sync_error)
+                return 1
+        else:
+            print(f"Sincronizados {synced} canales en Supabase ({args.activation_mode})")
 
     for source_key, source_errors in sorted(errors.items()):
         for error in source_errors[:10]:
             print(f"WARNING: {error}", file=sys.stderr)
+
+    _write_step_summary(channels, source_counts, errors, synced, sync_error)
     return 0
 
 
