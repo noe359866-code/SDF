@@ -17,7 +17,6 @@ from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
 from concurrent.futures import as_completed
 from dataclasses import asdict, dataclass
-from functools import lru_cache
 from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
@@ -34,47 +33,62 @@ ATTR_RE = re.compile(r'([\w-]+)\s*=\s*("(?:[^"\\]|\\.)*"|[^\s]*)')
 
 CATEGORY_RULES = {
     "sports": ("sport", "sports", "futbol", "football", "soccer", "deporte", "deportes",
+               "esporte", "esportes", "desporto", "desportos", "calcio", "fussball",
                "espn", "fox sports", "bein", "sky sport", "dazn", "golf", "tennis", "nba",
                "basketball", "baseball", "hockey", "rugby", "cricket", "formula 1", "formula one",
                "f1", "ufc", "boxing", "volleyball", "wrestling", "motorsport", "tyc sports",
                "tudn", "win sports", "gol tv", "goltv", "teledeporte", "directv sports",
-               "ovacion", "afizzionados", "claro sports"),
-    "news": ("news", "noticias", "cnn", "bbc news", "al jazeera", "euronews",
+               "ovacion", "afizzionados", "claro sports", "спорт", "футбол", "رياضة", "رياضي",
+               "体育", "體育", "運動", "スポーツ", "스포츠", "체육", "खेल", "olahraga", "กีฬา",
+               "the thao"),
+    "news": ("news", "noticias", "actualidad", "notizie", "nachrichten", "novosti", "новости",
+             "أخبار", "新闻", "新聞", "ニュース", "뉴스", "समाचार", "haber", "informasi",
+             "cnn", "bbc news", "al jazeera", "euronews",
              "24 horas", "franceinfo", "sky news", "fox news", "abc news", "nbc news",
              "msnbc", "reuters", "dw", "rt", "telesur", "ntn24", "adn 40", "milenio",
              "todo noticias", "c5n", "canal n", "24h", "informativo", "informativos",
              "france 24", "cbc news", "telediario", "noticiero",
              "tn", "cronica", "canal 26", "el destape", "ip noticias", "la nacion"),
-    "movies": ("movie", "movies", "cinema", "cine", "pelicula", "peliculas", "film",
+    "movies": ("movie", "movies", "cinema", "cine", "pelicula", "peliculas", "film", "filme",
+               "кино", "电影", "電影", "映画", "영화", "sinema", "فیلم", "फिल्म",
                "hbo", "cinemax", "paramount movies", "film4", "tcm", "space", "golden",
                "de pelicula", "studio universal", "cinecanal", "amc", "fxm", "syfy",
                "star action", "multipremier", "cinelatino", "dark", "somos"),
-    "series": ("series", "drama", "dramas", "comedy", "comedies", "sitcom", "fiction", "novelas",
-               "telenovela", "telenovelas", "warner", "sony channel", "universal tv", "axn",
+    "series": ("series", "serie", "séries", "drama", "dramas", "comedy", "comedies", "sitcom",
+               "fiction", "novelas", "telenovela", "telenovelas", "сериалы", "电视剧", "드라마",
+               "ドラマ", "dizi", "diziler", "warner", "sony channel", "universal tv", "axn",
                "tnt series", "atreseries", "las estrellas", "tlc", "pasiones", "tlnovelas",
                "distrito comedia", "comedy central", "factoria de ficcion", "fdf", "neox", "nova"),
-    "kids": ("kids", "junior", "children", "infantil", "cartoon", "disney",
-             "nickelodeon", "nick jr", "baby", "animation", "animacion", "cartoons",
-             "clan", "boing", "discovery kids", "cartoonito", "pakapaka", "tooncast", "anime",
-             "bitme", "semillitas", "babyfirst", "dreamworks"),
-    "documentary": ("documentary", "documental", "documentales", "discovery", "history",
-                    "nat geo", "national geographic", "smithsonian", "science", "bbc earth",
-                    "animal planet", "odisea", "docu", "historia", "natgeo", "crimen",
-                    "investigation", "dmax", "be mad", "mega"),
-    "music": ("music", "musica", "mtv", "vh1", "concert", "concierto", "conciertos",
+    "kids": ("kids", "junior", "children", "infantil", "ninos", "niños", "enfants", "jeunesse",
+             "kinder", "детский", "детское", "أطفال", "儿童", "兒童", "キッズ", "어린이", "बच्चों",
+             "anak anak", "cartoon", "disney", "nickelodeon", "nick jr", "baby", "animation",
+             "animacion", "cartoons", "clan", "boing", "discovery kids", "cartoonito", "pakapaka",
+             "tooncast", "anime", "bitme", "semillitas", "babyfirst", "dreamworks"),
+    "documentary": ("documentary", "documental", "documentales", "documentario", "documentaire",
+                    "dokumentar", "документальный", "وثائقي", "纪录片", "紀錄片", "ドキュメンタリー",
+                    "다큐멘터리", "वृत्तचित्र", "discovery", "history", "nat geo", "national geographic",
+                    "smithsonian", "science", "bbc earth", "animal planet", "odisea", "docu", "historia",
+                    "natgeo", "crimen", "investigation", "dmax", "be mad"),
+    "music": ("music", "musica", "musique", "musik", "музыка", "موسيقى", "音乐", "音樂", "音楽",
+              "음악", "संगीत", "музика", "mtv", "vh1", "concert", "concierto", "conciertos",
               "telehit", "htv", "hit tv", "kiss tv", "mezzo", "bandamax", "ritmoson",
               "quiero musica", "vmusica", "stingray", "trace"),
-    "business": ("business", "financial", "finance", "economy", "economia", "markets",
-                 "cnbc", "bloomberg", "negocios", "finanzas", "intereconomia"),
-    "culture": ("culture", "cultura", "arts", "arte", "lifestyle", "educativo", "cultural",
-                "encuentro", "canal 22", "once", "tv unam", "senal colombia", "ciudad magazine",
-                "la 2", "33", "ingenio"),
-    "travel": ("travel", "viajes", "turismo", "tourism", "sun channel", "intriper", "hola tv"),
-    "cooking": ("cooking", "cook", "cocina", "food", "comida", "gastronomia", "el gourmet",
+    "business": ("business", "financial", "finance", "economy", "economia", "markets", "economie",
+                 "wirtschaft", "negocios", "finanzas", "бизнес", "экономика", "اقتصاد", "财经", "財經",
+                 "経済", "경제", "अर्थशास्त्र", "cnbc", "bloomberg", "intereconomia"),
+    "culture": ("culture", "cultura", "arts", "arte", "kultur", "kultura", "文化", "ثقافة", "культура",
+                "संस्कृति", "lifestyle", "educativo", "cultural", "encuentro", "canal 22", "once",
+                "tv unam", "senal colombia", "ciudad magazine", "la 2", "33", "13c", "ingenio"),
+    "travel": ("travel", "viajes", "turismo", "tourism", "viagem", "voyage", "reisen", "viaggi",
+               "путешествия", "سفر", "旅行", "여행", "यात्रा", "du lich", "sun channel", "intriper", "hola tv"),
+    "cooking": ("cooking", "cook", "cocina", "cozinha", "cuisine", "kuche", "cucina", "кулинария",
+                "طبخ", "美食", "料理", "요리", "खाना", "food", "comida", "gastronomia", "el gourmet",
                 "canal cocina", "food network", "gusto tv"),
-    "religious": ("religious", "religion", "church", "iglesia", "gospel", "ewtn", "enlace",
-                  "catolico", "cristiano", "bethel", "13c", "cristovision", "trece", "orbe 21"),
-    "weather": ("weather", "clima", "meteorologia", "accuweather", "weather channel", "eltiempo"),
+    "religious": ("religious", "religion", "religião", "religioso", "church", "iglesia", "gospel",
+                  "kirche", "религия", "دين", "ديني", "宗教", "종교", "धर्म", "ewtn", "enlace",
+                  "catolico", "cristiano", "bethel", "cristovision", "orbe 21"),
+    "weather": ("weather", "clima", "meteorologia", "meteo", "wetter", "погода", "طقس", "天气", "天氣",
+                "天気", "날씨", "मौसम", "hava", "accuweather", "weather channel", "eltiempo"),
     "general": ("general", "entertainment", "variedades", "variety", "entretenimiento",
                 "generalista", "nacional", "abierta", "antena 3", "telecinco", "cuatro",
                 "la sexta", "la 1", "telefe", "el trece", "america tv", "azteca uno",
@@ -166,7 +180,77 @@ COUNTRY_CODES.update({
     "BEL": "BE", "CHE": "CH", "AUT": "AT", "SWE": "SE", "NOR": "NO",
     "DNK": "DK", "FIN": "FI", "GRC": "GR", "POL": "PL", "RUS": "RU",
     "CHN": "CN", "IND": "IN", "TUR": "TR", "KOR": "KR", "ZAF": "ZA",
+    # Common non-ISO aliases used in feeds and locale identifiers.
+    "EL": "GR", "XK": "XK", "XKX": "XK",
 })
+COUNTRY_RULES["XK"] = ("kosovo", "kosova")
+
+
+def _load_iso_metadata() -> dict[str, object]:
+    """Load bundled ISO/CLDR names; no third-party package is needed at runtime."""
+    path = Path(__file__).resolve().parent / "data" / "iso_metadata.json"
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return payload if isinstance(payload, dict) else {}
+
+
+_ISO_METADATA = _load_iso_metadata()
+for _country in _ISO_METADATA.get("countries", []):
+    if not isinstance(_country, dict):
+        continue
+    _alpha2 = str(_country.get("alpha2") or "").upper()
+    _alpha3 = str(_country.get("alpha3") or "").upper()
+    if not _alpha2:
+        continue
+    COUNTRY_CODES[_alpha2] = _alpha2
+    if _alpha3:
+        COUNTRY_CODES[_alpha3] = _alpha2
+    _names = _country.get("names", [])
+    if not isinstance(_names, list):
+        _names = []
+    _aliases = tuple(str(name).strip() for name in _names if str(name).strip())
+    COUNTRY_RULES[_alpha2] = tuple(dict.fromkeys((*COUNTRY_RULES.get(_alpha2, ()), *_aliases)))
+
+_all_language_codes = _ISO_METADATA.get("language_codes", {})
+if isinstance(_all_language_codes, dict):
+    for _alias, _language_code in _all_language_codes.items():
+        _alias = str(_alias).casefold()
+        _language_code = str(_language_code).casefold()
+        if _alias and _language_code and _language_code not in {"und", "mul", "mis", "zxx"}:
+            LANGUAGE_CODES[_alias] = _language_code
+
+for _language in _ISO_METADATA.get("languages", []):
+    if not isinstance(_language, dict):
+        continue
+    _language_code = str(_language.get("code") or "").casefold()
+    if not _language_code:
+        continue
+    _codes = _language.get("aliases", [])
+    if isinstance(_codes, list):
+        for _alias in _codes:
+            _alias = str(_alias).casefold()
+            if _alias:
+                LANGUAGE_CODES[_alias] = _language_code
+    _names = _language.get("names", [])
+    if not isinstance(_names, list):
+        _names = []
+    _aliases = tuple(str(name).strip() for name in _names if str(name).strip())
+    # Names cover CLDR's localized language labels; all ISO 639-3 codes are
+    # accepted separately through LANGUAGE_CODES, even when no display name exists.
+    if _aliases:
+        LANGUAGE_RULES[_language_code] = tuple(dict.fromkeys(
+            (*LANGUAGE_RULES.get(_language_code, ()), *_aliases)
+        ))
+
+# Prefer the most specific country names when names overlap (e.g. Congo vs.
+# Democratic Republic of the Congo). Dict insertion order keeps ties deterministic.
+COUNTRY_RULES = dict(sorted(
+    ((code, tuple(sorted(terms, key=len, reverse=True))) for code, terms in COUNTRY_RULES.items()),
+    key=lambda item: max((len(term) for term in item[1]), default=0),
+    reverse=True,
+))
 
 CATEGORY_PRIORITY = (
     "general", "news", "sports", "movies", "series",
@@ -205,8 +289,12 @@ VARIANT_TAIL_TOKENS = {
     "hd", "fhd", "uhd", "4k", "8k", "sd", "1080p", "1080i", "720p", "576p",
     "480p", "360p", "hevc", "h264", "h265", "50fps", "60fps", "live",
     "online", "stream", "streaming", "backup", "mirror", "gratis",
+    "hls", "m3u8", "oficial",
+}
+# Geographic editions are meaningful channel identities, not removable quality tags.
+REGIONAL_CHANNEL_TOKENS = {
     "latam", "latinoamerica", "sur", "norte", "este", "oeste", "east", "west",
-    "internacional", "international", "int", "hls", "m3u8", "oficial",
+    "internacional", "international", "int",
 }
 CHANNEL_WRAPPER_TOKENS = {"tv", "television", "channel", "canal"}
 NUMBERED_TAIL_PARENTS = {"senal", "signal", "opc", "opcion", "option", "server", "feed", "fuente"}
@@ -216,13 +304,6 @@ GENERIC_CHANNEL_NAMES = {
     "bbyte", "bbyte-jellyfin", "unknown", "test", "playlist",
 }
 INVALID_LOGO_VALUES = {"", "n/a", "na", "null", "none", "undefined", "false", "0"}
-
-# Nombres de país en una sola palabra ("Argentina", "México", "Colombia"…) que algunas
-# webs añaden como etiqueta delante del canal ("Argentina Telefe Ver canal").
-COUNTRY_NAME_TOKENS = frozenset(
-    value for values in COUNTRY_RULES.values() for value in values
-    if " " not in value and len(value) >= 4
-)
 
 STREAM_TYPE_HLS = "hls"
 STREAM_TYPE_YOUTUBE = "youtube"
@@ -306,9 +387,10 @@ class SourceConfig:
     """Descripción de una fuente remota.
 
     ``kind="site"`` recorre las páginas del sitio (``page_prefixes``/``page_patterns``)
-    y entra en los reproductores/iframes que encuentra. ``embed_hosts`` amplía los
-    dominios de reproductor permitidos y ``max_depth`` cuántos saltos se siguen
-    dentro del reproductor (iframe → wrapper → player).
+    y entra en los reproductores/iframes que encuentra. ``sitemap_urls`` permite
+    descubrir páginas que no aparecen en el HTML inicial; ``country_path_prefix``
+    usa un código de región presente en la ruta como metadato explícito. ``embed_hosts``
+    amplía los dominios permitidos y ``max_depth`` limita los saltos del reproductor.
     """
 
     key: str
@@ -320,6 +402,11 @@ class SourceConfig:
     page_patterns: tuple[str, ...] = ()
     embed_hosts: tuple[str, ...] = ()
     max_depth: int = 2
+    fallback_urls: tuple[str, ...] = ()
+    sitemap_urls: tuple[str, ...] = ()
+    country_hint: str = ""
+    country_path_prefix: str = ""
+    title_pattern: str = ""
 
 
 DEFAULT_SOURCES = (
@@ -341,6 +428,39 @@ DEFAULT_SOURCES = (
                  page_patterns=(r"-en-vivo(?:-online)?\.php$", r"/canal"), max_depth=2),
     SourceConfig("tvlibreonline", "TV Libre Online", "https://tvlibreonline.st/", "site",
                  page_prefixes=("/en-vivo/",), max_depth=3),
+    # TV Garden publica un sitemap global; /tv/{país}/ aporta una señal de país
+    # más fiable que intentar inferirlo desde menciones ambiguas del título.
+    SourceConfig("tvgarden", "TV Garden", "https://tvgarden.world/", "site",
+                 page_patterns=(r"^/tv/[a-z]{2}/[^/]+/?$",),
+                 sitemap_urls=("https://tvgarden.world/sitemap_tv.xml",),
+                 country_path_prefix="/tv/",
+                 title_pattern=r"^(.*?)\s+-\s+Watch\b",
+                 embed_hosts=("raw.githubusercontent.com",)),
+    SourceConfig("samsungtvplus", "Samsung TV Plus",
+                 "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/samsungtvplus_all.m3u"),
+    SourceConfig("uslg", "LG Channels US", "https://www.apsattv.com/uslg.m3u",
+                 country_hint="US"),
+    # Se conserva el enlace indicado; al comprobarlo, el endpoint respondía 404.
+    SourceConfig("tubi", "Tubi",
+                 "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/tubi_all.m3u",
+                 country_hint="US"),
+    SourceConfig("plex", "Plex",
+                 "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/plex_all.m3u"),
+    SourceConfig("vizio", "Vizio WatchFree", "https://www.apsattv.com/vizio.m3u",
+                 country_hint="US"),
+    SourceConfig("xiaomi", "Xiaomi", "https://www.apsattv.com/xiaomi.m3u"),
+    # Los slugs oficiales en Apsattv usan guion bajo; se mantienen los slugs
+    # solicitados como alternativas para no perderlos si el servidor los habilita.
+    SourceConfig("rakuten_uk", "Rakuten TV UK", "https://www.apsattv.com/rakuten_uk.m3u",
+                 fallback_urls=("https://www.apsattv.com/rakutentv-uk.m3u",),
+                 country_hint="GB"),
+    SourceConfig("rakuten_fr", "Rakuten TV France", "https://www.apsattv.com/rakuten_fr.m3u",
+                 fallback_urls=("https://www.apsattv.com/rakuten-fr.m3u",),
+                 country_hint="FR"),
+    SourceConfig("movieark_br", "Movie Ark Brasil", "https://www.apsattv.com/moviearkbr.m3u",
+                 country_hint="BR"),
+    SourceConfig("cineverse", "Cineverse", "https://www.apsattv.com/cineverse.m3u",
+                 country_hint="US"),
 )
 
 USER_AGENT = "SDF-TV-Channel-Extractor/1.4"
@@ -358,6 +478,7 @@ BROWSER_HEADERS = {
 RETRY_STATUS = {403, 408, 425, 429, 500, 502, 503, 504}
 M3U_URL_RE = re.compile(r'(?:(?:https?:)?//|/)[^<>"\'\s\\]+?\.m3u8?(?:\?[^<>"\'\s\\]*)?', re.I)
 STREAM_URL_RE = re.compile(r'https?://[^<>"\'\s\\]+?(?:\.m3u8?|/hls/|/live/)[^<>"\'\s\\]*', re.I)
+SCRIPT_SRC_RE = re.compile(r"<script\b[^>]*?\bsrc\s*=\s*([\"'])(.*?)\1", re.I | re.S)
 
 
 class LinkParser(HTMLParser):
@@ -424,6 +545,25 @@ def _fold_text(text: str) -> str:
     return "".join(char for char in decomposed if not unicodedata.combining(char))
 
 
+# Some country names are also common personal names, places, foods, or programme
+# titles. Treat these as country labels only when a feed supplies explicit metadata.
+AMBIGUOUS_COUNTRY_NAME_TOKENS = frozenset({
+    "chad", "congo", "cuba", "dominica", "georgia", "guinea", "jordan",
+    "mali", "niger", "turkey", "turkiye",
+})
+
+# Single-word country names used as optional prefixes (e.g. "Afganistán Canal 7").
+COUNTRY_NAME_TOKENS = frozenset(
+    folded
+    for values in COUNTRY_RULES.values()
+    for value in values
+    for folded in (_fold_text(value),)
+    if len(re.findall(r"[^\W_]+", folded, flags=re.UNICODE)) == 1
+    and (len(folded) >= 4 or not folded.isascii())
+    and folded not in AMBIGUOUS_COUNTRY_NAME_TOKENS
+)
+
+
 def _clean_logo_url(logo: str, base_url: str = "") -> str:
     raw = unescape((logo or "").strip())
     if not raw or raw.casefold() in INVALID_LOGO_VALUES:
@@ -474,9 +614,14 @@ def _strip_leading_country_name(text: str) -> str:
     first, rest = match.group(1), match.group(2)
     if _fold_text(first) not in COUNTRY_NAME_TOKENS:
         return text
-    remaining = [token for token in re.findall(r"[a-z0-9]+", _fold_text(rest))
-                 if token not in CHANNEL_WRAPPER_TOKENS and token not in VARIANT_TAIL_TOKENS]
-    if not any(len(token) >= 3 and not token.isdigit() for token in remaining):
+    remaining = [
+        token for token in re.findall(r"[^\W_]+", _fold_text(rest), flags=re.UNICODE)
+        if token not in CHANNEL_WRAPPER_TOKENS and token not in VARIANT_TAIL_TOKENS
+    ]
+    if not any(
+        (len(token) >= 3 and not token.isdigit()) or _is_unspaced_script(token)
+        for token in remaining
+    ):
         return text
     return rest.strip()
 
@@ -519,7 +664,9 @@ def _canonical_channel_key(name: str) -> str:
         break
 
     if len(tokens) > 1 and tokens[0] in {"canal", "channel"} and _has_substantive_token(tokens[1:]):
-        tokens = tokens[1:]
+        # Keep the wrapper when it is part of a short regional name (e.g. Canal Sur).
+        if not (len(tokens) == 2 and tokens[1] in REGIONAL_CHANNEL_TOKENS):
+            tokens = tokens[1:]
 
     return "-".join(tokens)
 
@@ -532,39 +679,124 @@ def _tvg_id_key(tvg_id: str) -> str:
     return raw
 
 
-@lru_cache(maxsize=512)
-def _term_pattern(term: str) -> re.Pattern[str]:
-    """Compile word-boundary matchers once, avoiding substring false positives."""
-    words = _fold_text(term).split()
-    pattern = r"[\W_]+".join(re.escape(word) for word in words)
-    return re.compile(rf"(?<!\w){pattern}(?!\w)")
+_UNSPACED_SCRIPT_RANGES = (
+    (0x0E00, 0x0EFF),  # Thai and Lao
+    (0x1000, 0x109F),  # Myanmar
+    (0x1780, 0x17FF),  # Khmer
+    (0x3040, 0x30FF),  # Hiragana and Katakana
+    (0x3100, 0x312F),  # Bopomofo
+    (0x3400, 0x9FFF),  # CJK ideographs
+    (0xAC00, 0xD7AF),  # Hangul
+    (0xF900, 0xFAFF),  # CJK compatibility ideographs
+    (0x20000, 0x2FA1F),  # CJK extensions
+)
+_RULE_MATCHER_CACHE: dict[
+    int,
+    tuple[
+        dict[str, tuple[str, ...]],
+        dict[tuple[str, ...], str],
+        dict[str, object],
+        dict[str, int],
+        tuple[int, ...],
+    ],
+] = {}
 
 
-@lru_cache(maxsize=128)
-def _combined_terms_pattern(words: tuple[str, ...]) -> re.Pattern[str]:
-    parts = [
-        r"[\W_]+".join(re.escape(w) for w in _fold_text(term).split())
-        for term in words
-        if term.strip()
-    ]
-    return re.compile(rf"(?<!\w)(?:{'|'.join(parts)})(?!\w)")
+def _is_unspaced_script(text: str) -> bool:
+    return any(
+        start <= ord(char) <= end
+        for char in text
+        for start, end in _UNSPACED_SCRIPT_RANGES
+    )
+
+
+def _rule_matcher(
+    rules: dict[str, tuple[str, ...]],
+) -> tuple[dict[tuple[str, ...], str], dict[str, object], dict[str, int], tuple[int, ...]]:
+    key = id(rules)
+    cached = _RULE_MATCHER_CACHE.get(key)
+    if cached and cached[0] is rules:
+        return cached[1], cached[2], cached[3], cached[4]
+
+    token_to_label: dict[tuple[str, ...], str] = {}
+    script_trie: dict[str, object] = {}
+    priority = {label: index for index, label in enumerate(rules)}
+    for label, terms in rules.items():
+        for term in terms:
+            folded = _fold_text(term)
+            tokens = tuple(re.findall(r"[^\W_]+", folded, flags=re.UNICODE))
+            if tokens:
+                token_to_label.setdefault(tokens, label)
+            if not _is_unspaced_script(folded):
+                continue
+            compact_term = "".join(folded.split())
+            if not compact_term:
+                continue
+            node = script_trie
+            for char in compact_term:
+                child = node.get(char)
+                if not isinstance(child, dict):
+                    child = {}
+                    node[char] = child
+                node = child
+            node.setdefault("", label)
+
+    lengths = tuple(sorted({len(term) for term in token_to_label}, reverse=True))
+    _RULE_MATCHER_CACHE[key] = (rules, token_to_label, script_trie, priority, lengths)
+    return token_to_label, script_trie, priority, lengths
 
 
 def _match_label(text: str, rules: dict[str, tuple[str, ...]]) -> str:
     folded = _fold_text(text)
     if not folded:
         return "unknown"
-    for label, words in rules.items():
-        if _combined_terms_pattern(words).search(folded):
-            return label
-    return "unknown"
+    token_to_label, script_trie, priority, lengths = _rule_matcher(rules)
+    best_label = "unknown"
+    best_priority = len(priority)
+    tokens = tuple(re.findall(r"[^\W_]+", folded, flags=re.UNICODE))
+    for size in lengths:
+        for start in range(len(tokens) - size + 1):
+            label = token_to_label.get(tokens[start:start + size])
+            if label is None:
+                continue
+            label_priority = priority[label]
+            if label_priority < best_priority:
+                best_label = label
+                best_priority = label_priority
+                if best_priority == 0:
+                    return best_label
+
+    compact_text = "".join(folded.split())
+    for start in range(len(compact_text)):
+        node = script_trie
+        for char in compact_text[start:]:
+            child = node.get(char)
+            if not isinstance(child, dict):
+                break
+            node = child
+            label = node.get("")
+            if isinstance(label, str) and priority[label] < best_priority:
+                best_label = label
+                best_priority = priority[label]
+                if best_priority == 0:
+                    return best_label
+    return best_label
 
 
 def _code(value: str, mapping: dict[str, str], upper: bool = False) -> str:
     for token in re.split(r"[,;|/\s]+", value.strip()):
-        candidates = [token]
-        if "-" in token or "_" in token:
-            candidates.append(re.split(r"[-_]", token, maxsplit=1)[0])
+        candidates: list[str] = []
+        if upper and ("-" in token or "_" in token):
+            subtags = re.split(r"[-_]", token)
+            # A country field can contain a locale (e.g. es-MX). Prefer its region
+            # over the language subtag, which can itself look like a country code.
+            if subtags and subtags[0].casefold() in LANGUAGE_CODES:
+                candidates.extend(reversed(subtags[1:]))
+            candidates.append(subtags[0])
+        else:
+            candidates.append(token)
+            if "-" in token or "_" in token:
+                candidates.append(re.split(r"[-_]", token, maxsplit=1)[0])
         for candidate in candidates:
             candidate = candidate.upper() if upper else candidate.casefold()
             if candidate in mapping:
@@ -578,6 +810,15 @@ def _country_from_tvg_id(tvg_id: str) -> str:
     return _code(match.group(1), COUNTRY_CODES, upper=True) if match else ""
 
 
+def _country_from_channel_id(channel_id: str) -> str:
+    """Read a country suffix used by provider IDs such as ``GB...-gb``."""
+    raw = re.split(r"[@]", channel_id.strip(), maxsplit=1)[0]
+    if re.fullmatch(r"[a-z]{2,3}", raw, re.I):
+        return _code(raw, COUNTRY_CODES, upper=True)
+    match = re.search(r"[._-]([a-z]{2,3})$", raw, re.I)
+    return _code(match.group(1), COUNTRY_CODES, upper=True) if match else ""
+
+
 def _country_from_prefix(text: str) -> str:
     cleaned = LEADING_NUMBER_RE.sub("", text.strip())
     match = COUNTRY_PREFIX_RE.match(cleaned)
@@ -587,11 +828,110 @@ def _country_from_prefix(text: str) -> str:
     return _code(token, COUNTRY_CODES, upper=True)
 
 
+COUNTRY_CONNECTOR_TOKENS = frozenset({
+    "de", "del", "da", "do", "dos", "das", "from", "in", "en", "of",
+})
+COUNTRY_PREFIX_FOLLOWERS = frozenset({
+    "canal", "channel", "news", "network", "radio", "sport", "sports", "television",
+    "tv", "today",
+})
+COUNTRY_TRAILING_CONTEXT = frozenset({
+    "canal", "channel", "de", "del", "da", "do", "en", "fhd", "free", "hd",
+    "live", "news", "online", "radio", "sd", "sport", "sports", "television", "tv",
+    "uhd", "vivo", "8k", "4k",
+})
+
+
+def _country_from_marked_text(text: str, *, allow_exact: bool = False) -> str:
+    """Infer a country only from a label-shaped name/group, not any mention.
+
+    The old all-text scan classified a channel as Jordanian just because its title
+    began with "Jordan Peterson", or as Georgian because a programme mentioned
+    Georgia. Here a country must be the whole label, a marked prefix/suffix,
+    a recognized country/channel form ("France 24", "Mexico TV"), or follow an
+    explicit connector ("News from Colombia", "Canal de Sudáfrica").
+    """
+    folded = _fold_text(text)
+    word_spans = list(re.finditer(r"[^\W_]+", folded, flags=re.UNICODE))
+    if not word_spans:
+        return ""
+    tokens = tuple(match.group(0) for match in word_spans)
+    token_to_label, _trie, _priority, lengths = _rule_matcher(COUNTRY_RULES)
+
+    # For overlapping aliases (e.g. Democratic Republic of the Congo), keep only
+    # the longest match beginning at each token, then discard nested shorter hits.
+    matches: list[tuple[int, int, str]] = []
+    for start in range(len(tokens)):
+        for size in lengths:
+            end = start + size
+            if end > len(tokens):
+                continue
+            label = token_to_label.get(tokens[start:end])
+            if label:
+                matches.append((start, end, label))
+                break
+    matches.sort(key=lambda item: (item[0], -(item[1] - item[0])))
+    outer_matches: list[tuple[int, int, str]] = []
+    for match in matches:
+        if any(start <= match[0] and end >= match[1]
+               for start, end, _label in outer_matches):
+            continue
+        outer_matches.append(match)
+
+    candidates: set[str] = set()
+    for start, end, label in outer_matches:
+        prefix = folded[:word_spans[start].start()]
+        suffix = folded[word_spans[end - 1].end():]
+        before = tokens[:start]
+        after = tokens[end:]
+        alias_is_ambiguous = (
+            end - start == 1 and tokens[start] in AMBIGUOUS_COUNTRY_NAME_TOKENS
+        )
+
+        exact = not before and not after
+        if exact and (allow_exact or not alias_is_ambiguous):
+            candidates.add(label)
+            continue
+
+        left = prefix.rstrip()
+        right = suffix.lstrip()
+        bracketed = (
+            (left.endswith("[") and right.startswith("]"))
+            or (left.endswith("(") and right.startswith(")"))
+        )
+        separated = bool(
+            re.search(r"[-|/:,]\s*$", prefix)
+            or re.match(r"\s*[-|/:,]", suffix)
+        )
+        connector_before = bool(before and before[-1] in COUNTRY_CONNECTOR_TOKENS)
+        trailing_context = bool(after) and all(
+            token in COUNTRY_TRAILING_CONTEXT or token.isdigit() for token in after
+        )
+        prefix_context = bool(after and after[0] in COUNTRY_PREFIX_FOLLOWERS)
+
+        if bracketed or separated:
+            candidates.add(label)
+        elif not after and (not alias_is_ambiguous or connector_before):
+            # Country suffixes are common in names like "ESPN Colombia"; names
+            # that collide with personal names need an explicit connector.
+            candidates.add(label)
+        elif connector_before and (not after or trailing_context):
+            candidates.add(label)
+        elif not before and prefix_context and not alias_is_ambiguous:
+            candidates.add(label)
+        elif trailing_context and not alias_is_ambiguous:
+            candidates.add(label)
+
+    return next(iter(candidates)) if len(candidates) == 1 else ""
+
+
 def classify_channel(name: str, group: str = "",
                      attrs: dict[str, str] | None = None) -> tuple[str, str, str]:
     attrs = {key.casefold(): value for key, value in (attrs or {}).items()}
     tvg_name = attrs.get("tvg-name", "")
     tvg_id = attrs.get("tvg-id", "")
+    channel_id = (attrs.get("channel-id") or attrs.get("tvg-channel-id")
+                  or attrs.get("channel_id", ""))
     language_value = attrs.get("tvg-language", "") or attrs.get("language", "")
     country_value = attrs.get("tvg-country", "") or attrs.get("country", "")
 
@@ -608,15 +948,26 @@ def classify_channel(name: str, group: str = "",
     if not country:
         country = _match_label(country_value, COUNTRY_RULES)
     if country == "unknown":
+        country = ""
+    if not country:
         country = (
             _country_from_tvg_id(tvg_id)
+            or _country_from_channel_id(channel_id)
             or _country_from_prefix(name)
             or _country_from_prefix(group)
         )
     if not country:
-        country = _match_label(f"{name} {group} {tvg_name}", COUNTRY_RULES)
+        group_code = group.strip()
+        if re.fullmatch(r"[A-Z]{2,3}", group_code) and group_code in COUNTRY_CODES:
+            country = COUNTRY_CODES[group_code]
+    if not country:
+        country = (
+            _country_from_marked_text(group, allow_exact=True)
+            or _country_from_marked_text(tvg_name)
+            or _country_from_marked_text(name)
+        )
 
-    return category, language, country
+    return category, language, country or "unknown"
 
 
 def _header_parts(header: str) -> tuple[str, dict[str, str]]:
@@ -839,6 +1190,26 @@ def _player_links_from_document(html: str, base: str) -> tuple[list[str], list[s
     return _unique_urls(iframes), _unique_urls(js_urls)
 
 
+def _script_urls_from_document(html: str, base: str,
+                               allowed_hosts: set[str]) -> list[str]:
+    """Find same-site (or explicitly allowed) scripts that may publish stream data."""
+    text = _unescape_markup(html)
+    found: list[str] = []
+    for match in SCRIPT_SRC_RE.finditer(text):
+        url = _clean_url(match.group(2), base)
+        parsed = urlparse(url)
+        host = parsed.netloc.lower()
+        if parsed.scheme.lower() not in {"http", "https"} or host not in allowed_hosts:
+            continue
+        if any(hint in host for hint in ("doubleclick", "googlesyndication", "googletagmanager")):
+            continue
+        if url not in found:
+            found.append(url)
+        if len(found) >= MAX_PLAYER_CANDIDATES:
+            break
+    return found
+
+
 def _youtube_embed_urls(html: str) -> list[str]:
     """Convierte los embeds de YouTube (``/embed/ID``, ``/live/ID``) en URLs estables."""
     text = _unescape_markup(html)
@@ -978,9 +1349,41 @@ def _player_urls_from_config(payload: object, referrer_html: str,
     ]
 
 
+def _country_from_source_path(source: SourceConfig, page: str) -> str:
+    prefix = source.country_path_prefix
+    if not prefix:
+        return ""
+    path = urlparse(page).path
+    if not path.casefold().startswith(prefix.casefold()):
+        return ""
+    token = path[len(prefix):].split("/", 1)[0]
+    return _code(token, COUNTRY_CODES, upper=True)
+
+
+def _source_country_hint(source: SourceConfig) -> str:
+    return _code(source.country_hint, COUNTRY_CODES, upper=True)
+
+
+def _apply_source_country(channel: Channel, source: SourceConfig, page: str = "",
+                          *, path_overrides: bool = False) -> None:
+    path_country = _country_from_source_path(source, page) if page else ""
+    hint = _source_country_hint(source)
+    if path_country and path_overrides:
+        channel.country = path_country
+    elif channel.country == "unknown":
+        channel.country = path_country or hint or "unknown"
+
+
 def _site_channel(name: str, url: str, source: SourceConfig, page: str, logo: str,
                   stream_type: str = STREAM_TYPE_HLS) -> Channel:
     category, language, country = classify_channel(name, source.name)
+    path_country = _country_from_source_path(source, page)
+    if path_country:
+        # A country-specific route is more reliable than a country name embedded
+        # in a channel brand (e.g. "France 24" appearing in a US market list).
+        country = path_country
+    elif country == "unknown":
+        country = _source_country_hint(source) or "unknown"
     return Channel(
         name=name, url=url, group=source.name, logo=logo,
         language=language, country=country, category=category,
@@ -988,12 +1391,90 @@ def _site_channel(name: str, url: str, source: SourceConfig, page: str, logo: st
     )
 
 
-def _page_title(html: str, fallback: str) -> str:
+def _channels_from_json_payload(payload: object, source: SourceConfig,
+                                source_url: str, source_page: str = "") -> list[Channel]:
+    """Parse channel records in public JSON feeds (name/country/sources schema)."""
+    channels: list[Channel] = []
+
+    def record_urls(value: object) -> list[str]:
+        if isinstance(value, str):
+            return [value]
+        if isinstance(value, (list, tuple)):
+            return [item for item in value if isinstance(item, str)]
+        return []
+
+    def visit(node: object) -> None:
+        if isinstance(node, dict):
+            name = str(node.get("name") or node.get("channel_name") or "").strip()
+            sources = node.get("sources")
+            source_map = sources if isinstance(sources, dict) else {}
+            stream_urls = record_urls(source_map.get("streams"))
+            stream_urls.extend(record_urls(node.get("stream_url")))
+            youtube_urls = record_urls(source_map.get("youtube"))
+            country_value = str(
+                node.get("country") or node.get("country_code") or node.get("countryCode") or ""
+            )
+            languages = node.get("languages") or node.get("language") or ""
+            if isinstance(languages, (list, tuple)):
+                language_value = ",".join(str(value) for value in languages if value)
+            else:
+                language_value = str(languages)
+            category_value = str(node.get("category") or node.get("group") or "")
+            logo = _clean_logo_url(
+                str(node.get("logo") or node.get("logo_url") or node.get("image") or ""),
+                source_url,
+            )
+            attrs = {
+                "tvg-country": country_value,
+                "tvg-language": language_value,
+                "tvg-id": str(node.get("tvg_id") or node.get("tvg-id") or node.get("nanoid") or ""),
+                "tvg-name": name,
+            }
+            category, language, country = classify_channel(name, category_value, attrs)
+            if category_value.casefold() in CATEGORY_RULES:
+                category = category_value.casefold()
+            candidates = [
+                *((url, STREAM_TYPE_HLS) for url in stream_urls),
+                *((url, STREAM_TYPE_YOUTUBE) for url in youtube_urls),
+            ]
+            if name:
+                for value, stream_type in candidates:
+                    url = _clean_url(value, source_url)
+                    parsed = urlparse(url)
+                    if parsed.scheme.lower() not in {"http", "https"} or not parsed.netloc:
+                        continue
+                    if stream_type == STREAM_TYPE_HLS and not _is_stream_url(url):
+                        continue
+                    if stream_type == STREAM_TYPE_YOUTUBE and parsed.netloc.lower() not in YOUTUBE_HOSTS:
+                        continue
+                    channel = Channel(
+                        name=name, url=url, group=category_value or source.name,
+                        tvg_id=attrs["tvg-id"], tvg_name=name, logo=logo,
+                        language=language, country=country or "unknown", category=category,
+                        source=source.name, source_url=source_page or source_url,
+                        stream_type=stream_type, attributes=attrs,
+                    )
+                    _apply_source_country(channel, source, source_page or source_url)
+                    channels.append(channel)
+            for key, value in node.items():
+                if key != "sources":
+                    visit(value)
+        elif isinstance(node, (list, tuple)):
+            for value in node:
+                visit(value)
+
+    visit(payload)
+    return _dedupe(channels)
+
+
+def _page_title(html: str, fallback: str, *, clean: bool = True) -> str:
     for tag in ("h1", "title"):
         match = re.search(rf"<{tag}[^>]*>(.*?)</{tag}>", html, re.I | re.S)
         if match:
-            text = clean_channel_name(" ".join(unescape(re.sub(r"<[^>]+>", " ", match.group(1))).split()))
-            if text and _canonical_channel_key(text) not in GENERIC_CHANNEL_NAMES:
+            raw_text = " ".join(unescape(re.sub(r"<[^>]+>", " ", match.group(1))).split())
+            text = clean_channel_name(raw_text) if clean else raw_text
+            comparable = clean_channel_name(text)
+            if text and _canonical_channel_key(comparable) not in GENERIC_CHANNEL_NAMES:
                 return text
     return fallback
 
@@ -1588,7 +2069,9 @@ def select_channels_with_checks(
     if not probe_queue:
         return [], {}
 
-    probe_cap = max(limit, max_probes) if max_probes > 0 else len(probe_queue)
+    # Respect the caller's cap exactly, even when it is smaller than ``limit``.
+    # In that case the selector may return fewer channels rather than probe extra URLs.
+    probe_cap = max_probes if max_probes > 0 else len(probe_queue)
     probe_queue = probe_queue[:probe_cap]
 
     all_checks: dict[str, StreamCheck] = {}
@@ -1616,6 +2099,7 @@ def select_channels_with_checks(
             stream_checks=all_checks,
             only_http_ok=True,
             exclude_keys=exclude_keys,
+            max_per_source=max_per_source,
         )
         if len(ok_unique) >= limit:
             selected_urls = {c.url for c in ok_unique}
@@ -1643,6 +2127,104 @@ def _page_matches_source(source: SourceConfig, path: str) -> bool:
     return any(re.search(pattern, path, re.I) for pattern in source.page_patterns)
 
 
+def _sitemap_locations(document: str, base_url: str) -> list[str]:
+    """Extract absolute URLs from a standard XML sitemap or sitemap index."""
+    locations = re.findall(r"<loc\b[^>]*>\s*(.*?)\s*</loc\s*>", document, re.I | re.S)
+    urls = []
+    for location in locations:
+        value = unescape(location.strip())
+        if value.startswith("<![CDATA[") and value.endswith("]]>"):
+            value = value[9:-3].strip()
+        url = _clean_url(value, base_url)
+        if urlparse(url).scheme.lower() in {"http", "https"} and url not in urls:
+            urls.append(url)
+    return urls
+
+
+def _fetch_sitemap_pages(source: SourceConfig, timeout: int,
+                         max_pages: int) -> tuple[list[str], list[str]]:
+    """Read a bounded chain of sitemaps and return matching pages."""
+    if max_pages <= 0 or not source.sitemap_urls:
+        return [], []
+    pending = list(source.sitemap_urls)
+    seen_sitemaps: set[str] = set()
+    pages: list[str] = []
+    errors: list[str] = []
+    sitemap_count = 0
+    while pending and sitemap_count < 12:
+        sitemap_url = pending.pop(0)
+        sitemap_key = _url_key(sitemap_url)
+        if not sitemap_key or sitemap_key in seen_sitemaps:
+            continue
+        seen_sitemaps.add(sitemap_key)
+        try:
+            document = _fetch_text(sitemap_url, timeout, max_bytes=DEFAULT_MAX_BYTES)
+        except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
+            errors.append(f"{source.key}: sitemap {sitemap_url}: {exc}")
+            sitemap_count += 1
+            continue
+        sitemap_count += 1
+        locations = _sitemap_locations(document, sitemap_url)
+        child_sitemaps = [
+            url for url in locations
+            if urlparse(url).path.lower().endswith((".xml", ".xml.gz"))
+        ]
+        if child_sitemaps:
+            pending.extend(child_sitemaps[:12 - sitemap_count])
+            continue
+        source_host = urlparse(source.url).netloc.lower()
+        for url in locations:
+            parsed = urlparse(url)
+            if parsed.netloc.lower() != source_host:
+                continue
+            if not _page_matches_source(source, parsed.path):
+                continue
+            pages.append(url)
+    return pages, errors
+
+
+def _select_site_pages(source: SourceConfig, pages: list[tuple[str, str]],
+                       max_pages: int) -> list[tuple[str, str]]:
+    """Limit site pages, sampling one country at a time for country-coded sites."""
+    if max_pages <= 0:
+        return []
+    unique: list[tuple[str, str]] = []
+    seen: dict[str, int] = {}
+    for page, label in pages:
+        key = _url_key(page)
+        if not key:
+            continue
+        if key in seen:
+            index = seen[key]
+            if not unique[index][1] and label:
+                unique[index] = (page, label)
+            continue
+        seen[key] = len(unique)
+        unique.append((page, label))
+    if not source.country_path_prefix:
+        return unique[:max_pages]
+
+    buckets: dict[str, list[tuple[str, str]]] = {}
+    for index, item in enumerate(unique):
+        country = _country_from_source_path(source, item[0])
+        bucket = country or f"__page_{index}"
+        buckets.setdefault(bucket, []).append(item)
+    selected: list[tuple[str, str]] = []
+    round_index = 0
+    while len(selected) < max_pages:
+        added = False
+        for bucket in buckets.values():
+            if round_index < len(bucket):
+                selected.append(bucket[round_index])
+                added = True
+                if len(selected) >= max_pages:
+                    break
+        if not added:
+            break
+        round_index += 1
+    return selected
+
+
 def _fetch_site_page(source: SourceConfig, page: str, label: str,
                      timeout: int) -> tuple[list[Channel], str | None]:
     """Descarga una página de canal y resuelve su reproductor.
@@ -1658,7 +2240,11 @@ def _fetch_site_page(source: SourceConfig, page: str, label: str,
 
     raw_name = clean_channel_name(label) if label else ""
     if not raw_name or _canonical_channel_key(raw_name) in GENERIC_CHANNEL_NAMES:
-        raw_name = _page_title(root_html, source.name)
+        raw_name = _page_title(root_html, source.name, clean=not bool(source.title_pattern))
+        if source.title_pattern:
+            match = re.search(source.title_pattern, raw_name, re.I | re.S)
+            if match and match.group(1).strip():
+                raw_name = match.group(1).strip()
     name = clean_channel_name(raw_name) or raw_name or source.name
     logo = _page_logo(root_html, page)
 
@@ -1685,11 +2271,36 @@ def _fetch_site_page(source: SourceConfig, page: str, label: str,
             seen.add(key)
             queue.append((candidate, depth))
 
+    def process_json_configs(document: str, document_url: str, depth: int) -> None:
+        for config_url in _json_config_urls(document, document_url):
+            try:
+                payload = json.loads(_fetch_text(config_url, timeout, max_bytes=4 * 1024 * 1024))
+            except (HTTPError, URLError, TimeoutError, OSError, ValueError,
+                    json.JSONDecodeError) as exc:
+                errors.append(f"{source.key}: config {config_url}: {exc}")
+                continue
+            json_channels = _channels_from_json_payload(
+                payload, source, config_url, source_page=page,
+            )
+            found.extend(json_channels)
+            config_urls = _player_urls_from_config(payload, document, document_url)
+            allowed_hosts.update(urlparse(candidate).netloc.lower() for candidate in config_urls)
+            if not json_channels:
+                for stream_url in (candidate for candidate in config_urls if _is_stream_url(candidate)):
+                    found.append(_site_channel(name, stream_url, source, page, logo))
+            player_urls = [candidate for candidate in config_urls if not _is_stream_url(candidate)]
+            # Solo se prueban los primeros candidatos: suelen ser espejos del mismo player.
+            if depth <= source.max_depth:
+                enqueue(player_urls[:2], depth)
+
     if source.max_depth > 0:
         iframes, js_urls = _player_links_from_document(root_html, page)
+        scripts = _script_urls_from_document(root_html, page, allowed_hosts)
         enqueue(_without_youtube(iframes), 1)
         enqueue([url for url in js_urls
                  if urlparse(url).netloc.lower() in allowed_hosts], 1)
+        enqueue(scripts, 1)
+        process_json_configs(root_html, page, 1)
 
     while queue and documents < MAX_PLAYER_DOCS:
         url, depth = queue.pop(0)
@@ -1705,6 +2316,7 @@ def _fetch_site_page(source: SourceConfig, page: str, label: str,
                 channel.name = name or channel.name
                 channel.group = channel.group or source.name
                 channel.source_url = page
+                _apply_source_country(channel, source, page)
                 found.append(channel)
             continue
 
@@ -1715,25 +2327,17 @@ def _fetch_site_page(source: SourceConfig, page: str, label: str,
         for embed in _youtube_embed_urls(html):
             found.append(_site_channel(name, embed, source, page, logo, STREAM_TYPE_YOUTUBE))
 
+        # Some sites publish channel data in a linked/embedded JSON document rather
+        # than placing the stream URL directly in the page or player wrapper.
+        process_json_configs(html, url, depth + 1)
         if depth >= source.max_depth:
             continue
         iframes, js_urls = _player_links_from_document(html, url)
+        scripts = _script_urls_from_document(html, url, allowed_hosts)
         enqueue(_without_youtube(iframes), depth + 1)
         enqueue([candidate for candidate in js_urls
                  if urlparse(candidate).netloc.lower() in allowed_hosts], depth + 1)
-
-        payload: object
-        for config_url in _json_config_urls(html, url):
-            try:
-                payload = json.loads(_fetch_text(config_url, timeout, max_bytes=4 * 1024 * 1024))
-            except (HTTPError, URLError, TimeoutError, OSError, ValueError,
-                    json.JSONDecodeError) as exc:
-                errors.append(f"{source.key}: config {config_url}: {exc}")
-                continue
-            config_urls = _player_urls_from_config(payload, html, url)
-            allowed_hosts.update(urlparse(candidate).netloc.lower() for candidate in config_urls)
-            # Solo se prueban los primeros candidatos: suelen ser espejos del mismo player.
-            enqueue(config_urls[:2], depth + 1)
+        enqueue(scripts, depth + 1)
 
     return _dedupe(found), ("; ".join(errors[:3]) if errors and not found else None)
 
@@ -1741,19 +2345,39 @@ def _fetch_site_page(source: SourceConfig, page: str, label: str,
 def _fetch_source(source: SourceConfig, timeout: int,
                   max_pages: int) -> tuple[list[Channel], list[str]]:
     errors: list[str] = []
-    try:
-        initial = _fetch_text(source.url, timeout)
-    except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
-        return [], [f"{source.key}: {exc}"]
+    attempt_errors: list[str] = []
+    initial = ""
+    effective_url = ""
+    candidate_urls = list(dict.fromkeys((source.url, *source.fallback_urls)))
+    for candidate_url in candidate_urls:
+        try:
+            document = _fetch_text(candidate_url, timeout)
+        except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
+            attempt_errors.append(f"{candidate_url}: {exc}")
+            continue
+        if source.kind == "playlist" and not _looks_like_m3u(document):
+            attempt_errors.append(f"{candidate_url}: response is not an M3U playlist")
+            continue
+        initial = document
+        effective_url = candidate_url
+        break
+    if not effective_url:
+        if not attempt_errors:
+            attempt_errors.append("no source URL configured")
+        return [], [f"{source.key}: {message}" for message in attempt_errors]
 
     if source.kind == "playlist" or _looks_like_m3u(initial):
-        return parse_m3u(initial, source=source.name, base_url=source.url), []
+        channels = parse_m3u(initial, source=source.name, base_url=effective_url)
+        for channel in channels:
+            channel.source_url = effective_url
+            _apply_source_country(channel, source, effective_url)
+        return channels, []
 
     parser = LinkParser()
     parser.feed(initial)
     parser.close()
     playlists = list(source.playlist_hints)
-    playlists += [u for u in _urls_from_html(initial, source.url) if ".m3u" in u.lower()]
+    playlists += [u for u in _urls_from_html(initial, effective_url) if ".m3u" in u.lower()]
 
     channels: list[Channel] = []
     seen_playlists: set[str] = set()
@@ -1764,30 +2388,43 @@ def _fetch_source(source: SourceConfig, timeout: int,
         try:
             content = _fetch_text(playlist, timeout)
             if _looks_like_m3u(content):
-                channels.extend(parse_m3u(content, source=source.name, base_url=playlist))
+                items = parse_m3u(content, source=source.name, base_url=playlist)
+                for channel in items:
+                    channel.source_url = playlist
+                    _apply_source_country(channel, source, playlist)
+                channels.extend(items)
+            else:
+                errors.append(f"{source.key}: playlist {playlist}: response is not an M3U playlist")
         except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
             errors.append(f"{source.key}: playlist {playlist}: {exc}")
 
-    host = urlparse(source.url).netloc.lower()
+    host = urlparse(effective_url).netloc.lower()
     pages: list[tuple[str, str]] = []
-    seen_pages: dict[str, int] = {source.url: -1}
-    for href, label in parser.links:
-        page = _clean_url(href, source.url)
+    seen_pages: dict[str, int] = {}
+
+    def add_page(page: str, label: str = "") -> None:
         parsed = urlparse(page)
         if parsed.scheme not in {"http", "https"} or parsed.netloc.lower() != host:
-            continue
+            return
         if not _page_matches_source(source, parsed.path):
-            continue
-        if page in seen_pages:
-            idx = seen_pages[page]
-            if idx >= 0 and not pages[idx][1] and label:
-                pages[idx] = (page, label)
-            continue
-        if len(pages) >= max_pages:
-            break
-        seen_pages[page] = len(pages)
+            return
+        key = _url_key(page)
+        if key in seen_pages:
+            index = seen_pages[key]
+            if not pages[index][1] and label:
+                pages[index] = (page, label)
+            return
+        seen_pages[key] = len(pages)
         pages.append((page, label))
 
+    sitemap_pages, sitemap_errors = _fetch_sitemap_pages(source, timeout, max_pages)
+    errors.extend(sitemap_errors)
+    for page in sitemap_pages:
+        add_page(page)
+    for href, label in parser.links:
+        add_page(_clean_url(href, effective_url), label)
+
+    pages = _select_site_pages(source, pages, max_pages)
     if pages:
         page_workers = max(1, min(6, len(pages)))
         page_results: list[tuple[list[Channel], str | None]] = [([], None) for _ in pages]
@@ -2181,7 +2818,8 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.list_sources:
         for source in DEFAULT_SOURCES:
-            print(f"{source.key}\t{source.name}\t{source.url}")
+            urls = " | ".join((source.url, *source.fallback_urls))
+            print(f"{source.key}\t{source.name}\t{urls}")
         return 0
 
     if not args.list_sources:
