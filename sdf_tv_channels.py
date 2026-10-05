@@ -3,31 +3,96 @@
 from __future__ import annotations
 
 import argparse
+import base64
 import csv
 import gzip
 import json
 import os
+import random
 import re
 import socket
 import sys
+import threading
 import time
 import unicodedata
+import codecs
 import zlib
-from collections import Counter, defaultdict
+from collections import Counter, defaultdict, OrderedDict
 from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
 from concurrent.futures import as_completed
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
 from typing import Iterable
 from urllib.error import HTTPError, URLError
-from urllib.parse import urljoin, urlparse, urlsplit, urlunsplit
+from urllib.parse import unquote, urljoin, urlparse, urlsplit, urlunsplit
 from urllib.request import Request, urlopen
 
 DEFAULT_MAX_CHANNELS = 20
 DEFAULT_MAX_STREAM_PROBES = 120
 DEFAULT_MAX_BYTES = 64 * 1024 * 1024
+# Las listas pueden enlazar otras listas (`.m3u` dentro de `.m3u`). Se expanden como
+# máximo N sub-listas por fuente para no convertir la ejecución en un rastreo abierto.
+DEFAULT_MAX_NESTED_PLAYLISTS = 12
+# Canales máximos que aporta cada sub-lista desplegada (una lista por país puede
+# tener miles de entradas y no debe desplazar al resto de fuentes).
+MAX_NESTED_ENTRIES = 1500
+# Desplegar sub-listas cuesta peticiones extra: no se hace si quedan menos segundos.
+NESTED_MIN_SECONDS = 25.0
+# Tamaño de la muestra leída al inspeccionar un stream: suficiente para la cabecera
+# `#EXTM3U`, las variantes de un master playlist y los primeros `#EXTINF`.
+STREAM_SAMPLE_BYTES = 4096
+MAX_VARIANT_PROBES = 3
+
+# Directivas que acompañan a la entrada y que un reproductor necesita para pedir el
+# stream (user-agent, referer, cookies y licencias DRM).
+EXTVLCOPT_RE = re.compile(r"^#EXTVLCOPT\s*:\s*([A-Za-z0-9_-]+)\s*=\s*(.+?)\s*$")
+EXTHTTP_RE = re.compile(r"^#EXTHTTP\s*:\s*(.+?)\s*$")
+KODIPROP_RE = re.compile(r"^#KODIPROP\s*:\s*([A-Za-z0-9_.-]+)\s*=\s*(.+?)\s*$")
+# `#EXTVLCOPT:http-user-agent=...` / `#EXTVLCOPT:http-referrer=...` y sus alias.
+PLAYLIST_HEADER_KEYS = {
+    "http-user-agent": "User-Agent",
+    "http-referrer": "Referer",
+    "http-referer": "Referer",
+    "user-agent": "User-Agent",
+    "cookie": "Cookie",
+    "http-cookie": "Cookie",
+}
+# Variantas de un master playlist HLS (resolución, bitrate y URI de la media playlist).
+HLS_STREAM_INF_RE = re.compile(r"^#EXT-X-STREAM-INF\s*:\s*(?P<attrs>.*?)\s*$", re.I)
+# En un tag HLS los valores no llevan espacios y acaban en coma: ATTR_RE sería codicioso.
+HLS_ATTR_RE = re.compile(r'([A-Za-z0-9_-]+)\s*=\s*("(?:[^"\\]|\\.)*"|[^",\s]*)')
+HLS_MEDIA_RE = re.compile(r"^#EXT-X-MEDIA\s*:\s*(?P<attrs>.*?)\s*$", re.I)
+HLS_TARGET_DURATION_RE = re.compile(r"^#EXT-X-TARGETDURATION\s*:\s*([\d.]+)", re.I | re.M)
+HLS_PLAYLIST_TYPE_RE = re.compile(r"^#EXT-X-PLAYLIST-TYPE\s*:\s*(VOD|EVENT)", re.I | re.M)
+RESOLUTION_RE = re.compile(r"^\s*(\d{2,5})\s*[xX×]\s*(\d{2,5})\s*$")
+BASE64_BLOB_RE = re.compile(r"""atob\(\s*["']([A-Za-z0-9+/=\s]{16,4096})["']\s*\)""")
+JS_STRING_UNESCAPE_RE = re.compile(r"\\(?:[\"'\\/]|u00(?:22|27|5c|2f)|x(?:22|27|5c))", re.I)
+# Claves habituales de los reproductores JS (`file:`, `sources:[{file:}]`, `hls:`…).
+JS_STREAM_KEY_RE = re.compile(
+    r"""["']?(?:file|url|src|hls|hlsurl|stream|streamurl|playlist|source|video|videourl|m3u8)["']?"""
+    r"""\s*[:=]\s*["']([^"']{6,600})["']""",
+    re.I,
+)
+EMBED_ATTR_RE = re.compile(
+    r"""data-(?:iframe|embed|player|src-iframe|url-iframe)\s*=\s*["']([^"']{6,600})["']""",
+    re.I,
+)
+DATA_ATTR_RE = re.compile(
+    r"""data-[\w-]*(?:url|src|stream|file|embed|player|video|iframe|playlist)[\w-]*"""
+    r"""\s*=\s*["']([^"']{6,600})["']""",
+    re.I,
+)
+MEDIA_TAG_SRC_RE = re.compile(r"""<(?:source|video)\b[^>]*?\bsrc\s*=\s*["']([^"']+)["']""", re.I)
+META_STREAM_RE = re.compile(
+    r"""<meta[^>]+(?:property|name)\s*=\s*["']"""
+    r"""(?:og:video(?::(?:secure_)?url)?|twitter:player(?::stream)?)["'][^>]*?content\s*=\s*["']([^"']+)"""
+    r"""|<meta[^>]+content\s*=\s*["']([^"']+)["'][^>]*?(?:property|name)\s*=\s*["']"""
+    r"""(?:og:video(?::(?:secure_)?url)?|twitter:player(?::stream)?)["']""",
+    re.I,
+)
+DOCUMENT_WRITE_RE = re.compile(r"""document\s*\.\s*write(?:ln)?\s*\(\s*(.{0,2000}?)\s*\)""", re.I | re.S)
 
 ATTR_RE = re.compile(r'([\w-]+)\s*=\s*("(?:[^"\\]|\\.)*"|[^\s]*)')
 
@@ -281,7 +346,8 @@ SEO_TAIL_TERM = (
     r"watch\s+(?:live|now|channel))"
 )
 SEO_SUFFIX_RE = re.compile(
-    r"\s*(?:[-|–—:]\s*(?:cxtv(?:\s*en\s*vivo)?|teleonline|tv\s*en\s*vivo|en\s*vivo|en\s*directo|online\s*gratis).*|"
+    r"\s*(?:[-|–—:]\s*(?:cxtv(?:\s*en\s*vivo)?|teleonline|tv\s*en\s*vivo|en\s*vivo|en\s*directo|"
+    r"online\s*gratis|ver(?:\s+(?:tv|online|ahora|el\s+canal|la\s+se[ñn]al))?).*|"
     rf"\b{SEO_TAIL_TERM}(?:\s*(?:y|,|[-|–—:])\s*{SEO_TAIL_TERM})*\s*)$",
     re.I,
 )
@@ -369,6 +435,43 @@ class Channel:
     source_url: str = ""
     stream_type: str = STREAM_TYPE_HLS
     attributes: dict[str, str] | None = None
+    # Cabeceras HTTP que el reproductor necesita (User-Agent/Referer/Cookie). Se leen
+    # de `#EXTVLCOPT`/`#EXTHTTP` en la lista o del propio sitio cuando es un scrapeo.
+    headers: dict[str, str] | None = None
+    # Directivas de entrada que no se traducen a cabeceras (`#EXT-X-KEY`, un
+    # `#KODIPROP:license_type`, un `#EXTVLCOPT:http-proxy`…) y que por tanto hay que
+    # reescribir literalmente al exportar, si no la lista deja de reproducirse.
+    directives: list[str] = field(default_factory=list)
+
+
+@dataclass(frozen=True)
+class HlsVariant:
+    """Una variante de un master playlist HLS."""
+
+    url: str
+    bandwidth: int = 0
+    average_bandwidth: int = 0
+    resolution: str = ""
+    codecs: str = ""
+    name: str = ""
+
+
+@dataclass(frozen=True)
+class HlsPlaylist:
+    """Resultado de inspeccionar el cuerpo de una playlist HLS."""
+
+    kind: str = ""  # "master" | "media" | "empty" | ""
+    variants: tuple[HlsVariant, ...] = ()
+    media_urls: tuple[str, ...] = ()
+    segment_count: int = 0
+    target_duration: float = 0.0
+    is_live: bool | None = None
+    encrypted: bool = False
+    truncated: bool = False
+
+    @property
+    def best_variant(self) -> HlsVariant | None:
+        return self.variants[0] if self.variants else None
 
 
 @dataclass(frozen=True)
@@ -380,6 +483,44 @@ class StreamCheck:
     content_type: str = ""
     final_url: str = ""
     detail: str = ""
+    # Inspección del propio `.m3u8`: tipo de playlist, variante jugable resuelta y
+    # número de segmentos encontrados en la muestra leída.
+    playlist_kind: str = ""
+    media_url: str = ""
+    resolution: str = ""
+    segment_count: int = 0
+    is_live: bool | None = None
+
+
+LOG_LEVELS = {"DEBUG": 10, "INFO": 20, "WARNING": 30, "ERROR": 40}
+LOG_LEVEL = LOG_LEVELS["INFO"]
+
+
+def configure_logging(level: str | int = "INFO") -> int:
+    """Fija el nivel de detalle de la salida (acepta nombres o enteros)."""
+    global LOG_LEVEL
+    if isinstance(level, int):
+        LOG_LEVEL = level
+    else:
+        normalized = str(level).strip().upper()
+        if normalized not in LOG_LEVELS:
+            raise ValueError(
+                f"nivel de log no válido: {level!r} (elige {', '.join(LOG_LEVELS)})"
+            )
+        LOG_LEVEL = LOG_LEVELS[normalized]
+    return LOG_LEVEL
+
+
+def log(message: str = "", level: str = "info", file: Any = None,
+        end: str = "\n") -> None:
+    """Imprime solo lo que el nivel activo pide (`debug`/`info`/`warning`/`error`).
+
+    Los avisos se envían a stderr en las llamadas que ya lo hacían; así `--log-level`
+    sirve para silenciar el ruido del rastreo en CI o para verlo todo con `debug`.
+    """
+    if LOG_LEVELS.get(str(level).upper(), LOG_LEVELS["INFO"]) < LOG_LEVEL:
+        return
+    print(message, end=end, file=file if file is not None else sys.stdout, flush=True)
 
 
 @dataclass(frozen=True)
@@ -407,6 +548,11 @@ class SourceConfig:
     country_hint: str = ""
     country_path_prefix: str = ""
     title_pattern: str = ""
+    # Cabeceras extra para descargar ESTA fuente ("Key: Value"), útil cuando el
+    # servidor exige un Referer propio o un User-Agent concreto.
+    headers: tuple[str, ...] = ()
+    # Listas anidadas (`.m3u` que enlazan otros `.m3u`) a expandir tras el parseo.
+    expand_nested: bool = True
 
 
 DEFAULT_SOURCES = (
@@ -476,6 +622,30 @@ BROWSER_HEADERS = {
     "Accept-Language": "es-ES,es;q=0.9,en;q=0.8",
 }
 RETRY_STATUS = {403, 408, 425, 429, 500, 502, 503, 504}
+# Caché por ejecución: las páginas de un mismo sitio comparten el JSON de configuración
+# y el wrapper del reproductor, así que un solo intento de red los resuelve todos.
+FETCH_CACHE_TTL = 300.0
+FAILURE_CACHE_TTL = 45.0
+FETCH_CACHE_SIZE = 512
+MAX_CACHED_BYTES = 512 * 1024
+# Intervalo mínimo entre peticiones al mismo host (cortesía con los servidores).
+POLITE_DELAY = float(os.environ.get("SDF_POLITE_DELAY", "0.15"))
+try:  # brotli es opcional: solo se anuncia si está instalado.
+    import brotli  # type: ignore[import-not-found]
+
+    _BROTLI_AVAILABLE = True
+except ImportError:  # pragma: no cover - depende del entorno
+    _BROTLI_AVAILABLE = False
+
+_CACHE_LOCK = threading.Lock()
+_FETCH_CACHE: "OrderedDict[str, tuple[float, str | None, str]]" = OrderedDict()
+_HOST_LOCK = threading.Lock()
+_HOST_LAST: dict[str, float] = {}
+
+
+class CachedFetchError(ValueError):
+    """Error recordado de un intento previo, re-lanzado sin repetir la petición."""
+
 M3U_URL_RE = re.compile(r'(?:(?:https?:)?//|/)[^<>"\'\s\\]+?\.m3u8?(?:\?[^<>"\'\s\\]*)?', re.I)
 STREAM_URL_RE = re.compile(r'https?://[^<>"\'\s\\]+?(?:\.m3u8?|/hls/|/live/)[^<>"\'\s\\]*', re.I)
 SCRIPT_SRC_RE = re.compile(r"<script\b[^>]*?\bsrc\s*=\s*([\"'])(.*?)\1", re.I | re.S)
@@ -834,8 +1004,8 @@ def filter_channels(
 ) -> list[Channel]:
     """Combina ``search_channels`` con filtros de categoría/idioma/país/fuente.
 
-    Todos los filtros son opcionales y se aplican en AND. Útil tanto desde
-    el CLI como desde código.
+    Todos los filtros son opcionales y se aplican en AND, igual que las opciones del CLI;
+    la función existe para filtrar una lista ya cargada desde código sin lanzar `main`.
     """
     result = list(channels)
     if query and query.strip():
@@ -1174,6 +1344,255 @@ def _header_parts(header: str) -> tuple[str, dict[str, str]]:
     return name, _attributes(metadata)
 
 
+def _hls_attributes(text: str) -> dict[str, str]:
+    """`BANDWIDTH=…,RESOLUTION="…",CODECS="a,b"` → dict de claves en minúsculas."""
+    result: dict[str, str] = {}
+    for match in HLS_ATTR_RE.finditer(text or ""):
+        value = match.group(2)
+        if value.startswith('"') and value.endswith('"'):
+            value = value[1:-1]
+        result[match.group(1).lower()] = value.strip()
+    return result
+
+
+def _resolution_area(resolution: str) -> int:
+    """Área en píxeles de una etiqueta ``RESOLUTION=1920x1080`` (0 si no es válida)."""
+    match = RESOLUTION_RE.match(resolution or "")
+    if not match:
+        return 0
+    return int(match.group(1)) * int(match.group(2))
+
+
+def parse_hls_variants(text: str, base_url: str = "") -> tuple[HlsVariant, ...]:
+    """Lee las variantes de un *master playlist* HLS, ordenadas de mejor a peor.
+
+    Un ``.m3u8`` de un canal suele ser un master: una línea
+    ``#EXT-X-STREAM-INF:BANDWIDTH=…,RESOLUTION=…`` seguida de la URL de la
+    *media playlist* realmente reproducible.
+    """
+    if not text or "#EXT-X-STREAM-INF" not in text.upper():
+        return ()
+    variants: list[HlsVariant] = []
+    seen: set[str] = set()
+    pending: dict[str, str] | None = None
+    for raw in text.lstrip("\ufeff").splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        match = HLS_STREAM_INF_RE.match(line)
+        if match:
+            pending = _hls_attributes(match.group("attrs"))
+            continue
+        if pending is None:
+            continue
+        if line.startswith("#"):
+            continue
+        url = _clean_url(line, base_url) if base_url else line.strip("\"'")
+        # Sin `base_url` la URI relativa sigue siendo útil: es la variante tal y como
+        # la publican; solo se descartan los esquemas que no son HTTP.
+        if urlparse(url).scheme and urlparse(url).scheme.lower() not in {"http", "https"}:
+            pending = None
+            continue
+        if not url:
+            pending = None
+            continue
+        key = _url_key(url)
+        bandwidth = int(re.sub(r"\D", "", pending.get("bandwidth", "")) or 0)
+        average = int(re.sub(r"\D", "", pending.get("avg-bandwidth", "")) or 0)
+        resolution = pending.get("resolution", "").strip()
+        if key not in seen:
+            seen.add(key)
+            variants.append(HlsVariant(
+                url=url,
+                bandwidth=bandwidth,
+                average_bandwidth=average or bandwidth,
+                resolution=resolution,
+                codecs=pending.get("codecs", "").strip(),
+                name=pending.get("name", "").strip(),
+            ))
+        pending = None
+    variants.sort(key=lambda v: (_resolution_area(v.resolution), v.bandwidth, v.average_bandwidth),
+                  reverse=True)
+    return tuple(variants)
+
+
+def inspect_hls_playlist(text: str, base_url: str = "") -> HlsPlaylist:
+    """Clasifica el cuerpo de una playlist HLS y resume su contenido.
+
+    Distingue master playlists (variantes), media playlists (segmentos) y listas sin
+    contenido util. No se descargan los segmentos: solo se analiza la muestra leída.
+    """
+    if not text:
+        return HlsPlaylist()
+    sample = text.lstrip("\ufeff")
+    if not sample.upper().lstrip().startswith("#EXTM3U"):
+        return HlsPlaylist()
+    variants = parse_hls_variants(sample, base_url)
+    lines = [line.strip() for line in sample.splitlines()]
+    upper_flags = {line.upper().split(":", 1)[0] for line in lines if line.startswith("#")}
+    segment_count = sum(1 for line in lines if line.upper().startswith("#EXTINF:"))
+    has_endlist = "#EXT-X-ENDLIST" in upper_flags
+    duration_match = HLS_TARGET_DURATION_RE.search(sample)
+    type_match = HLS_PLAYLIST_TYPE_RE.search(sample)
+    encrypted = bool(
+        re.search(r"#EXT-X-KEY\s*:\s*[^#\n]*METHOD=(?!NONE)", sample, re.I)
+    )
+    # `#EXT-X-MEDIA:TYPE=AUDIO,URI="…"`: pistas de audio/subtítulos del mismo canal.
+    media_urls = tuple(
+        _clean_url(match.group("attrs").split("uri=", 1)[-1].strip().strip('\"'), base_url)
+        for match in HLS_MEDIA_RE.finditer(sample)
+        if re.search(r"\bURI=\"", match.group("attrs"), re.I)
+    )
+    if variants:
+        kind = "master"
+    elif segment_count or "#EXT-X-BYTERANGE" in upper_flags or "#EXT-X-TARGETDURATION" in upper_flags:
+        kind = "media"
+    else:
+        kind = "empty"
+    is_live: bool | None = None
+    if kind == "media":
+        is_live = not has_endlist and (type_match is None or type_match.group(1).upper() == "EVENT")
+    elif kind == "master":
+        is_live = None
+    return HlsPlaylist(
+        kind=kind,
+        variants=variants,
+        media_urls=media_urls,
+        segment_count=segment_count,
+        target_duration=float(duration_match.group(1)) if duration_match else 0.0,
+        is_live=is_live,
+        encrypted=encrypted,
+        # Sin `#EXT-X-ENDLIST` y con segmentos sueltos la muestra quedó cortada.
+        truncated=not has_endlist and kind == "media",
+    )
+
+
+def _playlist_directive(value: str) -> tuple[str, str] | None:
+    """Convierte `#EXTVLCOPT`/`#EXTHTTP`/`#KODIPROP` en una cabecera HTTP utilizable."""
+    text = (value or "").strip()
+    if not text:
+        return None
+    match = EXTVLCOPT_RE.match(text)
+    if match:
+        name, raw = match.group(1).casefold(), match.group(2).strip().strip('"')
+        header = PLAYLIST_HEADER_KEYS.get(name)
+        if header is None:
+            return None
+        return header, raw
+    match = EXTHTTP_RE.match(text)
+    if match:
+        # `#EXTHTTP:{"cookie":"a=1","User-Agent":"x"}`: JSON o lista `k=v` suelta.
+        payload = match.group(1).strip()
+        pairs: dict[str, str] = {}
+        try:
+            parsed = json.loads(payload)
+        except (ValueError, TypeError):
+            parsed = None
+        if isinstance(parsed, dict):
+            for key, item in parsed.items():
+                if isinstance(item, (str, int, float)):
+                    pairs[str(key)] = str(item)
+        else:
+            for part in payload.split("&"):
+                if "=" in part:
+                    key, item = part.split("=", 1)
+                    pairs[key.strip()] = item.strip()
+        if not pairs:
+            return None
+        headers = {}
+        for key, item in pairs.items():
+            normalized = PLAYLIST_HEADER_KEYS.get(key.strip().casefold(), key.strip().title())
+            headers[normalized] = item
+        return "EXTHTTP", json.dumps(headers, ensure_ascii=False)
+    match = KODIPROP_RE.match(text)
+    if match and "headers" in match.group(1).casefold():
+        # `#KODIPROP:inputstream.adaptive.stream_headers=User-Agent=..&Referer=..`
+        headers: dict[str, str] = {}
+        for part in match.group(2).split("&"):
+            if "=" not in part:
+                continue
+            key, item = part.split("=", 1)
+            normalized = PLAYLIST_HEADER_KEYS.get(key.strip().casefold(), key.strip().title())
+            headers[normalized] = item.strip()
+        if not headers:
+            return None
+        return "EXTHTTP", json.dumps(headers, ensure_ascii=False)
+    return None
+
+
+def parse_stream_headers(directives: Iterable[str]) -> dict[str, str]:
+    """Agrupación de cabeceras a partir de directivas de una lista M3U."""
+    headers: dict[str, str] = {}
+    for value in directives:
+        parsed = _playlist_directive(value)
+        if not parsed:
+            continue
+        name, item = parsed
+        if name == "EXTHTTP":
+            try:
+                extra = json.loads(item)
+            except (ValueError, TypeError):
+                extra = {}
+            if isinstance(extra, dict):
+                for key, key_value in extra.items():
+                    if key_value:
+                        headers[str(key)] = str(key_value)
+            continue
+        if item:
+            headers[name] = item
+    return headers
+
+
+def _name_from_url(url: str) -> str:
+    """Nombre legible derivado del recurso (``espn-2-hd.m3u8`` → ``espn 2 hd``).
+
+    Muchas listas publican entradas sin nombre; usar el archivo del stream evita
+    perder el canal por quedarse en ``Unnamed channel``.
+    """
+    try:
+        path = urlparse(url).path
+    except ValueError:
+        return ""
+    stem = path.rsplit("/", 1)[-1]
+    stem = unquote(stem)
+    stem = re.sub(r"\.(?:m3u8?|mpd|ts|mp4|key)$", "", stem, flags=re.I)
+    stem = re.sub(r"[-_.+]+", " ", stem)
+    stem = re.sub(r"\s+", " ", stem).strip()
+    if not stem:
+        return ""
+    letters = re.sub(r"[^A-Za-z]", "", stem)
+    # Identificadores opacos (hashes, tokens) no sirven como nombre de canal.
+    if re.fullmatch(r"(?:[0-9A-Fa-f]{8,}|[A-Za-z0-9_-]{16,})", stem.replace(" ", "")):
+        return ""
+    if len(stem) >= 12 and (len(letters) < 4 or not re.search(r"[aeiouáéíóú]", letters, re.I)):
+        return ""
+    return stem
+
+
+def _fix_mojibake(text: str) -> str:
+    """Repara UTF-8 mal interpretado como Latin-1 (``SeÃ±al`` → ``Señal``)."""
+    if not text or not re.search(r"[ÂÃÅ][\x80-\xbf]|â€", text):
+        return text
+    try:
+        repaired = text.encode("cp1252", errors="strict").decode("utf-8", errors="strict")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return text
+    # Solo se acepta si reduce los caracteres extraños.
+    if repaired and sum(1 for char in repaired if char in "ÂÃâ€") < sum(
+        1 for char in text if char in "ÂÃâ€"
+    ):
+        return repaired
+    return text
+
+
+def _clean_entry_name(name: str) -> str:
+    """Texto visible de una entrada: entidades HTML, control y mojibake resueltos."""
+    text = unescape(name or "")
+    text = "".join(char for char in text if char == "\t" or ord(char) >= 32)
+    text = _fix_mojibake(text)
+    return re.sub(r"\s+", " ", text).strip()
+
+
 def parse_m3u(text: str, *, deduplicate: bool = True, source: str = "",
               base_url: str = "") -> list[Channel]:
     lines = text.lstrip("\ufeff").splitlines()
@@ -1182,28 +1601,106 @@ def parse_m3u(text: str, *, deduplicate: bool = True, source: str = "",
     if any(line.startswith(("#EXT-X-TARGETDURATION:", "#EXT-X-MEDIA-SEQUENCE:"))
            for line in upper_lines):
         return []
+    # Un master playlist de un solo canal tampoco es una lista de canales: sus líneas
+    # siguientes son variantes (mismas calidades), no emisoras distintas.
+    if any(line.startswith("#EXT-X-STREAM-INF:") for line in upper_lines) and not any(
+        line.startswith("#EXTINF:") for line in upper_lines
+    ):
+        return []
 
     result: list[Channel] = []
     pending: tuple[str, dict[str, str], str] | None = None
+    pending_headers: dict[str, str] = {}
+    global_headers: dict[str, str] = {}
+    current_group = ""
+    directives: list[str] = []
+    any_entry_seen = False
     seen: set[tuple[str, str]] = set()
+    pending_raw: list[str] = []
+    global_raw: list[str] = []
+
+    def collect_raw(line: str) -> None:
+        """Anota una directiva que no se convierte en cabecera y hay que reescribir.
+
+        Son las que cambian el comportamiento del reproductor sin ser HTTP headers:
+        `#EXT-X-KEY` (descifrado), un `#KODIPROP` de licencias o cualquier `#EXTVLCOPT`
+        que no sea user-agent/referrer/cookie (p. ej. `http-proxy`).
+        """
+        nonlocal pending_raw, global_raw
+        if any_entry_seen:
+            if line not in pending_raw:
+                pending_raw.append(line)
+        elif line not in global_raw:
+            global_raw.append(line)
+
+    def collect_directives(line: str) -> None:
+        """Guarda una directiva.
+
+        Antes del primer `#EXTINF` se entiende como un bloque válido para toda la lista
+        (así publican muchas listas su User-Agent/Referer común); a partir de la primera
+        entrada, cada directiva afecta solo a la entrada siguiente y sustituye únicamente
+        la clave que declara. Lo que no se traduce a cabeceras se conserva en crudo.
+        """
+        nonlocal directives, global_headers
+        if any_entry_seen:
+            directives.append(line)
+        else:
+            global_headers = {**global_headers, **parse_stream_headers([line])}
+        if not parse_stream_headers([line]):
+            collect_raw(line)
+
+    def flush_headers() -> dict[str, str]:
+        """Cabeceras pendientes de `#EXTVLCOPT`/`#EXTHTTP`, ya asignadas a la entrada."""
+        nonlocal directives, pending_headers
+        if directives:
+            pending_headers = parse_stream_headers(directives)
+            directives = []
+        headers, pending_headers = pending_headers, {}
+        return {**global_headers, **headers}
 
     for raw in lines:
         line = raw.strip()
         if not line:
             continue
-        if line.upper().startswith("#EXTINF:"):
+        upper = line.upper()
+        if upper.startswith("#EXTINF:"):
+            any_entry_seen = True
             name, attrs = _header_parts(line[len("#EXTINF:"):])
-            pending = (name or attrs.get("tvg-name", "") or "Unnamed channel",
-                       attrs, attrs.get("group-title", ""))
+            clean = _clean_entry_name(name or attrs.get("tvg-name", ""))
+            pending = (clean or "Unnamed channel", attrs,
+                       attrs.get("group-title", "") or current_group)
             continue
-        if line.upper().startswith("#EXTGRP:") and pending is not None:
-            name, attrs, _ = pending
-            pending = (name, attrs, line.split(":", 1)[1].strip())
+        if upper.startswith("#EXTGRP:"):
+            group = _clean_entry_name(line.split(":", 1)[1])
+            if pending is not None:
+                name, attrs, _ = pending
+                pending = (name, attrs, group)
+            else:
+                # `#EXTGRP` suelto: se aplica a todas las entradas siguientes.
+                current_group = group
+            continue
+        if upper.startswith(("#EXTVLCOPT:", "#EXTHTTP:", "#KODIPROP:")):
+            collect_directives(line)
+            continue
+        # `#EXT-X-STREAM-INF` + URI son variantes de un mismo canal: se ignoran aquí y
+        # se resuelven al comprobar el stream (ver `parse_hls_variants`).
+        if upper.startswith("#EXT-X-STREAM-INF:"):
+            continue
+        # La clave de descifrado (y el byte-range) afectan a la entrada siguiente: sin
+        # reescribirlas, la lista exportada apunta a un stream cifrado sin la clave.
+        if upper.startswith(("#EXT-X-KEY:", "#EXT-X-BYTERANGE:")):
+            collect_raw(line)
             continue
         if line.startswith("#") or pending is None:
             continue
 
         name, attrs, group = pending
+        headers = flush_headers()
+        entry_directives = list(global_raw)
+        for extra in pending_raw:
+            if extra not in entry_directives:
+                entry_directives.append(extra)
+        pending_raw = []
         if base_url and not urlparse(line).scheme:
             line = urljoin(base_url, line)
         parsed = urlparse(line)
@@ -1221,6 +1718,12 @@ def parse_m3u(text: str, *, deduplicate: bool = True, source: str = "",
             pending = None
             continue
 
+        if not name or name == "Unnamed channel":
+            derived = _clean_entry_name(_name_from_url(line))
+            if derived:
+                name = derived
+                attrs.setdefault("tvg-name", derived)
+
         key = (name.casefold(), line)
         if not deduplicate or key not in seen:
             category, language, country = classify_channel(name, group, attrs)
@@ -1230,6 +1733,7 @@ def parse_m3u(text: str, *, deduplicate: bool = True, source: str = "",
                 tvg_id=attrs.get("tvg-id", ""), tvg_name=attrs.get("tvg-name", ""),
                 logo=logo, language=language, country=country,
                 category=category, source=source, attributes=attrs,
+                headers=headers or None, directives=entry_directives,
             ))
             seen.add(key)
         pending = None
@@ -1294,14 +1798,21 @@ def _is_stream_url(url: str) -> bool:
     Un wrapper de reproductor (`/live/core.php?canal=…`, `/cvatt.html?get=…`) también
     contiene `/live/`, así que las extensiones de página se descartan primero.
     """
-    path = urlparse(url).path.lower()
+    parsed = urlparse(url)
+    path = parsed.path.lower()
+    query = (parsed.query or "").lower()
     if path.endswith((".m3u8", ".m3u", ".mpd")):
+        return True
+    # El stream también puede venir en la query: `?url=https://h/x.m3u8`, `?file=…m3u8`.
+    if re.search(r"(?:^|&|\\|=|%3d)[^&]*\.(?:m3u8|mpd)(?:&|$)", query):
         return True
     if path.endswith((".php", ".html", ".htm", ".json", ".js", ".css", ".jpg", ".jpeg",
                       ".png", ".gif", ".webp", ".svg", ".ico", ".woff", ".woff2", ".ttf",
                       ".mp4", ".webm", ".mp3", ".pdf", ".xml", ".txt")):
         return False
-    return "/hls/" in path or "/live/" in path
+    if "/hls/" in path or "/live/" in path or "/live" == path.rstrip("/"):
+        return True
+    return path.endswith(("/playlist", "/stream", "/index", "/master", "/hls", "/dash"))
 
 
 def _looks_like_player_url(url: str) -> bool:
@@ -1324,13 +1835,86 @@ def _looks_like_player_url(url: str) -> bool:
     )
 
 
+def _decode_base64_urls(text: str) -> list[str]:
+    """URLs ocultas tras ``atob("…")``: muchos wrappers ofuscan el ``.m3u8`` así."""
+    out: list[str] = []
+    for match in BASE64_BLOB_RE.finditer(text):
+        blob = re.sub(r"\s+", "", match.group(1))
+        if len(blob) % 4:
+            blob += "=" * (4 - len(blob) % 4)
+        if len(blob) > 4096:
+            continue
+        try:
+            decoded = base64.b64decode(blob, validate=False)
+        except (ValueError, UnicodeError):
+            continue
+        if not decoded:
+            continue
+        value = decoded.decode("utf-8", errors="replace").strip().strip("\"'")
+        if "://" in value or ".m3u8" in value.lower() or ".mpd" in value.lower():
+            out.append(value)
+    return out
+
+
+def _decode_b64_value(value: str) -> str:
+    """Devuelve la URL oculta tras un valor base64 de un atributo o clave JS."""
+    text = (value or "").strip()
+    if len(text) < 16 or len(text) > 4096 or not re.fullmatch(r"[A-Za-z0-9+/=\s]+", text):
+        return ""
+    padded = re.sub(r"\s+", "", text)
+    if len(padded) % 4:
+        padded += "=" * (4 - len(padded) % 4)
+    try:
+        decoded = base64.b64decode(padded, validate=True).decode("utf-8")
+    except (ValueError, UnicodeError):
+        return ""
+    candidate = decoded.strip().strip("\"'")
+    if "://" in candidate or ".m3u8" in candidate.lower() or ".mpd" in candidate.lower():
+        return candidate
+    return ""
+
+
+def _player_hint_values(text: str) -> list[str]:
+    """Valores donde los reproductores guardan el stream: claves JS, ``data-*``, metas."""
+    out: list[str] = []
+    for pattern in (JS_STREAM_KEY_RE, DATA_ATTR_RE, MEDIA_TAG_SRC_RE, META_STREAM_RE):
+        for value in pattern.findall(text):
+            if isinstance(value, tuple):
+                value = next((item for item in value if item), "")
+            value = (value or "").strip()
+            if value:
+                out.append(value)
+                decoded = _decode_b64_value(value)
+                if decoded:
+                    out.append(decoded)
+    out.extend(_decode_base64_urls(text))
+    return out
+
+
+def _inline_script_blobs(text: str) -> list[str]:
+    """Fragmentos de HTML construidos en JS (``document.write('<iframe …>')``)."""
+    out: list[str] = []
+    for match in DOCUMENT_WRITE_RE.finditer(text):
+        blob = match.group(1)
+        if len(blob) > 2048:
+            continue
+        out.append(JS_STRING_UNESCAPE_RE.sub(lambda found: found.group(0)[-1], blob))
+        if len(out) >= 8:
+            break
+    return out
+
+
 def _stream_urls_from_document(html: str, base: str) -> list[str]:
     """URLs reproducibles (HLS/MPD) presentes en el HTML o dentro de su JavaScript."""
     if not html:
         return []
     text = _unescape_markup(html)
-    raw = list(_urls_from_html(text, base))
-    raw += JS_STRING_RE.findall(text)
+    blobs = [text] + [_unescape_markup(blob) for blob in _inline_script_blobs(text)]
+    raw: list[str] = []
+    for blob in blobs:
+        raw += _urls_from_html(blob, base)
+        raw += JS_STRING_RE.findall(blob)
+        raw += _player_hint_values(blob)
     out: list[str] = []
     seen: set[str] = set()
     for item in raw:
@@ -1357,6 +1941,11 @@ def _player_links_from_document(html: str, base: str) -> tuple[list[str], list[s
     text = _unescape_markup(html)
     iframes: list[str] = []
     for value in IFRAME_SRC_RE.findall(text):
+        url = _clean_url(value, base)
+        if _looks_like_player_url(url):
+            iframes.append(url)
+    # `data-iframe="…"` / `data-embed="…"` son embeds explícitos del propio sitio.
+    for value in EMBED_ATTR_RE.findall(text):
         url = _clean_url(value, base)
         if _looks_like_player_url(url):
             iframes.append(url)
@@ -1558,8 +2147,29 @@ def _apply_source_country(channel: Channel, source: SourceConfig, page: str = ""
         channel.country = path_country or hint or "unknown"
 
 
+def _source_headers(source: SourceConfig) -> dict[str, str]:
+    """Cabeceras declaradas en la fuente (``headers=("Referer: https://…",)``)."""
+    return _parse_header_pairs(source.headers)
+
+
+def _player_headers(source: SourceConfig, page: str) -> dict[str, str]:
+    """Cabeceras con las que hay que pedir el stream de un sitio rastreado.
+
+    Estos CDNs suelen bloquear el *hotlinking*: el `.m3u8` responde 403 salvo que la
+    petición venga del propio reproductor (User-Agent de navegador + Referer de la
+    página del canal).
+    """
+    headers = {
+        "User-Agent": BROWSER_HEADERS["User-Agent"],
+        "Referer": page,
+    }
+    headers.update(_source_headers(source))
+    return headers
+
+
 def _site_channel(name: str, url: str, source: SourceConfig, page: str, logo: str,
-                  stream_type: str = STREAM_TYPE_HLS) -> Channel:
+                  stream_type: str = STREAM_TYPE_HLS,
+                  headers: dict[str, str] | None = None) -> Channel:
     category, language, country = classify_channel(name, source.name)
     path_country = _country_from_source_path(source, page)
     if path_country:
@@ -1568,10 +2178,13 @@ def _site_channel(name: str, url: str, source: SourceConfig, page: str, logo: st
         country = path_country
     elif country == "unknown":
         country = _source_country_hint(source) or "unknown"
+    stream_headers = _player_headers(source, page) if stream_type == STREAM_TYPE_HLS else {}
+    stream_headers.update(headers or {})
     return Channel(
         name=name, url=url, group=source.name, logo=logo,
         language=language, country=country, category=category,
         source=source.name, source_url=page, stream_type=stream_type,
+        headers=stream_headers or None,
     )
 
 
@@ -1714,18 +2327,79 @@ def _decode_body(data: bytes, content_encoding: str) -> bytes:
     raise ValueError(f"unsupported Content-Encoding: {encoding}")
 
 
-def _fetch_text_once(url: str, timeout: int, max_bytes: int) -> str:
+def _decode_text(data: bytes, charset: str) -> str:
+    """Decodifica con la codificación detectada y repara el mojibake más común."""
+    candidates = [value for value in (charset, "utf-8", "windows-1252") if value]
+    for candidate in dict.fromkeys(candidates):
+        try:
+            return _fix_mojibake(data.decode(candidate))
+        except (LookupError, UnicodeDecodeError):
+            continue
+    return data.decode("utf-8", errors="replace")
+
+
+def _sniff_charset(data: bytes, declared: str) -> str:
+    """Codificación real del documento cuando el servidor no la declara."""
+    declared = (declared or "").strip().lower()
+    if declared:
+        return declared
+    match = re.search(
+        rb"""<meta[^>]+?charset\s*=\s*["']?\s*([A-Za-z0-9_.:-]{3,30})""", data[:4096], re.I,
+    )
+    if match:
+        candidate = match.group(1).decode("ascii", errors="ignore").strip().lower()
+        try:
+            codecs.lookup(candidate)
+        except LookupError:
+            return "utf-8"
+        return candidate
+    return "utf-8"
+
+
+def _request_headers(extra: dict[str, str] | None) -> dict[str, str]:
+    headers = dict(BROWSER_HEADERS)
+    headers["Accept-Encoding"] = "gzip, deflate" + (", br" if _BROTLI_AVAILABLE else "")
+    for key, value in (extra or {}).items():
+        if key and value:
+            headers[str(key).strip()] = str(value).strip()
+    return headers
+
+
+def _parse_header_pairs(values: Iterable[str]) -> dict[str, str]:
+    """Convierte ``("Key: Value", …)`` en un diccionario de cabeceras."""
+    headers: dict[str, str] = {}
+    for value in values:
+        if not value or ":" not in value:
+            continue
+        key, item = value.split(":", 1)
+        if key.strip():
+            headers[key.strip()] = item.strip()
+    return headers
+
+
+def _throttle(host: str, min_interval: float) -> None:
+    """Respeta un intervalo mínimo entre peticiones al mismo host (cortesía)."""
+    if min_interval <= 0 or not host:
+        return
+    with _HOST_LOCK:
+        now = time.monotonic()
+        wait = _HOST_LAST.get(host, 0.0) + min_interval - now
+        _HOST_LAST[host] = max(_HOST_LAST.get(host, 0.0), now) + min_interval
+    if wait > 0:
+        time.sleep(min(wait, 5.0))
+
+
+def _fetch_text_once(url: str, timeout: int, max_bytes: int,
+                     headers: dict[str, str] | None = None) -> str:
     _apply_socket_timeout(timeout)
-    req = Request(url, headers={**BROWSER_HEADERS, "Accept-Encoding": "gzip, deflate"})
+    _throttle(urlparse(url).netloc.lower(), POLITE_DELAY)
+    req = Request(url, headers=_request_headers(headers))
     with urlopen(req, timeout=max(1, timeout)) as response:
         raw = response.read(max_bytes)
         content_encoding = response.headers.get("Content-Encoding", "")
-        charset = response.headers.get_content_charset() or "utf-8"
+        charset = response.headers.get_content_charset() or ""
     data = _decode_body(raw, content_encoding)
-    try:
-        text = data.decode(charset, errors="replace")
-    except LookupError:
-        text = data.decode("utf-8", errors="replace")
+    text = _decode_text(data, _sniff_charset(data, charset))
     if not text.lstrip("\ufeff \r\n\t") and raw:
         # Algunas listas se publican con una codificación distinta de la declarada.
         text = data.decode("latin-1", errors="replace")
@@ -1733,30 +2407,97 @@ def _fetch_text_once(url: str, timeout: int, max_bytes: int) -> str:
 
 
 def _fetch_text(url: str, timeout: int = 20, max_bytes: int = DEFAULT_MAX_BYTES,
-                retries: int = 2) -> str:
+                retries: int = 2, headers: dict[str, str] | None = None,
+                use_cache: bool = False) -> str:
     """Download text with bounded reads, compression support and a couple of retries.
 
     Responses larger than ``max_bytes`` are truncated instead of rejected so a huge
     playlist (iptv-org publishes tens of MB) still yields channels.
+
+    ``use_cache`` reutiliza el documento dentro de la misma ejecución: al rastrear un
+    sitio, decenas de páginas comparten el mismo JSON de configuración y el mismo
+    wrapper, y los errores se recuerdan brevemente para no castigar un endpoint caído.
+    Se activa solo en el rastreo de reproductores; las listas se descargan siempre.
     """
+    cache_key = f"{url}|{sorted((headers or {}).items())}"
+    now = time.monotonic()
+    if use_cache:
+        with _CACHE_LOCK:
+            hit = _FETCH_CACHE.get(cache_key)
+            if hit and hit[0] > now:
+                if hit[1] is None:
+                    raise CachedFetchError(hit[2])
+                return hit[1]
+
     last_error: Exception | None = None
     for attempt in range(max(0, retries) + 1):
         if attempt:
-            time.sleep(min(2 ** attempt, 5))
+            delay = min(2 ** attempt, 5) + random.uniform(0, 0.4)
+            retry_after = _retry_after_seconds(last_error)
+            if retry_after is not None:
+                delay = min(max(delay, retry_after), 10.0)
+            time.sleep(delay)
         try:
-            return _fetch_text_once(url, timeout, max_bytes)
+            text = _fetch_text_once(url, timeout, max_bytes, headers)
         except HTTPError as exc:
             exc.close()
             last_error = exc
             if exc.code in RETRY_STATUS and attempt < max(0, retries):
                 continue
-            raise
+            break
         except (URLError, TimeoutError, OSError, ValueError) as exc:
             last_error = exc
             if attempt < max(0, retries):
                 continue
-            raise
-    raise last_error if last_error else RuntimeError(f"could not download {url}")
+            break
+        else:
+            if use_cache and len(text) <= MAX_CACHED_BYTES:
+                with _CACHE_LOCK:
+                    _FETCH_CACHE[cache_key] = (time.monotonic() + FETCH_CACHE_TTL, text, "")
+                    while len(_FETCH_CACHE) > FETCH_CACHE_SIZE:
+                        _FETCH_CACHE.popitem(last=False)
+            return text
+    error = last_error if last_error else RuntimeError(f"could not download {url}")
+    if use_cache:
+        with _CACHE_LOCK:
+            _FETCH_CACHE[cache_key] = (
+                time.monotonic() + FAILURE_CACHE_TTL, None, str(error)[:240],
+            )
+            while len(_FETCH_CACHE) > FETCH_CACHE_SIZE:
+                _FETCH_CACHE.popitem(last=False)
+    raise error
+
+
+def _retry_after_seconds(error: Exception | None) -> float | None:
+    """`Retry-After` (segundos o fecha HTTP) limitado a 10 s."""
+    headers = getattr(error, "headers", None)
+    if not headers:
+        return None
+    try:
+        raw = headers.get("Retry-After")
+    except (AttributeError, TypeError):
+        return None
+    if not raw:
+        return None
+    text = str(raw).strip()
+    if text.isdigit():
+        return min(float(text), 10.0)
+    try:
+        from email.utils import parsedate_to_datetime
+
+        when = parsedate_to_datetime(text)
+    except (TypeError, ValueError):
+        return None
+    if when is None:
+        return None
+    delay = when.timestamp() - time.time()
+    return min(max(delay, 0.0), 10.0)
+
+
+def clear_fetch_cache() -> None:
+    """Vacía la caché de descargas (la usan las pruebas y las ejecuciones largas)."""
+    with _CACHE_LOCK:
+        _FETCH_CACHE.clear()
 
 
 def _looks_like_m3u(text: str) -> bool:
@@ -1769,7 +2510,8 @@ def _is_youtube_embed(url: str) -> bool:
     return parsed.netloc.lower() in YOUTUBE_HOSTS and "/embed/" in parsed.path
 
 
-def _check_youtube_embed(url: str, timeout: int) -> StreamCheck:
+def _check_youtube_embed(url: str, timeout: int,
+                         headers: dict[str, str] | None = None) -> StreamCheck:
     """Comprueba un embed de YouTube: HTTP 200 y emisión en vivo detectada.
 
     Muchas fuentes (Teleonline TV, TV en Vivo, TV Libre Online) solo publican embeds
@@ -1777,13 +2519,16 @@ def _check_youtube_embed(url: str, timeout: int) -> StreamCheck:
     una emisión en vivo, para no sincronizar vídeos grabados como si fueran canales.
     """
     _apply_socket_timeout(timeout)
-    headers = {
+    request_headers = {
         "User-Agent": BROWSER_HEADERS["User-Agent"],
         "Accept": "text/html,application/xhtml+xml,*/*;q=0.8",
         "Accept-Language": BROWSER_HEADERS["Accept-Language"],
     }
+    for key, value in (headers or {}).items():
+        if value and key.casefold() != "user-agent":
+            request_headers[key] = value
     try:
-        with urlopen(Request(url, headers=headers), timeout=max(1, timeout)) as response:
+        with urlopen(Request(url, headers=request_headers), timeout=max(1, timeout)) as response:
             status = int(response.status)
             content_type = response.headers.get("Content-Type", "").split(";", 1)[0].strip().lower()
             final_url = response.geturl()
@@ -1817,62 +2562,164 @@ def _check_youtube_embed(url: str, timeout: int) -> StreamCheck:
     )
 
 
-def check_stream(url: str, timeout: int = 10) -> StreamCheck:
-    """Check a small HTTP byte range; never download a full live stream."""
+def _stream_request_headers(headers: dict[str, str] | None = None, *,
+                            with_range: bool = True) -> dict[str, str]:
+    """Cabeceras de la sonda: UA/Referer de la lista si los hay, y un Range corto."""
+    merged = {
+        "User-Agent": (headers or {}).get("User-Agent") or USER_AGENT,
+        "Accept": "application/vnd.apple.mpegurl, application/x-mpegURL, */*",
+    }
+    for key, value in (headers or {}).items():
+        if value and key.casefold() != "user-agent":
+            merged[key] = value
+    if with_range:
+        merged["Range"] = f"bytes=0-{STREAM_SAMPLE_BYTES - 1}"
+    return merged
+
+
+def _open_stream_sample(url: str, timeout: int,
+                        headers: dict[str, str] | None = None, *,
+                        with_range: bool = True) -> tuple[int, str, str, bytes]:
+    """Descarga solo la cabecera de un recurso y devuelve ``(status, tipo, url, muestra)``."""
+    request = Request(url, headers=_stream_request_headers(headers, with_range=with_range))
+    with urlopen(request, timeout=max(1, timeout)) as response:
+        status = int(response.status)
+        content_type = response.headers.get("Content-Type", "").split(";", 1)[0].strip().lower()
+        return status, content_type, response.geturl(), response.read(STREAM_SAMPLE_BYTES)
+
+
+def _describe_hls(playlist: HlsPlaylist) -> str:
+    """Resumen legible de una playlist HLS inspeccionada."""
+    if playlist.kind == "media":
+        parts = [f"{playlist.segment_count} segmentos"]
+        if playlist.target_duration:
+            parts.append(f"{playlist.target_duration:g}s por segmento")
+        parts.append("en vivo" if playlist.is_live else "VOD")
+        if playlist.encrypted:
+            parts.append("cifrada con AES-128")
+        return "Playlist HLS con " + ", ".join(parts)
+    if playlist.kind == "master":
+        best = playlist.variants[0]
+        label = best.resolution or best.name or f"{best.bandwidth or '?'} bps"
+        return f"master playlist con {len(playlist.variants)} variantes (mejor: {label})"
+    return ""
+
+
+def _resolve_hls_variants(playlist: HlsPlaylist, timeout: int,
+                          headers: dict[str, str] | None
+                          ) -> tuple[str, str, int, bool | None, str] | None:
+    """Cambia un *master playlist* por la media playlist jugable de mejor calidad.
+
+    Es el paso que falta en muchas listas: el ``.m3u8`` publicado solo indexa
+    calidades y el reproductor elige una. Aquí se prueban las mejores variantes y se
+    devuelve ``(url, resolución, segmentos, en_vivo, detalle)`` de la primera que
+    responde como playlist de segmentos.
+    """
+    if not playlist.variants:
+        return None
+    failures: list[str] = []
+    for variant in playlist.variants[:MAX_VARIANT_PROBES]:
+        label = variant.resolution or variant.name or f"{variant.bandwidth or '?'} bps"
+        probe = _probe_stream(variant.url, timeout, headers)
+        if isinstance(probe, StreamCheck):
+            failures.append(f"{label}: {(probe.detail or probe.status)[:80]}")
+            continue
+        status, _content_type, final_url, sample = probe
+        if not 200 <= status < 300:
+            failures.append(f"{label}: HTTP {status}")
+            continue
+        info = inspect_hls_playlist(sample.decode("utf-8", errors="replace"), final_url)
+        if info.kind == "master":
+            # Variante que apunta a otro master: se usa su mejor URI, sin más peticiones.
+            nested = info.variants[0] if info.variants else None
+            return (
+                (nested.url if nested else variant.url),
+                (nested.resolution if nested else variant.resolution),
+                0, None,
+                f"HLS master anidado: {label} → "
+                f"{(nested.resolution if nested else 'variante sin comprobar')}",
+            )
+        detail = _describe_hls(info) or "playlist sin segmentos en la muestra"
+        if failures:
+            detail += f"; variantes descartadas: {len(failures)}"
+        label = f" ({variant.resolution})" if variant.resolution else ""
+        return (final_url or variant.url, variant.resolution, info.segment_count,
+                info.is_live, f"HLS master{label}: {detail}")
+    best = playlist.variants[0]
+    note = f" ({failures[0]})" if failures else ""
+    return (
+        "", best.resolution, 0, None,
+        f"HLS master con {len(playlist.variants)} variantes; ninguna confirmó "
+        f"segmentos{note}",
+    )
+
+
+def _http_error_check(exc: HTTPError, url: str) -> StreamCheck:
+    """Clasifica un HTTPError como ``restricted`` o ``http_error``."""
+    content_type = ""
+    headers = getattr(exc, "headers", None)
+    if headers:
+        content_type = headers.get("Content-Type", "").split(";", 1)[0].strip().lower()
+    state = "restricted" if exc.code in {401, 403, 407, 451} else "http_error"
+    try:
+        final_url = exc.geturl()
+    except (AttributeError, TypeError):
+        final_url = url
+    exc.close()
+    return StreamCheck(state, exc.code, content_type, final_url, f"HTTP {exc.code}")
+
+
+def _probe_stream(url: str, timeout: int, headers: dict[str, str] | None, *,
+                  with_range: bool = True,
+                  ) -> tuple[int, str, str, bytes] | StreamCheck:
+    """Sondea un stream y devuelve la muestra o un ``StreamCheck`` de error."""
+    try:
+        return _open_stream_sample(url, timeout, headers, with_range=with_range)
+    except HTTPError as exc:
+        if exc.code in {400, 405, 416, 501} and with_range:
+            # Servidor que no acepta `Range`: se reintenta sin esa cabecera.
+            exc.close()
+            return _probe_stream(url, timeout, headers, with_range=False)
+        return _http_error_check(exc, url)
+    except (URLError, TimeoutError, OSError, ValueError) as exc:
+        reason = getattr(exc, "reason", exc)
+        return StreamCheck("unreachable", detail=str(reason)[:240])
+
+
+def check_stream(url: str, timeout: int = 10,
+                 headers: dict[str, str] | None = None,
+                 resolve_variants: bool = True) -> StreamCheck:
+    """Comprueba un rango HTTP pequeño y analiza el cuerpo de la playlist HLS.
+
+    Además de la accesibilidad: si la respuesta es un *master playlist* se resuelve la
+    variante jugable (``media_url``); si es una media playlist se cuentan los segmentos
+    para distinguir un stream vivo de un ``.m3u8`` vacío o de una página HTML. Las
+    cabeceras ``User-Agent``/``Referer``/``Cookie`` declaradas en la lista
+    (``#EXTVLCOPT``) se reenvían, que es la diferencia entre un 403 y un stream OK.
+    """
     parsed = urlparse(url)
     if parsed.scheme.lower() not in {"http", "https"} or not parsed.netloc:
         return StreamCheck("unsupported", detail="Only absolute HTTP(S) URLs can be checked")
 
     if _is_youtube_embed(url):
-        return _check_youtube_embed(url, timeout)
+        return _check_youtube_embed(url, timeout, headers)
 
     _apply_socket_timeout(timeout)
-    headers = {
-        "User-Agent": USER_AGENT,
-        "Accept": "application/vnd.apple.mpegurl, application/x-mpegURL, */*",
-        "Range": "bytes=0-4095",
-    }
-    try:
-        request = Request(url, headers=headers)
-        with urlopen(request, timeout=max(1, timeout)) as response:
-            status = int(response.status)
-            content_type = response.headers.get("Content-Type", "").split(";", 1)[0].strip().lower()
-            final_url = response.geturl()
-            sample = response.read(4096)
-    except HTTPError as exc:
-        if exc.code in {400, 405, 416, 501}:
-            exc.close()
-            try:
-                fallback_headers = {k: v for k, v in headers.items() if k != "Range"}
-                with urlopen(Request(url, headers=fallback_headers), timeout=max(1, timeout)) as response:
-                    status = int(response.status)
-                    content_type = response.headers.get("Content-Type", "").split(";", 1)[0].strip().lower()
-                    final_url = response.geturl()
-                    sample = response.read(4096)
-            except HTTPError as retry_exc:
-                content_type = retry_exc.headers.get("Content-Type", "").split(";", 1)[0].strip().lower()
-                state = "restricted" if retry_exc.code in {401, 403, 407, 451} else "http_error"
-                try:
-                    final_url = retry_exc.geturl()
-                except AttributeError:
-                    final_url = url
-                retry_exc.close()
-                return StreamCheck(state, retry_exc.code, content_type, final_url, f"HTTP {retry_exc.code}")
-            except (URLError, TimeoutError, OSError, ValueError) as retry_exc:
-                reason = getattr(retry_exc, "reason", retry_exc)
-                return StreamCheck("unreachable", detail=str(reason)[:240])
-        else:
-            content_type = exc.headers.get("Content-Type", "").split(";", 1)[0].strip().lower()
-            state = "restricted" if exc.code in {401, 403, 407, 451} else "http_error"
-            try:
-                final_url = exc.geturl()
-            except AttributeError:
-                final_url = url
-            exc.close()
-            return StreamCheck(state, exc.code, content_type, final_url, f"HTTP {exc.code}")
-    except (URLError, TimeoutError, OSError, ValueError) as exc:
-        reason = getattr(exc, "reason", exc)
-        return StreamCheck("unreachable", detail=str(reason)[:240])
+    probe = _probe_stream(url, timeout, headers)
+    if isinstance(probe, StreamCheck):
+        # Un 403 sin cabeceras propias suele ser protección anti-hotlink: se prueba
+        # una última vez con el User-Agent de navegador antes de descartar el canal.
+        if probe.status == "restricted" and "User-Agent" not in (headers or {}):
+            retry = _probe_stream(url, timeout, {
+                **(headers or {}),
+                "User-Agent": BROWSER_HEADERS["User-Agent"],
+                "Referer": f"{parsed.scheme}://{parsed.netloc}/",
+            })
+            if not isinstance(retry, StreamCheck):
+                probe = retry
+        if isinstance(probe, StreamCheck):
+            return probe
+    status, content_type, final_url, sample = probe
 
     if not 200 <= status < 300:
         return StreamCheck("http_error", status, content_type, final_url, f"HTTP {status}")
@@ -1894,6 +2741,31 @@ def check_stream(url: str, timeout: int = 10) -> StreamCheck:
             "invalid_playlist", status, content_type, final_url,
             "The endpoint responded, but no #EXTM3U playlist header was found",
         )
+
+    playlist = inspect_hls_playlist(sample.decode("utf-8", errors="replace"), final_url)
+    if playlist.kind == "master":
+        resolved = _resolve_hls_variants(playlist, timeout, headers) if resolve_variants else None
+        if resolved is None:
+            best = playlist.variants[0] if playlist.variants else None
+            return StreamCheck(
+                "http_ok", status, content_type, final_url, _describe_hls(playlist),
+                "master", best.url if best else "", best.resolution if best else "",
+            )
+        media_url, resolution, segments, is_live, detail = resolved
+        return StreamCheck(
+            "http_ok", status, content_type, final_url, detail,
+            "master", media_url, resolution, segments, is_live,
+        )
+    if playlist.kind == "media":
+        return StreamCheck(
+            "http_ok", status, content_type, final_url, _describe_hls(playlist),
+            "media", "", "", playlist.segment_count, playlist.is_live,
+        )
+    if playlist.kind == "empty":
+        return StreamCheck(
+            "http_ok", status, content_type, final_url,
+            "Playlist header detected; segments were not tested", "playlist",
+        )
     detail = (
         "Playlist header detected; segments were not tested"
         if is_playlist else "HTTP response received; playback was not tested"
@@ -1910,15 +2782,35 @@ def _remaining_seconds(deadline: float | None) -> float | None:
 
 def check_streams(channels: Iterable[Channel], timeout: int = 10,
                   workers: int = 4,
-                  deadline: float | None = None) -> dict[str, StreamCheck]:
-    urls = list(dict.fromkeys(channel.url for channel in channels if channel.url))
+                  deadline: float | None = None,
+                  resolve_variants: bool = True) -> dict[str, StreamCheck]:
+    """Comprueba las URLs de unos canales en paralelo, con sus cabeceras de lista."""
+    headers_by_url: dict[str, dict[str, str]] = {}
+    urls: list[str] = []
+    for channel in channels:
+        if not channel.url:
+            continue
+        key = _url_key(channel.url)
+        if key not in headers_by_url and channel.headers:
+            headers_by_url[key] = dict(channel.headers)
+        elif channel.headers:
+            merged = dict(headers_by_url.get(key) or {})
+            merged.update(channel.headers)
+            headers_by_url[key] = merged
+        if channel.url not in urls:
+            urls.append(channel.url)
     if not urls:
         return {}
 
     results: dict[str, StreamCheck] = {}
     pool = ThreadPoolExecutor(max_workers=max(1, min(workers, len(urls))))
     try:
-        futures = {pool.submit(check_stream, url, timeout): url for url in urls}
+        futures = {
+            pool.submit(
+                check_stream, url, timeout, headers_by_url.get(_url_key(url)), resolve_variants,
+            ): url
+            for url in urls
+        }
         waiter = as_completed(futures, timeout=_remaining_seconds(deadline)) \
             if deadline is not None else as_completed(futures)
         try:
@@ -1975,6 +2867,13 @@ def _merge_channel_metadata(existing: Channel, incoming: Channel) -> None:
         existing.language = incoming.language
     if existing.country == "unknown" and incoming.country != "unknown":
         existing.country = incoming.country
+    if incoming.headers:
+        if existing.headers is None:
+            existing.headers = dict(incoming.headers)
+        else:
+            for key_name, value in incoming.headers.items():
+                if value and not existing.headers.get(key_name):
+                    existing.headers[key_name] = value
     if incoming.attributes:
         if existing.attributes is None:
             existing.attributes = dict(incoming.attributes)
@@ -2004,6 +2903,15 @@ def _channel_quality_score(channel: Channel,
     """Rank candidate channels by reachability, metadata completeness and URL quality."""
     check = stream_checks.get(channel.url) if stream_checks else None
     check_rank = 2 if (check and check.status == "http_ok") else (1 if check is None else 0)
+    # Una respuesta 200 no basta: se puntúa por encima el `.m3u8` que de verdad
+    # declara variantes o segmentos, y se penaliza el que devuelve HTML.
+    playlist_rank = 0
+    if check is not None:
+        if check.playlist_kind in {"media", "master"}:
+            playlist_rank = 2
+        elif check.status == "invalid_playlist":
+            playlist_rank = -2
+    has_headers = 1 if channel.headers else 0
     canonical = _canonical_channel_key(channel.name)
     non_generic = 1 if (canonical and canonical not in GENERIC_CHANNEL_NAMES) else 0
     has_category = 1 if channel.category != "other" else 0
@@ -2017,8 +2925,9 @@ def _channel_quality_score(channel: Channel,
                      or channel.stream_type == STREAM_TYPE_YOUTUBE) else 0
     return (
         check_rank,
+        playlist_rank,
         non_generic,
-        has_category + has_country + has_language + has_logo + has_tvg_id,
+        has_category + has_country + has_language + has_logo + has_tvg_id + has_headers,
         preferred_lang,
         is_https + playable,
         playable,
@@ -2042,11 +2951,13 @@ def dedupe_unique_channels(
     diversify: bool = True,
     exclude_keys: tuple[set[str], set[str], set[str]] | None = None,
     max_per_source: int = 0,
+    require_playlist: bool = False,
 ) -> list[Channel]:
     """Select unique channels without repeating name/slug, tvg_id, URL or final redirect URL.
 
     When ``limit`` is positive, channels are ranked by quality and interleaved across
     categories so the resulting list is diverse and free of duplicates.
+    ``require_playlist`` descarta lo que responde 200 pero no es una playlist HLS.
     """
     candidates = _dedupe(channels)
     if not candidates:
@@ -2077,6 +2988,14 @@ def dedupe_unique_channels(
         check = stream_checks.get(channel.url) if stream_checks else None
         if only_http_ok and (check is None or check.status != "http_ok"):
             continue
+        if require_playlist and (
+            check is None
+            or check.status != "http_ok"
+            or (check.playlist_kind not in {"media", "master", "playlist"}
+                and ".m3u8" not in channel.url.lower()
+                and channel.stream_type != STREAM_TYPE_YOUTUBE)
+        ):
+            continue
 
         cleaned_name = clean_channel_name(channel.name)
         slug = channel_slug(cleaned_name or channel.name)
@@ -2102,6 +3021,11 @@ def dedupe_unique_channels(
         ):
             continue
 
+        media_url_key = _url_key(check.media_url) if (check and check.media_url) else ""
+        if media_url_key and media_url_key in seen_urls:
+            # Otra URL que apunta a la misma playlist resuelta: mismo stream real.
+            continue
+
         normalized_channel = Channel(
             name=cleaned_name or channel.name,
             url=channel.url,
@@ -2116,6 +3040,7 @@ def dedupe_unique_channels(
             source_url=channel.source_url,
             stream_type=channel.stream_type,
             attributes=dict(channel.attributes) if channel.attributes else None,
+            headers=dict(channel.headers) if channel.headers else None,
         )
         seen_canonical[canonical] = normalized_channel
         seen_slugs.add(slug)
@@ -2123,6 +3048,8 @@ def dedupe_unique_channels(
         seen_urls.add(url_key)
         if final_url_key:
             seen_urls.add(final_url_key)
+        if media_url_key:
+            seen_urls.add(media_url_key)
         if tvg_key:
             seen_tvg_ids.add(tvg_key)
         unique.append(normalized_channel)
@@ -2177,6 +3104,8 @@ def select_channels_with_checks(
     exclude_keys: tuple[set[str], set[str], set[str]] | None = None,
     deadline: float | None = None,
     max_per_source: int = 0,
+    require_playlist: bool = False,
+    resolve_variants: bool = True,
 ) -> tuple[list[Channel], dict[str, StreamCheck]]:
     """Probe candidate streams in bounded batches until ``limit`` unique channels are found.
 
@@ -2189,7 +3118,7 @@ def select_channels_with_checks(
 
     if limit <= 0:
         checks = check_streams(candidates, timeout=timeout, workers=workers,
-                               deadline=deadline)
+                               deadline=deadline, resolve_variants=resolve_variants)
         selected = dedupe_unique_channels(
             candidates,
             limit=None,
@@ -2197,6 +3126,7 @@ def select_channels_with_checks(
             only_http_ok=only_http_ok,
             exclude_keys=exclude_keys,
             max_per_source=max_per_source,
+            require_playlist=require_playlist,
         )
         return selected, checks
 
@@ -2265,17 +3195,23 @@ def select_channels_with_checks(
     for offset in range(0, len(probe_queue), batch_size):
         remaining = _remaining_seconds(deadline)
         if remaining is not None and remaining <= 1:
-            print(
+            log(
                 "WARNING: se agotó el tiempo de comprobación; se exporta lo verificado "
                 f"hasta ahora ({len(all_checks)} URLs comprobadas).",
-                file=sys.stderr,
+                level="warning", file=sys.stderr,
             )
             break
         batch = probe_queue[offset:offset + batch_size]
         batch_checks = check_streams(batch, timeout=timeout, workers=workers,
-                                     deadline=deadline)
+                                     deadline=deadline, resolve_variants=resolve_variants)
         all_checks.update(batch_checks)
         probed_channels.extend(batch)
+        log(
+            f"  · streams: {len(all_checks)}/{len(probe_queue)} URLs comprobadas "
+            f"({sum(1 for chk in batch_checks.values() if chk.status == 'http_ok')} ok "
+            f"en el lote de {len(batch_checks)})",
+            "debug",
+        )
 
         ok_unique = dedupe_unique_channels(
             probed_channels,
@@ -2284,6 +3220,7 @@ def select_channels_with_checks(
             only_http_ok=True,
             exclude_keys=exclude_keys,
             max_per_source=max_per_source,
+            require_playlist=require_playlist,
         )
         if len(ok_unique) >= limit:
             selected_urls = {c.url for c in ok_unique}
@@ -2297,8 +3234,56 @@ def select_channels_with_checks(
         only_http_ok=only_http_ok,
         exclude_keys=exclude_keys,
         max_per_source=max_per_source,
+        require_playlist=require_playlist,
     )
     return selected, all_checks
+
+
+STATIC_ASSET_RE = re.compile(
+    r"\.(?:png|jpe?g|gif|webp|avif|svg|ico|css|js|mjs|json|woff2?|ttf|eot|mp4|mp3|webm|zip|pdf|txt)$",
+    re.I,
+)
+def _looks_like_opaque_token(segment: str) -> bool:
+    """Un segmento de ruta sin separadores y con forma de hash/base64/uuid.
+
+    Los slugs legibles (`tyc-sports`, `c5n`) y los ids numéricos (`/ver/202608150001`)
+    se conservan siempre; lo que se descarta son cadenas largas sin separadores que
+    mezclan mayúsculas, minúsculas y dígitos (o terminan en `=`), típico de un token,
+    un hash o un base64 metido en un `data-*`.
+    """
+    if "-" in segment or "_" in segment or "." in segment:
+        return False
+    if segment.isdigit():
+        return False  # un id numérico largo sigue siendo una página válida
+    if segment.endswith("="):
+        return True
+    if re.fullmatch(r"[0-9a-fA-F]{16,}", segment) and re.search(r"[a-fA-F]", segment):
+        return True
+    if len(segment) < 24 or not re.fullmatch(r"[A-Za-z0-9+/]{24,}", segment):
+        return False
+    return bool(re.search(r"[A-Z]", segment) and re.search(r"[a-z]", segment)
+                and re.search(r"\d", segment))
+
+
+def _looks_like_channel_page(url: str) -> bool:
+    """Descarta lo que no puede ser una página de canal al descubrir páginas.
+
+    Evita que un `data-src` con el stream en base64, un hash o una imagen acaben
+    descargándose como si fueran la página de un canal (peticiones perdidas y ruido
+    en los avisos).
+    """
+    try:
+        path = urlparse(url).path
+    except ValueError:
+        return False
+    last = path.rstrip("/").rsplit("/", 1)[-1]
+    if not last:
+        return False
+    if STATIC_ASSET_RE.search(last):
+        return False
+    if _looks_like_opaque_token(last):
+        return False
+    return True
 
 
 def _page_matches_source(source: SourceConfig, path: str) -> bool:
@@ -2417,8 +3402,11 @@ def _fetch_site_page(source: SourceConfig, page: str, label: str,
     configuraciones JSON (`cv.json` → `cvatt.html`) y embeds de YouTube en vivo hasta
     ``source.max_depth`` saltos, siempre con un número acotado de documentos.
     """
+    fetch_headers = _source_headers(source)
     try:
-        root_html = _fetch_text(page, timeout)
+        # `use_cache`: muchas páginas enlazan el mismo wrapper o la misma lista; repetir
+        # la descarga del mismo documento solo cuesta tiempo y peticiones de más.
+        root_html = _fetch_text(page, timeout, headers=fetch_headers or None, use_cache=True)
     except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
         return [], f"{source.key}: page {page}: {exc}"
 
@@ -2458,7 +3446,10 @@ def _fetch_site_page(source: SourceConfig, page: str, label: str,
     def process_json_configs(document: str, document_url: str, depth: int) -> None:
         for config_url in _json_config_urls(document, document_url):
             try:
-                payload = json.loads(_fetch_text(config_url, timeout, max_bytes=4 * 1024 * 1024))
+                payload = json.loads(_fetch_text(
+                    config_url, timeout, max_bytes=4 * 1024 * 1024,
+                    headers=fetch_headers, use_cache=True,
+                ))
             except (HTTPError, URLError, TimeoutError, OSError, ValueError,
                     json.JSONDecodeError) as exc:
                 errors.append(f"{source.key}: config {config_url}: {exc}")
@@ -2489,19 +3480,30 @@ def _fetch_site_page(source: SourceConfig, page: str, label: str,
     while queue and documents < MAX_PLAYER_DOCS:
         url, depth = queue.pop(0)
         try:
-            html = _fetch_text(url, timeout)
+            html = _fetch_text(url, timeout, headers=fetch_headers or None, use_cache=True)
         except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
             errors.append(f"{source.key}: player {url}: {exc}")
             continue
         documents += 1
+        log(f"    · {source.key}: sigue el player {url} (doc {documents})", "debug")
 
         if _looks_like_m3u(html):
-            for channel in parse_m3u(html, source=source.name, base_url=url):
+            entries = parse_m3u(html, source=source.name, base_url=url)
+            for channel in entries:
                 channel.name = name or channel.name
                 channel.group = channel.group or source.name
                 channel.source_url = page
                 _apply_source_country(channel, source, page)
                 found.append(channel)
+            if not entries:
+                # El wrapper devolvió una playlist HLS de un solo canal (master o de
+                # segmentos): la propia URL descargada es el stream.
+                playlist = inspect_hls_playlist(html, url)
+                stream_url = url
+                if playlist.kind == "master" and playlist.variants:
+                    stream_url = playlist.variants[0].url
+                if playlist.kind in {"master", "media"}:
+                    found.append(_site_channel(name, stream_url, source, page, logo))
             continue
 
         if not logo:
@@ -2526,16 +3528,128 @@ def _fetch_site_page(source: SourceConfig, page: str, label: str,
     return _dedupe(found), ("; ".join(errors[:3]) if errors and not found else None)
 
 
-def _fetch_source(source: SourceConfig, timeout: int,
-                  max_pages: int) -> tuple[list[Channel], list[str]]:
+def _expand_nested_playlists(source: SourceConfig, channels: list[Channel], timeout: int,
+                             limit: int, fetch_headers: dict[str, str] | None = None,
+                             deadline: float | None = None,
+                             ) -> tuple[list[Channel], list[str]]:
+    """Despliega las sub-listas `.m3u` enlazadas por una lista maestra.
+
+    Varias fuentes públicas (`m3u.cl`, iptv-org, listas de canales por país) publican
+    un índice cuyas entradas apuntan a otros `.m3u`. Sin este paso el índice aporta
+    “canales” que ningún reproductor puede abrir; con él, cada sub-lista se descarga
+    una vez (paralelo y acotado) y sus canales reales entran en el resultado.
+    """
+    nested = [
+        channel for channel in channels
+        if urlparse(channel.url).path.lower().endswith(".m3u")
+    ]
+    if not nested or limit <= 0:
+        return channels, []
+    remaining = _remaining_seconds(deadline)
+    if remaining is not None and remaining < NESTED_MIN_SECONDS:
+        # Desplegar sub-listas cuesta peticiones extra; sin presupuesto se deja la
+        # lista tal cual (las entradas-índice se descartan al comprobar streams).
+        return channels, [
+            f"{source.key}: sub-listas no desplegadas por falta de tiempo "
+            f"({len(nested)} pendientes)",
+        ]
+    if remaining is not None:
+        timeout = max(1, min(timeout, int(remaining / 2) or 1))
+    errors: list[str] = []
+    expanded: dict[str, list[Channel]] = {}
+    queue = nested[:limit]
+    workers = max(1, min(6, len(queue)))
+
+    def collect(channel: Channel, content: str) -> list[Channel]:
+        items = parse_m3u(content, source=source.name, base_url=channel.url)[:MAX_NESTED_ENTRIES]
+        for item in items:
+            item.group = item.group or channel.name
+            item.source_url = channel.url
+            item.headers = item.headers or channel.headers
+            item.directives = item.directives or channel.directives
+            _apply_source_country(item, source, channel.url)
+        return items
+
+    pool = ThreadPoolExecutor(max_workers=workers)
+    try:
+        futures = {
+            pool.submit(_fetch_text, channel.url, timeout, DEFAULT_MAX_BYTES,
+                        2, fetch_headers or None, True): channel
+            for channel in queue
+        }
+        iterator = as_completed(futures, timeout=_remaining_seconds(deadline)) \
+            if deadline is not None else as_completed(futures)
+        try:
+            for future in iterator:
+                channel = futures[future]
+                try:
+                    content = future.result()
+                except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
+                    errors.append(f"{source.key}: sub-lista {channel.url}: {str(exc)[:160]}")
+                    continue
+                if not _looks_like_m3u(content):
+                    errors.append(f"{source.key}: sub-lista {channel.url}: no es una lista M3U")
+                    continue
+                items = collect(channel, content)
+                if items:
+                    expanded[channel.url] = items
+        except FuturesTimeout:
+            errors.append(f"{source.key}: sub-listas incompletas (se acabó el tiempo)")
+    finally:
+        # No esperar hebras colgadas: el presupuesto de la ejecución manda.
+        pool.shutdown(wait=False, cancel_futures=True)
+
+    log(f"  · {source.key}: {len(expanded)} sub-listas desplegadas", "debug")
+    if not expanded:
+        return channels, errors
+    # Se sustituyen las entradas-índice ya desplegadas y se conservan las que fallaron.
+    result = [
+        channel for channel in channels
+        if channel.url not in expanded
+    ]
+    for channel in channels:
+        items = expanded.get(channel.url)
+        if items:
+            result.extend(items)
+    return result, errors
+
+
+def _root_document_channels(source: SourceConfig, html: str, document_url: str, *,
+                            strict: bool) -> list[Channel]:
+    """Canales publicados directamente en el documento de entrada de un sitio."""
+    streams = _stream_urls_from_document(html, document_url)
+    if strict:
+        streams = [
+            url for url in streams
+            if urlparse(url).path.lower().endswith((".m3u8", ".mpd"))
+        ]
+    embeds = [] if streams else _youtube_embed_urls(html)
+    if not streams and not embeds:
+        return []
+    name = clean_channel_name(_page_title(html, source.name)) or source.name
+    logo = _page_logo(html, document_url)
+    found = [_site_channel(name, url, source, document_url, logo) for url in streams]
+    found += [
+        _site_channel(name, url, source, document_url, logo, STREAM_TYPE_YOUTUBE)
+        for url in embeds[:1]
+    ]
+    return _dedupe(found)
+
+
+def _fetch_source(source: SourceConfig, timeout: int, max_pages: int,
+                  max_nested: int = DEFAULT_MAX_NESTED_PLAYLISTS,
+                  deadline: float | None = None,
+                  ) -> tuple[list[Channel], list[str]]:
     errors: list[str] = []
     attempt_errors: list[str] = []
     initial = ""
     effective_url = ""
+    fetch_headers = _source_headers(source)
+    kwargs: dict[str, object] = {"headers": fetch_headers} if fetch_headers else {}
     candidate_urls = list(dict.fromkeys((source.url, *source.fallback_urls)))
     for candidate_url in candidate_urls:
         try:
-            document = _fetch_text(candidate_url, timeout)
+            document = _fetch_text(candidate_url, timeout, **kwargs)
         except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
             attempt_errors.append(f"{candidate_url}: {exc}")
             continue
@@ -2552,10 +3666,33 @@ def _fetch_source(source: SourceConfig, timeout: int,
 
     if source.kind == "playlist" or _looks_like_m3u(initial):
         channels = parse_m3u(initial, source=source.name, base_url=effective_url)
+        if not channels:
+            # El archivo enlazado es la playlist HLS de un solo canal (variantes o
+            # segmentos): no hay lista de emisoras, pero sí un stream aprovechable.
+            playlist = inspect_hls_playlist(initial, effective_url)
+            single = ""
+            if playlist.kind == "master" and playlist.variants:
+                single = playlist.variants[0].url
+            elif playlist.kind == "media":
+                single = effective_url
+            if single:
+                raw_name = _name_from_url(effective_url) or source.name
+                name = clean_channel_name(raw_name) or raw_name
+                category, language, country = classify_channel(name, source.name)
+                channels = [Channel(
+                    name=name, url=single, group=source.name, logo="",
+                    language=language, country=country, category=category,
+                    source=source.name, source_url=effective_url,
+                )]
         for channel in channels:
             channel.source_url = effective_url
             _apply_source_country(channel, source, effective_url)
-        return channels, []
+        if source.expand_nested:
+            channels, nested_errors = _expand_nested_playlists(
+                source, channels, timeout, max_nested, fetch_headers or None, deadline,
+            )
+            errors.extend(nested_errors)
+        return channels, errors
 
     parser = LinkParser()
     parser.feed(initial)
@@ -2570,7 +3707,13 @@ def _fetch_source(source: SourceConfig, timeout: int,
             continue
         seen_playlists.add(playlist)
         try:
-            content = _fetch_text(playlist, timeout)
+            # Con caché: si una lista se enlaza varias veces no se descarga dos veces. Que
+            # la misma URL vuelva a pedirse como wrapper de un canal NO es un desperdicio:
+            # ahí `fetch_headers` lleva el Referer de la página del canal, y un CDN con
+            # anti-hotlinking puede responder 403/404 con el Referer de la raíz y 200 con
+            # el correcto (la caché está indexada por URL+cabeceras, por eso no colisiona).
+            content = _fetch_text(playlist, timeout, headers=fetch_headers or None,
+                                  use_cache=True)
             if _looks_like_m3u(content):
                 items = parse_m3u(content, source=source.name, base_url=playlist)
                 for channel in items:
@@ -2582,6 +3725,14 @@ def _fetch_source(source: SourceConfig, timeout: int,
         except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
             errors.append(f"{source.key}: playlist {playlist}: {exc}")
 
+    # El documento de entrada también puede traer el reproductor: ocurre al apuntar
+    # `--source-url` a la página de un canal concreto. Desde la raíz del sitio solo se
+    # aceptan streams con extensión de playlist, para no tomar enlaces `/live/xxx` del
+    # menú como si fueran canales.
+    entry_is_root = urlparse(effective_url).path in ("", "/")
+    root_channels = _root_document_channels(source, initial, effective_url,
+                                            strict=entry_is_root)
+
     host = urlparse(effective_url).netloc.lower()
     pages: list[tuple[str, str]] = []
     seen_pages: dict[str, int] = {}
@@ -2591,6 +3742,8 @@ def _fetch_source(source: SourceConfig, timeout: int,
         if parsed.scheme not in {"http", "https"} or parsed.netloc.lower() != host:
             return
         if not _page_matches_source(source, parsed.path):
+            return
+        if not _looks_like_channel_page(page):
             return
         key = _url_key(page)
         if key in seen_pages:
@@ -2609,6 +3762,7 @@ def _fetch_source(source: SourceConfig, timeout: int,
         add_page(_clean_url(href, effective_url), label)
 
     pages = _select_site_pages(source, pages, max_pages)
+    log(f"  · {source.key}: {len(pages)} páginas de canal para rastrear", "debug")
     if pages:
         page_workers = max(1, min(6, len(pages)))
         page_results: list[tuple[list[Channel], str | None]] = [([], None) for _ in pages]
@@ -2624,18 +3778,25 @@ def _fetch_source(source: SourceConfig, timeout: int,
                 except Exception as exc:
                     page_results[idx] = ([], f"{source.key}: page {pages[idx][0]}: {exc}")
 
-        for page_channels, page_error in page_results:
+        for page_no, (page_channels, page_error) in enumerate(page_results):
             channels.extend(page_channels)
+            log(
+                f"    · {source.key}: {len(page_channels)} streams en la página "
+                f"{page_no + 1}/{len(page_results)}",
+                "debug",
+            )
             if page_error:
                 errors.append(page_error)
+                log(f"    · {source.key}: {page_error}", "debug")
 
-    return _dedupe(channels), errors
+    return _dedupe(channels + root_channels), errors
 
 
 def fetch_sources(
     sources: Iterable[SourceConfig], timeout: int = 20,
     workers: int = 4, max_pages: int = 30,
     deadline: float | None = None,
+    max_nested: int = DEFAULT_MAX_NESTED_PLAYLISTS,
 ) -> tuple[list[Channel], dict[str, list[str]], dict[str, int]]:
     """Fetch every source in parallel and return channels, errors and per-source counts."""
     source_list = list(sources)
@@ -2647,7 +3808,8 @@ def fetch_sources(
     pool = ThreadPoolExecutor(max_workers=worker_count)
     try:
         futures = {
-            pool.submit(_fetch_source, source, timeout, max_pages): (index, source)
+            pool.submit(_fetch_source, source, timeout, max_pages, max_nested,
+                        deadline): (index, source)
             for index, source in enumerate(source_list)
         }
         waiter = as_completed(futures, timeout=_remaining_seconds(deadline)) \
@@ -2680,6 +3842,36 @@ def fetch_sources(
     return channels, errors, counts
 
 
+def _headers_to_m3u(headers: dict[str, str] | None) -> list[str]:
+    """Directivas `#EXTVLCOPT`/`#EXTHTTP` para que la lista exportada se reproduzca.
+
+    Las tres cabeceras que entienden todos los reproductores van como `#EXTVLCOPT`;
+    el resto se agrupa en un unico `#EXTHTTP` JSON, que es lo que se vuelve a leer al
+    reimportar la lista (round-trip sin perder nada).
+    """
+    lines: list[str] = []
+    extra: dict[str, str] = {}
+    for key, value in (headers or {}).items():
+        if not key or not value:
+            continue
+        name = key.strip().casefold()
+        if name == "user-agent":
+            lines.append(f"#EXTVLCOPT:http-user-agent={value}")
+        elif name in {"referer", "referrer"}:
+            lines.append(f"#EXTVLCOPT:http-referrer={value}")
+        elif name == "cookie":
+            extra["cookie"] = value
+        else:
+            extra[key.strip()] = value
+    if extra:
+        lines.append("#EXTHTTP:" + json.dumps(extra, ensure_ascii=False))
+    return lines
+
+
+def _headers_to_text(headers: dict[str, str] | None) -> str:
+    return "; ".join(f"{key}: {value}" for key, value in (headers or {}).items() if value)
+
+
 def write_output(channels: Iterable[Channel], output: Path, fmt: str,
                  stream_checks: dict[str, StreamCheck] | None = None) -> None:
     channel_list = list(channels)
@@ -2710,21 +3902,36 @@ def write_output(channels: Iterable[Channel], output: Path, fmt: str,
                 attrs.append(f'tvg-country="{channel.country}"')
             if channel.stream_type and channel.stream_type != STREAM_TYPE_HLS:
                 attrs.append(f'stream-type="{channel.stream_type}"')
-            group_title = channel.group or channel.category
+            # `other` no es un grupo útil en el reproductor: solo se usa si viene dado.
+            group_title = channel.group or (
+                channel.category if channel.category not in {"", "other"} else ""
+            )
             if group_title:
                 attrs.append(f'group-title="{group_title}"')
             attr_str = (" " + " ".join(attrs)) if attrs else ""
             lines.append(f"#EXTINF:-1{attr_str},{channel.name}")
+            lines.extend(_headers_to_m3u(channel.headers))
+            for directive in channel.directives or []:
+                # Se reescribe tal cual: #EXT-X-KEY/#KODIPROP/EXTVLCOPT sueltos que no
+                # son cabeceras y que el reproductor necesita leer antes de la URL.
+                if directive and directive.startswith("#"):
+                    lines.append(directive)
             lines.append(channel.url)
         output.write_text("\n".join(lines) + "\n", encoding="utf-8")
         return
 
     fields = ["name", "url", "group", "tvg_id", "tvg_name", "logo",
-              "language", "country", "category", "source", "source_url", "stream_type"]
-    csv_rows = rows
+              "language", "country", "category", "source", "source_url", "stream_type",
+              "headers"]
+    csv_rows = []
+    for channel, row in zip(channel_list, rows):
+        csv_row = dict(row)
+        csv_row["headers"] = _headers_to_text(channel.headers)
+        csv_rows.append(csv_row)
     if stream_checks is not None:
         fields.extend(("stream_status", "stream_http_status", "stream_content_type",
-                       "stream_final_url", "stream_detail"))
+                       "stream_final_url", "stream_detail", "stream_playlist_kind",
+                       "stream_media_url", "stream_resolution", "stream_segment_count"))
         csv_rows = []
         for channel, row in zip(channel_list, rows):
             check = stream_checks.get(channel.url, StreamCheck("not_checked"))
@@ -2735,6 +3942,11 @@ def write_output(channels: Iterable[Channel], output: Path, fmt: str,
                 "stream_content_type": check.content_type,
                 "stream_final_url": check.final_url,
                 "stream_detail": check.detail,
+                "stream_playlist_kind": check.playlist_kind,
+                "stream_media_url": check.media_url,
+                "stream_resolution": check.resolution,
+                "stream_segment_count": check.segment_count,
+                "headers": _headers_to_text(channel.headers),
             })
             csv_rows.append(csv_row)
 
@@ -2767,15 +3979,15 @@ def fetch_existing_supabase_channels(url: str, key: str,
             ).decode("utf-8", errors="replace"))
     except Exception as exc:
         # Sin la lista previa no se puede evitar repetir; se avisa y se continúa.
-        print(
+        log(
             f"WARNING: no se pudieron leer los canales existentes de Supabase: {exc}",
-            file=sys.stderr,
+            "warning", file=sys.stderr,
         )
         return set(), set(), set()
 
     if not isinstance(payload, list):
-        print("WARNING: Supabase devolvió una respuesta inesperada al listar canales.",
-              file=sys.stderr)
+        log("WARNING: Supabase devolvió una respuesta inesperada al listar canales.",
+            "warning", file=sys.stderr)
         return set(), set(), set()
 
     slugs: set[str] = set()
@@ -2952,7 +4164,74 @@ def _write_step_summary(channels: list[Channel], source_counts: dict[str, int],
         pass
 
 
+# TLD que se usan como "domain hack" comercial y no como señal de país.
+AMBIGUOUS_TLDS = {
+    "tv", "me", "fm", "am", "ly", "io", "gg", "to", "cc", "ai", "im", "sh", "li", "st",
+    "be", "at", "ch", "de",
+}
+GENERIC_SECOND_LEVEL = {"com", "org", "net", "gov", "edu", "mil", "ac"}
+
+
+def _country_from_host(netloc: str) -> str:
+    """País sugerido por el ccTLD del dominio (``m3u.cl`` → ``CL``).
+
+    Solo se usa como pista (rellena países desconocidos), igual que ``country_hint``.
+    """
+    host = (netloc or "").split(":", 1)[0].lower().rstrip(".")
+    labels = [label for label in host.split(".") if label]
+    if len(labels) < 2:
+        return ""
+    tld = labels[-1]
+    if len(tld) != 2 or tld in AMBIGUOUS_TLDS:
+        return ""
+    if len(labels) >= 3 and labels[-2] in GENERIC_SECOND_LEVEL:
+        # `www.lista.com.ar`: el país lo da el último segmento igualmente.
+        pass
+    return _code(tld, COUNTRY_CODES, upper=True)
+
+
+def _custom_sources(urls: Iterable[str], name: str = "") -> tuple[SourceConfig, ...]:
+    """Convierte URLs sueltas de la CLI en fuentes configuradas.
+
+    ``.m3u``/``.m3u8`` se tratan como lista directa; el resto se rastrea como sitio con
+    reproductor, igual que las fuentes ``kind="site"`` incluidas en el proyecto.
+    """
+    out: list[SourceConfig] = []
+    for index, raw in enumerate(urls, start=1):
+        url = (raw or "").strip()
+        if not url:
+            continue
+        if "://" not in url:
+            url = "https://" + url
+        parsed = urlparse(url)
+        if parsed.scheme.lower() not in {"http", "https"} or not parsed.netloc:
+            log(f"WARNING: --source-url ignorada (no es HTTP/HTTPS): {raw}",
+                level="warning", file=sys.stderr)
+            continue
+        if "." not in parsed.netloc.split(":", 1)[0]:
+            log(f"WARNING: --source-url ignorada (dominio sin sufijo): {raw}",
+                level="warning", file=sys.stderr)
+            continue
+        host = parsed.netloc.lower()
+        label = (name or host).strip()
+        key = f"custom{'' if index == 1 else index}-{host.split(':')[0].replace('.', '-')}"
+        country_hint = _country_from_host(parsed.netloc)
+        is_playlist = parsed.path.lower().endswith((".m3u", ".m3u8"))
+        if is_playlist:
+            out.append(SourceConfig(key=key, name=label, url=url, kind="playlist",
+                                    country_hint=country_hint))
+            continue
+        out.append(SourceConfig(
+            key=key, name=label, url=url, kind="site",
+            # Sin filtros de ruta: se explora el sitio hasta `--max-pages`.
+            max_depth=2, country_hint=country_hint,
+        ))
+    return tuple(out)
+
+
 def main(argv: list[str] | None = None) -> int:
+    # `global` en la primera línea: POLITE_DELAY se lee más abajo y Python lo exige así.
+    global POLITE_DELAY
     parser = argparse.ArgumentParser(
         description=(
             "Extract and classify TV channels from local playlists or configured public sources."
@@ -2998,9 +4277,30 @@ def main(argv: list[str] | None = None) -> int:
         help="Máximo de canales por fuente al repartir el cupo (0 = sin límite, "
              "recomendado al usar --all-sources para que ninguna lista acapare el resultado)",
     )
+    parser.add_argument("--source-url", action="append", default=[], metavar="URL",
+                        help="Fuente puntual adicional (lista .m3u/.m3u8 o sitio con "
+                             "reproductor); se puede repetir. Se infiere el tipo por extensión")
+    parser.add_argument("--source-name", default="", metavar="NOMBRE",
+                        help="Etiqueta para las fuentes indicadas con --source-url")
     parser.add_argument("--timeout", type=int, default=15)
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--max-pages", type=int, default=25)
+    parser.add_argument("--log-level",
+                        default=os.environ.get("SDF_LOG_LEVEL", "INFO"),
+                        help="detalle de la salida: DEBUG, INFO, WARNING o ERROR "
+                             "(DEBUG añade el progreso del rastreo y de cada comprobación)")
+    parser.add_argument("--polite-delay", type=float, default=POLITE_DELAY,
+                        help="Intervalo mínimo en segundos entre peticiones al mismo host "
+                             f"(por defecto: {POLITE_DELAY:g})")
+    parser.add_argument("--max-nested-playlists", type=int, default=DEFAULT_MAX_NESTED_PLAYLISTS,
+                        help="Sub-listas .m3u a desplegar por fuente (0 desactiva la "
+                             f"expansión; por defecto: {DEFAULT_MAX_NESTED_PLAYLISTS})")
+    parser.add_argument("--require-playlist", action="store_true",
+                        help="Conservar solo los canales cuyo .m3u8 responde una playlist "
+                             "HLS real (master o de segmentos); descarta páginas HTML")
+    parser.add_argument("--no-resolve-variants", dest="resolve_variants", action="store_false",
+                        help="No resolver los master playlist HLS a su variante jugable "
+                             "(más rápido, pero `media_url` queda vacío)")
     parser.add_argument("--deadline", type=int, default=0,
                         help="Tiempo máximo en segundos para descargar fuentes y comprobar "
                              "streams (0 = sin límite)")
@@ -3016,12 +4316,20 @@ def main(argv: list[str] | None = None) -> int:
                         help="Country fallback when the channel country is unknown (must exist in countries)")
     args = parser.parse_args(argv)
 
+    # El nivel de log se valida aquí (los workflows de GitHub pasan --log-level).
+    try:
+        configure_logging(args.log_level)
+    except ValueError as exc:
+        parser.error(str(exc))
+
     if args.list_sources:
         for source in DEFAULT_SOURCES:
             urls = " | ".join((source.url, *source.fallback_urls))
             print(f"{source.key}\t{source.name}\t{urls}")
         return 0
 
+    POLITE_DELAY = max(0.0, args.polite_delay)
+    clear_fetch_cache()
     if not args.list_sources:
         _apply_socket_timeout(max(1, args.timeout))
 
@@ -3046,11 +4354,11 @@ def main(argv: list[str] | None = None) -> int:
         )
         if not supabase_url or not supabase_key:
             # Antes esto abortaba con exit code 2 y no se guardaba ningún canal.
-            print(
+            log(
                 "WARNING: --sync-supabase ignorado: faltan SUPABASE_URL y "
                 "SUPABASE_SERVICE_ROLE_KEY (o SUPABASE_SECRET_KEY). "
                 "Se exporta el archivo sin sincronizar.",
-                file=sys.stderr,
+                level="warning", file=sys.stderr,
             )
             args.sync_supabase = False
         else:
@@ -3059,10 +4367,10 @@ def main(argv: list[str] | None = None) -> int:
             )
 
     if args.activation_mode == "automatic" and not args.check_streams:
-        print(
+        log(
             "WARNING: --activation-mode automatic necesita --check-streams; "
             "se activa la comprobación de streams.",
-            file=sys.stderr,
+            level="warning", file=sys.stderr,
         )
         args.check_streams = True
 
@@ -3072,11 +4380,14 @@ def main(argv: list[str] | None = None) -> int:
             parser.error(f"input file does not exist: {path}")
         channels.extend(read_playlist(path))
 
+    extra_sources = _custom_sources(args.source_url, args.source_name)
     if args.all_sources:
-        selected = DEFAULT_SOURCES
-    elif args.source:
-        keys = set(args.source)
-        selected = tuple(s for s in DEFAULT_SOURCES if s.key in keys)
+        selected = tuple(DEFAULT_SOURCES) + extra_sources
+    elif args.source or extra_sources:
+        keys = set(args.source or [])
+        selected = tuple(
+            source for source in DEFAULT_SOURCES if source.key in keys
+        ) + extra_sources
     else:
         selected = ()
 
@@ -3086,7 +4397,7 @@ def main(argv: list[str] | None = None) -> int:
         remote_channels, errors, source_counts = fetch_sources(
             selected, timeout=max(1, args.timeout),
             workers=max(1, args.workers), max_pages=max(0, args.max_pages),
-            deadline=deadline,
+            deadline=deadline, max_nested=max(0, args.max_nested_playlists),
         )
         channels.extend(remote_channels)
     else:
@@ -3112,7 +4423,7 @@ def main(argv: list[str] | None = None) -> int:
         channels = search_channels(
             channels, args.search, fields=search_fields, use_regex=args.search_regex,
         )
-        print(
+        log(
             f"Buscar \"{args.search}\" en [{', '.join(search_fields)}]"
             f"{' (regex)' if args.search_regex else ''}: "
             f"{len(channels)}/{pre_count} canales coinciden"
@@ -3134,10 +4445,12 @@ def main(argv: list[str] | None = None) -> int:
             exclude_keys=existing_keys if any(existing_keys) else None,
             deadline=deadline,
             max_per_source=max(0, args.max_per_source),
+            require_playlist=args.require_playlist,
+            resolve_variants=args.resolve_variants,
         )
         summary = Counter(check.status for check in stream_checks.values())
         counts = ", ".join(f"{status}={count}" for status, count in sorted(summary.items()))
-        print(f"Checked {len(stream_checks)} stream URLs: {counts or 'none'}")
+        log(f"Checked {len(stream_checks)} stream URLs: {counts or 'none'}")
     else:
         channels = dedupe_unique_channels(
             candidate_pool,
@@ -3145,21 +4458,40 @@ def main(argv: list[str] | None = None) -> int:
             exclude_keys=existing_keys if any(existing_keys) else None,
             max_per_source=max(0, args.max_per_source),
         )
+        if args.require_playlist:
+            log(
+                "WARNING: --require-playlist necesita --check-streams; se ignora el filtro.",
+                level="warning", file=sys.stderr,
+            )
 
     suffix = args.output.suffix.lower()
     default_fmt = "csv" if suffix == ".csv" else ("m3u" if suffix in {".m3u", ".m3u8"} else "json")
     fmt = args.format or default_fmt
     write_output(channels, args.output, fmt, stream_checks=stream_checks)
-    print(f"Exported {len(channels)} channels to {args.output}")
+    log(f"Exported {len(channels)} channels to {args.output}")
 
     if source_counts:
         detail = ", ".join(f"{key}={count}" for key, count in sorted(source_counts.items()))
-        print(f"Canales encontrados por fuente: {detail}")
+        log(f"Canales encontrados por fuente: {detail}")
+    for source_key, source_errors in sorted(errors.items()):
+        # Con `--log-level DEBUG` se sacan todos; si no, los 10 primeros y se avisa del recorte
+        # para que no parezca que la fuente solo tuvo ese problema.
+        cap = len(source_errors) if LOG_LEVEL <= LOG_LEVELS["DEBUG"] else 10
+        for error in source_errors[:cap]:
+            note = error if error.startswith(f"{source_key}:") else f"{source_key}: {error}"
+            log(f"WARNING: {note}", level="warning", file=sys.stderr)
+        if len(source_errors) > cap:
+            log(
+                f"WARNING: {len(source_errors) - cap} avisos más de {source_key} ocultos "
+                "(usa --log-level DEBUG para verlos).",
+                level="warning", file=sys.stderr,
+            )
+
     if not channels:
-        print(
+        log(
             "WARNING: no se extrajo ningún canal. Revisa los avisos de cada fuente y la "
             "conectividad del entorno.",
-            file=sys.stderr,
+            "warning", file=sys.stderr,
         )
 
     synced: int | None = None
@@ -3179,16 +4511,12 @@ def main(argv: list[str] | None = None) -> int:
         except RuntimeError as exc:
             # Un fallo de Supabase ya no debe tirar el trabajo: el archivo sigue servido.
             sync_error = str(exc)
-            print(f"ERROR: {sync_error}", file=sys.stderr)
+            log(f"ERROR: {sync_error}", level="error", file=sys.stderr)
             if args.fail_on_sync_error:
                 _write_step_summary(channels, source_counts, errors, None, sync_error)
                 return 1
         else:
-            print(f"Sincronizados {synced} canales en Supabase ({args.activation_mode})")
-
-    for source_key, source_errors in sorted(errors.items()):
-        for error in source_errors[:10]:
-            print(f"WARNING: {error}", file=sys.stderr)
+            log(f"Sincronizados {synced} canales en Supabase ({args.activation_mode})")
 
     _write_step_summary(channels, source_counts, errors, synced, sync_error)
     return 0

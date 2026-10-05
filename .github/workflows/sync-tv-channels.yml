@@ -26,6 +26,26 @@ on:
         required: false
         default: true
         type: boolean
+      require_playlist:
+        description: "Sync only streams whose .m3u8 really returns an HLS playlist (drops HTML stubs)"
+        required: false
+        default: false
+        type: boolean
+      max_nested_playlists:
+        description: "Sub-listas .m3u a desplegar por fuente (0 = no expandir índices)"
+        required: false
+        default: "8"
+        type: string
+      log_level:
+        description: "Detalle del log (DEBUG muestra el rastreo página a página)"
+        required: false
+        default: "INFO"
+        type: choice
+        options:
+          - INFO
+          - DEBUG
+          - WARNING
+          - ERROR
   schedule:
     # GitHub Actions usa UTC; se ejecuta cada 5 horas (00, 05, 10, 15, 20 UTC).
     - cron: "0 */5 * * *"
@@ -65,6 +85,9 @@ jobs:
           CHANNEL_SEARCH: ${{ inputs.channel_search }}
           ACTIVATION_MODE: ${{ inputs.activation_mode || 'automatic' }}
           LIMIT: ${{ inputs.limit || '20' }}
+          REQUIRE_PLAYLIST: ${{ inputs.require_playlist && '1' || '' }}
+          MAX_NESTED: ${{ inputs.max_nested_playlists || '8' }}
+          LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
         run: |
           set -euo pipefail
           args=(
@@ -78,9 +101,17 @@ jobs:
             --timeout 10
             --workers 12
             --max-pages 20
+            --max-nested-playlists "$MAX_NESTED"
+            --polite-delay 0.05
+            --log-level "$LOG_LEVEL"
             --deadline 420
             -o data/tv_channels.json
           )
+
+          # Solo streams que devuelven una playlist HLS real (master o de segmentos).
+          if [[ -n "$REQUIRE_PLAYLIST" ]]; then
+            args+=(--require-playlist)
+          fi
 
           # Un valor vacío conserva la sincronización automática de todas las fuentes (cron).
           # Si se indica un texto, solo se comprueban y sincronizan los canales coincidentes.
