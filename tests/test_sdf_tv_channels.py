@@ -47,6 +47,7 @@ from sdf_tv_channels import (
     _sitemap_locations,
     _country_from_source_path,
     channel_slug,
+    filter_channels,
     check_stream,
     check_streams,
     classify_channel,
@@ -1546,6 +1547,170 @@ class LogLevelTests(unittest.TestCase):
         self.assertEqual(ctx.exception.code, 2)
 
 
+class SourceErrorsConsoleTests(unittest.TestCase):
+    """`errors` es {fuente: [avisos]}: imprimirlo mal rompía `main` con cualquier fallo.
+
+    El dict se recorría como si fuera una lista (`errors[:10]` → TypeError); además los
+    avisos se duplicaban porque ya existía un bucle que los imprimía.
+
+    Solo se veía en una ejecución real (las pruebas de `main` no siempre tienen avisos),
+    así que aquí se fuerza el camino con un `fetch_sources` simulado.
+    """
+
+    def _run(self, log_level, errors):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "out.json"
+            empty = Channel(name="X", url="http://127.0.0.1:1/x.m3u8")
+            with patch("sdf_tv_channels.fetch_sources",
+                       return_value=([empty], errors, {"demo": 1})), \
+                 patch("sys.stdout", io.StringIO()) as buffer, \
+                 patch("sys.stderr", io.StringIO()) as err:
+                code = main(["--source", "bbyte", "-o", str(out), "--log-level", log_level])
+            return code, buffer.getvalue(), err.getvalue()
+
+    def test_warnings_print_the_source_prefix_once(self):
+        code, _, err = self._run("info", {"demo": ["sin canales", "demo: timeout"]})
+        self.assertEqual(code, 0)
+        self.assertIn("WARNING: demo: sin canales", err)
+        self.assertIn("WARNING: demo: timeout", err)
+        self.assertNotIn("demo: demo:", err)
+        # Cada aviso debe salir una sola vez (el bloque de consola y el antiguo bucle
+        # duplicaban el mismo texto en CI).
+        self.assertEqual(err.count("demo: timeout"), 1)
+
+    def test_causes_print_before_the_no_channels_warning(self):
+        # El orden importa en CI: primero las causas de cada fuente y después el
+        # "no se extrajo ningún canal" (antes los avisos se imprimían al final, tras
+        # la exportación y el intento de sincronizar).
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "out.json"
+            errors = {"demo": ["demo: playlist 404", "demo: page timeout"]}
+            with patch("sdf_tv_channels.fetch_sources", return_value=([], errors, {})), \
+                 patch("sys.stdout", io.StringIO()), patch("sys.stderr", io.StringIO()) as err:
+                self.assertEqual(main(["--source", "bbyte", "-o", str(out)]), 0)
+            text = err.getvalue()
+            self.assertLess(text.index("demo: playlist 404"),
+                            text.index("no se extrajo ningún canal"))
+            self.assertLess(text.index("demo: page timeout"),
+                            text.index("no se extrajo ningún canal"))
+
+    def test_debug_shows_everything(self):
+        many = {"demo": [f"aviso {i}" for i in range(25)]}
+        _, _, err_debug = self._run("debug", many)
+        self.assertEqual(err_debug.count("WARNING: demo: aviso"), 25)
+        _, _, err_info = self._run("info", many)
+        self.assertEqual(err_info.count("WARNING: demo: aviso"), 10)
+        self.assertIn("15 avisos más de demo ocultos", err_info)
+
+    def test_error_level_hides_the_warnings(self):
+        _, _, err = self._run("error", {"demo": ["sin canales"]})
+        self.assertNotIn("WARNING: demo:", err)
+
+    def tearDown(self):
+        sdf_tv_channels.configure_logging("info")
+
+
+class FilterChannelsApiTests(unittest.TestCase):
+    """`filter_channels` es API pública documentada; antes no tenía ni un test."""
+
+    CANALES = [
+        Channel(name="CNN US", url="http://h/cnn.m3u8", category="news", country="US",
+                language="en", source="tubi"),
+        Channel(name="Canal 24h", url="http://h/24h.m3u8", category="news", country="MX",
+                language="es", source="tdtchannels"),
+        Channel(name="ESPN 2", url="http://h/espn.m3u8", category="sports", country="AR",
+                language="es", source="tubi"),
+    ]
+
+    def test_filters_combine_in_and(self):
+        self.assertEqual([c.name for c in filter_channels(self.CANALES, category="news")],
+                         ["CNN US", "Canal 24h"])
+        self.assertEqual([c.name for c in filter_channels(
+            self.CANALES, category="news", country="US")], ["CNN US"])
+        self.assertEqual([c.name for c in filter_channels(
+            self.CANALES, query="cnn", category="sports")], [])
+
+    def test_language_country_and_source(self):
+        self.assertEqual([c.name for c in filter_channels(self.CANALES, language="es")],
+                         ["Canal 24h", "ESPN 2"])
+        self.assertEqual([c.name for c in filter_channels(self.CANALES, country="ar")],
+                         ["ESPN 2"])
+        self.assertEqual([c.name for c in filter_channels(self.CANALES, source="Tubi")],
+                         ["CNN US", "ESPN 2"])
+
+    def test_empty_filters_are_noops(self):
+        self.assertEqual(len(filter_channels(self.CANALES)), len(self.CANALES))
+        self.assertEqual(len(filter_channels(self.CANALES, query="  ", category="")),
+                         len(self.CANALES))
+
+    def test_regex_query_still_works_through_the_helper(self):
+        self.assertEqual([c.name for c in filter_channels(
+            self.CANALES, query=r"^(CNN|ESPN)", use_regex=True)], ["CNN US", "ESPN 2"])
+
+
+class RawDirectivePreservationTests(unittest.TestCase):
+    """`#EXT-X-KEY`, `#KODIPROP` y `#EXTVLCOPT` sueltos no se pierden al exportar."""
+
+    LISTA = (
+        "#EXTM3U\n"
+        "#KODIPROP:inputstream.adaptive.license_type=clearkey\n"
+        "#EXTVLCOPT:http-user-agent=UA-global\n"
+        "#EXTINF:-1 tvg-name=\"uno\",Uno\n"
+        "#EXTVLCOPT:http-proxy=http://proxy:8080\n"
+        "#EXT-X-KEY:METHOD=AES-128,URI=\"https://k/k.key\"\n"
+        "http://127.0.0.1:1/uno.m3u8\n"
+        "#EXTINF:-1 tvg-name=\"dos\",Dos\n"
+        "http://127.0.0.1:1/dos.m3u8\n"
+    )
+
+    def parse(self):
+        return parse_m3u(self.LISTA, source="s", base_url="http://127.0.0.1:1/x.m3u")
+
+    def test_unmodelled_directives_are_kept_per_entry(self):
+        uno, dos = self.parse()
+        joined_uno = " ".join(uno.directives)
+        self.assertIn("#EXT-X-KEY:METHOD=AES-128", joined_uno)
+        self.assertIn("#EXTVLCOPT:http-proxy=http://proxy:8080", joined_uno)
+        # El bloque global (antes del primer #EXTINF) también afecta a la 2ª entrada.
+        self.assertIn("#KODIPROP:inputstream.adaptive.license_type=clearkey", joined_uno)
+        self.assertIn("#KODIPROP:inputstream.adaptive.license_type=clearkey",
+                      " ".join(dos.directives))
+        self.assertEqual(uno.headers["User-Agent"], "UA-global")
+        self.assertNotIn("User-Agent", joined_uno)
+
+    def test_export_reemits_raw_directives_and_roundtrips(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "out.m3u"
+            channels = self.parse()
+            write_output(channels, out, "m3u")
+            text = out.read_text(encoding="utf-8")
+            self.assertIn("#EXT-X-KEY:METHOD=AES-128", text)
+            self.assertIn("#EXTVLCOPT:http-proxy=http://proxy:8080", text)
+            # la clave de descifrado debe ir antes de la URL de su entrada
+            self.assertLess(text.index("#EXT-X-KEY"), text.index("uno.m3u8"))
+            again = parse_m3u(text, source="s", base_url=str(out))
+            self.assertEqual([c.directives for c in again], [c.directives for c in channels])
+            self.assertEqual([c.headers for c in again], [c.headers for c in channels])
+
+    def test_channels_without_directives_stay_empty(self):
+        channels = parse_m3u(
+            "#EXTM3U\n#EXTINF:-1,Solo\nhttp://127.0.0.1:1/s.m3u8\n",
+            source="s", base_url="http://127.0.0.1:1/x.m3u",
+        )
+        self.assertEqual(channels[0].directives, [])
+
+    def test_json_export_includes_directives_and_csv_does_not(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "out.json"
+            write_output(self.parse(), out, "json")
+            rows = json.loads(out.read_text(encoding="utf-8"))
+            self.assertTrue(any("#EXT-X-KEY" in d for d in rows[0]["directives"]))
+            csv_out = Path(tmp) / "out.csv"
+            write_output(self.parse(), csv_out, "csv")
+            header = csv_out.read_text(encoding="utf-8").splitlines()[0]
+            self.assertNotIn("directives", header)
+
+
 class PageDiscoveryFilterTests(unittest.TestCase):
     """Descubrir páginas sin perseguir assets ni tokens de un atributo `data-*`."""
 
@@ -1558,6 +1723,13 @@ class PageDiscoveryFilterTests(unittest.TestCase):
             "http://h/f/3f2b1c7d8e4a5b9c0d1e2f3a4b5c6d7e",
         ):
             self.assertFalse(_looks_like_channel_page(url), url)
+
+    def test_numeric_ids_are_pages_not_tokens(self):
+        # `/ver/2026081500012345678` es un id numérico largo: sigue siendo una página.
+        for url in ("http://h/v/5452367834523678345",
+                    "http://h/ver/2026081500012345678",
+                    "http://h/canal/1a2b3c4d5e6f7g8h9i0jk1l2"):
+            self.assertTrue(_looks_like_channel_page(url), url)
 
     def test_real_channel_pages_pass(self):
         for url in (

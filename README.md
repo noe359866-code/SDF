@@ -88,6 +88,12 @@ reenvían al comprobar el stream. En el rastreo de sitios se añaden automática
 navegador y `Referer` con la página del canal, que es lo que suelen exigir los CDNs con
 anti-*hotlinking* (sin eso el stream aparece como `restricted` cuando en realidad sí funciona).
 
+Lo que **no** es una cabecera pero también cambia la reproducción —`#EXT-X-KEY` (cifrado AES),
+un `#KODIPROP` de licencias (`license_type`/`license_server`) o un `#EXTVLCOPT` suelto como
+`http-proxy`— se guarda en el campo `directives` del canal y se **reescribe literal antes de la
+URL** al exportar. Sin eso, una lista con streams cifrados exportaba entradas que ningún
+reproductor podía abrir.
+
 ### 2. Sub-listas: del `.m3u` índice al `.m3u8` de cada canal
 
 Ciertas fuentes publican un índice cuyas entradas apuntan a otros `.m3u` (una lista por país o por
@@ -354,12 +360,14 @@ Otras opciones nuevas: `--source-url`/`--source-name` (fuentes puntuales; se rep
 `--no-resolve-variants` (no pedir la variante jugable de un master playlist),
 `--polite-delay` (intervalo mínimo entre peticiones al mismo host) y
 `--log-level` (`DEBUG`/`INFO`/`WARNING`/`ERROR`, acepta `SDF_LOG_LEVEL`). Con `DEBUG` se ve el
-rastreo página a página, los players seguidos, las sub-listas desplegadas y **todos** los avisos
-por fuente (por defecto solo se muestran los 10 primeros); con `WARNING` desaparece el progreso y
+rastreo página a página, los players seguidos, las sub-listas desplegadas, cada lote de streams
+comprobado y **todos** los avisos de cada fuente (por defecto se cortan a 10 por fuente y se avisa
+de cuántos quedan ocultos); con `WARNING` desaparece el progreso y
 quedan únicamente los avisos. Es lo que usan los workflows cuando marcas **log_level: DEBUG**.
 
 `--check-streams` añade `stream_check` a cada objeto JSON —con `playlist_kind`, `media_url`,
-`resolution`, `segment_count` e `is_live`— y `headers` con las cabeceras que necesita el stream;
+`resolution`, `segment_count` e `is_live`— , `headers` con las cabeceras que necesita el stream y
+`directives` con las directivas literales (`#EXT-X-KEY`, `#KODIPROP`, …) que hay que conservar;
 en CSV añade `stream_status`, `stream_http_status`, `stream_content_type`, `stream_final_url`,
 `stream_detail`, `stream_playlist_kind`, `stream_media_url`, `stream_resolution`,
 `stream_segment_count` y `headers`. También imprime

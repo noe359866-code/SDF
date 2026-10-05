@@ -20,7 +20,7 @@ import zlib
 from collections import Counter, defaultdict, OrderedDict
 from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeout
 from concurrent.futures import as_completed
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, field
 from html import unescape
 from html.parser import HTMLParser
 from pathlib import Path
@@ -438,6 +438,10 @@ class Channel:
     # Cabeceras HTTP que el reproductor necesita (User-Agent/Referer/Cookie). Se leen
     # de `#EXTVLCOPT`/`#EXTHTTP` en la lista o del propio sitio cuando es un scrapeo.
     headers: dict[str, str] | None = None
+    # Directivas de entrada que no se traducen a cabeceras (`#EXT-X-KEY`, un
+    # `#KODIPROP:license_type`, un `#EXTVLCOPT:http-proxy`…) y que por tanto hay que
+    # reescribir literalmente al exportar, si no la lista deja de reproducirse.
+    directives: list[str] = field(default_factory=list)
 
 
 @dataclass(frozen=True)
@@ -1000,8 +1004,8 @@ def filter_channels(
 ) -> list[Channel]:
     """Combina ``search_channels`` con filtros de categoría/idioma/país/fuente.
 
-    Todos los filtros son opcionales y se aplican en AND. Útil tanto desde
-    el CLI como desde código.
+    Todos los filtros son opcionales y se aplican en AND, igual que las opciones del CLI;
+    la función existe para filtrar una lista ya cargada desde código sin lanzar `main`.
     """
     result = list(channels)
     if query and query.strip():
@@ -1612,6 +1616,22 @@ def parse_m3u(text: str, *, deduplicate: bool = True, source: str = "",
     directives: list[str] = []
     any_entry_seen = False
     seen: set[tuple[str, str]] = set()
+    pending_raw: list[str] = []
+    global_raw: list[str] = []
+
+    def collect_raw(line: str) -> None:
+        """Anota una directiva que no se convierte en cabecera y hay que reescribir.
+
+        Son las que cambian el comportamiento del reproductor sin ser HTTP headers:
+        `#EXT-X-KEY` (descifrado), un `#KODIPROP` de licencias o cualquier `#EXTVLCOPT`
+        que no sea user-agent/referrer/cookie (p. ej. `http-proxy`).
+        """
+        nonlocal pending_raw, global_raw
+        if any_entry_seen:
+            if line not in pending_raw:
+                pending_raw.append(line)
+        elif line not in global_raw:
+            global_raw.append(line)
 
     def collect_directives(line: str) -> None:
         """Guarda una directiva.
@@ -1619,13 +1639,15 @@ def parse_m3u(text: str, *, deduplicate: bool = True, source: str = "",
         Antes del primer `#EXTINF` se entiende como un bloque válido para toda la lista
         (así publican muchas listas su User-Agent/Referer común); a partir de la primera
         entrada, cada directiva afecta solo a la entrada siguiente y sustituye únicamente
-        la clave que declara.
+        la clave que declara. Lo que no se traduce a cabeceras se conserva en crudo.
         """
         nonlocal directives, global_headers
         if any_entry_seen:
             directives.append(line)
         else:
             global_headers = {**global_headers, **parse_stream_headers([line])}
+        if not parse_stream_headers([line]):
+            collect_raw(line)
 
     def flush_headers() -> dict[str, str]:
         """Cabeceras pendientes de `#EXTVLCOPT`/`#EXTHTTP`, ya asignadas a la entrada."""
@@ -1664,11 +1686,21 @@ def parse_m3u(text: str, *, deduplicate: bool = True, source: str = "",
         # se resuelven al comprobar el stream (ver `parse_hls_variants`).
         if upper.startswith("#EXT-X-STREAM-INF:"):
             continue
+        # La clave de descifrado (y el byte-range) afectan a la entrada siguiente: sin
+        # reescribirlas, la lista exportada apunta a un stream cifrado sin la clave.
+        if upper.startswith(("#EXT-X-KEY:", "#EXT-X-BYTERANGE:")):
+            collect_raw(line)
+            continue
         if line.startswith("#") or pending is None:
             continue
 
         name, attrs, group = pending
         headers = flush_headers()
+        entry_directives = list(global_raw)
+        for extra in pending_raw:
+            if extra not in entry_directives:
+                entry_directives.append(extra)
+        pending_raw = []
         if base_url and not urlparse(line).scheme:
             line = urljoin(base_url, line)
         parsed = urlparse(line)
@@ -1701,7 +1733,7 @@ def parse_m3u(text: str, *, deduplicate: bool = True, source: str = "",
                 tvg_id=attrs.get("tvg-id", ""), tvg_name=attrs.get("tvg-name", ""),
                 logo=logo, language=language, country=country,
                 category=category, source=source, attributes=attrs,
-                headers=headers or None,
+                headers=headers or None, directives=entry_directives,
             ))
             seen.add(key)
         pending = None
@@ -3174,6 +3206,12 @@ def select_channels_with_checks(
                                      deadline=deadline, resolve_variants=resolve_variants)
         all_checks.update(batch_checks)
         probed_channels.extend(batch)
+        log(
+            f"  · streams: {len(all_checks)}/{len(probe_queue)} URLs comprobadas "
+            f"({sum(1 for chk in batch_checks.values() if chk.status == 'http_ok')} ok "
+            f"en el lote de {len(batch_checks)})",
+            "debug",
+        )
 
         ok_unique = dedupe_unique_channels(
             probed_channels,
@@ -3208,15 +3246,18 @@ STATIC_ASSET_RE = re.compile(
 def _looks_like_opaque_token(segment: str) -> bool:
     """Un segmento de ruta sin separadores y con forma de hash/base64/uuid.
 
-    Los slugs legibles (`tyc-sports`, `c5n`) se conservan siempre; lo que se descarta
-    son cadenas largas sin guiones que mezclan mayúsculas, minúsculas y dígitos (o
-    terminan en `=`), típico de un token, un hash o un base64 metido en un `data-*`.
+    Los slugs legibles (`tyc-sports`, `c5n`) y los ids numéricos (`/ver/202608150001`)
+    se conservan siempre; lo que se descarta son cadenas largas sin separadores que
+    mezclan mayúsculas, minúsculas y dígitos (o terminan en `=`), típico de un token,
+    un hash o un base64 metido en un `data-*`.
     """
     if "-" in segment or "_" in segment or "." in segment:
         return False
+    if segment.isdigit():
+        return False  # un id numérico largo sigue siendo una página válida
     if segment.endswith("="):
         return True
-    if re.fullmatch(r"[0-9a-fA-F]{16,}", segment):
+    if re.fullmatch(r"[0-9a-fA-F]{16,}", segment) and re.search(r"[a-fA-F]", segment):
         return True
     if len(segment) < 24 or not re.fullmatch(r"[A-Za-z0-9+/]{24,}", segment):
         return False
@@ -3523,6 +3564,7 @@ def _expand_nested_playlists(source: SourceConfig, channels: list[Channel], time
             item.group = item.group or channel.name
             item.source_url = channel.url
             item.headers = item.headers or channel.headers
+            item.directives = item.directives or channel.directives
             _apply_source_country(item, source, channel.url)
         return items
 
@@ -3728,11 +3770,11 @@ def _fetch_source(source: SourceConfig, timeout: int, max_pages: int,
                 except Exception as exc:
                     page_results[idx] = ([], f"{source.key}: page {pages[idx][0]}: {exc}")
 
-        for page, (page_channels, page_error) in enumerate(page_results):
+        for page_no, (page_channels, page_error) in enumerate(page_results):
             channels.extend(page_channels)
             log(
                 f"    · {source.key}: {len(page_channels)} streams en la página "
-                f"{page + 1}/{len(page_results)}",
+                f"{page_no + 1}/{len(page_results)}",
                 "debug",
             )
             if page_error:
@@ -3861,6 +3903,11 @@ def write_output(channels: Iterable[Channel], output: Path, fmt: str,
             attr_str = (" " + " ".join(attrs)) if attrs else ""
             lines.append(f"#EXTINF:-1{attr_str},{channel.name}")
             lines.extend(_headers_to_m3u(channel.headers))
+            for directive in channel.directives or []:
+                # Se reescribe tal cual: #EXT-X-KEY/#KODIPROP/EXTVLCOPT sueltos que no
+                # son cabeceras y que el reproductor necesita leer antes de la URL.
+                if directive and directive.startswith("#"):
+                    lines.append(directive)
             lines.append(channel.url)
         output.write_text("\n".join(lines) + "\n", encoding="utf-8")
         return
@@ -4418,18 +4465,20 @@ def main(argv: list[str] | None = None) -> int:
     if source_counts:
         detail = ", ".join(f"{key}={count}" for key, count in sorted(source_counts.items()))
         log(f"Canales encontrados por fuente: {detail}")
-    if errors:
-        # Los avisos por fuente solo llegaban al step summary; en consola (y todos con
-        # `--log-level DEBUG`) son lo que permite ver por qué una fuente se quedó vacía.
-        shown = errors if LOG_LEVEL <= LOG_LEVELS["DEBUG"] else errors[:10]
-        for note in shown:
-            log(f"AVISO: {note}", "warning", file=sys.stderr)
-        if len(errors) > len(shown):
+    for source_key, source_errors in sorted(errors.items()):
+        # Con `--log-level DEBUG` se sacan todos; si no, los 10 primeros y se avisa del recorte
+        # para que no parezca que la fuente solo tuvo ese problema.
+        cap = len(source_errors) if LOG_LEVEL <= LOG_LEVELS["DEBUG"] else 10
+        for error in source_errors[:cap]:
+            note = error if error.startswith(f"{source_key}:") else f"{source_key}: {error}"
+            log(f"WARNING: {note}", level="warning", file=sys.stderr)
+        if len(source_errors) > cap:
             log(
-                f"AVISO: {len(errors) - len(shown)} avisos más ocultos "
+                f"WARNING: {len(source_errors) - cap} avisos más de {source_key} ocultos "
                 "(usa --log-level DEBUG para verlos).",
-                "warning", file=sys.stderr,
+                level="warning", file=sys.stderr,
             )
+
     if not channels:
         log(
             "WARNING: no se extrajo ningún canal. Revisa los avisos de cada fuente y la "
@@ -4460,10 +4509,6 @@ def main(argv: list[str] | None = None) -> int:
                 return 1
         else:
             log(f"Sincronizados {synced} canales en Supabase ({args.activation_mode})")
-
-    for source_key, source_errors in sorted(errors.items()):
-        for error in source_errors[:10]:
-            log(f"WARNING: {error}", level="warning", file=sys.stderr)
 
     _write_step_summary(channels, source_counts, errors, synced, sync_error)
     return 0
