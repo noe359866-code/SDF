@@ -1,8 +1,10 @@
 import csv
 import email.message
 import gzip
+import io
 import json
 import os
+import sys
 import tempfile
 import time
 import unittest
@@ -11,19 +13,34 @@ from pathlib import Path
 from unittest.mock import patch
 from urllib.error import HTTPError, URLError
 
+import sdf_tv_channels
 from sdf_tv_channels import (
     DEFAULT_MAX_CHANNELS,
     DEFAULT_SOURCES,
+    HlsPlaylist,
+    _decode_base64_urls,
+    _expand_nested_playlists,
+    _fetch_text_once,
+    _retry_after_seconds,
+    inspect_hls_playlist,
+    parse_hls_variants,
+    parse_stream_headers,
     STREAM_TYPE_YOUTUBE,
     Channel,
     LinkParser,
     SourceConfig,
     StreamCheck,
     _canonical_channel_key,
+    _channel_quality_score,
+    _custom_sources,
     _dedupe,
     _fetch_site_page,
+    _is_stream_url,
+    _player_links_from_document,
+    _stream_urls_from_document,
     _fetch_source,
     _fetch_text,
+    _looks_like_channel_page,
     _page_matches_source,
     _player_urls_from_config,
     _script_urls_from_document,
@@ -421,7 +438,7 @@ class SitePlayerExtractionTests(unittest.TestCase):
                               max_depth=2)
         page = "https://www.tvenvivo.org/espn-argentina-en-vivo-online.php"
 
-        def fake_fetch_with_embed(url, timeout=20, max_bytes=None, retries=2):
+        def fake_fetch_with_embed(url, timeout=20, max_bytes=None, retries=2, **kwargs):
             url = str(url)
             if url.endswith(".php"):
                 return self.TVENVIVO_PAGE
@@ -448,7 +465,7 @@ class SitePlayerExtractionTests(unittest.TestCase):
         page = "https://tvlibreonline.st/en-vivo/tn"
         requested = []
 
-        def fake_fetch(url, timeout=20, max_bytes=None, retries=2):
+        def fake_fetch(url, timeout=20, max_bytes=None, retries=2, **kwargs):
             url = str(url)
             requested.append(url)
             if url.endswith("/en-vivo/tn"):
@@ -535,7 +552,7 @@ class SitePlayerExtractionTests(unittest.TestCase):
             )
         fetched = []
 
-        def fake_fetch(url, timeout=20, max_bytes=None, retries=2):
+        def fake_fetch(url, timeout=20, max_bytes=None, retries=2, **kwargs):
             url = str(url)
             fetched.append(url)
             if url not in channel_map:
@@ -568,7 +585,7 @@ class SitePlayerExtractionTests(unittest.TestCase):
             "sources": {"streams": ["https://cdn.example.com/caribe.m3u8"]},
         }])
 
-        def fake_fetch(url, timeout=20, max_bytes=None, retries=2):
+        def fake_fetch(url, timeout=20, max_bytes=None, retries=2, **kwargs):
             if str(url) == page:
                 return page_html
             if str(url) == json_url:
@@ -664,6 +681,34 @@ class DedupeAndLimitTests(unittest.TestCase):
             self.assertIn('stream-type="youtube"', m3u_path.read_text(encoding="utf-8"))
             write_output([hls_channel], m3u_path, "m3u")
             self.assertNotIn("stream-type", m3u_path.read_text(encoding="utf-8"))
+
+    def test_same_resolved_media_playlist_collapses_duplicates(self):
+        uno = Channel("Uno", "https://a.example/uno/index.m3u8")
+        dos = Channel("Dos", "https://b.example/dos/master.m3u8")
+        checks = {
+            uno.url: StreamCheck("http_ok", 200, "application/vnd.apple.mpegurl",
+                                 media_url="https://cdn.example/shared/720.m3u8"),
+            dos.url: StreamCheck("http_ok", 200, "application/vnd.apple.mpegurl",
+                                 media_url="https://cdn.example/shared/720.m3u8"),
+        }
+        selected = dedupe_unique_channels([uno, dos], stream_checks=checks)
+        self.assertEqual(len(selected), 1)
+
+    def test_m3u_export_roundtrips_arbitrary_headers(self):
+        channel = Channel(
+            "Canal", "https://cdn.example.com/x.m3u8",
+            headers={"User-Agent": "OTT/1", "Referer": "https://site/", "X-Token": "abc"},
+        )
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "out.m3u"
+            write_output([channel], path, "m3u")
+            text = path.read_text(encoding="utf-8")
+        self.assertIn("#EXTVLCOPT:http-user-agent=OTT/1", text)
+        self.assertIn("#EXTVLCOPT:http-referrer=https://site/", text)
+        self.assertIn('"X-Token": "abc"', text)
+        self.assertEqual(parse_m3u(text)[0].headers, {
+            "User-Agent": "OTT/1", "Referer": "https://site/", "X-Token": "abc",
+        })
 
     def test_m3u_export_and_logo_sanitization(self):
         channels = parse_m3u(
@@ -762,7 +807,7 @@ class DedupeAndLimitTests(unittest.TestCase):
             Channel("Canal Tres", "https://example.com/tres-live.m3u8", category="movies"),
         ]
 
-        def fake_check(url, timeout=10):
+        def fake_check(url, timeout=10, *args, **kwargs):
             if "dead" in url:
                 return StreamCheck("unreachable", detail="offline")
             return StreamCheck("http_ok", 200, "application/vnd.apple.mpegurl", url)
@@ -996,7 +1041,7 @@ class FetchTextTests(unittest.TestCase):
                 _fetch_text("https://example.com/l.m3u", timeout=1, retries=1)
 
     def test_deadline_marks_pending_checks_as_timeout(self):
-        def slow_check(url, timeout=10):
+        def slow_check(url, timeout=10, *args, **kwargs):
             time.sleep(0.05)
             return StreamCheck("http_ok", 200, "application/vnd.apple.mpegurl", url)
 
@@ -1108,6 +1153,625 @@ class ExitCodeTests(unittest.TestCase):
             with self.assertRaises(SystemExit) as ctx:
                 main([str(Path(temp_dir) / "nope.m3u"), "-o", str(Path(temp_dir) / "o.json")])
             self.assertEqual(ctx.exception.code, 2)
+
+
+class PlaylistDirectiveTests(unittest.TestCase):
+    """Cabeceras de lista, grupos sueltos y nombres derivados del recurso."""
+
+    def test_extvlcopt_and_exthttp_become_stream_headers(self):
+        text = (
+            "#EXTM3U\n"
+            "#EXTVLCOPT:http-user-agent=OTTPlayer/1.2\n"
+            "#EXTVLCOPT:http-referrer=http://site.example/\n"
+            '#EXTHTTP:{"cookie":"tok=abc; sid=9"}\n'
+            '#EXTINF:-1 tvg-id="uno.cl",Canal Uno\n'
+            "https://cdn.example.com/uno.m3u8\n"
+            "#EXTVLCOPT:http-user-agent=Otro/1\n"
+            "#EXTINF:-1,Canal Dos\n"
+            "https://cdn.example.com/dos.m3u8\n"
+            "#EXTINF:-1,Canal Tres\n"
+            "https://cdn.example.com/tres.m3u8\n"
+        )
+        channels = parse_m3u(text)
+        leading = {
+            "User-Agent": "OTTPlayer/1.2",
+            "Referer": "http://site.example/",
+            "Cookie": "tok=abc; sid=9",
+        }
+        self.assertEqual(channels[0].headers, leading)
+        # El bloque declarado antes del primer canal vale para toda la lista, y una
+        # directiva propia de una entrada solo sustituye la clave que declara.
+        self.assertEqual(channels[1].headers, {**leading, "User-Agent": "Otro/1"})
+        self.assertEqual(channels[2].headers, leading)
+
+    def test_kodiprop_stream_headers_are_parsed(self):
+        text = (
+            "#EXTM3U\n"
+            "#KODIPROP:inputstream.adaptive.license_type=clearkey\n"
+            "#KODIPROP:inputstream.adaptive.stream_headers=User-Agent=Pay/2&Referer=http://x/\n"
+            "#EXTINF:-1,Pagado\n"
+            "https://cdn.example.com/pay.m3u8\n"
+        )
+        channel = parse_m3u(text)[0]
+        self.assertEqual(channel.headers["User-Agent"], "Pay/2")
+        self.assertEqual(channel.headers["Referer"], "http://x/")
+
+    def test_parse_stream_headers_helper_ignores_unknown_options(self):
+        self.assertEqual(
+            parse_stream_headers([
+                "#EXTVLCOPT:http-user-agent=X",
+                "#EXTVLCOPT:http-ts-buffer-size=300000",
+            ]),
+            {"User-Agent": "X"},
+        )
+
+    def test_per_entry_directives_do_not_leak_when_the_list_has_no_global_block(self):
+        text = (
+            "#EXTM3U\n"
+            "#EXTINF:-1,Uno\n#EXTVLCOPT:http-user-agent=Solo/Uno\nhttps://cdn.example.com/1.m3u8\n"
+            "#EXTINF:-1,Dos\nhttps://cdn.example.com/2.m3u8\n"
+        )
+        channels = parse_m3u(text)
+        # La directiva colocada dentro de la entrada solo afecta a esa entrada.
+        self.assertEqual(channels[0].headers, {"User-Agent": "Solo/Uno"})
+        self.assertIsNone(channels[1].headers)
+
+    def test_standalone_extgrp_applies_to_following_entries(self):
+        text = (
+            "#EXTM3U\n"
+            "#EXTGRP:Infantil\n"
+            "#EXTINF:-1,Dibujos\n"
+            "https://cdn.example.com/kids.m3u8\n"
+            "#EXTINF:-1,Otro\n"
+            "https://cdn.example.com/other.m3u8\n"
+            "#EXTGRP:Noticias\n"
+            "#EXTINF:-1,TN\n"
+            "https://cdn.example.com/tn.m3u8\n"
+        )
+        channels = parse_m3u(text)
+        self.assertEqual([channel.group for channel in channels],
+                         ["Infantil", "Infantil", "Noticias"])
+
+    def test_name_is_derived_from_the_stream_url(self):
+        channels = parse_m3u(
+            "#EXTM3U\n#EXTINF:-1,\nhttps://cdn.example.com/live/espn-2-hd.m3u8\n"
+        )
+        self.assertEqual(channels[0].name, "espn 2 hd")
+
+    def test_opaque_hash_names_are_not_used_as_channel_names(self):
+        channels = parse_m3u("#EXTM3U\n#EXTINF:-1,\nhttps://cdn.example.com/a/9f2b1c7d8e4a5b.m3u8\n")
+        self.assertEqual(channels[0].name, "Unnamed channel")
+
+    def test_master_playlist_is_not_a_list_of_channels(self):
+        master = (
+            "#EXTM3U\n"
+            "#EXT-X-STREAM-INF:BANDWIDTH=8000000,RESOLUTION=1920x1080\n"
+            "1080.m3u8\n"
+            "#EXT-X-STREAM-INF:BANDWIDTH=2000000,RESOLUTION=640x360\n"
+            "360.m3u8\n"
+        )
+        self.assertEqual(parse_m3u(master), [])
+
+    def test_m3u_export_roundtrips_headers_and_skips_other_group(self):
+        channel = Channel(
+            "Canal Uno", "https://cdn.example.com/uno.m3u8",
+            headers={"User-Agent": "OTT/1", "Cookie": "a=1"},
+        )
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "out.m3u"
+            write_output([channel], path, "m3u")
+            text = path.read_text(encoding="utf-8")
+            self.assertIn("#EXTVLCOPT:http-user-agent=OTT/1", text)
+            self.assertIn('#EXTHTTP:{"cookie": "a=1"}', text)
+            self.assertNotIn('group-title="other"', text)
+            reparsed = parse_m3u(text)[0]
+            self.assertEqual(reparsed.headers, {"User-Agent": "OTT/1", "Cookie": "a=1"})
+
+    def test_mojibake_names_are_repaired(self):
+        broken = "#EXTM3U\n#EXTINF:-1,Señal 2 Cable\nhttps://cdn.example.com/s.m3u8\n"
+        self.assertEqual(parse_m3u(broken)[0].name, "Señal 2 Cable")
+
+
+class HlsInspectionTests(unittest.TestCase):
+    """El extractor del `.m3u8`: variantes, segmentos y estado del stream."""
+
+    MASTER = (
+        "#EXTM3U\n"
+        "#EXT-X-STREAM-INF:BANDWIDTH=8000000,RESOLUTION=1920x1080,CODECS=\"avc1.640028,mp4a.40.2\",NAME=\"Full HD\"\n"
+        "1080.m3u8\n"
+        "#EXT-X-STREAM-INF:RESOLUTION=640x360,BANDWIDTH=2000000\n"
+        "360.m3u8\n"
+    )
+
+    def test_variants_are_resolved_against_the_base_and_sorted(self):
+        variants = parse_hls_variants(self.MASTER, "https://cdn.example.com/live/index.m3u8")
+        self.assertEqual([variant.resolution for variant in variants], ["1920x1080", "640x360"])
+        self.assertEqual(variants[0].url, "https://cdn.example.com/live/1080.m3u8")
+        self.assertEqual(variants[0].bandwidth, 8000000)
+        # El valor entrecomillado con comas no se parte.
+        self.assertEqual(variants[0].codecs, "avc1.640028,mp4a.40.2")
+        self.assertEqual(variants[0].name, "Full HD")
+
+    def test_low_resolution_wins_by_area_although_bandwidth_is_missing(self):
+        text = (
+            "#EXTM3U\n"
+            "#EXT-X-STREAM-INF:RESOLUTION=3840x2160\n"
+            "uhd.m3u8\n"
+            "#EXT-X-STREAM-INF:BANDWIDTH=9000000,RESOLUTION=1280x720\n"
+            "hd.m3u8\n"
+        )
+        variants = parse_hls_variants(text, "https://cdn.example.com/x/")
+        self.assertEqual(variants[0].resolution, "3840x2160")
+
+    def test_media_playlist_reports_segments_and_live_state(self):
+        live = (
+            "#EXTM3U\n#EXT-X-TARGETDURATION:6\n#EXT-X-MEDIA-SEQUENCE:12\n"
+            "#EXTINF:6.0,\nseg12.ts\n#EXTINF:6.0,\nseg13.ts\n#EXT-X-KEY:METHOD=AES-128,URI=\"k.bin\"\n"
+        )
+        playlist = inspect_hls_playlist(live)
+        self.assertEqual(playlist.kind, "media")
+        self.assertEqual(playlist.segment_count, 2)
+        self.assertEqual(playlist.target_duration, 6.0)
+        self.assertTrue(playlist.is_live)
+        self.assertTrue(playlist.encrypted)
+
+        vod = "#EXTM3U\n#EXT-X-PLAYLIST-TYPE:VOD\n#EXTINF:10,\na.ts\n#EXT-X-ENDLIST\n"
+        vod_info = inspect_hls_playlist(vod)
+        self.assertEqual(vod_info.kind, "media")
+        self.assertFalse(vod_info.is_live)
+
+    def test_master_kind_and_non_playlist_are_distinguished(self):
+        self.assertEqual(inspect_hls_playlist(self.MASTER).kind, "master")
+        self.assertEqual(inspect_hls_playlist("#EXTM3U\n#EXT-X-VERSION:3\n").kind, "empty")
+        self.assertEqual(inspect_hls_playlist("<html></html>").kind, "")
+
+    def test_check_stream_resolves_master_to_the_best_variant(self):
+        responses = {
+            "https://cdn.example.com/live/index.m3u8": self.MASTER,
+            "https://cdn.example.com/live/1080.m3u8": "#EXTM3U\n#EXT-X-TARGETDURATION:6\n#EXTINF:6,\na.ts\n",
+        }
+
+        def fake_urlopen(request, timeout=None):
+            url = request.full_url if hasattr(request, "full_url") else request
+            if url not in responses:
+                raise AssertionError(f"URL inesperada: {url}")
+            return FakeResponse(responses[url].encode(), url=url)
+
+        with patch("sdf_tv_channels.urlopen", side_effect=fake_urlopen):
+            check = check_stream("https://cdn.example.com/live/index.m3u8")
+        self.assertEqual(check.status, "http_ok")
+        self.assertEqual(check.playlist_kind, "master")
+        self.assertEqual(check.media_url, "https://cdn.example.com/live/1080.m3u8")
+        self.assertEqual(check.resolution, "1920x1080")
+        self.assertEqual(check.segment_count, 1)
+        self.assertIn("1920x1080", check.detail)
+
+    def test_check_stream_skips_variant_resolution_when_disabled(self):
+        response = FakeResponse(self.MASTER.encode(), url="https://cdn.example.com/live/index.m3u8")
+        with patch("sdf_tv_channels.urlopen", return_value=response) as open_url:
+            check = check_stream("https://cdn.example.com/live/index.m3u8", resolve_variants=False)
+        self.assertEqual(open_url.call_count, 1)
+        self.assertEqual(check.playlist_kind, "master")
+        self.assertEqual(check.media_url, "https://cdn.example.com/live/1080.m3u8")
+
+    def test_check_stream_uses_the_channel_headers_and_retries_a_blocked_probe(self):
+        forbidden = HTTPError("https://cdn.example.com/x.m3u8", 403, "Forbidden", {}, None)
+        playlist = "#EXTM3U\n#EXT-X-TARGETDURATION:4\n#EXTINF:4,\na.ts\n"
+
+        def fake_urlopen(request, timeout=None):
+            if request.get_header("User-agent") == "OTT/1":
+                return FakeResponse(playlist.encode())
+            raise forbidden
+
+        with patch("sdf_tv_channels.urlopen", side_effect=fake_urlopen) as open_url:
+            check = check_stream("https://cdn.example.com/x.m3u8", headers={"User-Agent": "OTT/1"})
+        self.assertEqual(check.status, "http_ok")
+        self.assertEqual(open_url.call_args_list[0].args[0].get_header("Referer"), None)
+
+    def test_browser_agent_fallback_recovers_a_restricted_stream(self):
+        def fake_urlopen(request, timeout=None):
+            if request.get_header("User-agent") == "SDF-TV-Channel-Extractor/1.4":
+                raise HTTPError(request.full_url, 403, "Forbidden", {}, None)
+            return FakeResponse(b"#EXTM3U\n#EXT-X-TARGETDURATION:4\n#EXTINF:4,\na.ts\n")
+
+        with patch("sdf_tv_channels.urlopen", side_effect=fake_urlopen):
+            check = check_stream("https://cdn.example.com/blocked.m3u8")
+        self.assertEqual(check.status, "http_ok")
+        self.assertEqual(check.playlist_kind, "media")
+
+    def test_check_streams_forwards_headers_per_url(self):
+        channels = [
+            Channel("Uno", "https://cdn.example.com/uno.m3u8", headers={"Referer": "https://a/"}),
+            Channel("Dos", "https://cdn.example.com/dos.m3u8"),
+        ]
+        seen = {}
+
+        def fake_check(url, timeout=10, headers=None, resolve_variants=True):
+            seen[url] = headers
+            return StreamCheck("http_ok", 200)
+
+        with patch("sdf_tv_channels.check_stream", side_effect=fake_check):
+            results = check_streams(channels)
+        self.assertEqual(seen["https://cdn.example.com/uno.m3u8"], {"Referer": "https://a/"})
+        self.assertIsNone(seen["https://cdn.example.com/dos.m3u8"])
+        self.assertEqual(results["https://cdn.example.com/uno.m3u8"].status, "http_ok")
+
+    def test_require_playlist_drops_html_endpoints(self):
+        good = Channel("Uno", "https://cdn.example.com/uno.m3u8")
+        bad = Channel("Dos", "https://cdn.example.com/dos.m3u8")
+        checks = {
+            good.url: StreamCheck("http_ok", 200, "application/vnd.apple.mpegurl",
+                                  playlist_kind="media", segment_count=3),
+            bad.url: StreamCheck("invalid_playlist", 200, "text/html"),
+        }
+        selected = dedupe_unique_channels([good, bad], stream_checks=checks, require_playlist=True)
+        self.assertEqual([channel.name for channel in selected], ["Uno"])
+
+    def test_quality_score_prefers_confirmed_playlists(self):
+        confirmed = Channel("A", "https://cdn.example.com/a.m3u8")
+        plain = Channel("A", "https://cdn.example.com/b.m3u8")
+        checks = {
+            confirmed.url: StreamCheck("http_ok", 200, "application/vnd.apple.mpegurl",
+                                       playlist_kind="media", segment_count=9),
+            plain.url: StreamCheck("http_ok", 200, "application/vnd.apple.mpegurl"),
+        }
+        self.assertGreater(
+            _channel_quality_score(confirmed, checks), _channel_quality_score(plain, checks),
+        )
+
+
+class NestedPlaylistTests(unittest.TestCase):
+    """Desplegar las sub-listas `.m3u` que publica un índice."""
+
+    INDEX = (
+        "#EXTM3U\n"
+        '#EXTINF:-1 group-title="Deportes",Deportes\n'
+        "https://m3u.cl/lista/deportes.m3u\n"
+        "#EXTINF:-1,Sin sub-lista\n"
+        "https://cdn.example.com/vivo.m3u8\n"
+    )
+    SUB = (
+        "#EXTM3U\n"
+        "#EXTINF:-1,Canal Uno\nhttps://cdn.example.com/uno.m3u8\n"
+        "#EXTINF:-1,Canal Dos\nhttps://cdn.example.com/dos.m3u8\n"
+    )
+
+    def test_sublists_are_merged_and_the_index_entry_removed(self):
+        source = SourceConfig("demo", "Demo", "https://m3u.cl/lista/top.m3u")
+        channels = parse_m3u(self.INDEX, source=source.name)
+        with patch("sdf_tv_channels._fetch_text", return_value=self.SUB) as fetch:
+            expanded, errors = _expand_nested_playlists(
+                source, channels, timeout=1, limit=5,
+            )
+        self.assertEqual(errors, [])
+        self.assertEqual([channel.name for channel in expanded],
+                         ["Sin sub-lista", "Canal Uno", "Canal Dos"])
+        self.assertEqual(expanded[1].group, "Deportes")
+        self.assertEqual(expanded[1].source_url, "https://m3u.cl/lista/deportes.m3u")
+        fetch.assert_called_once()
+
+    def test_limit_zero_keeps_the_index_untouched(self):
+        source = SourceConfig("demo", "Demo", "https://m3u.cl/lista/top.m3u")
+        channels = parse_m3u(self.INDEX, source=source.name)
+        with patch("sdf_tv_channels._fetch_text") as fetch:
+            expanded, errors = _expand_nested_playlists(
+                source, channels, timeout=1, limit=0,
+            )
+        fetch.assert_not_called()
+        self.assertEqual(errors, [])
+        self.assertEqual(expanded, channels)
+
+    def test_failed_sublist_keeps_its_index_entry(self):
+        source = SourceConfig("demo", "Demo", "https://m3u.cl/lista/top.m3u")
+        channels = parse_m3u(self.INDEX, source=source.name)
+        error = URLError("offline")
+        with patch("sdf_tv_channels._fetch_text", side_effect=error):
+            expanded, errors = _expand_nested_playlists(
+                source, channels, timeout=1, limit=5,
+            )
+        self.assertIn("Sin sub-lista", [channel.name for channel in expanded])
+        self.assertIn("Deportes", [channel.name for channel in expanded])
+        self.assertTrue(errors)
+
+    def test_fetch_source_expands_index_and_marks_the_source(self):
+        source = SourceConfig("demo", "Demo", "https://m3u.cl/lista/top.m3u")
+
+        def fake_fetch(url, timeout=20, max_bytes=None, retries=2, headers=None, use_cache=False):
+            return self.SUB if url.endswith("deportes.m3u") else self.INDEX
+
+        with patch("sdf_tv_channels._fetch_text", side_effect=fake_fetch):
+            channels, errors = _fetch_source(source, timeout=1, max_pages=0)
+        self.assertEqual(errors, [])
+        self.assertEqual(len(channels), 3)
+        self.assertTrue(all(channel.source == "Demo" for channel in channels))
+
+
+class LogLevelTests(unittest.TestCase):
+    """`--log-level` existía en los workflows pero no en el CLI; ahora manda en la salida."""
+
+    def tearDown(self):
+        sdf_tv_channels.configure_logging("info")
+
+    def test_configure_logging_accepts_names_and_numbers(self):
+        self.assertEqual(sdf_tv_channels.configure_logging("DEBUG"), 10)
+        self.assertEqual(sdf_tv_channels.LOG_LEVEL, 10)
+        self.assertEqual(sdf_tv_channels.configure_logging("info"), 20)
+        self.assertEqual(sdf_tv_channels.configure_logging(30), 30)
+        with self.assertRaises(ValueError):
+            sdf_tv_channels.configure_logging("verbose")
+
+    def test_log_filters_by_level(self):
+        sdf_tv_channels.configure_logging("warning")
+        buffer, err = io.StringIO(), io.StringIO()
+        with patch("sys.stdout", buffer), patch("sys.stderr", err):
+            sdf_tv_channels.log("silencioso", "info")
+            sdf_tv_channels.log("visible", "warning", file=sys.stderr)
+        self.assertEqual(buffer.getvalue(), "")
+        self.assertEqual(err.getvalue().strip(), "visible")
+
+    def test_cli_accepts_log_level_case_insensitive(self):
+        sdf_tv_channels.configure_logging("info")
+        with tempfile.TemporaryDirectory() as tmp:
+            playlist = Path(tmp) / "l.m3u"
+            playlist.write_text(
+                '#EXTM3U\n#EXTINF:-1,tvg-name="T",Test\nhttp://127.0.0.1:1/x.m3u8\n',
+                encoding="utf-8",
+            )
+            out = Path(tmp) / "out.json"
+            for name in ("DEBUG", "debug"):
+                with patch("sys.stdout", io.StringIO()) as buffer:
+                    self.assertEqual(main(["--log-level", name, str(playlist), "-o", str(out)]), 0)
+                self.assertEqual(sdf_tv_channels.LOG_LEVEL, 10)
+                self.assertIn("Exported", buffer.getvalue())
+            self.assertEqual(len(json.loads(out.read_text(encoding="utf-8"))), 1)
+
+    def test_warning_level_hides_progress(self):
+        sdf_tv_channels.configure_logging("warning")
+        with tempfile.TemporaryDirectory() as tmp:
+            playlist = Path(tmp) / "l.m3u"
+            playlist.write_text(
+                '#EXTM3U\n#EXTINF:-1,tvg-name="T",Test\nhttp://127.0.0.1:1/x.m3u8\n',
+                encoding="utf-8",
+            )
+            buffer = io.StringIO()
+            with patch("sys.stdout", buffer):
+                self.assertEqual(main(["--log-level", "warning", str(playlist),
+                                       "-o", f"{tmp}/out.json"]), 0)
+            self.assertNotIn("Exported", buffer.getvalue())
+
+    def test_cli_rejects_unknown_log_level(self):
+        with patch("sys.stderr", io.StringIO()):
+            with self.assertRaises(SystemExit) as ctx:
+                main(["--log-level", "verbose"])
+        self.assertEqual(ctx.exception.code, 2)
+
+
+class PageDiscoveryFilterTests(unittest.TestCase):
+    """Descubrir páginas sin perseguir assets ni tokens de un atributo `data-*`."""
+
+    def test_assets_and_opaque_tokens_are_not_pages(self):
+        for url in (
+            "http://h/logo.png",
+            "http://h/player.js",
+            "http://h/",
+            "http://h/aHR0cDovL2V4YW1wbGUuY29tL2xpdmUueC5tM3U4",
+            "http://h/f/3f2b1c7d8e4a5b9c0d1e2f3a4b5c6d7e",
+        ):
+            self.assertFalse(_looks_like_channel_page(url), url)
+
+    def test_real_channel_pages_pass(self):
+        for url in (
+            "http://h/canal/tyc-sports",
+            "http://h/espn-argentina-en-vivo-online.php",
+            "http://h/tv/us/cnn-us/",
+            "http://h/canal/123",
+        ):
+            self.assertTrue(_looks_like_channel_page(url), url)
+
+    def test_data_stream_blobs_are_not_fetched_as_pages(self):
+        import base64 as b64
+        blob = b64.b64encode(b"http://127.0.0.1/live/x.m3u8").decode()
+        html = f'<html><body><div data-stream="{blob}"></div><a href="/canal/uno">Uno</a></body></html>'
+        source = SourceConfig("s", "S", "http://127.0.0.1/", "site")
+        calls: list[str] = []
+
+        def fake_fetch(url, timeout=20, max_bytes=None, retries=2, headers=None, use_cache=False):
+            calls.append(url)
+            if url.endswith("/canal/uno"):
+                return "<html><title>Uno</title><script>f='/live/x.m3u8';</script></html>"
+            return html
+
+        with patch("sdf_tv_channels._fetch_text", side_effect=fake_fetch):
+            channels, _errors = _fetch_source(source, timeout=1, max_pages=5)
+        self.assertNotIn(f"http://127.0.0.1/{blob}", calls)
+        self.assertEqual(channels[0].url, "http://127.0.0.1/live/x.m3u8")
+
+
+class ObfuscatedPlayerTests(unittest.TestCase):
+    """Streams ofuscados en JavaScript: base64, `document.write` y claves de reproductor."""
+
+    def test_atob_base64_streams_are_decoded(self):
+        import base64 as b64
+        encoded = b64.b64encode(b"https://cdn.example.com/hls/ott/master.m3u8").decode()
+        html = f'<script>var s = atob("{encoded}"); new Player(s);</script>'
+        self.assertEqual(
+            _stream_urls_from_document(html, "https://site.example/canal/1"),
+            ["https://cdn.example.com/hls/ott/master.m3u8"],
+        )
+        self.assertEqual(_decode_base64_urls(html), ["https://cdn.example.com/hls/ott/master.m3u8"])
+
+    def test_base64_in_data_attributes_is_decoded(self):
+        import base64 as b64
+        encoded = b64.b64encode(b"https://cdn.example.com/live/x.m3u8").decode()
+        html = f'<div id="p" data-stream="{encoded}"></div>'
+        self.assertEqual(
+            _stream_urls_from_document(html, "https://site.example/"),
+            ["https://cdn.example.com/live/x.m3u8"],
+        )
+
+    def test_document_write_iframes_and_data_iframes_are_followed(self):
+        html = (
+            "<script>document.write('<iframe src=\"//p2.example.com/live/core.php?c=7\"></iframe>');</script>"
+            '<div data-iframe="//p.example.com/embed/42"></div>'
+        )
+        iframes, _js = _player_links_from_document(html, "https://site.example/canal/7")
+        self.assertIn("https://p2.example.com/live/core.php?c=7", iframes)
+        self.assertIn("https://p.example.com/embed/42", iframes)
+
+    def test_player_config_keys_and_video_tags_are_scanned(self):
+        html = (
+            '<video><source src="/hls/canal9/master.m3u8"></video>'
+            '<script>jwplayer("a").setup({sources:[{file:"/live/canal7/index.m3u8"}]});</script>'
+            '<meta property="og:video" content="https://cdn.example.com/hls/og.m3u8">'
+        )
+        found = _stream_urls_from_document(html, "https://site.example/canal/7")
+        self.assertEqual(sorted(found), [
+            "https://cdn.example.com/hls/og.m3u8",
+            "https://site.example/hls/canal9/master.m3u8",
+            "https://site.example/live/canal7/index.m3u8",
+        ])
+
+    def test_wrapper_returning_a_master_playlist_becomes_a_channel(self):
+        source = SourceConfig("w", "Wrapper", "https://site.example/", "site", max_depth=1)
+        page = "https://site.example/live/core.php?c=7"
+        master = (
+            "#EXTM3U\n"
+            "#EXT-X-STREAM-INF:BANDWIDTH=5000000,RESOLUTION=1280x720\n"
+            "https://cdn.example.com/7/720.m3u8\n"
+        )
+
+        def fake_fetch(url, timeout=20, max_bytes=None, retries=2, headers=None, use_cache=False):
+            return master if url == page else "<html><title>Canal 7</title></html>"
+
+        with patch("sdf_tv_channels._fetch_text", side_effect=fake_fetch):
+            channels, error = _fetch_site_page(source, page, "Canal 7", 1)
+        self.assertIsNone(error)
+        self.assertEqual(channels[0].url, "https://cdn.example.com/7/720.m3u8")
+        self.assertEqual(channels[0].headers["Referer"], page)
+        self.assertIn("Mozilla", channels[0].headers["User-Agent"])
+
+    def test_m3u_url_in_a_query_string_counts_as_a_stream(self):
+        self.assertTrue(_is_stream_url("https://h/player.php?url=https://c/x.m3u8"))
+        self.assertTrue(_is_stream_url("https://h/cdn/live/"))
+        self.assertFalse(_is_stream_url("https://h/pelicula.html"))
+
+
+class FetchLayerTests(unittest.TestCase):
+    """Caché por ejecución, `Retry-After` y detección de codificación."""
+
+    def test_use_cache_avoids_repeated_player_documents(self):
+        body = b"#EXTM3U\n"
+        with patch("sdf_tv_channels.urlopen", return_value=FetchTextTests.Response(body)) as open_url:
+            first = _fetch_text("https://example.com/cfg.json", timeout=1, retries=0,
+                                use_cache=True)
+            second = _fetch_text("https://example.com/cfg.json", timeout=1, retries=0,
+                                 use_cache=True)
+        self.assertEqual(first, second)
+        self.assertEqual(open_url.call_count, 1)
+
+    def test_cache_is_not_used_by_default(self):
+        body = b"#EXTM3U\n"
+        with patch("sdf_tv_channels.urlopen", return_value=FetchTextTests.Response(body)) as open_url:
+            _fetch_text("https://example.com/list.m3u", timeout=1, retries=0)
+            _fetch_text("https://example.com/list.m3u", timeout=1, retries=0)
+        self.assertEqual(open_url.call_count, 2)
+
+    def test_cached_failure_is_reraised_as_a_value_error(self):
+        error = URLError("offline")
+        with patch("sdf_tv_channels.urlopen", side_effect=error):
+            with self.assertRaises(URLError):
+                _fetch_text("https://example.com/dead.m3u", timeout=1, retries=0, use_cache=True)
+            with self.assertRaises(ValueError):
+                _fetch_text("https://example.com/dead.m3u", timeout=1, retries=0, use_cache=True)
+
+    def test_retry_after_is_bounded(self):
+        headers = Headers({"Retry-After": "120"})
+        self.assertEqual(_retry_after_seconds(HTTPError("https://x/y", 429, "Slow", headers, None)), 10.0)
+        self.assertIsNone(_retry_after_seconds(RuntimeError("sin cabeceras")))
+
+    def test_meta_charset_is_used_when_the_server_declares_nothing(self):
+        body = "#EXTM3U\n#EXTINF:-1,Señal Latinada\nhttps://x/y.m3u8\n".encode("latin-1")
+
+        class Raw:
+            headers = Headers({})
+
+            def __enter__(self): return self
+            def __exit__(self, *_a): return None
+            def read(self, limit=-1): return body
+
+        with patch("sdf_tv_channels.urlopen", return_value=Raw()):
+            text = _fetch_text_once("https://example.com/l.m3u", 1, 4096, None)
+        self.assertIn("Señal Latinada", text)
+
+    def test_source_headers_are_sent_for_configured_sources(self):
+        source = SourceConfig("h", "H", "https://example.com/l.m3u",
+                              headers=("X-Token: abc", "Referer: https://example.com/"))
+        captured = {}
+
+        class Raw:
+            headers = Headers({"Content-Type": "text/plain"})
+
+            def __enter__(self): return self
+            def __exit__(self, *_a): return None
+            def read(self, limit=-1): return b"#EXTM3U\n"
+
+        def fake_urlopen(request, timeout=None):
+            captured["token"] = request.get_header("X-token")
+            captured["referer"] = request.get_header("Referer")
+            return Raw()
+
+        with patch("sdf_tv_channels.urlopen", side_effect=fake_urlopen):
+            _fetch_source(source, timeout=1, max_pages=0)
+        self.assertEqual(captured["token"], "abc")
+        self.assertEqual(captured["referer"], "https://example.com/")
+
+
+class CliSourceUrlTests(unittest.TestCase):
+    """`--source-url`: fuentes puntuales desde la CLI."""
+
+    def test_adhoc_playlist_url_is_fetched_and_classified(self):
+        playlist = (
+            '#EXTM3U\n#EXTINF:-1 group-title="Noticias",Canal Noticias\n'
+            "https://cdn.example.com/news.m3u8\n"
+        )
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output = Path(temp_dir) / "out.json"
+            with patch("sdf_tv_channels._fetch_text", return_value=playlist):
+                rc = main(["--source-url", "https://m3u.cl/lista/news.m3u",
+                           "-o", str(output)])
+            self.assertEqual(rc, 0)
+            rows = json.loads(output.read_text(encoding="utf-8"))
+        self.assertEqual(rows[0]["category"], "news")
+        self.assertEqual(rows[0]["country"], "CL")
+
+    def test_adhoc_site_url_is_treated_as_a_site_source(self):
+        sources = _custom_sources(["tv.example.com/en-vivo/"])
+        self.assertEqual(len(sources), 1)
+        self.assertEqual(sources[0].kind, "site")
+        # Sin filtros de ruta: `--max-pages` acota el rastreo.
+        self.assertEqual(sources[0].page_patterns, ())
+        self.assertEqual(sources[0].page_prefixes, ())
+
+    def test_adhoc_source_infers_the_country_from_the_cc_tld(self):
+        self.assertEqual(_custom_sources(["https://m3u.cl/lista/top.m3u"])[0].country_hint, "CL")
+        # Un dominio genérico o un "domain hack" no deben inventar un país.
+        self.assertEqual(_custom_sources(["https://tvgarden.world/"])[0].country_hint, "")
+        self.assertEqual(_custom_sources(["https://teleonline.tv/"])[0].country_hint, "")
+
+    def test_adhoc_playlist_entries_are_capped_and_source_named(self):
+        sources = _custom_sources(
+            ["https://a.example.com/x.m3u", "https://b.example.com/", "nope"],
+        )
+        self.assertEqual([source.key for source in sources],
+                         ["custom-a-example-com", "custom2-b-example-com"])
+        self.assertEqual(sources[0].kind, "playlist")
+        self.assertEqual(sources[1].url, "https://b.example.com/")
+
+    def test_custom_source_names_are_used_as_the_channel_group(self):
+        sources = _custom_sources(["https://tv.example.com/"], name="TV Example")
+        self.assertEqual(sources[0].name, "TV Example")
+        self.assertEqual(sources[0].key, "custom-tv-example-com")
+
 
 
 if __name__ == "__main__":

@@ -81,6 +81,26 @@ on:
         required: false
         default: false
         type: boolean
+      require_playlist:
+        description: "Conservar solo streams que devuelven una playlist HLS real"
+        required: false
+        default: false
+        type: boolean
+      extra_source_urls:
+        description: "URLs adicionales (separadas por comas) a rastrillar en la búsqueda"
+        required: false
+        default: ""
+        type: string
+      log_level:
+        description: "Detalle del log (DEBUG muestra el rastreo página a página)"
+        required: false
+        default: "INFO"
+        type: choice
+        options:
+          - INFO
+          - DEBUG
+          - WARNING
+          - ERROR
 
 concurrency:
   group: search-channels-${{ github.ref }}
@@ -115,9 +135,12 @@ jobs:
           COUNTRY: ${{ inputs.country }}
           LANGUAGE: ${{ inputs.language }}
           SOURCE: ${{ inputs.source }}
+          EXTRA_URLS: ${{ inputs.extra_source_urls }}
+          REQUIRE_PLAYLIST: ${{ inputs.require_playlist }}
           LIMIT: ${{ inputs.limit }}
           FORMAT: ${{ inputs.format }}
           CHECK_STREAMS: ${{ inputs.check_streams }}
+          LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
         run: |
           set -euo pipefail
           echo "::group::Parámetros de búsqueda"
@@ -131,6 +154,9 @@ jobs:
           echo "Límite: $LIMIT"
           echo "Formato: $FORMAT"
           echo "Check streams: $CHECK_STREAMS"
+          echo "Playlist HLS obligatoria: $REQUIRE_PLAYLIST"
+          echo "URLs extra: $EXTRA_URLS"
+          echo "Log level: $LOG_LEVEL"
           echo "::endgroup::"
 
           ARGS=()
@@ -162,6 +188,7 @@ jobs:
 
           ARGS+=(--limit "${LIMIT:-20}")
           ARGS+=(--timeout 15 --workers 8 --max-pages 25)
+          ARGS+=(--polite-delay 0.05 --log-level "$LOG_LEVEL" --deadline 780)
 
           OUTPUT="search-results.$FORMAT"
           if [ "$FORMAT" = "json" ]; then
@@ -174,6 +201,21 @@ jobs:
 
           if [ "$CHECK_STREAMS" = "true" ]; then
             ARGS+=(--check-streams)
+          fi
+
+          if [ "$REQUIRE_PLAYLIST" = "true" ]; then
+            ARGS+=(--require-playlist)
+          fi
+
+          # Fuentes puntuales: cualquier lista o sitio indicado por el usuario.
+          if [ -n "$EXTRA_URLS" ]; then
+            IFS=',' read -r -a urls <<< "$EXTRA_URLS"
+            for extra in "${urls[@]}"; do
+              extra="${extra//[[:space:]]/}"
+              if [ -n "$extra" ]; then
+                ARGS+=(--source-url "$extra")
+              fi
+            done
           fi
 
           ARGS+=(-o "$OUTPUT")
