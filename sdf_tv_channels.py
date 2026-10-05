@@ -3404,7 +3404,9 @@ def _fetch_site_page(source: SourceConfig, page: str, label: str,
     """
     fetch_headers = _source_headers(source)
     try:
-        root_html = _fetch_text(page, timeout, headers=fetch_headers or None)
+        # `use_cache`: muchas páginas enlazan el mismo wrapper o la misma lista; repetir
+        # la descarga del mismo documento solo cuesta tiempo y peticiones de más.
+        root_html = _fetch_text(page, timeout, headers=fetch_headers or None, use_cache=True)
     except (HTTPError, URLError, TimeoutError, OSError, ValueError) as exc:
         return [], f"{source.key}: page {page}: {exc}"
 
@@ -3705,7 +3707,13 @@ def _fetch_source(source: SourceConfig, timeout: int, max_pages: int,
             continue
         seen_playlists.add(playlist)
         try:
-            content = _fetch_text(playlist, timeout)
+            # Con caché: si una lista se enlaza varias veces no se descarga dos veces. Que
+            # la misma URL vuelva a pedirse como wrapper de un canal NO es un desperdicio:
+            # ahí `fetch_headers` lleva el Referer de la página del canal, y un CDN con
+            # anti-hotlinking puede responder 403/404 con el Referer de la raíz y 200 con
+            # el correcto (la caché está indexada por URL+cabeceras, por eso no colisiona).
+            content = _fetch_text(playlist, timeout, headers=fetch_headers or None,
+                                  use_cache=True)
             if _looks_like_m3u(content):
                 items = parse_m3u(content, source=source.name, base_url=playlist)
                 for channel in items:
