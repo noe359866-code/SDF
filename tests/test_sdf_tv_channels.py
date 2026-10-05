@@ -26,6 +26,9 @@ from sdf_tv_channels import (
     _fetch_text,
     _page_matches_source,
     _player_urls_from_config,
+    _script_urls_from_document,
+    _sitemap_locations,
+    _country_from_source_path,
     channel_slug,
     check_stream,
     check_streams,
@@ -97,6 +100,14 @@ class PlaylistParserTests(unittest.TestCase):
             ),
             ("other", "es", "MX"),
         )
+        self.assertEqual(
+            classify_channel("Canal", attrs={"tvg-country": "es-MX"})[2], "MX",
+        )
+        self.assertEqual(
+            classify_channel("Canal", attrs={"tvg-country": "en-US"})[2], "US",
+        )
+        # A bare ISO country code must still be treated as a country, not a locale.
+        self.assertEqual(classify_channel("Canal", attrs={"tvg-country": "ES"})[2], "ES")
 
     def test_language_classification_avoids_short_substring_false_positive(self):
         self.assertEqual(classify_channel("ESPN"), ("sports", "unknown", "unknown"))
@@ -108,13 +119,88 @@ class PlaylistParserTests(unittest.TestCase):
         self.assertEqual(classify_channel("CNN", attrs={"tvg-id": "CNN.us@HD"})[2], "US")
         self.assertEqual(classify_channel("[MX] Azteca Uno")[2], "MX")
 
+    def test_country_from_provider_channel_id_suffix_and_explicit_precedence(self):
+        self.assertEqual(
+            classify_channel("21 Jump Street", attrs={"channel-id": "CABB26000082J-ca"})[2],
+            "CA",
+        )
+        self.assertEqual(
+            classify_channel(
+                "CNN", attrs={"channel-id": "CNN-us", "tvg-country": "GB", "tvg-id": "CNN.ca"}
+            )[2],
+            "GB",
+        )
+        # A country group is stronger than a mention in a generic channel title.
+        self.assertEqual(classify_channel("21 Jump Street", "Canada")[2], "CA")
+
+    def test_ambiguous_country_names_in_titles_do_not_override_unknown(self):
+        for name in (
+            "Jordan Peterson Network",
+            "Georgia Bulldogs",
+            "Cuba Gooding Jr",
+            "The Turkey Channel",
+        ):
+            with self.subTest(name=name):
+                self.assertEqual(classify_channel(name)[2], "unknown")
+        self.assertEqual(clean_channel_name("Jordan Peterson Network"), "Jordan Peterson Network")
+        # Explicit forms, including the country suffix used by TV channel titles, still work.
+        self.assertEqual(classify_channel("BBC News - Jordan")[2], "JO")
+        self.assertEqual(classify_channel("ESPN Colombia EN VIVO HD")[2], "CO")
+
     def test_supports_more_language_codes(self):
         self.assertEqual(classify_channel("Canal", attrs={"tvg-language": "ru-RU"})[1], "ru")
         self.assertEqual(classify_channel("Canal", attrs={"tvg-language": "zho"})[1], "zh")
 
+    def test_worldwide_iso_country_codes_and_localized_names(self):
+        cases = {
+            "NGA": "NG",
+            "VNM": "VN",
+            "KOR": "KR",
+            "BRA": "BR",
+            "ZAF": "ZA",
+            "NZL": "NZ",
+            "fr-CA": "CA",
+            "zh-Hant-TW": "TW",
+        }
+        for value, expected in cases.items():
+            with self.subTest(country=value):
+                self.assertEqual(
+                    classify_channel("Canal", attrs={"tvg-country": value})[2], expected,
+                )
+        self.assertEqual(classify_channel("Canal de Sudáfrica")[2], "ZA")
+        self.assertEqual(classify_channel("Canal de Côte d’Ivoire")[2], "CI")
+
+    def test_worldwide_language_codes_and_names(self):
+        cases = {
+            "hau-NG": "ha",
+            "ben": "bn",
+            "fil": "fil",
+            "szl": "szl",
+            "Swahili": "sw",
+            "Persian": "fa",
+        }
+        for value, expected in cases.items():
+            with self.subTest(language=value):
+                self.assertEqual(
+                    classify_channel("Canal", attrs={"tvg-language": value})[1], expected,
+                )
+        self.assertEqual(classify_channel("Canal", attrs={"tvg-language": "und"})[1], "unknown")
+
     def test_category_matching_uses_word_boundaries(self):
         self.assertEqual(classify_channel("Television TV")[0], "other")
         self.assertEqual(classify_channel("Drama TV")[0], "series")
+
+    def test_ambiguous_brand_names_are_not_misclassified(self):
+        self.assertEqual(classify_channel("Mega TV")[0], "general")
+        self.assertEqual(classify_channel("Canal 13C")[0], "culture")
+        self.assertEqual(classify_channel("El Trece")[0], "general")
+        self.assertEqual(classify_channel("Trece")[0], "other")
+
+    def test_categories_recognize_major_world_languages(self):
+        self.assertEqual(classify_channel("Canal Esportes")[0], "sports")
+        self.assertEqual(classify_channel("CCTV体育频道")[0], "sports")
+        self.assertEqual(classify_channel("Новости сегодня")[0], "news")
+        self.assertEqual(classify_channel("Musik Fernsehen")[0], "music")
 
     def test_skips_invalid_and_orphan_urls(self):
         self.assertEqual(
@@ -181,27 +267,48 @@ class PlaylistParserTests(unittest.TestCase):
         self.assertIn("Dos", unique[0].source)
 
     def test_configured_sources(self):
-        urls = {s.url for s in DEFAULT_SOURCES}
-        self.assertEqual(
-            urls,
-            {
-                "https://iptv.bbyte.app/jellyfin/live.m3u",
-                "https://www.cxtvenvivo.com/",
-                "https://www.tdtchannels.com/lists/tv.m3u8",
-                "https://m3u.cl/lista/top.m3u",
-                "https://m3u.cl/lista/LATAM.m3u",
-                "https://iptv-org.github.io/iptv/index.m3u",
-                "https://teleonline.org/",
-                "https://teleonline.github.io/listas/tv.m3u8",
-                "https://www.teleonline.tv/",
-                "https://www.tvenvivo.org/",
-                "https://tvlibreonline.st/",
-            },
-        )
-        kinds = {s.key: s.kind for s in DEFAULT_SOURCES}
-        self.assertEqual(kinds["teleonline_tv"], "site")
-        self.assertEqual(kinds["tvenvivo"], "site")
-        self.assertEqual(kinds["tvlibreonline"], "site")
+        urls = {
+            url
+            for source in DEFAULT_SOURCES
+            for url in (source.url, *source.fallback_urls)
+        }
+        self.assertEqual(len(DEFAULT_SOURCES), 22)
+        self.assertTrue({
+            "https://iptv.bbyte.app/jellyfin/live.m3u",
+            "https://www.cxtvenvivo.com/",
+            "https://www.tdtchannels.com/lists/tv.m3u8",
+            "https://m3u.cl/lista/top.m3u",
+            "https://m3u.cl/lista/LATAM.m3u",
+            "https://iptv-org.github.io/iptv/index.m3u",
+            "https://teleonline.org/",
+            "https://teleonline.github.io/listas/tv.m3u8",
+            "https://www.teleonline.tv/",
+            "https://www.tvenvivo.org/",
+            "https://tvlibreonline.st/",
+        } <= urls)
+        self.assertTrue({
+            "https://tvgarden.world/",
+            "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/samsungtvplus_all.m3u",
+            "https://www.apsattv.com/uslg.m3u",
+            "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/tubi_all.m3u",
+            "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/plex_all.m3u",
+            "https://www.apsattv.com/vizio.m3u",
+            "https://www.apsattv.com/xiaomi.m3u",
+            "https://www.apsattv.com/rakutentv-uk.m3u",
+            "https://www.apsattv.com/rakuten-fr.m3u",
+            "https://www.apsattv.com/moviearkbr.m3u",
+            "https://www.apsattv.com/cineverse.m3u",
+        } <= urls)
+        sources = {source.key: source for source in DEFAULT_SOURCES}
+        self.assertEqual(sources["teleonline_tv"].kind, "site")
+        self.assertEqual(sources["tvenvivo"].kind, "site")
+        self.assertEqual(sources["tvlibreonline"].kind, "site")
+        self.assertEqual(sources["tvgarden"].kind, "site")
+        self.assertEqual(sources["tvgarden"].country_path_prefix, "/tv/")
+        self.assertEqual(sources["tvgarden"].sitemap_urls,
+                         ("https://tvgarden.world/sitemap_tv.xml",))
+        self.assertEqual(sources["uslg"].country_hint, "US")
+        self.assertEqual(sources["movieark_br"].country_hint, "BR")
 
     def test_remote_source_resolves_playlist_relative_to_its_url(self):
         source = SourceConfig("remote", "Remote", "https://example.com/lists/tv.m3u")
@@ -210,6 +317,22 @@ class PlaylistParserTests(unittest.TestCase):
             channels, errors = _fetch_source(source, timeout=1, max_pages=0)
         self.assertEqual(errors, [])
         self.assertEqual(channels[0].url, "https://example.com/streams/live.m3u8")
+
+    def test_remote_source_uses_fallback_and_applies_region_hint(self):
+        source = SourceConfig(
+            "regional", "Regional", "https://example.com/missing.m3u",
+            fallback_urls=("https://example.com/working.m3u",), country_hint="US",
+        )
+        not_found = HTTPError(source.url, 404, "Not Found", None, None)
+        text = (
+            '#EXTM3U\n#EXTINF:-1 group-title="News",Local News\n'
+            "https://cdn.example.com/news.m3u8\n"
+        )
+        with patch("sdf_tv_channels._fetch_text", side_effect=[not_found, text]):
+            channels, errors = _fetch_source(source, timeout=1, max_pages=0)
+        self.assertEqual(errors, [])
+        self.assertEqual(channels[0].country, "US")
+        self.assertEqual(channels[0].source_url, "https://example.com/working.m3u")
 
     def test_zero_max_pages_does_not_fetch_site_pages(self):
         source = SourceConfig("site", "Site", "https://example.com/", "site",
@@ -357,6 +480,110 @@ class SitePlayerExtractionTests(unittest.TestCase):
         self.assertTrue(all("/cvatt.html?get=ABC" in url for url in urls))
         self.assertEqual(len(urls), 1)
 
+    def test_sitemap_reader_and_script_discovery(self):
+        locations = _sitemap_locations(
+            '<urlset><url><loc>https://tvgarden.world/tv/us/one</loc></url></urlset>',
+            "https://tvgarden.world/sitemap_tv_1.xml",
+        )
+        self.assertEqual(locations, ["https://tvgarden.world/tv/us/one"])
+        scripts = _script_urls_from_document(
+            '<script src="/assets/channels.js"></script>'
+            '<script src="https://raw.githubusercontent.com/example/data.js"></script>'
+            '<script src="https://www.googletagmanager.com/gtag.js"></script>',
+            "https://tvgarden.world/tv/us/one",
+            {"tvgarden.world", "raw.githubusercontent.com", "www.googletagmanager.com"},
+        )
+        self.assertEqual(scripts, [
+            "https://tvgarden.world/assets/channels.js",
+            "https://raw.githubusercontent.com/example/data.js",
+        ])
+
+    def test_tvgarden_sitemap_samples_multiple_countries_and_uses_route_country(self):
+        source = next(source for source in DEFAULT_SOURCES if source.key == "tvgarden")
+        self.assertEqual(
+            _country_from_source_path(source, "https://tvgarden.world/tv/uk/uk-one"),
+            "GB",
+        )
+        sitemap_url = source.sitemap_urls[0]
+        channel_map = {
+            "https://tvgarden.world/": "<html><title>TV Garden</title></html>",
+            sitemap_url: (
+                "<sitemapindex><sitemap><loc>"
+                "https://tvgarden.world/sitemap_tv_1.xml"
+                "</loc></sitemap></sitemapindex>"
+            ),
+            "https://tvgarden.world/sitemap_tv_1.xml": (
+                "<urlset>"
+                "<url><loc>https://tvgarden.world/tv/us/us-one</loc></url>"
+                "<url><loc>https://tvgarden.world/tv/us/us-two</loc></url>"
+                "<url><loc>https://tvgarden.world/tv/ca/ca-one</loc></url>"
+                "<url><loc>https://tvgarden.world/tv/uk/uk-one</loc></url>"
+                "</urlset>"
+            ),
+        }
+        for country_code, route, title, stream, country in (
+            ("us", "us-one", "France 24", "us-one", "United States"),
+            ("us", "us-two", "Second US", "us-two", "United States"),
+            ("ca", "ca-one", "First Canada", "ca-one", "Canada"),
+            ("uk", "uk-one", "First UK", "uk-one", "United Kingdom"),
+        ):
+            channel_map[f"https://tvgarden.world/tv/{country_code}/{route}"] = (
+                f"<html><head><title>{title} - Watch {country} TV Channel Free | "
+                "tvgarden.world</title></head><body>"
+                f'<video><source src="https://cdn.example.com/{stream}.m3u8"></video>'
+                "</body></html>"
+            )
+        fetched = []
+
+        def fake_fetch(url, timeout=20, max_bytes=None, retries=2):
+            url = str(url)
+            fetched.append(url)
+            if url not in channel_map:
+                self.fail(f"URL inesperada: {url}")
+            return channel_map[url]
+
+        with patch("sdf_tv_channels._fetch_text", side_effect=fake_fetch):
+            channels, errors = _fetch_source(source, timeout=1, max_pages=3)
+        self.assertEqual(errors, [])
+        self.assertEqual({channel.name for channel in channels},
+                         {"France 24", "First Canada", "First UK"})
+        self.assertEqual({channel.country for channel in channels}, {"US", "CA", "GB"})
+        self.assertNotIn("https://tvgarden.world/tv/us/us-two", fetched)
+
+    def test_tvgarden_parses_country_and_stream_metadata_from_json(self):
+        source = SourceConfig(
+            "tvgarden", "TV Garden", "https://tvgarden.world/", "site",
+            country_path_prefix="/tv/", max_depth=1,
+        )
+        page = "https://tvgarden.world/tv/us/channel-one"
+        json_url = "https://tvgarden.world/data/us.json"
+        page_html = (
+            "<html><head><title>TV Garden channel</title></head><body>"
+            '<script>fetch("/data/us.json")</script></body></html>'
+        )
+        payload = json.dumps([{
+            "name": "Canal Caribe News",
+            "country": "us",
+            "languages": ["eng"],
+            "sources": {"streams": ["https://cdn.example.com/caribe.m3u8"]},
+        }])
+
+        def fake_fetch(url, timeout=20, max_bytes=None, retries=2):
+            if str(url) == page:
+                return page_html
+            if str(url) == json_url:
+                return payload
+            self.fail(f"URL inesperada: {url}")
+
+        with patch("sdf_tv_channels._fetch_text", side_effect=fake_fetch):
+            channels, error = _fetch_site_page(source, page, "", timeout=1)
+        self.assertIsNone(error)
+        self.assertEqual(len(channels), 1)
+        self.assertEqual(channels[0].name, "Canal Caribe News")
+        self.assertEqual(channels[0].country, "US")
+        self.assertEqual(channels[0].language, "en")
+        self.assertEqual(channels[0].source_url, page)
+
 
 class DedupeAndLimitTests(unittest.TestCase):
     def test_clean_channel_name_and_canonical_key_normalize_variants(self):
@@ -368,15 +595,33 @@ class DedupeAndLimitTests(unittest.TestCase):
         self.assertEqual(_canonical_channel_key("Antena 3 (1080p) Señal 2"), "antena-3")
         self.assertEqual(_canonical_channel_key("Antena 3 En Vivo"), "antena-3")
         self.assertEqual(_canonical_channel_key("Discovery Channel"), "discovery")
-        self.assertEqual(_canonical_channel_key("Canal Discovery Latam"), "discovery")
+        self.assertEqual(_canonical_channel_key("Canal Discovery Latam"), "discovery-latam")
         self.assertEqual(_canonical_channel_key("Canal 24 Horas"), "24-horas")
         self.assertEqual(_canonical_channel_key("Canal 13 HD"), "canal-13")
         self.assertEqual(channel_slug("Antena 3 [720p]"), "antena-3")
+
+    def test_region_editions_are_not_collapsed_as_quality_variants(self):
+        self.assertEqual(_canonical_channel_key("Canal Discovery Latam"), "discovery-latam")
+        self.assertEqual(_canonical_channel_key("CNN International"), "cnn-international")
+        self.assertEqual(_canonical_channel_key("Canal Sur"), "canal-sur")
+        self.assertEqual(_canonical_channel_key("Canal Norte"), "canal-norte")
+
+        channels = [
+            Channel("Canal Sur", "https://example.com/sur.m3u8", category="general"),
+            Channel("Canal Norte", "https://example.com/norte.m3u8", category="general"),
+            Channel("Canal Sur HD", "https://mirror.example.com/sur.m3u8", category="general"),
+        ]
+        selected = dedupe_unique_channels(channels, limit=10)
+        self.assertEqual(
+            {_canonical_channel_key(channel.name) for channel in selected},
+            {"canal-sur", "canal-norte"},
+        )
 
     def test_clean_channel_name_removes_country_labels_and_seo_tails(self):
         self.assertEqual(clean_channel_name("Argentina Telefe Ver canal"), "Telefe")
         self.assertEqual(clean_channel_name("Canal TN Online en VIVO y en directo"), "Canal TN")
         self.assertEqual(clean_channel_name("México TV Azteca"), "TV Azteca")
+        self.assertEqual(clean_channel_name("Afganistán Canal Kabul"), "Canal Kabul")
         # Un nombre que depende del país se conserva intacto.
         self.assertEqual(clean_channel_name("Cuba TV"), "Cuba TV")
 
@@ -477,6 +722,37 @@ class DedupeAndLimitTests(unittest.TestCase):
         self.assertEqual(len(selected), 20)
         slugs = [channel_slug(c.name) for c in selected]
         self.assertEqual(len(slugs), len(set(slugs)))
+
+    def test_checked_selection_respects_max_per_source_before_early_return(self):
+        channels = [
+            Channel("Alpha Uno", "https://uno.example.com/one.m3u8",
+                    category="news", source="Fuente Uno"),
+            Channel("Alpha Dos", "https://uno.example.com/two.m3u8",
+                    category="news", source="Fuente Uno"),
+            Channel("Beta Uno", "https://dos.example.com/one.m3u8",
+                    category="news", source="Fuente Dos"),
+            Channel("Beta Dos", "https://dos.example.com/two.m3u8",
+                    category="news", source="Fuente Dos"),
+        ]
+        with patch("sdf_tv_channels.check_stream", return_value=StreamCheck("http_ok", 200)):
+            selected, _ = select_channels_with_checks(
+                channels, limit=2, only_http_ok=True, max_per_source=1,
+            )
+        self.assertEqual(len(selected), 2)
+        self.assertEqual({channel.source for channel in selected}, {"Fuente Uno", "Fuente Dos"})
+
+    def test_max_probes_is_a_hard_cap_even_when_below_requested_limit(self):
+        channels = [
+            Channel(f"Canal {i}", f"https://example.com/{i}.m3u8", category="news")
+            for i in range(5)
+        ]
+        with patch("sdf_tv_channels.check_stream", return_value=StreamCheck("http_ok", 200)) as check:
+            selected, checks = select_channels_with_checks(
+                channels, limit=3, only_http_ok=True, max_probes=2,
+            )
+        self.assertEqual(check.call_count, 2)
+        self.assertEqual(len(checks), 2)
+        self.assertEqual(len(selected), 2)
 
     def test_select_channels_with_checks_stops_early_and_uses_fallback_stream(self):
         channels = [
