@@ -671,6 +671,190 @@ def _canonical_channel_key(name: str) -> str:
     return "-".join(tokens)
 
 
+# ---------------------------------------------------------------------------
+# Búsqueda de canales específicos
+# ---------------------------------------------------------------------------
+
+# Campos que pueden usarse con --search / search_channels(). ``slug`` se deriva
+# del nombre limpio y permite buscar por identificadores tipo ``espn-deportes``.
+VALID_SEARCH_FIELDS: frozenset[str] = frozenset({
+    "name", "group", "tvg_id", "tvg_name", "category", "country", "language",
+    "source", "source_url", "url", "logo", "slug",
+})
+DEFAULT_SEARCH_FIELDS: tuple[str, ...] = ("name", "group", "tvg_name", "tvg_id", "category")
+
+
+def _channel_field_text(channel: Channel, field: str) -> str:
+    """Devuelve el texto del campo ``field`` de ``channel``."""
+    key = field.strip().casefold()
+    if key == "name":
+        return channel.name or ""
+    if key == "group":
+        return channel.group or ""
+    if key == "tvg_id":
+        return channel.tvg_id or ""
+    if key == "tvg_name":
+        return channel.tvg_name or ""
+    if key == "category":
+        return channel.category or ""
+    if key == "country":
+        return channel.country or ""
+    if key == "language":
+        return channel.language or ""
+    if key == "source":
+        return channel.source or ""
+    if key == "source_url":
+        return channel.source_url or ""
+    if key == "url":
+        return channel.url or ""
+    if key == "logo":
+        return channel.logo or ""
+    if key == "slug":
+        return channel_slug(channel.name) if channel.name else ""
+    # Permite buscar también dentro de atributos originales del M3U.
+    if channel.attributes:
+        for attr_key, attr_val in channel.attributes.items():
+            if attr_key.casefold() == key:
+                return str(attr_val or "")
+    return ""
+
+
+def channel_matches_query(
+    channel: Channel,
+    query: str,
+    *,
+    fields: Iterable[str] | None = None,
+    use_regex: bool = False,
+) -> bool:
+    """Indica si ``channel`` satisface ``query`` en los ``fields`` indicados.
+
+    - Búsqueda insensible a mayúsculas y acentos (usa ``_fold_text``).
+    - ``query`` puede contener varias alternativas separadas por comas (OR):
+      ``\"espn, fox sports\"`` coincide si aparece cualquiera de ellas.
+    - Dentro de cada alternativa todas las palabras deben aparecer (AND) o bien
+      la frase completa como subcadena. Esto permite tanto
+      ``\"espn colombia\"`` como ``\"colombia espn\"``.
+    - ``use_regex=True`` interpreta ``query`` como expresión regular aplicada
+      sobre el texto combinado de los campos (también plegado).
+    """
+    if not query or not query.strip():
+        return True
+    resolved_fields = tuple(
+        f.strip().casefold() for f in (fields or DEFAULT_SEARCH_FIELDS)
+        if f and f.strip().casefold() in VALID_SEARCH_FIELDS
+    ) or DEFAULT_SEARCH_FIELDS
+
+    haystack_raw = " ".join(_channel_field_text(channel, f) for f in resolved_fields)
+    folded_haystack = _fold_text(haystack_raw)
+    haystack_tokens = set(re.findall(r"[^\W_]+", folded_haystack, flags=re.UNICODE))
+
+    if use_regex:
+        # Se pliega tanto el haystack como el patrón para que la búsqueda
+        # sea insensible a acentos sin que el usuario tenga que escaparlos.
+        try:
+            pattern = re.compile(_fold_text(query), re.I)
+        except re.error:
+            return False
+        return bool(pattern.search(folded_haystack))
+
+    alternatives = [alt.strip() for alt in query.split(",") if alt.strip()]
+    if not alternatives:
+        return False
+    for alt in alternatives:
+        folded_alt = _fold_text(alt)
+        if not folded_alt:
+            continue
+        # Coincidencia exacta de frase plegada.
+        if folded_alt in folded_haystack:
+            return True
+        tokens = re.findall(r"[^\W_]+", folded_alt, flags=re.UNICODE)
+        if not tokens:
+            continue
+        # Todas las palabras de la alternativa deben aparecer (AND).
+        # Se acepta tanto coincidencia por token exacto como por subcadena
+        # dentro del haystack, para no romper búsquedas parciales tipo \"espn\".
+        if all(token in folded_haystack for token in tokens):
+            # Para palabras muy cortas (<=2) exigimos token exacto para evitar
+            # falsos positivos: \"tv\" no debe coincidir dentro de \"tvn\".
+            short_ok = all(
+                (token in haystack_tokens) if len(token) <= 2 else True
+                for token in tokens
+            )
+            if short_ok:
+                return True
+    return False
+
+
+def search_channels(
+    channels: Iterable[Channel],
+    query: str,
+    *,
+    fields: Iterable[str] | None = None,
+    use_regex: bool = False,
+) -> list[Channel]:
+    """Filtra ``channels`` por ``query``.
+
+    Args:
+        channels: Iterable de :class:`Channel`.
+        query: Texto a buscar. Vacío o solo espacios devuelve todos.
+               Acepta comas como OR y espacios como AND dentro de cada alternativa.
+               Ejemplo: ``\"cnn, bbc\"`` → CNN O BBC;
+               ``\"espn colombia\"`` → contiene espn Y colombia (en cualquier orden).
+        fields: Campos donde buscar. Por defecto ``name, group, tvg_name, tvg_id, category``.
+                Valores válidos: ``name, group, tvg_id, tvg_name, category, country,
+                language, source, source_url, url, logo, slug``. Se ignoran los no válidos.
+        use_regex: Si es True, ``query`` se interpreta como expresión regular
+                   (insensible a mayúsculas/acentos, aplicada sobre los campos plegados).
+
+    Returns:
+        Lista filtrada manteniendo el orden original.
+    """
+    if not query or not query.strip():
+        return list(channels)
+    resolved_fields = tuple(
+        f.strip().casefold() for f in (fields or DEFAULT_SEARCH_FIELDS)
+        if f and f.strip().casefold() in VALID_SEARCH_FIELDS
+    ) or DEFAULT_SEARCH_FIELDS
+    return [
+        ch for ch in channels
+        if channel_matches_query(ch, query, fields=resolved_fields, use_regex=use_regex)
+    ]
+
+
+def filter_channels(
+    channels: Iterable[Channel],
+    *,
+    query: str = "",
+    fields: Iterable[str] | None = None,
+    use_regex: bool = False,
+    category: str = "",
+    language: str = "",
+    country: str = "",
+    source: str = "",
+) -> list[Channel]:
+    """Combina ``search_channels`` con filtros de categoría/idioma/país/fuente.
+
+    Todos los filtros son opcionales y se aplican en AND. Útil tanto desde
+    el CLI como desde código.
+    """
+    result = list(channels)
+    if query and query.strip():
+        result = search_channels(result, query, fields=fields, use_regex=use_regex)
+    if category and category.strip():
+        wanted = category.strip().casefold()
+        result = [c for c in result if c.category.casefold() == wanted]
+    if language and language.strip():
+        wanted = language.strip().casefold()
+        result = [c for c in result if c.language.casefold() == wanted]
+    if country and country.strip():
+        wanted = country.strip().upper()
+        result = [c for c in result if c.country.upper() == wanted]
+    if source and source.strip():
+        wanted = _fold_text(source.strip())
+        result = [c for c in result if wanted in _fold_text(c.source or "")]
+    return result
+
+
 def _tvg_id_key(tvg_id: str) -> str:
     raw = _fold_text((tvg_id or "").strip())
     if not raw:
@@ -2786,6 +2970,22 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--language")
     parser.add_argument("--country")
     parser.add_argument(
+        "--search", type=str, default="",
+        help="Buscar canales por texto (insensible a mayúsculas/acentos). "
+             "Acepta comas como OR y espacios como AND dentro de cada alternativa. "
+             "Ej: --search \"espn colombia\"  o  --search \"cnn, bbc\"",
+    )
+    parser.add_argument(
+        "--search-fields", type=str, default=",".join(DEFAULT_SEARCH_FIELDS),
+        help="Campos donde buscar con --search (separados por comas): "
+             + ", ".join(sorted(VALID_SEARCH_FIELDS))
+             + f" (por defecto: {','.join(DEFAULT_SEARCH_FIELDS)})",
+    )
+    parser.add_argument(
+        "--regex", "--search-regex", dest="search_regex", action="store_true",
+        help="Interpretar --search como expresión regular (insensible a mayúsculas/acentos)",
+    )
+    parser.add_argument(
         "--limit", "--max-channels", dest="limit", type=int, default=DEFAULT_MAX_CHANNELS,
         help=f"Maximum number of unique non-repeating channels to export/sync (default: {DEFAULT_MAX_CHANNELS}; 0 for unlimited)",
     )
@@ -2900,6 +3100,23 @@ def main(argv: list[str] | None = None) -> int:
         channels = [c for c in channels if c.language == args.language.casefold()]
     if args.country:
         channels = [c for c in channels if c.country == args.country.upper()]
+    if args.search:
+        search_fields = [f.strip() for f in args.search_fields.split(",") if f.strip()]
+        invalid = [f for f in search_fields if f.casefold() not in VALID_SEARCH_FIELDS]
+        if invalid:
+            parser.error(
+                f"--search-fields contiene campos no válidos: {', '.join(invalid)} "
+                f"(válidos: {', '.join(sorted(VALID_SEARCH_FIELDS))})"
+            )
+        pre_count = len(channels)
+        channels = search_channels(
+            channels, args.search, fields=search_fields, use_regex=args.search_regex,
+        )
+        print(
+            f"Buscar \"{args.search}\" en [{', '.join(search_fields)}]"
+            f"{' (regex)' if args.search_regex else ''}: "
+            f"{len(channels)}/{pre_count} canales coinciden"
+        )
 
     limit = max(0, args.limit)
     only_http_ok = args.activation_mode == "automatic" and args.check_streams

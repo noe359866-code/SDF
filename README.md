@@ -147,6 +147,77 @@ python sdf_tv_channels.py --all-sources --check-streams --sync-supabase --activa
 python sdf_tv_channels.py --all-sources --check-streams --limit 20 --max-per-source 8
 ```
 
+### Búsqueda de canales específicos
+
+Nueva función de **búsqueda** integrada en el CLI y en GitHub Actions. Permite encontrar canales por texto libre, insensible a mayúsculas y acentos, con soporte para múltiples campos y expresiones regulares.
+
+**CLI — opciones nuevas:**
+
+- `--search TEXT` — texto a buscar. Acepta comas como **OR** y espacios como **AND** dentro de cada alternativa.
+  - `--search "espn"` → cualquier canal que contenga `espn`.
+  - `--search "espn colombia"` → contiene `espn` **Y** `colombia` (en cualquier orden).
+  - `--search "cnn, bbc"` → contiene `cnn` **O** `bbc`.
+  - Insensible a acentos: `--search "futbol"` encuentra `Fútbol`.
+- `--search-fields LISTA` — campos donde buscar (separados por comas). Por defecto `name,group,tvg_name,tvg_id,category`. Valores válidos: `name, group, tvg_id, tvg_name, category, country, language, source, source_url, url, logo, slug`.
+- `--regex` / `--search-regex` — interpreta `--search` como expresión regular (también plegada, insensible a acentos).
+
+Se combina en **AND** con los filtros ya existentes (`--category`, `--country`, `--language`, `--source`, `--all-sources`, `--check-streams`).
+
+```sh
+# Buscar ESPN en todas las fuentes
+python sdf_tv_channels.py --all-sources --search "ESPN" -o espn.json
+
+# Buscar sin acentos y filtrando por país
+python sdf_tv_channels.py --all-sources --search "futbol" --country MX -o futbol-mx.json
+
+# OR lógico: CNN o BBC
+python sdf_tv_channels.py --all-sources --search "cnn, bbc" -o noticias.json
+
+# AND lógico en cualquier orden
+python sdf_tv_channels.py --all-sources --search "espn colombia" -o espn-co.json
+
+# Buscar solo en el slug o el país
+python sdf_tv_channels.py --all-sources --search "US" --search-fields country -o usa.json
+
+# Expresión regular (insensible a acentos)
+python sdf_tv_channels.py --all-sources --search "espn.*colombia" --regex -o espn-co-regex.json
+
+# Combinar con verificación de streams y límite
+python sdf_tv_channels.py --all-sources --search "fox sports" --check-streams --limit 10 -o fox-verificados.json
+
+# Desde código Python
+from sdf_tv_channels import search_channels, filter_channels
+coinciden = search_channels(canales, "espn, fox sports", fields=("name","group"))
+filtrados = filter_channels(canales, query="cnn", category="news", country="US")
+```
+
+**Uso programático:** las funciones `search_channels(channels, query, fields, use_regex)`, `channel_matches_query(channel, query, ...)` y `filter_channels(channels, query, category, language, country, source, ...)` también están disponibles al importar `sdf_tv_channels`.
+
+**GitHub Actions — workflow dedicado:**
+
+El workflow `.github/workflows/search-channels.yml` expone la misma búsqueda desde la pestaña **Actions → Buscar canales específicos → Run workflow**.
+
+Inputs del workflow:
+
+| Input | Descripción | Por defecto |
+| --- | --- | --- |
+| `query` | Texto a buscar (requerido) | `ESPN` |
+| `search_fields` | Campos donde buscar | `name,group,tvg_name,tvg_id,category` |
+| `use_regex` | ¿Interpretar como regex? | `false` |
+| `category` / `country` / `language` | Filtros adicionales | *(vacío = todos)* |
+| `source` | Fuente específica o `all` | `all` |
+| `limit` | Máximo de canales | `20` |
+| `format` | `json` / `csv` / `m3u` | `json` |
+| `check_streams` | Verificar HTTP antes de exportar | `false` |
+
+Cada ejecución:
+
+1. Descarga las fuentes con los filtros indicados (`--search`, `--category`, etc.).
+2. Imprime en el log y en el **Summary** cuántos canales coinciden y los primeros resultados.
+3. Sube el resultado como artefacto `search-results-<run_number>` (retención 7 días) en el formato elegido.
+
+El workflow respeta la misma deduplicación y normalización que el extractor principal y no escribe en Supabase; úsalo para localizar rápidamente un canal concreto antes de sincronizarlo.
+
 ### Errores frecuentes
 
 | Situación | Comportamiento actual |
@@ -194,9 +265,11 @@ Requiere Python 3.11 o posterior. Las pruebas unitarias se ejecutan sin acceder 
 python -m unittest discover -s tests -v
 ```
 
-## GitHub Actions: sincronización automática
+## GitHub Actions
 
-El workflow `.github/workflows/sync-tv-channels.yml` permite ejecutarse manualmente desde
+### 1. Sincronización automática — `.github/workflows/sync-tv-channels.yml`
+
+El workflow permite ejecutarse manualmente desde
 **Actions → Sync TV channels to Supabase → Run workflow** (con opción para elegir el límite de
 canales, por defecto `20`, el modo de activación y si guardar el resultado en el repositorio) y
 también se ejecuta automáticamente cada 5 horas (`0 */5 * * *` UTC). En cada ejecución verifica
@@ -222,3 +295,30 @@ Configura estos secretos en **Settings → Secrets and variables → Actions**:
 
 Si los secretos no están configurados, el workflow **no falla**: avisa de que se omite la
 sincronización y sigue exportando y guardando `data/tv_channels.json`.
+
+### 2. Buscar canales específicos — `.github/workflows/search-channels.yml` ⭐ NUEVO
+
+Workflow dedicado a **buscar canales en específico** sin necesidad de clonar el repo ni usar la terminal.
+
+**Cómo usarlo:** en GitHub ve a **Actions → Buscar canales específicos → Run workflow** y rellena:
+
+- **query** — texto a buscar (ej: `ESPN`, `Telefe`, `CNN`). Acepta `cnn, bbc` (OR) y `espn colombia` (AND).
+- **search_fields** — dónde buscar: `name,group,tvg_name,tvg_id,category,country,language,source,slug...`
+- **use_regex** — si activar modo expresión regular.
+- **category / country / language** — filtros extra opcionales.
+- **source** — una fuente concreta o `all` (las 22).
+- **limit** / **format** / **check_streams** — como en el CLI.
+
+Al ejecutarse, el workflow:
+
+1. Descarga las fuentes con `python sdf_tv_channels.py --all-sources --search "…"` + filtros.
+2. Deja el resumen en **Summary** (canales encontrados + tabla) y en los logs.
+3. Sube el resultado como artefacto `search-results-<run_number>` (`json`/`csv`/`m3u`, 7 días).
+
+Úsalo para localizar un canal antes de sincronizarlo, o para exportar solo una temática:
+
+```sh
+# Equivalente local de una ejecución del workflow:
+python sdf_tv_channels.py --all-sources --search "Discovery" --category documentary -o docu.json
+python sdf_tv_channels.py --all-sources --search "TNT Sports" --country AR -o tnt-ar.json
+```
