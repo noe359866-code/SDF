@@ -1033,6 +1033,34 @@ class ExitCodeTests(unittest.TestCase):
             self.assertEqual(rc, 0)
             self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))), 2)
 
+    def test_search_filters_channels_before_supabase_sync(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            playlist = Path(temp_dir) / "input.m3u"
+            playlist.write_text(
+                "#EXTM3U\n"
+                '#EXTINF:-1 group-title="Sports",ESPN 2\nhttps://example.com/espn2.m3u8\n'
+                '#EXTINF:-1 group-title="General",Telefe\nhttps://example.com/telefe.m3u8\n',
+                encoding="utf-8",
+            )
+            output = Path(temp_dir) / "out.json"
+            with patch.dict(os.environ,
+                            {"SUPABASE_URL": "https://project.supabase.co",
+                             "SUPABASE_SERVICE_ROLE_KEY": "secret"}, clear=True), \
+                 patch("sdf_tv_channels.fetch_existing_supabase_channels",
+                       return_value=(set(), set(), set())), \
+                 patch("sdf_tv_channels.check_stream",
+                       return_value=StreamCheck("http_ok", 200,
+                                                "application/vnd.apple.mpegurl")), \
+                 patch("sdf_tv_channels.sync_to_supabase", return_value=1) as sync:
+                rc = main([str(playlist), "--search", "espn 2", "--sync-supabase",
+                           "--check-streams", "--activation-mode", "automatic",
+                           "--limit", "20", "-o", str(output)])
+
+            self.assertEqual(rc, 0)
+            exported = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual([channel["name"] for channel in exported], ["ESPN 2"])
+            self.assertEqual([channel.name for channel in sync.call_args.args[0]], ["ESPN 2"])
+
     def test_sync_failure_does_not_abort_the_export(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             playlist = self._playlist(temp_dir)
