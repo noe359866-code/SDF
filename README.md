@@ -271,9 +271,18 @@ python -m unittest discover -s tests -v
 
 El workflow permite ejecutarse manualmente desde
 **Actions → Sync TV channels to Supabase → Run workflow** (con opción para elegir el límite de
-canales, por defecto `20`, el modo de activación y si guardar el resultado en el repositorio) y
-también se ejecuta automáticamente cada 5 horas (`0 */5 * * *` UTC). En cada ejecución verifica
-candidatos por lotes y agrega hasta 20 canales únicos y activos (`is_active = true`) sin repetir.
+canales, por defecto `20`, buscar un canal concreto, el modo de activación y si guardar el resultado
+en el repositorio) y también se ejecuta automáticamente cada 5 horas (`0 */5 * * *` UTC). En cada
+ejecución verifica candidatos por lotes y agrega hasta 20 canales únicos y activos
+(`is_active = true`) sin repetir.
+
+En una ejecución manual, rellena **channel_search** con un nombre o texto distintivo (por ejemplo,
+`ESPN 2` o `Telefe`) para comprobar y sincronizar solo los canales coincidentes. La búsqueda ignora
+mayúsculas y acentos; el campo vacío conserva la sincronización habitual. También puedes bajar
+**limit** a `1` si quieres sincronizar como máximo un resultado. Si guardas la ejecución en el repo,
+`data/tv_channels.json` contendrá solo los resultados filtrados; desmarca **save_to_repo** para no
+reemplazar la lista general. La ejecución programada cada 5 horas no usa este filtro y sigue
+sincronizando canales de todas las fuentes.
 
 Cada ejecución deja tres rastros del resultado:
 
@@ -315,7 +324,8 @@ Al ejecutarse, el workflow:
 2. Deja el resumen en **Summary** (canales encontrados + tabla) y en los logs.
 3. Sube el resultado como artefacto `search-results-<run_number>` (`json`/`csv`/`m3u`, 7 días).
 
-Úsalo para localizar un canal antes de sincronizarlo, o para exportar solo una temática:
+Úsalo para inspeccionar coincidencias antes de sincronizarlas o para exportar solo una temática;
+si ya sabes el canal, puedes escribirlo directamente en **channel_search** del workflow de Supabase:
 
 ```sh
 # Equivalente local de una ejecución del workflow:
