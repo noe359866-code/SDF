@@ -1,79 +1,542 @@
 [
   {
-    "name": "Bondi Rescue (Sweden) NO",
-    "url": "https://jmp2.uk/plu-660d67c419ca71000849a4e9.m3u8",
-    "group": "Series",
-    "tvg_id": "BondiRescue.se@NO",
+    "name": "Latina TV Internacional",
+    "url": "https://5790d294af2dc.streamlock.net/latinatv/latinatv/chunklist.m3u8",
+    "group": "General",
+    "tvg_id": "LatinaTVInternacional.do@SD",
     "tvg_name": "",
-    "logo": "https://images.pluto.tv/channels/660d66be7bcd8600087cfee5/colorLogoPNG.png",
-    "language": "unknown",
-    "country": "SE",
-    "category": "series",
+    "logo": "https://i.imgur.com/UAfyeYT.png",
+    "language": "es",
+    "country": "DO",
+    "category": "general",
     "source": "IPTV-org",
-    "source_url": "",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "BondiRescue.se@NO",
-      "tvg-logo": "https://images.pluto.tv/channels/660d66be7bcd8600087cfee5/colorLogoPNG.png",
-      "group-title": "Series"
-    },
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/660d67c419ca71000849a4e9/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMjIxMjQ4LCJpYXQiOjE3OTExMzQ4NDgsImp0aSI6Ijg0MTU1ZjFlLWYyNzEtNGM5OC04MjQ3LTQ1N2FkNmI0NmI3YSJ9.LaqH87WVvR9LFyGAs44rOa0KlUAXYqLpO3UgYjJ3ZWA",
-      "detail": "Playlist header detected; segments were not tested"
-    }
-  },
-  {
-    "name": "Disney Channel",
-    "url": "https://cdn.streamhispanatv.net:3531/live/tvsretrogtlive.m3u8",
-    "group": "CXTv",
-    "tvg_id": "TVSRetro.gt@SD",
-    "tvg_name": "",
-    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/516001586a67c153b07968b5f5de3bab.webp",
-    "language": "pt",
-    "country": "GT",
-    "category": "kids",
-    "source": "CXTv, IPTV-org",
-    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/disney-channel-usa",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "TVSRetro.gt@SD",
-      "tvg-logo": "https://i.imgur.com/jdnHci0.png",
-      "group-title": "Classic"
+      "tvg-id": "LatinaTVInternacional.do@SD",
+      "tvg-logo": "https://i.imgur.com/UAfyeYT.png",
+      "group-title": "General"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://cdn.streamhispanatv.net:3531/live/tvsretrogtlive.m3u8",
+      "final_url": "https://5790d294af2dc.streamlock.net/latinatv/latinatv/chunklist.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   },
   {
-    "name": "Britain's Next Top Model DK",
-    "url": "https://jmp2.uk/plu-67a09ddc21af380008088dc3.m3u8",
-    "group": "Series",
-    "tvg_id": "BritainsNextTopModel.se@DK",
-    "tvg_name": "",
-    "logo": "https://images.pluto.tv/channels/67a09ddc21af380008088dc3/colorLogoPNG.png",
-    "language": "unknown",
-    "country": "SE",
-    "category": "series",
-    "source": "IPTV-org",
-    "source_url": "",
+    "name": "CNN en Español",
+    "url": "https://jmp2.uk/stvp-ES34000039I",
+    "group": "Spain",
+    "tvg_id": "ES34000039I",
+    "tvg_name": "CNN en Español",
+    "logo": "https://tvpnlogopeu.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/ES34000039I_20260622T063630SQUARE.png",
+    "language": "es",
+    "country": "ES",
+    "category": "news",
+    "source": "Samsung TV Plus",
+    "source_url": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/samsungtvplus_all.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "BritainsNextTopModel.se@DK",
-      "tvg-logo": "https://images.pluto.tv/channels/67a09ddc21af380008088dc3/colorLogoPNG.png",
-      "group-title": "Series"
+      "channel-id": "ES34000039I-es",
+      "tvg-id": "ES34000039I",
+      "tvg-chno": "4569",
+      "tvg-name": "CNN en Español",
+      "tvg-logo": "https://tvpnlogopeu.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/ES34000039I_20260622T063630SQUARE.png",
+      "group-title": "Spain"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://amg00803-amg00803c3-samsung-es-4975.playouts.now.amagi.tv/playlist/amg00803-cnnfastinternational-cnnesponal-samsunges/playlist.m3u8?ads.did=%7BPSID%7D&ads.dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.tc_string=%7BTC_STRING%7D&ads.coppa=0",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "beIN Sports Xtra en Español",
+    "url": "https://epg.provider.plex.tv/library/parts/647f8d22a2fc3fadb4721685-64a8903d273b89c4e7396553/?X-Plex-Token=Sy2exa3PyA9B-5Nbqpka",
+    "group": "Canada",
+    "tvg_id": "647f8d22a2fc3fadb4721685-64a8903d273b89c4e7396553",
+    "tvg_name": "beIN Sports Xtra en Español",
+    "logo": "https://provider-static.plex.tv/epg/cms/production/367f55e2-df38-4fc5-b6cf-c102fd938601/PLEX_XTRA_LOGO_MAIN_-_Mayra_Lopez.png",
+    "language": "es",
+    "country": "CA",
+    "category": "sports",
+    "source": "Plex",
+    "source_url": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/plex_all.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "channel-id": "647f8d22a2fc3fadb4721685-64a8903d273b89c4e7396553",
+      "tvg-id": "647f8d22a2fc3fadb4721685-64a8903d273b89c4e7396553",
+      "tvg-chno": "",
+      "tvg-name": "beIN Sports Xtra en Español",
+      "tvg-logo": "https://provider-static.plex.tv/epg/cms/production/367f55e2-df38-4fc5-b6cf-c102fd938601/PLEX_XTRA_LOGO_MAIN_-_Mayra_Lopez.png",
+      "group-title": "Canada"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/x-mpegurl",
+      "final_url": "https://epg.provider.plex.tv/library/parts/647f8d22a2fc3fadb4721685-64a8903d273b89c4e7396553/?X-Plex-Token=Sy2exa3PyA9B-5Nbqpka",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Cine Español - Rakuten TV",
+    "url": "https://jmp2.uk/stvp-ES3000008O8",
+    "group": "Spain",
+    "tvg_id": "ES3000008O8",
+    "tvg_name": "Cine Español - Rakuten TV",
+    "logo": "https://tvpnlogopeu.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/ES3000008O8_20241022T050508SQUARE.png",
+    "language": "es",
+    "country": "ES",
+    "category": "movies",
+    "source": "Samsung TV Plus",
+    "source_url": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/samsungtvplus_all.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "channel-id": "ES3000008O8-es",
+      "tvg-id": "ES3000008O8",
+      "tvg-chno": "4944",
+      "tvg-name": "Cine Español - Rakuten TV",
+      "tvg-logo": "https://tvpnlogopeu.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/ES3000008O8_20241022T050508SQUARE.png",
+      "group-title": "Spain"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://spanish-cinema-rakuten-tv-es.fast.rakuten.tv/v1/master/0547f18649bd788bec7b67b746e47670f558b6b2/production-hls-aes128-rtv-6196-playout/master.m3u8?ads.app_bundle=G15147002586&ads.app_name=%7BAPP_NAME%7D&ads.app_store_url=%7BAPP_DOMAIN%7D&ads.content_livestream=0&ads.device_lmt=%7BTARGETOPT%7D&ads.did=%7BPSID%7D&ads.gdpr_consent=%7BTC_STRING%7D&ads.ifa_type=tifa&ads.inv_partner_domain=rakuten.tv&ads.market=es&ads.platform=samsung_tvplus&ads.pod_type=playerpage_midroll&ads.rtv_channel_name=spanish-cinema-rakuten-tv_es&ads.rtv_content_id=6196&ads.rtv_language=es&channel_id=6196&publishing_platform_id=1&tenant_identifier=rtv",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Comedy Central Latin America",
+    "url": "http://15.204.246.24:8080/ComedyCentralHD/index.m3u8",
+    "group": "Comedy",
+    "tvg_id": "ComedyCentralLatinAmerica.us@Panregional",
+    "tvg_name": "",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Comedy_Central_2018.svg/960px-Comedy_Central_2018.svg.png",
+    "language": "la",
+    "country": "US",
+    "category": "series",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "ComedyCentralLatinAmerica.us@Panregional",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Comedy_Central_2018.svg/960px-Comedy_Central_2018.svg.png",
+      "group-title": "Comedy"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "http://15.204.246.24:8080/ComedyCentralHD/index.m3u8",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "History (Czech Republic)",
+    "url": "http://88.212.15.19/live/test_history/playlist.m3u8",
+    "group": "Documentary",
+    "tvg_id": "History.cz@SD",
+    "tvg_name": "",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/History_%282021%29.svg/500px-History_%282021%29.svg.png",
+    "language": "cs",
+    "country": "CZ",
+    "category": "documentary",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "History.cz@SD",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/History_%282021%29.svg/500px-History_%282021%29.svg.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.3",
+      "group-title": "Documentary"
     },
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/x-mpegurl",
-      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/67a09ddc21af380008088dc3/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMjIxMjQ4LCJpYXQiOjE3OTExMzQ4NDgsImp0aSI6Ijg0MTU1ZjFlLWYyNzEtNGM5OC04MjQ3LTQ1N2FkNmI0NmI3YSJ9.LaqH87WVvR9LFyGAs44rOa0KlUAXYqLpO3UgYjJ3ZWA",
+      "final_url": "http://88.212.15.19/live/test_history/playlist.m3u8",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "God Stands Kids Club TV Arabic",
+    "url": "https://online.godstands.tv:5443/WebRTCApp/streams/KidsArabic.m3u8",
+    "group": "Kids;Religious",
+    "tvg_id": "GodStandsKidsClubTV.pk@Arabic",
+    "tvg_name": "",
+    "logo": "https://i.imgur.com/FxDBbpz.jpeg",
+    "language": "ar",
+    "country": "PK",
+    "category": "kids",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "GodStandsKidsClubTV.pk@Arabic",
+      "tvg-logo": "https://i.imgur.com/FxDBbpz.jpeg",
+      "group-title": "Kids;Religious"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://online.godstands.tv:5443/WebRTCApp/streams/KidsArabic.m3u8",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "MTV Flow Latino LatAm",
+    "url": "https://jmp2.uk/plu-62b218fc511d4b00070ddc0c.m3u8",
+    "group": "Music",
+    "tvg_id": "MTVFlowLatino.us@LatAm",
+    "tvg_name": "",
+    "logo": "https://images.pluto.tv/channels/62b218fc511d4b00070ddc0c/colorLogoPNG.png",
+    "language": "es",
+    "country": "US",
+    "category": "music",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "MTVFlowLatino.us@LatAm",
+      "tvg-logo": "https://images.pluto.tv/channels/62b218fc511d4b00070ddc0c/colorLogoPNG.png",
+      "group-title": "Music"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/x-mpegurl",
+      "final_url": "https://stitcher-ipv4.pluto.tv/v2/stitch/embed/hls/channel/62b218fc511d4b00070ddc0c/master.m3u8?deviceType=samsung-tvplus&deviceMake=samsung&deviceModel=samsung&deviceVersion=unknown&appVersion=unknown&deviceLat=0&deviceLon=0&deviceDNT=%7BTARGETOPT%7D&deviceId=%7BPSID%7D&advertisingId=%7BPSID%7D&us_privacy=%7BUS_PRIVACY%7D&samsung_app_domain=%7BAPP_DOMAIN%7D&samsung_app_name=%7BAPP_NAME%7D&profileLimit=&profileFloor=&embedPartner=samsung-tvplus&masterJWTPassthrough=1&authToken=eyJhbGciOiJIUzI1NiIsImtpZCI6IjAyYTcxZjE0LTU5YzEtNGEyMi05ODA1LTA2ZGEzZTdiNjJkMiIsInR5cCI6IkpXVCJ9.eyJwYXJ0bmVyIjoic2Ftc3VuZ3R2cGx1cyIsImZlYXR1cmVzIjp7Im11bHRpUG9kQWRzIjp7ImNvaG9ydCI6IiIsImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckFkU2Vzc2lvbkV2ZW50Ijp7ImVuYWJsZWQiOnRydWV9LCJzdGl0Y2hlckhsc05nIjp7ImRlbXV4ZWRBdWRpbyI6ImRpc2FibGVkIn0sInN0aXRjaGVySGxzTmdWbGwiOnsiZW5hYmxlZCI6dHJ1ZX0sInN0aXRjaGVyUGFydG5lclNob3dTbGF0ZSI6eyJlbmFibGVkIjp0cnVlfX0sImlzcyI6InNlcnZpY2UtcGFydG5lci1hdXRoLnBsdXRvLnR2Iiwic3ViIjoicHJpOnYxOnBsdXRvOmRldmljZXM6YzJGdGMzVnVaM1IyY0d4MWN3PT0iLCJhdWQiOiIqLnBsdXRvLnR2IiwiZXhwIjoxNzkxMjIxMjQ4LCJpYXQiOjE3OTExMzQ4NDgsImp0aSI6Ijg0MTU1ZjFlLWYyNzEtNGM5OC04MjQ3LTQ1N2FkNmI0NmI3YSJ9.LaqH87WVvR9LFyGAs44rOa0KlUAXYqLpO3UgYjJ3ZWA",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Hmong Star TV",
+    "url": "https://livefta.malimarcdn.com/ftaedge00/hmongstartv.sdp/playlist.m3u8",
+    "group": "Culture",
+    "tvg_id": "HmongStarTV.us@SD",
+    "tvg_name": "",
+    "logo": "https://i.imgur.com/dRsacao.png",
+    "language": "hmn",
+    "country": "US",
+    "category": "culture",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "HmongStarTV.us@SD",
+      "tvg-logo": "https://i.imgur.com/dRsacao.png",
+      "group-title": "Culture"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://livefta.malimarcdn.com/ftaedge00/hmongstartv.sdp/playlist.m3u8",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "148 Fox Weather",
+    "url": "https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01542-foxweatherllc-foxweather-lgus/playlist.m3u8?ads.deviceid=[DEVICE_ID]&ads.ifa=[IFA]&ads.ifatype=[IFA_TYPE]&ads.lat=[LMT]&ads.donotsell=[DNS]&ads.ua=[UA]&ads.ip=[IP]&ads.gdpr=[GDPR]&ads.gdprconsent=[GDPR_CONSENT]&ads.country=[COUNTRY]&ads.usprivacy=[US_PRIVACY]&ads.appstoreurl=[APP_STOREURL]&ads.bundleid=[APP_BUNDLE]&ads.appname=[APP_NAME]&ads.appversion=[APP_VERSION]&ads.devicetype=[DEVICE_TYPE]&ads.devicemake=[DEVICE_MAKE]&ads.devicemodel=[DEVICE_MODEL]&ads.coppa=0&ads.targetad=[TARGETAD_ALLOWED]&ads.fck=[FCK]&ads.viewsize=[VIEWSIZE]&ads.givn=[NONCE]&ads.dmake=[DEVICE_MAKE]",
+    "group": "",
+    "tvg_id": "",
+    "tvg_name": "",
+    "logo": "https://d3bd0tgyk368z1.cloudfront.net/feeds/images/fox-weather/FoxWeather_White_Logo_400x200.png",
+    "language": "unknown",
+    "country": "US",
+    "category": "weather",
+    "source": "LG Channels US",
+    "source_url": "https://www.apsattv.com/uslg.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-logo": "https://d3bd0tgyk368z1.cloudfront.net/feeds/images/fox-weather/FoxWeather_White_Logo_400x200.png"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://amg01542-foxweatherllc-foxweather-lgus-7idov.amagi.tv/playlist/amg01542-foxweatherllc-foxweather-lgus/playlist.m3u8?ads.deviceid=%5BDEVICE_ID%5D&ads.ifa=%5BIFA%5D&ads.ifatype=%5BIFA_TYPE%5D&ads.lat=%5BLMT%5D&ads.donotsell=%5BDNS%5D&ads.ua=%5BUA%5D&ads.ip=%5BIP%5D&ads.gdpr=%5BGDPR%5D&ads.gdprconsent=%5BGDPR_CONSENT%5D&ads.country=%5BCOUNTRY%5D&ads.usprivacy=%5BUS_PRIVACY%5D&ads.appstoreurl=%5BAPP_STOREURL%5D&ads.bundleid=%5BAPP_BUNDLE%5D&ads.appname=%5BAPP_NAME%5D&ads.appversion=%5BAPP_VERSION%5D&ads.devicetype=%5BDEVICE_TYPE%5D&ads.devicemake=%5BDEVICE_MAKE%5D&ads.devicemodel=%5BDEVICE_MODEL%5D&ads.coppa=0&ads.targetad=%5BTARGETAD_ALLOWED%5D&ads.fck=%5BFCK%5D&ads.viewsize=%5BVIEWSIZE%5D&ads.givn=%5BNONCE%5D&ads.dmake=%5BDEVICE_MAKE%5D",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Aastha Tamil",
+    "url": "https://aasthaott.akamaized.net/110923/smil:aasthatamil.smil/playlist.m3u8",
+    "group": "Religious",
+    "tvg_id": "AasthaTamil.in@SD",
+    "tvg_name": "",
+    "logo": "https://i.imgur.com/YQK9ewf.png",
+    "language": "ta",
+    "country": "IN",
+    "category": "religious",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "AasthaTamil.in@SD",
+      "tvg-logo": "https://i.imgur.com/YQK9ewf.png",
+      "group-title": "Religious"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/x-mpegurl",
+      "final_url": "https://aasthaott.akamaized.net/110923/smil:aasthatamil.smil/playlist.m3u8",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Billboard Español TV",
+    "url": "https://epg.provider.plex.tv/library/parts/5e20b730f2f8d5003d739db7-6a3c2c8c14e447db7984cc3a/?X-Plex-Token=Sy2exa3PyA9B-5Nbqpka",
+    "group": "NZ",
+    "tvg_id": "5e20b730f2f8d5003d739db7-6a3c2c8c14e447db7984cc3a",
+    "tvg_name": "Billboard Español TV",
+    "logo": "https://provider-static.plex.tv/epg/cms/production/88e0bf85-8b11-4d7d-b67f-5ad11e972b06/Billboard-Espanol-TV_Logo_W.png",
+    "language": "es",
+    "country": "NZ",
+    "category": "other",
+    "source": "Plex",
+    "source_url": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/plex_all.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "channel-id": "5e20b730f2f8d5003d739db7-6a3c2c8c14e447db7984cc3a",
+      "tvg-id": "5e20b730f2f8d5003d739db7-6a3c2c8c14e447db7984cc3a",
+      "tvg-chno": "",
+      "tvg-name": "Billboard Español TV",
+      "tvg-logo": "https://provider-static.plex.tv/epg/cms/production/88e0bf85-8b11-4d7d-b67f-5ad11e972b06/Billboard-Espanol-TV_Logo_W.png",
+      "group-title": "NZ"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/x-mpegurl",
+      "final_url": "https://epg.provider.plex.tv/library/parts/5e20b730f2f8d5003d739db7-6a3c2c8c14e447db7984cc3a/?X-Plex-Token=Sy2exa3PyA9B-5Nbqpka",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Adult Swim Latin America",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F138.121.15.230%3A9002%2FADULT-SWIM%2Findex.m3u8",
+    "group": "Entertainment",
+    "tvg_id": "AdultSwimLatinAmerica.us@Panregional",
+    "tvg_name": "",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Adult_Swim_2003_logo.svg/960px-Adult_Swim_2003_logo.svg.png",
+    "language": "la",
+    "country": "US",
+    "category": "general",
+    "source": "BByte Jellyfin, IPTV-org",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "AdultSwimLatinAmerica.us@Panregional",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Adult_Swim_2003_logo.svg/960px-Adult_Swim_2003_logo.svg.png",
+      "group-title": "Entertainment"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F138.121.15.230%3A9002%2FADULT-SWIM%2Findex.m3u8",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "13 Siam Thai",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Flive.x2.co.th%2Flive%2F13livetv-th.m3u8",
+    "group": "News",
+    "tvg_id": "13SiamThai.th@SD",
+    "tvg_name": "",
+    "logo": "https://iptv.bbyte.app/icons/13siamthai1080p.png",
+    "language": "th",
+    "country": "TH",
+    "category": "news",
+    "source": "BByte Jellyfin, IPTV-org",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "13SiamThai.th@SD",
+      "tvg-logo": "https://iptv.bbyte.app/icons/13siamthai1080p.png",
+      "group-title": "News"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Flive.x2.co.th%2Flive%2F13livetv-th.m3u8",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Telemundo Deportes Ahora",
+    "url": "https://jmp2.uk/stvp-US800015QA",
+    "group": "United States",
+    "tvg_id": "US800015QA",
+    "tvg_name": "Telemundo Deportes Ahora",
+    "logo": "https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/US800015QA_20260421T142311SQUARE.png",
+    "language": "es",
+    "country": "US",
+    "category": "sports",
+    "source": "Samsung TV Plus",
+    "source_url": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/samsungtvplus_all.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "channel-id": "US800015QA-us",
+      "tvg-id": "US800015QA",
+      "tvg-chno": "3825",
+      "tvg-name": "Telemundo Deportes Ahora",
+      "tvg-logo": "https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/US800015QA_20260421T142311SQUARE.png",
+      "group-title": "United States"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/x-mpegurl",
+      "final_url": "https://pb-iymd7n5slq7cf.akamaized.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/pb-iymd7n5slq7cf/master.m3u8?ads.ads_cdn=ak&ads.afsdk_params=%7BAFSDK_VALUE%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.cdn=ak&ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.service_id=US800015QA&ads.ssai_vendor=SSSLIVE&ads.us_privacy=%7BUS_PRIVACY%7D&pb_type=pb-iymd7n5slq7cf_akamai",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Epic Bhojpuri",
+    "url": "https://mumt01.tangotv.in/O5aw8Zn3EPICBHOJPURI/index.m3u8",
+    "group": "Movies",
+    "tvg_id": "EpicBhojpuri.in@SD",
+    "tvg_name": "Epic Bhojpuri",
+    "logo": "https://dtil.tmsimg.com/assets/GNLZZGG0032BVJ8.png?lock=720x540",
+    "language": "bho",
+    "country": "IN",
+    "category": "movies",
+    "source": "IPTV-org, Samsung TV Plus",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "EpicBhojpuri.in@SD",
+      "tvg-logo": "https://dtil.tmsimg.com/assets/GNLZZGG0032BVJ8.png?lock=720x540",
+      "group-title": "Movies",
+      "channel-id": "IN800020ZZ-in",
+      "tvg-chno": "1159",
+      "tvg-name": "Epic Bhojpuri"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://mumt01.tangotv.in/O5aw8Zn3EPICBHOJPURI/index.m3u8",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "Stingray Spa",
+    "url": "https://jmp2.uk/stvp-CABD1200032N6",
+    "group": "Canada",
+    "tvg_id": "CABD1200032N6",
+    "tvg_name": "Stingray Spa",
+    "logo": "https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/CABD1200032N6_20250630T232956SQUARE.png",
+    "language": "es",
+    "country": "CA",
+    "category": "music",
+    "source": "Samsung TV Plus, Vizio WatchFree",
+    "source_url": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/samsungtvplus_all.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "channel-id": "CABD1200032N6-ca",
+      "tvg-id": "CABD1200032N6",
+      "tvg-chno": "4580",
+      "tvg-name": "Stingray Spa",
+      "tvg-logo": "https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/CABD1200032N6_20250630T232956SQUARE.png",
+      "group-title": "Canada"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://d2trrr0c7kwmlg.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-qbtn617rhq7tm/manifest/ose-122ads-montreal/samsungtvplus/master.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.ssai_vendor=SSSLIVE&ads.afsdk_params=%7BAFSDK_VALUE%7D&ads.service_id=CABD1200032N6",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "149 AccuWeather",
+    "url": "https://accuweatherx-lg.amagi.tv/hls/amagi_hls_data_accuweath-accuweather-lg/CDN/master.m3u8?ads.deviceid=[DEVICE_ID]&ads.ifa=[IFA]&ads.ifatype=[IFA_TYPE]&ads.lat=[LMT]&ads.donotsell=[DNS]&ads.ua=[UA]&ads.ip=[IP]&ads.gdpr=[GDPR]&ads.gdprconsent=[GDPR_CONSENT]&ads.country=[COUNTRY]&ads.usprivacy=[US_PRIVACY]&ads.appstoreurl=[APP_STOREURL]&ads.bundleid=[APP_BUNDLE]&ads.appname=[APP_NAME]&ads.appversion=[APP_VERSION]&ads.devicetype=[DEVICE_TYPE]&ads.devicemake=[DEVICE_MAKE]&ads.devicemodel=[DEVICE_MODEL]&ads.coppa=0&ads.targetad=[TARGETAD_ALLOWED]&ads.fck=[FCK]&ads.viewsize=[VIEWSIZE]&ads.givn=[NONCE]&ads.dmake=[DEVICE_MAKE]",
+    "group": "",
+    "tvg_id": "",
+    "tvg_name": "",
+    "logo": "https://d2rxe08cffrd4y.cloudfront.net/Images/S3/LG_Ch_Logo2_800x200.png",
+    "language": "unknown",
+    "country": "US",
+    "category": "weather",
+    "source": "LG Channels US",
+    "source_url": "https://www.apsattv.com/uslg.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-logo": "https://d2rxe08cffrd4y.cloudfront.net/Images/S3/LG_Ch_Logo2_800x200.png"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://accuweath-accuweather-lg-8l30w.amagi.tv/playlist/accuweath-accuweather-lg/playlist.m3u8?ads.coppa=0&ads.gdprconsent=%5BGDPR_CONSENT%5D&ads.ifa=%5BIFA%5D&ads.fck=%5BFCK%5D&ads.lat=%5BLMT%5D&ads.ip=%5BIP%5D&ads.bundleid=%5BAPP_BUNDLE%5D&ads.donotsell=%5BDNS%5D&ads.country=%5BCOUNTRY%5D&ads.viewsize=%5BVIEWSIZE%5D&ads.appversion=%5BAPP_VERSION%5D&ads.devicemake=%5BDEVICE_MAKE%5D&ads.deviceid=%5BDEVICE_ID%5D&ads.appstoreurl=%5BAPP_STOREURL%5D&ads.ua=%5BUA%5D&ads.targetad=%5BTARGETAD_ALLOWED%5D&ads.devicemodel=%5BDEVICE_MODEL%5D&ads.ifatype=%5BIFA_TYPE%5D&ads.givn=%5BNONCE%5D&ads.appname=%5BAPP_NAME%5D&ads.dmake=%5BDEVICE_MAKE%5D&ads.gdpr=%5BGDPR%5D&ads.usprivacy=%5BUS_PRIVACY%5D&ads.devicetype=%5BDEVICE_TYPE%5D",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "CG MMA En Español",
+    "url": "https://jmp2.uk/stvp-CA46000098X",
+    "group": "Canada",
+    "tvg_id": "CA46000098X",
+    "tvg_name": "CG MMA En Español",
+    "logo": "https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/CA46000098X_20260421T140809SQUARE.png",
+    "language": "es",
+    "country": "CA",
+    "category": "other",
+    "source": "Samsung TV Plus",
+    "source_url": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/samsungtvplus_all.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "channel-id": "CA46000098X-ca",
+      "tvg-id": "CA46000098X",
+      "tvg-chno": "2357",
+      "tvg-name": "CG MMA En Español",
+      "tvg-logo": "https://tvpnlogopus.samsungcloud.tv/platform/image/sourcelogo/vc/00/02/34/CA46000098X_20260421T140809SQUARE.png",
+      "group-title": "Canada"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://d62ninziq0nps.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-5s16lxlwse2ip/server/distrib/9ZyB2flX4brcEQ21Z/zuvPJYoOOdEMDNF2j2mvmg.u11pIHHxg4zn_J5_7NMwCvbxoAihWCJsSeWRKxhEKeoFgynWSWKVB3Jj4tTtIZWWQ272IxV1AVA7236Re_eo71eLBAnnv995vJFbZyuYPqzfE2ZlogsREQAyD12lJ_hIe5q8XoCVuB_N9PsQoRC8ZnvXlinL9_n36omWaAp4VD80AO1xTq9WXHFFvT0__3yBgz86cJg3ih5hjJHM2wsDWw/manifest.m3u8?ads.device_did=%7BPSID%7D&ads.device_dnt=%7BTARGETOPT%7D&ads.app_domain=%7BAPP_DOMAIN%7D&ads.app_name=%7BAPP_NAME%7D&ads.ssai_vendor=SSSLIVE&ads.afsdk_params=%7BAFSDK_VALUE%7D&ads.service_id=CA46000098X",
+      "detail": "Playlist header detected; segments were not tested"
+    }
+  },
+  {
+    "name": "ATN Bangla",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2Ftvsen5.aynascope.net%2Fatnbangla%2Findex.m3u8",
+    "group": "General",
+    "tvg_id": "ATNBangla.bd@SD",
+    "tvg_name": "",
+    "logo": "https://i.imgur.com/K1HmMRz.png",
+    "language": "bn",
+    "country": "BD",
+    "category": "general",
+    "source": "BByte Jellyfin, IPTV-org",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "ATNBangla.bd@SD",
+      "tvg-logo": "https://i.imgur.com/K1HmMRz.png",
+      "group-title": "General"
+    },
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2Ftvsen5.aynascope.net%2Fatnbangla%2Findex.m3u8",
       "detail": "Playlist header detected; segments were not tested"
     }
   }
