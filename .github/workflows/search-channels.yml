@@ -1,0 +1,263 @@
+name: Buscar canales específicos
+
+on:
+  workflow_dispatch:
+    inputs:
+      query:
+        description: "Texto a buscar (nombre, grupo, tvg-id, categoría...). Ej: ESPN, Telefe, CNN"
+        required: true
+        default: "ESPN"
+        type: string
+      search_fields:
+        description: "Campos donde buscar (separados por comas)"
+        required: false
+        default: "name,group,tvg_name,tvg_id,category"
+        type: string
+      use_regex:
+        description: "Interpretar la búsqueda como expresión regular"
+        required: false
+        default: false
+        type: boolean
+      category:
+        description: "Filtrar además por categoría (sports, news, movies, series, kids, etc. Vacío = todas)"
+        required: false
+        default: ""
+        type: string
+      country:
+        description: "Filtrar además por país ISO-2 (MX, AR, ES, US... Vacío = todos)"
+        required: false
+        default: ""
+        type: string
+      language:
+        description: "Filtrar además por idioma ISO-2 (es, en, pt... Vacío = todos)"
+        required: false
+        default: ""
+        type: string
+      source:
+        description: "Fuente donde buscar (all = todas las 22 fuentes)"
+        required: false
+        default: "all"
+        type: choice
+        options:
+          - all
+          - bbyte
+          - cxtv
+          - tdtchannels
+          - m3ucl_top
+          - m3ucl_latam
+          - iptv_org
+          - teleonline
+          - teleonline_m3u
+          - teleonline_tv
+          - tvenvivo
+          - tvlibreonline
+          - tvgarden
+          - samsungtvplus
+          - uslg
+          - tubi
+          - plex
+          - vizio
+          - xiaomi
+          - rakuten_uk
+          - rakuten_fr
+          - movieark_br
+          - cineverse
+      limit:
+        description: "Cantidad máxima de canales únicos a devolver (0 = sin límite)"
+        required: false
+        default: "20"
+        type: string
+      format:
+        description: "Formato de salida"
+        required: false
+        default: "json"
+        type: choice
+        options:
+          - json
+          - csv
+          - m3u
+      check_streams:
+        description: "Comprobar que los streams responden (HTTP) antes de exportar"
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: search-channels-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  search:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+
+      - name: Preparar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Ejecutar pruebas rápidas
+        run: python -m unittest discover -s tests -v
+
+      - name: Buscar canales
+        env:
+          QUERY: ${{ inputs.query }}
+          SEARCH_FIELDS: ${{ inputs.search_fields }}
+          USE_REGEX: ${{ inputs.use_regex }}
+          CATEGORY: ${{ inputs.category }}
+          COUNTRY: ${{ inputs.country }}
+          LANGUAGE: ${{ inputs.language }}
+          SOURCE: ${{ inputs.source }}
+          LIMIT: ${{ inputs.limit }}
+          FORMAT: ${{ inputs.format }}
+          CHECK_STREAMS: ${{ inputs.check_streams }}
+        run: |
+          set -euo pipefail
+          echo "::group::Parámetros de búsqueda"
+          echo "Query: $QUERY"
+          echo "Campos: $SEARCH_FIELDS"
+          echo "Regex: $USE_REGEX"
+          echo "Categoría: $CATEGORY"
+          echo "País: $COUNTRY"
+          echo "Idioma: $LANGUAGE"
+          echo "Fuente: $SOURCE"
+          echo "Límite: $LIMIT"
+          echo "Formato: $FORMAT"
+          echo "Check streams: $CHECK_STREAMS"
+          echo "::endgroup::"
+
+          ARGS=()
+
+          if [ "$SOURCE" = "all" ] || [ -z "$SOURCE" ]; then
+            ARGS+=(--all-sources)
+          else
+            ARGS+=(--source "$SOURCE")
+          fi
+
+          # Búsqueda principal — insensible a mayúsculas y acentos
+          ARGS+=(--search "$QUERY")
+          if [ -n "$SEARCH_FIELDS" ]; then
+            ARGS+=(--search-fields "$SEARCH_FIELDS")
+          fi
+          if [ "$USE_REGEX" = "true" ]; then
+            ARGS+=(--regex)
+          fi
+
+          if [ -n "$CATEGORY" ]; then
+            ARGS+=(--category "$CATEGORY")
+          fi
+          if [ -n "$COUNTRY" ]; then
+            ARGS+=(--country "$COUNTRY")
+          fi
+          if [ -n "$LANGUAGE" ]; then
+            ARGS+=(--language "$LANGUAGE")
+          fi
+
+          ARGS+=(--limit "${LIMIT:-20}")
+          ARGS+=(--timeout 15 --workers 8 --max-pages 25)
+
+          OUTPUT="search-results.$FORMAT"
+          if [ "$FORMAT" = "json" ]; then
+            OUTPUT="search-results.json"
+          elif [ "$FORMAT" = "csv" ]; then
+            OUTPUT="search-results.csv"
+          else
+            OUTPUT="search-results.m3u"
+          fi
+
+          if [ "$CHECK_STREAMS" = "true" ]; then
+            ARGS+=(--check-streams)
+          fi
+
+          ARGS+=(-o "$OUTPUT")
+
+          echo "Ejecutando: python sdf_tv_channels.py ${ARGS[*]}"
+          python sdf_tv_channels.py "${ARGS[@]}"
+
+          echo ""
+          echo "=== Resultado ($OUTPUT) ==="
+          if [ -f "$OUTPUT" ]; then
+            # Mostrar resumen legible
+            if [ "$FORMAT" = "json" ]; then
+              python -c "
+import json, sys
+from pathlib import Path
+p = Path('$OUTPUT')
+data = json.loads(p.read_text(encoding='utf-8'))
+print(f'Total canales encontrados: {len(data)}')
+for ch in data[:20]:
+    print(f\"- {ch.get('name')} | {ch.get('category')} | {ch.get('country')}/{ch.get('language')} | {ch.get('source')} | {ch.get('url')}\")
+if len(data) > 20:
+    print(f'... y {len(data)-20} más')
+"
+            else
+              head -n 50 "$OUTPUT" || cat "$OUTPUT"
+            fi
+            echo ""
+            echo "Tamaño: $(wc -c < "$OUTPUT") bytes — líneas: $(wc -l < "$OUTPUT")"
+          else
+            echo "No se generó archivo de salida."
+            exit 1
+          fi
+
+          # Resumen para la pestaña del workflow
+          {
+            echo "## 🔍 Búsqueda de canales — \`$QUERY\`"
+            echo ""
+            echo "- **Query:** \`$QUERY\`"
+            echo "- **Campos:** \`$SEARCH_FIELDS\`"
+            echo "- **Regex:** \`$USE_REGEX\`"
+            if [ -n "$CATEGORY" ]; then echo "- **Categoría:** \`$CATEGORY\`"; fi
+            if [ -n "$COUNTRY" ]; then echo "- **País:** \`$COUNTRY\`"; fi
+            if [ -n "$LANGUAGE" ]; then echo "- **Idioma:** \`$LANGUAGE\`"; fi
+            echo "- **Fuente:** \`$SOURCE\`"
+            echo "- **Límite:** \`$LIMIT\`"
+            echo "- **Formato:** \`$FORMAT\`"
+            echo "- **Check streams:** \`$CHECK_STREAMS\`"
+            echo ""
+            if [ -f "$OUTPUT" ]; then
+              if [ "$FORMAT" = "json" ]; then
+                COUNT=$(python -c "import json; print(len(json.loads(open('$OUTPUT', encoding='utf-8').read())))")
+              else
+                COUNT=$(wc -l < "$OUTPUT")
+                COUNT=$((COUNT - 1))
+              fi
+              echo "- **Canales encontrados:** **$COUNT**"
+              echo ""
+              echo "<details><summary>Ver primeros resultados</summary>"
+              echo ""
+              echo '```'
+              if [ "$FORMAT" = "json" ]; then
+                python -c "
+import json
+data=json.loads(open('$OUTPUT',encoding='utf-8').read())
+for ch in data[:15]:
+    print(f\"{ch.get('name')} | {ch.get('category')} | {ch.get('country')}/{ch.get('language')} | {ch.get('url')}\")
+" || head -n 20 "$OUTPUT"
+              else
+                head -n 20 "$OUTPUT" || true
+              fi
+              echo '```'
+              echo ""
+              echo "</details>"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Subir resultados de la búsqueda
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: search-results-${{ github.run_number }}
+          path: |
+            search-results.json
+            search-results.csv
+            search-results.m3u
+          if-no-files-found: warn
+          retention-days: 7
