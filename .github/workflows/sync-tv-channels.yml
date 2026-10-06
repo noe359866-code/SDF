@@ -8,11 +8,43 @@ on:
         required: false
         default: "20"
         type: string
+      min_channels:
+        description: "Mínimo: auto (el límite sin filtros; 0 con filtros), 0 o un número"
+        required: false
+        default: "auto"
+        type: string
       channel_search:
         description: "Buscar un canal concreto (ej. ESPN 2 o Telefe; vacío = sincronización normal)"
         required: false
         default: ""
         type: string
+      country:
+        description: "País ISO-2: NI, MX, ES, US… (all = todos los países)"
+        required: false
+        default: "all"
+        type: string
+      category:
+        description: "Tipo de contenido (all = todos)"
+        required: false
+        default: "all"
+        type: choice
+        options:
+          - all
+          - deportes
+          - entretenimiento
+          - noticias
+          - películas
+          - series
+          - documentales
+          - infantil
+          - música
+          - cultura
+          - cocina
+          - viajes
+          - negocios
+          - clima
+          - religión
+          - otros
       activation_mode:
         description: "Modo de activación (automatic o manual)"
         required: false
@@ -22,7 +54,7 @@ on:
           - automatic
           - manual
       save_to_repo:
-        description: "Guardar el resultado en el repo (si filtras un canal, se guardarán solo coincidencias)"
+        description: "Guardar el resultado en el repo (con filtros, se guardarán solo las coincidencias)"
         required: false
         default: true
         type: boolean
@@ -83,8 +115,11 @@ jobs:
         # o la tabla responde con error, se avisa y el archivo se exporta igualmente.
         env:
           CHANNEL_SEARCH: ${{ inputs.channel_search }}
+          COUNTRY: ${{ inputs.country || 'all' }}
+          CATEGORY: ${{ inputs.category || 'all' }}
           ACTIVATION_MODE: ${{ inputs.activation_mode || 'automatic' }}
           LIMIT: ${{ inputs.limit || '20' }}
+          MIN_CHANNELS: ${{ inputs.min_channels || 'auto' }}
           REQUIRE_PLAYLIST: ${{ inputs.require_playlist && '1' || '' }}
           MAX_NESTED: ${{ inputs.max_nested_playlists || '8' }}
           LOG_LEVEL: ${{ inputs.log_level || 'INFO' }}
@@ -96,11 +131,12 @@ jobs:
             --sync-supabase
             --activation-mode "$ACTIVATION_MODE"
             --limit "$LIMIT"
-            --max-checks 120
-            --max-per-source 8
+            # Se prueban más candidatos para completar el cupo aun cuando varias
+            # listas hayan quedado obsoletas o estén temporalmente bloqueadas.
+            --max-checks 360
             --timeout 10
-            --workers 12
-            --max-pages 20
+            --workers 16
+            --max-pages 30
             --max-nested-playlists "$MAX_NESTED"
             --polite-delay 0.05
             --log-level "$LOG_LEVEL"
@@ -113,13 +149,86 @@ jobs:
             args+=(--require-playlist)
           fi
 
-          # Un valor vacío conserva la sincronización automática de todas las fuentes (cron).
-          # Si se indica un texto, solo se comprueban y sincronizan los canales coincidentes.
+          # Los filtros se aplican antes de comprobar/sincronizar streams. Se aceptan
+          # nombres de categoría en español y en inglés; "entretenimiento" se traduce
+          # a la categoría interna `general`.
+          filtered_run=0
+          country_filter="${COUNTRY//[[:space:]]/}"
+          case "${country_filter,,}" in
+            ""|all|todos|todas|any) ;;
+            *)
+              if [[ ! "$country_filter" =~ ^[A-Za-z]{2}$ ]]; then
+                echo "::error::El país debe ser un código ISO-2, por ejemplo NI, MX, ES o US."
+                exit 2
+              fi
+              country_filter="${country_filter^^}"
+              args+=(--country "$country_filter")
+              filtered_run=1
+              echo "Filtro de país: $country_filter"
+              ;;
+          esac
+
+          category_filter="${CATEGORY,,}"
+          category_filter="${category_filter//[[:space:]]/}"
+          selected_category=""
+          case "$category_filter" in
+            ""|all|todos|todas|any) ;;
+            deportes|deporte|sports|sport) selected_category="sports" ;;
+            entretenimiento|entretemiento|entertainment|general|variedades) selected_category="general" ;;
+            noticias|noticias24|news) selected_category="news" ;;
+            peliculas|películas|cine|movies|movie) selected_category="movies" ;;
+            series|serie|drama|dramas) selected_category="series" ;;
+            documentales|documental|documentary|documentaries) selected_category="documentary" ;;
+            infantil|ninos|niños|kids|children) selected_category="kids" ;;
+            musica|música|music) selected_category="music" ;;
+            cultura|culture) selected_category="culture" ;;
+            cocina|cooking|food) selected_category="cooking" ;;
+            viajes|travel|turismo) selected_category="travel" ;;
+            negocios|business|finanzas) selected_category="business" ;;
+            clima|weather|tiempo) selected_category="weather" ;;
+            religion|religión|religioso|religiosa|religious) selected_category="religious" ;;
+            otros|otro|other) selected_category="other" ;;
+            *)
+              echo "::error::Categoría no válida: $CATEGORY. Usa deportes, entretenimiento, noticias, películas, series, documentales, infantil, música, cultura, cocina, viajes, negocios, clima, religión u otros."
+              exit 2
+              ;;
+          esac
+          if [[ -n "$selected_category" ]]; then
+            args+=(--category "$selected_category")
+            filtered_run=1
+            echo "Filtro de tipo: $CATEGORY → $selected_category"
+          fi
+
           if [[ -n "${CHANNEL_SEARCH//[[:space:]]/}" ]]; then
             echo "Buscando antes de sincronizar: $CHANNEL_SEARCH"
             args+=(--search "$CHANNEL_SEARCH")
+            filtered_run=1
+          fi
+
+          # `auto` exige el cupo completo en la corrida general; una ejecución filtrada
+          # puede tener menos coincidencias legítimamente. Escribe un número (por ejemplo
+          # 20) en min_channels para exigir también ese mínimo con filtros.
+          min_channels="${MIN_CHANNELS//[[:space:]]/}"
+          case "${min_channels,,}" in
+            ""|auto)
+              if (( filtered_run )); then
+                min_channels=0
+              else
+                min_channels="$LIMIT"
+              fi
+              ;;
+            *)
+              if [[ ! "$min_channels" =~ ^[0-9]+$ ]]; then
+                echo "::error::min_channels debe ser auto, 0 o un número entero positivo."
+                exit 2
+              fi
+              ;;
+          esac
+          if [[ "$min_channels" != "0" ]]; then
+            echo "Se requieren al menos $min_channels canales únicos."
+            args+=(--min-channels "$min_channels")
           else
-            echo "Sin filtro de canal; se sincronizan los canales habituales."
+            echo "Ejecución filtrada; se sincronizan todas las coincidencias disponibles hasta $LIMIT."
           fi
 
           python sdf_tv_channels.py "${args[@]}"
@@ -134,7 +243,7 @@ jobs:
           retention-days: 7
 
       - name: Confirmar los canales en el repositorio
-        if: always() && github.event_name != 'pull_request' && (inputs.save_to_repo || github.event_name == 'schedule')
+        if: success() && github.event_name != 'pull_request' && (inputs.save_to_repo || github.event_name == 'schedule')
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

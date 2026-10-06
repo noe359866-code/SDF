@@ -290,7 +290,7 @@ class PlaylistParserTests(unittest.TestCase):
             for source in DEFAULT_SOURCES
             for url in (source.url, *source.fallback_urls)
         }
-        self.assertEqual(len(DEFAULT_SOURCES), 22)
+        self.assertEqual(len(DEFAULT_SOURCES), 24)
         self.assertTrue({
             "https://iptv.bbyte.app/jellyfin/live.m3u",
             "https://www.cxtvenvivo.com/",
@@ -298,6 +298,8 @@ class PlaylistParserTests(unittest.TestCase):
             "https://m3u.cl/lista/top.m3u",
             "https://m3u.cl/lista/LATAM.m3u",
             "https://iptv-org.github.io/iptv/index.m3u",
+            "https://iptv-web.app/",
+            "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
             "https://teleonline.org/",
             "https://teleonline.github.io/listas/tv.m3u8",
             "https://www.teleonline.tv/",
@@ -322,6 +324,18 @@ class PlaylistParserTests(unittest.TestCase):
         self.assertEqual(sources["tvenvivo"].kind, "site")
         self.assertEqual(sources["tvlibreonline"].kind, "site")
         self.assertEqual(sources["tvgarden"].kind, "site")
+        self.assertEqual(sources["iptv_web"].kind, "site")
+        self.assertEqual(sources["iptv_web"].page_patterns, (r"^/[a-z]{2}/[^/]+/?$",))
+        self.assertEqual(sources["iptv_web"].country_path_prefix, "/")
+        self.assertEqual(sources["iptv_web"].sitemap_urls,
+                         ("https://iptv-web.app/sitemap-index.xml",))
+        self.assertEqual(
+            _country_from_source_path(
+                sources["iptv_web"], "https://iptv-web.app/BD/AnandaTV.bd/"
+            ),
+            "BD",
+        )
+        self.assertEqual(sources["bdix_iptv"].kind, "playlist")
         self.assertEqual(sources["tvgarden"].country_path_prefix, "/tv/")
         self.assertEqual(sources["tvgarden"].sitemap_urls,
                          ("https://tvgarden.world/sitemap_tv.xml",))
@@ -1078,6 +1092,44 @@ class ExitCodeTests(unittest.TestCase):
                 rc = main([str(playlist), "--sync-supabase", "-o", str(output)])
             self.assertEqual(rc, 0)
             self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))), 2)
+
+    def test_minimum_channels_fails_safely_and_preserves_the_partial_export(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            playlist = self._playlist(temp_dir)
+            output = Path(temp_dir) / "out.json"
+            with patch.dict(os.environ,
+                            {"SUPABASE_URL": "https://project.supabase.co",
+                             "SUPABASE_SERVICE_ROLE_KEY": "secret"}, clear=True), \
+                 patch("sdf_tv_channels.fetch_existing_supabase_channels",
+                       return_value=(set(), set(), set())), \
+                 patch("sdf_tv_channels.sync_to_supabase", return_value=2) as sync, \
+                 patch("sys.stderr", io.StringIO()) as err:
+                rc = main([
+                    str(playlist), "--sync-supabase", "--limit", "3", "--min-channels", "3",
+                    "-o", str(output),
+                ])
+
+            self.assertEqual(rc, 1)
+            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))), 2)
+            sync.assert_not_called()
+            self.assertIn("se requieren al menos 3", err.getvalue())
+
+    def test_minimum_channels_allows_an_exact_result(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            playlist = self._playlist(temp_dir)
+            output = Path(temp_dir) / "out.json"
+            rc = main([
+                str(playlist), "--limit", "2", "--min-channels", "2", "-o", str(output),
+            ])
+
+            self.assertEqual(rc, 0)
+            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))), 2)
+
+    def test_minimum_channels_cannot_exceed_a_positive_limit(self):
+        with patch("sys.stderr", io.StringIO()):
+            with self.assertRaises(SystemExit) as ctx:
+                main(["--limit", "2", "--min-channels", "3"])
+        self.assertEqual(ctx.exception.code, 2)
 
     def test_search_filters_channels_before_supabase_sync(self):
         with tempfile.TemporaryDirectory() as temp_dir:

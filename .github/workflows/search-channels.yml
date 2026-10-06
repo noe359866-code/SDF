@@ -34,7 +34,7 @@ on:
         default: ""
         type: string
       source:
-        description: "Fuente donde buscar (all = todas las 22 fuentes)"
+        description: "Fuente donde buscar (all = todas las 24 fuentes)"
         required: false
         default: "all"
         type: choice
@@ -46,6 +46,8 @@ on:
           - m3ucl_top
           - m3ucl_latam
           - iptv_org
+          - iptv_web
+          - bdix_iptv
           - teleonline
           - teleonline_m3u
           - teleonline_tv
