@@ -257,6 +257,8 @@ python sdf_tv_channels.py --all-sources --check-streams --require-playlist -o ve
 python sdf_tv_channels.py --all-sources --category sports -o data/sports.json
 python sdf_tv_channels.py --all-sources --language es -o data/spanish.json
 python sdf_tv_channels.py --all-sources --country MX -o data/mexico.csv --format csv
+# Deporte nicaragüense (los mismos filtros están disponibles en Sync TV channels to Supabase)
+python sdf_tv_channels.py --all-sources --country NI --category sports -o data/nicaragua-deportes.json
 
 # Exportar todos los canales sin límite de 20
 python sdf_tv_channels.py ./playlist.m3u --limit 0 -o todos.json
@@ -424,20 +426,35 @@ python -m unittest discover -s tests -v
 
 El workflow permite ejecutarse manualmente desde
 **Actions → Sync TV channels to Supabase → Run workflow** (con opción para elegir el límite de
-canales, por defecto `20`, buscar un canal concreto, el modo de activación y si guardar el resultado
-en el repositorio) y también se ejecuta automáticamente cada 5 horas (`0 */5 * * *` UTC). En cada
+canales, por defecto `20`, definir un mínimo, buscar un canal, filtrar por país/tipo, el modo de
+activación y si guardar el resultado en el repositorio) y también se ejecuta automáticamente cada 5 horas (`0 */5 * * *` UTC). En cada
 corrida general verifica candidatos por lotes y exige los 20 canales únicos y activos
 (`is_active = true`) sin repetir. Si no logra reunir el cupo, el job falla, conserva el JSON parcial
 como artefacto de diagnóstico y no sincroniza ni reemplaza el archivo del repositorio.
 
-En una ejecución manual, rellena **channel_search** con un nombre o texto distintivo (por ejemplo,
-`ESPN 2` o `Telefe`) para comprobar y sincronizar solo los canales coincidentes. La búsqueda ignora
-mayúsculas y acentos; el campo vacío conserva la sincronización habitual. También puedes bajar
-**limit** a `1` si quieres sincronizar como máximo un resultado. Si guardas la ejecución en el repo,
-`data/tv_channels.json` contendrá solo los resultados filtrados; desmarca **save_to_repo** para no
-reemplazar la lista general. Las búsquedas puntuales no fuerzan el mínimo porque pueden tener
-legítimamente menos coincidencias; la ejecución programada cada 5 horas no usa este filtro y exige
-el cupo configurado al sincronizar canales de todas las fuentes.
+En una ejecución manual puedes combinar estos filtros:
+
+- **country** — código ISO-2 del país: `NI` (Nicaragua), `MX`, `ES`, `US`, etc.; usa `all` para
+  no filtrar por país.
+- **category** — selector de tipo de contenido: `deportes`, `entretenimiento`, `noticias`,
+  `películas`, `series`, `documentales`, `infantil`, `música`, `cultura`, `cocina`, `viajes`,
+  `negocios`, `clima`, `religión` u `otros`. Internamente, `entretenimiento` se sincroniza como
+  la categoría `general`; `entretemiento` también se reconoce como alias al disparar el workflow
+  por API.
+- **channel_search** — nombre o texto distintivo, por ejemplo `ESPN 2` o `Telefe`; la búsqueda
+  ignora mayúsculas y acentos.
+- **min_channels** — `auto` exige el valor de **limit** cuando no hay filtros y lo desactiva al
+  filtrar; introduce `20` (o cualquier número) para exigir ese mínimo también en una ejecución
+  filtrada.
+
+Usa `all` o deja vacío un filtro para no aplicarlo. También puedes bajar **limit** a `1` si quieres
+sincronizar como máximo un resultado. Si guardas una ejecución filtrada en el repo,
+`data/tv_channels.json` contendrá solo las coincidencias; desmarca **save_to_repo** para no
+reemplazar la lista general. Por defecto, las ejecuciones filtradas por búsqueda, país o tipo no
+fuerzan el mínimo de 20, porque pueden tener legítimamente menos coincidencias. Si quieres exigirlo
+también con un filtro, escribe `20` (u otro número) en **min_channels**; usa `0` para desactivarlo.
+La ejecución programada cada 5 horas no usa filtros y exige el cupo configurado al sincronizar
+canales de todas las fuentes.
 
 Cada ejecución deja tres rastros del resultado:
 
