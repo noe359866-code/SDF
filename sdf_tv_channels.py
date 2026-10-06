@@ -562,6 +562,14 @@ DEFAULT_SOURCES = (
     SourceConfig("m3ucl_top", "m3u.cl Top", "https://m3u.cl/lista/top.m3u"),
     SourceConfig("m3ucl_latam", "m3u.cl LATAM", "https://m3u.cl/lista/LATAM.m3u"),
     SourceConfig("iptv_org", "IPTV-org", "https://iptv-org.github.io/iptv/index.m3u"),
+    # IPTV Web exposes country/channel pages as `/{CC}/{channel}/`; its sitemap
+    # finds every channel route and the first path segment supplies its country.
+    SourceConfig("iptv_web", "IPTV Web", "https://iptv-web.app/", "site",
+                 page_patterns=(r"^/[a-z]{2}/[^/]+/?$",),
+                 sitemap_urls=("https://iptv-web.app/sitemap-index.xml",),
+                 country_path_prefix="/", max_depth=1),
+    SourceConfig("bdix_iptv", "BDIX IPTV",
+                 "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u"),
     SourceConfig("teleonline", "Teleonline", "https://teleonline.org/", "site",
                  playlist_hints=("https://teleonline.github.io/listas/tv.m3u8",),
                  page_prefixes=("/canal/",)),

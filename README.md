@@ -8,7 +8,7 @@ los canales, eliminar duplicados y exportarlos a JSON, CSV o Supabase.
 - **Límite por defecto de 20 canales únicos (`--limit 20`)**: selecciona hasta 20 canales variados,
   priorizados por calidad de metadatos (logo, país, idioma, categoría, HTTPS/HLS) y distribuidos
   entre distintas categorías. Usa `--limit 0` si deseas exportar sin límite.
-- **Cupo repartible entre fuentes (`--max-per-source`)**: con 22 fuentes configuradas, limita
+- **Cupo repartible entre fuentes (`--max-per-source`)**: con 24 fuentes configuradas, limita
   cuántos canales aporta cada una (por ejemplo `--max-per-source 8`) para que ninguna lista
   acapare el resultado. `0` (valor por defecto) no aplica límite.
 - **Sin canales repetidos**: deduplica por identidad canónica de canal (normalizando sufijos de
@@ -42,6 +42,9 @@ los canales, eliminar duplicados y exportarlos a JSON, CSV o Supabase.
 - m3u.cl Top — https://m3u.cl/lista/top.m3u
 - m3u.cl LATAM — https://m3u.cl/lista/LATAM.m3u
 - IPTV-org — https://iptv-org.github.io/iptv/index.m3u
+- IPTV Web — https://iptv-web.app/; rastrea las páginas de canales descubiertas en su sitemap y
+  conserva el país indicado en la ruta.
+- BDIX IPTV — https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u
 - Teleonline — https://teleonline.org/; también detecta su playlist pública M3U8.
 - Teleonline M3U — https://teleonline.github.io/listas/tv.m3u8 (lista directa, sin scraping).
 - Teleonline TV — https://www.teleonline.tv/ (WordPress con reproductor propio).
@@ -437,7 +440,7 @@ Cada ejecución deja tres rastros del resultado:
    por fuente.
 
 El workflow usa `--deadline 420` para que nunca supere el `timeout-minutes: 15` del job aunque
-alguna fuente responda muy lento y `--max-per-source 8` para repartir el cupo entre las 22
+alguna fuente responda muy lento y `--max-per-source 8` para repartir el cupo entre las 24
 fuentes configuradas (ajústalo o quítalo si prefieres que una sola lista llene los 20 canales).
 Añade `--max-nested-playlists 8` (despliegue de sub-listas `.m3u`), `--polite-delay 0.05` y
 `--log-level` (el input **log_level**, por defecto `INFO`; pon `DEBUG` para depurar una fuente);
@@ -462,7 +465,7 @@ Workflow dedicado a **buscar canales en específico** sin necesidad de clonar el
 - **search_fields** — dónde buscar: `name,group,tvg_name,tvg_id,category,country,language,source,slug...`
 - **use_regex** — si activar modo expresión regular.
 - **category / country / language** — filtros extra opcionales.
-- **source** — una fuente concreta o `all` (las 22).
+- **source** — una fuente concreta o `all` (las 24).
 - **limit** / **format** / **check_streams** — como en el CLI.
 - **require_playlist** — exportar solo los canales cuyo stream devuelve una playlist HLS real.
 - **extra_source_urls** — URLs de listas o sitios adicionales (separadas por comas) a rastrear en

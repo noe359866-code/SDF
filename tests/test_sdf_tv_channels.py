@@ -290,7 +290,7 @@ class PlaylistParserTests(unittest.TestCase):
             for source in DEFAULT_SOURCES
             for url in (source.url, *source.fallback_urls)
         }
-        self.assertEqual(len(DEFAULT_SOURCES), 22)
+        self.assertEqual(len(DEFAULT_SOURCES), 24)
         self.assertTrue({
             "https://iptv.bbyte.app/jellyfin/live.m3u",
             "https://www.cxtvenvivo.com/",
@@ -298,6 +298,8 @@ class PlaylistParserTests(unittest.TestCase):
             "https://m3u.cl/lista/top.m3u",
             "https://m3u.cl/lista/LATAM.m3u",
             "https://iptv-org.github.io/iptv/index.m3u",
+            "https://iptv-web.app/",
+            "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
             "https://teleonline.org/",
             "https://teleonline.github.io/listas/tv.m3u8",
             "https://www.teleonline.tv/",
@@ -322,6 +324,18 @@ class PlaylistParserTests(unittest.TestCase):
         self.assertEqual(sources["tvenvivo"].kind, "site")
         self.assertEqual(sources["tvlibreonline"].kind, "site")
         self.assertEqual(sources["tvgarden"].kind, "site")
+        self.assertEqual(sources["iptv_web"].kind, "site")
+        self.assertEqual(sources["iptv_web"].page_patterns, (r"^/[a-z]{2}/[^/]+/?$",))
+        self.assertEqual(sources["iptv_web"].country_path_prefix, "/")
+        self.assertEqual(sources["iptv_web"].sitemap_urls,
+                         ("https://iptv-web.app/sitemap-index.xml",))
+        self.assertEqual(
+            _country_from_source_path(
+                sources["iptv_web"], "https://iptv-web.app/BD/AnandaTV.bd/"
+            ),
+            "BD",
+        )
+        self.assertEqual(sources["bdix_iptv"].kind, "playlist")
         self.assertEqual(sources["tvgarden"].country_path_prefix, "/tv/")
         self.assertEqual(sources["tvgarden"].sitemap_urls,
                          ("https://tvgarden.world/sitemap_tv.xml",))
