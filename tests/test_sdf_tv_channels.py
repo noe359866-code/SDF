@@ -1093,6 +1093,44 @@ class ExitCodeTests(unittest.TestCase):
             self.assertEqual(rc, 0)
             self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))), 2)
 
+    def test_minimum_channels_fails_safely_and_preserves_the_partial_export(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            playlist = self._playlist(temp_dir)
+            output = Path(temp_dir) / "out.json"
+            with patch.dict(os.environ,
+                            {"SUPABASE_URL": "https://project.supabase.co",
+                             "SUPABASE_SERVICE_ROLE_KEY": "secret"}, clear=True), \
+                 patch("sdf_tv_channels.fetch_existing_supabase_channels",
+                       return_value=(set(), set(), set())), \
+                 patch("sdf_tv_channels.sync_to_supabase", return_value=2) as sync, \
+                 patch("sys.stderr", io.StringIO()) as err:
+                rc = main([
+                    str(playlist), "--sync-supabase", "--limit", "3", "--min-channels", "3",
+                    "-o", str(output),
+                ])
+
+            self.assertEqual(rc, 1)
+            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))), 2)
+            sync.assert_not_called()
+            self.assertIn("se requieren al menos 3", err.getvalue())
+
+    def test_minimum_channels_allows_an_exact_result(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            playlist = self._playlist(temp_dir)
+            output = Path(temp_dir) / "out.json"
+            rc = main([
+                str(playlist), "--limit", "2", "--min-channels", "2", "-o", str(output),
+            ])
+
+            self.assertEqual(rc, 0)
+            self.assertEqual(len(json.loads(output.read_text(encoding="utf-8"))), 2)
+
+    def test_minimum_channels_cannot_exceed_a_positive_limit(self):
+        with patch("sys.stderr", io.StringIO()):
+            with self.assertRaises(SystemExit) as ctx:
+                main(["--limit", "2", "--min-channels", "3"])
+        self.assertEqual(ctx.exception.code, 2)
+
     def test_search_filters_channels_before_supabase_sync(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             playlist = Path(temp_dir) / "input.m3u"

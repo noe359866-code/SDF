@@ -8,6 +8,9 @@ los canales, eliminar duplicados y exportarlos a JSON, CSV o Supabase.
 - **Límite por defecto de 20 canales únicos (`--limit 20`)**: selecciona hasta 20 canales variados,
   priorizados por calidad de metadatos (logo, país, idioma, categoría, HTTPS/HLS) y distribuidos
   entre distintas categorías. Usa `--limit 0` si deseas exportar sin límite.
+- **Umbral mínimo opcional (`--min-channels N`)**: exige N canales únicos. Si las fuentes no
+  permiten reunirlos, deja el resultado parcial para diagnóstico, evita sincronizar Supabase y
+  termina con código `1`; así una ejecución automática no sustituye una lista sana por otra corta.
 - **Cupo repartible entre fuentes (`--max-per-source`)**: con 24 fuentes configuradas, limita
   cuántos canales aporta cada una (por ejemplo `--max-per-source 8`) para que ninguna lista
   acapare el resultado. `0` (valor por defecto) no aplica límite.
@@ -263,8 +266,8 @@ export SUPABASE_URL="https://tu-proyecto.supabase.co"
 export SUPABASE_SERVICE_ROLE_KEY="tu-secret-key"
 python sdf_tv_channels.py --all-sources --sync-supabase --limit 20
 
-# Sincronización automática: solo agrega y activa hasta 20 streams únicos que responden HTTP OK
-python sdf_tv_channels.py --all-sources --check-streams --sync-supabase --activation-mode automatic --limit 20
+# Sincronización automática: exige y activa 20 streams únicos que responden HTTP OK
+python sdf_tv_channels.py --all-sources --check-streams --sync-supabase --activation-mode automatic --limit 20 --min-channels 20
 
 # Repartir el cupo entre fuentes (ninguna lista aporta más de 8 canales)
 python sdf_tv_channels.py --all-sources --check-streams --limit 20 --max-per-source 8
@@ -355,9 +358,11 @@ encontrado en vez de agotar los 15 minutos del job.
 | Faltan `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | Imprime `WARNING: --sync-supabase ignorado…`, exporta el archivo y termina con código 0. |
 | Supabase responde 401/404/500 o no existe la tabla | Imprime `ERROR: No se pudo sincronizar con Supabase…` y termina con código 0. Usa `--fail-on-sync-error` si prefieres que el trabajo falle en ese caso. |
 | La ejecución se corta por tiempo | Usa `--deadline <segundos>` para limitar la descarga de fuentes y la comprobación de streams; al agotarse se exporta lo ya verificado. |
+| No alcanza el mínimo de canales | Usa `--min-channels N`: se exporta el parcial como diagnóstico, no se sincroniza Supabase y el proceso termina con código `1`. Sube `--max-checks` o revisa las fuentes con `DEBUG`. |
 | No se ve qué hizo el rastreo | Lanza con `--log-level DEBUG` (en el workflow, **log_level: DEBUG**): muestra páginas candidatas, players seguidos, sub-listas y cada aviso de fuente. |
 
 Otras opciones nuevas: `--source-url`/`--source-name` (fuentes puntuales; se repiten),
+`--min-channels N` (fallar de forma segura si no se reúnen N canales),
 `--max-nested-playlists` (sub-listas `.m3u` a desplegar por fuente, 0 las desactiva),
 `--require-playlist` (exportar solo streams que devuelven una playlist HLS),
 `--no-resolve-variants` (no pedir la variante jugable de un master playlist),
@@ -377,7 +382,9 @@ en CSV añade `stream_status`, `stream_http_status`, `stream_content_type`, `str
 un resumen por estado. Usa `--timeout` para limitar cada petición, `--workers` para ajustar el
 paralelismo y `--max-checks` para fijar un tope estricto de URLs comprobadas cuando se busca
 completar el cupo de `--limit`; si el tope es menor que el cupo, puede exportarse una lista más
-corta. `--max-per-source` también se respeta en esta selección progresiva.
+corta. Combínalo con `--min-channels` para que esa lista corta cause un fallo explícito en vez de
+persistirse como una corrida satisfactoria. `--max-per-source` también se respeta en esta selección
+progresiva.
 
 Estados habituales: `http_ok` (respuesta HTTP satisfactoria; en M3U se reconoce `#EXTM3U`, y en
 `.m3u8` se validan variantes o segmentos),
@@ -419,16 +426,18 @@ El workflow permite ejecutarse manualmente desde
 **Actions → Sync TV channels to Supabase → Run workflow** (con opción para elegir el límite de
 canales, por defecto `20`, buscar un canal concreto, el modo de activación y si guardar el resultado
 en el repositorio) y también se ejecuta automáticamente cada 5 horas (`0 */5 * * *` UTC). En cada
-ejecución verifica candidatos por lotes y agrega hasta 20 canales únicos y activos
-(`is_active = true`) sin repetir.
+corrida general verifica candidatos por lotes y exige los 20 canales únicos y activos
+(`is_active = true`) sin repetir. Si no logra reunir el cupo, el job falla, conserva el JSON parcial
+como artefacto de diagnóstico y no sincroniza ni reemplaza el archivo del repositorio.
 
 En una ejecución manual, rellena **channel_search** con un nombre o texto distintivo (por ejemplo,
 `ESPN 2` o `Telefe`) para comprobar y sincronizar solo los canales coincidentes. La búsqueda ignora
 mayúsculas y acentos; el campo vacío conserva la sincronización habitual. También puedes bajar
 **limit** a `1` si quieres sincronizar como máximo un resultado. Si guardas la ejecución en el repo,
 `data/tv_channels.json` contendrá solo los resultados filtrados; desmarca **save_to_repo** para no
-reemplazar la lista general. La ejecución programada cada 5 horas no usa este filtro y sigue
-sincronizando canales de todas las fuentes.
+reemplazar la lista general. Las búsquedas puntuales no fuerzan el mínimo porque pueden tener
+legítimamente menos coincidencias; la ejecución programada cada 5 horas no usa este filtro y exige
+el cupo configurado al sincronizar canales de todas las fuentes.
 
 Cada ejecución deja tres rastros del resultado:
 
@@ -440,12 +449,13 @@ Cada ejecución deja tres rastros del resultado:
    por fuente.
 
 El workflow usa `--deadline 420` para que nunca supere el `timeout-minutes: 15` del job aunque
-alguna fuente responda muy lento y `--max-per-source 8` para repartir el cupo entre las 24
-fuentes configuradas (ajústalo o quítalo si prefieres que una sola lista llene los 20 canales).
-Añade `--max-nested-playlists 8` (despliegue de sub-listas `.m3u`), `--polite-delay 0.05` y
-`--log-level` (el input **log_level**, por defecto `INFO`; pon `DEBUG` para depurar una fuente);
-marca **require_playlist** si prefieres sincronizar únicamente streams que responden una playlist
-HLS válida, algo más lento pero con menos falsos positivos.
+alguna fuente responda muy lento. Amplía el presupuesto a `--max-checks 360`, usa 16 workers y
+no fija `--max-per-source`: así puede completar los 20 con las fuentes que estén sanas, en vez de
+quedar corto porque una cuota de diversidad bloqueó candidatos válidos. Añade
+`--max-nested-playlists 8` (despliegue de sub-listas `.m3u`), `--polite-delay 0.05` y `--log-level`
+(el input **log_level**, por defecto `INFO`; pon `DEBUG` para depurar una fuente); marca
+**require_playlist** si prefieres sincronizar únicamente streams que responden una playlist HLS
+válida, algo más lento pero con menos falsos positivos.
 
 Configura estos secretos en **Settings → Secrets and variables → Actions**:
 

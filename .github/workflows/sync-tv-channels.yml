@@ -96,11 +96,12 @@ jobs:
             --sync-supabase
             --activation-mode "$ACTIVATION_MODE"
             --limit "$LIMIT"
-            --max-checks 120
-            --max-per-source 8
+            # Se prueban más candidatos para completar el cupo aun cuando varias
+            # listas hayan quedado obsoletas o estén temporalmente bloqueadas.
+            --max-checks 360
             --timeout 10
-            --workers 12
-            --max-pages 20
+            --workers 16
+            --max-pages 30
             --max-nested-playlists "$MAX_NESTED"
             --polite-delay 0.05
             --log-level "$LOG_LEVEL"
@@ -114,12 +115,16 @@ jobs:
           fi
 
           # Un valor vacío conserva la sincronización automática de todas las fuentes (cron).
-          # Si se indica un texto, solo se comprueban y sincronizan los canales coincidentes.
+          # En ese caso el cupo solicitado es también el mínimo exigido: si no se reúnen
+          # suficientes streams únicos, el job falla y no reemplaza la lista anterior.
+          # Una búsqueda puntual puede tener menos coincidencias a propósito, por eso no
+          # fuerza ese mínimo cuando se usa channel_search.
           if [[ -n "${CHANNEL_SEARCH//[[:space:]]/}" ]]; then
             echo "Buscando antes de sincronizar: $CHANNEL_SEARCH"
             args+=(--search "$CHANNEL_SEARCH")
           else
-            echo "Sin filtro de canal; se sincronizan los canales habituales."
+            echo "Sin filtro de canal; se requieren al menos $LIMIT canales únicos."
+            args+=(--min-channels "$LIMIT")
           fi
 
           python sdf_tv_channels.py "${args[@]}"
@@ -134,7 +139,7 @@ jobs:
           retention-days: 7
 
       - name: Confirmar los canales en el repositorio
-        if: always() && github.event_name != 'pull_request' && (inputs.save_to_repo || github.event_name == 'schedule')
+        if: success() && github.event_name != 'pull_request' && (inputs.save_to_repo || github.event_name == 'schedule')
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

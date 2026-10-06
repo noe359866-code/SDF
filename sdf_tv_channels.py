@@ -4139,13 +4139,19 @@ def sync_to_supabase(
 
 def _write_step_summary(channels: list[Channel], source_counts: dict[str, int],
                         errors: dict[str, list[str]], synced: int | None,
-                        sync_error: str) -> None:
+                        sync_error: str, *, minimum_channels: int = 0) -> None:
     """Write a markdown summary so GitHub Actions shows exactly what was extracted."""
     summary_path = os.environ.get("GITHUB_STEP_SUMMARY")
     if not summary_path:
         return
     lines = ["## SDF — extracción de canales", ""]
     lines.append(f"- Canales exportados: **{len(channels)}**")
+    if minimum_channels:
+        outcome = "✅ cumplido" if len(channels) >= minimum_channels else "❌ no cumplido"
+        lines.append(
+            f"- Mínimo requerido: **{minimum_channels}** ({outcome}: "
+            f"{len(channels)}/{minimum_channels})"
+        )
     if synced is not None:
         lines.append(f"- Canales sincronizados en Supabase: **{synced}**")
     elif sync_error:
@@ -4277,6 +4283,11 @@ def main(argv: list[str] | None = None) -> int:
         help=f"Maximum number of unique non-repeating channels to export/sync (default: {DEFAULT_MAX_CHANNELS}; 0 for unlimited)",
     )
     parser.add_argument(
+        "--min-channels", type=int, default=0, metavar="N",
+        help="Exigir al menos N canales únicos en la salida. Si no se alcanza, conserva el "
+             "archivo parcial pero termina con código 1 y no sincroniza Supabase (0 = desactivado)",
+    )
+    parser.add_argument(
         "--max-checks", type=int, default=DEFAULT_MAX_STREAM_PROBES,
         help=f"Maximum candidate URLs to probe when --check-streams and --limit are used (default: {DEFAULT_MAX_STREAM_PROBES})",
     )
@@ -4335,6 +4346,13 @@ def main(argv: list[str] | None = None) -> int:
             urls = " | ".join((source.url, *source.fallback_urls))
             print(f"{source.key}\t{source.name}\t{urls}")
         return 0
+
+    if args.min_channels < 0:
+        parser.error("--min-channels debe ser mayor o igual que 0")
+    minimum_channels = args.min_channels
+    configured_limit = max(0, args.limit)
+    if minimum_channels and configured_limit and minimum_channels > configured_limit:
+        parser.error("--min-channels no puede ser mayor que --limit (salvo con --limit 0)")
 
     POLITE_DELAY = max(0.0, args.polite_delay)
     clear_fetch_cache()
@@ -4502,6 +4520,20 @@ def main(argv: list[str] | None = None) -> int:
             "warning", file=sys.stderr,
         )
 
+    # Una ejecución programada no debe actualizar la lista persistida con una muestra
+    # incompleta. El archivo parcial se deja disponible como artefacto para diagnosticar
+    # las fuentes fallidas, pero se omite Supabase y el proceso falla de forma explícita.
+    if minimum_channels and len(channels) < minimum_channels:
+        log(
+            f"ERROR: se extrajeron {len(channels)} canales únicos; se requieren al menos "
+            f"{minimum_channels}. No se sincroniza Supabase.",
+            "error", file=sys.stderr,
+        )
+        _write_step_summary(
+            channels, source_counts, errors, None, "", minimum_channels=minimum_channels,
+        )
+        return 1
+
     synced: int | None = None
     sync_error = ""
     if args.sync_supabase:
@@ -4521,12 +4553,18 @@ def main(argv: list[str] | None = None) -> int:
             sync_error = str(exc)
             log(f"ERROR: {sync_error}", level="error", file=sys.stderr)
             if args.fail_on_sync_error:
-                _write_step_summary(channels, source_counts, errors, None, sync_error)
+                _write_step_summary(
+                    channels, source_counts, errors, None, sync_error,
+                    minimum_channels=minimum_channels,
+                )
                 return 1
         else:
             log(f"Sincronizados {synced} canales en Supabase ({args.activation_mode})")
 
-    _write_step_summary(channels, source_counts, errors, synced, sync_error)
+    _write_step_summary(
+        channels, source_counts, errors, synced, sync_error,
+        minimum_channels=minimum_channels,
+    )
     return 0
 
 
