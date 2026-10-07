@@ -70,11 +70,11 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 35 segmentos, 9s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 38 segmentos, 9s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/News18_Kannada_NW18_MOB-audio_98835_kan=98800-video=2293600.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 35,
+      "segment_count": 38,
       "is_live": true
     }
   },
@@ -515,7 +515,7 @@
       "final_url": "https://amg01753-narrativeentert-greatmovies-samsunguk-7z6eh.amagi.tv/playlist/amg01753-narrativeentert-greatmovies-samsunguk/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg01753-narrativeentert-greatmovies-samsunguk-7z6eh.amagi.tv/ts-eu-w1-n2/playlist/amg01753-narrativeentert-greatmovies-samsunguk/cb543d1d796c64879cd43766cef043a1f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f450965ce488f7f01cec329aa5162611675cc99af29de911614bbde0c2329b4721650ff5815b2406901b177c1cae44dd4036720cd4b08652588b90cf35473ffb27fee5fb55f60ef4b0f081f1dc01d08cf904493fdf66581eb4dfe0028bd2ab63897ab076afc28ddbed62b8463f333b34bddc7efe8974fd1ddc93cf50ad87663241159bfcd4da5847ebedb94673c903c0d5e0a47e7a087f15c73d709172e9885abb507a9442ee88a519781dda64c8a83bf739592095d32afad14bea6/67/1920x1080_5903040/index.m3u8",
+      "media_url": "https://amg01753-narrativeentert-greatmovies-samsunguk-7z6eh.amagi.tv/ts-eu-w1-n2/playlist/amg01753-narrativeentert-greatmovies-samsunguk/cb553d1c736c678e99d43e6fd1ef42a0d9244ee22346c95109b727cf249f410cd9a1848ba909be3b18c05dc1601469434932ca1ad87a05c5de67fb53337f0a759bceb366d1cf400daf895a2c7eb52b1c59ab0e17d8470318a1819ba3185fcf1b3020aa645b583b99b80dbd151694c45fc85d01b19fa31019e08e92ad77609bff1ce7a7f12c188d2ef8e24d62a53575e5947a11e33d68157faf8e93f406d8dcfe4165209778729cae12f402f03d0a596d5e91897a92ce528c98f0150ab85765722818c5ab92f040398a0a6644ecedcabc71f00181d86bd51257c160922dd2696a0a64e95d5728549b70efb8093e58cbd54e4d61abdc16/69/1920x1080_5903040/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -700,24 +700,24 @@
       "final_url": "https://media.streambrothers.com:1936/8506/8506/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 12s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://media.streambrothers.com:1936/8506/8506/chunklist_w2000950277.m3u8",
+      "media_url": "https://media.streambrothers.com:1936/8506/8506/chunklist_w781452177.m3u8",
       "resolution": "1920x1080",
       "segment_count": 3,
       "is_live": true
     }
   },
   {
-    "name": "IHOP - International House of Prayer",
+    "name": "Hope Channel",
     "url": "https://v2.tustreaming.cl/tnetv/index.m3u8",
     "group": "CXTv",
     "tvg_id": "TNE.cl@SD",
     "tvg_name": "",
-    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/e6e534347244365a59c4de619aa423a9.webp",
+    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/235bdd86ca94029938bf69ec2682fc28.webp",
     "language": "es",
     "country": "CL",
     "category": "religious",
     "source": "CXTv, IPTV-org",
-    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/ihop-international-house-of-prayer",
+    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/hope-channel",
     "stream_type": "hls",
     "attributes": {
       "tvg-id": "TNE.cl@SD",
@@ -726,7 +726,7 @@
     },
     "headers": {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-      "Referer": "https://www.cxtvenvivo.com/tv-en-vivo/ihop-international-house-of-prayer"
+      "Referer": "https://www.cxtvenvivo.com/tv-en-vivo/hope-channel"
     },
     "directives": [],
     "stream_check": {
