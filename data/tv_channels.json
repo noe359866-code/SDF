@@ -70,11 +70,11 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 38 segmentos, 9s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 42 segmentos, 9s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/News18_Kannada_NW18_MOB-audio_98835_kan=98800-video=2293600.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 38,
+      "segment_count": 42,
       "is_live": true
     }
   },
@@ -515,47 +515,9 @@
       "final_url": "https://amg01753-narrativeentert-greatmovies-samsunguk-7z6eh.amagi.tv/playlist/amg01753-narrativeentert-greatmovies-samsunguk/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg01753-narrativeentert-greatmovies-samsunguk-7z6eh.amagi.tv/ts-eu-w1-n2/playlist/amg01753-narrativeentert-greatmovies-samsunguk/cb553d1c736c678e99d43e6fd1ef42a0d9244ee22346c95109b727cf249f410cd9a1848ba909be3b18c05dc1601469434932ca1ad87a05c5de67fb53337f0a759bceb366d1cf400daf895a2c7eb52b1c59ab0e17d8470318a1819ba3185fcf1b3020aa645b583b99b80dbd151694c45fc85d01b19fa31019e08e92ad77609bff1ce7a7f12c188d2ef8e24d62a53575e5947a11e33d68157faf8e93f406d8dcfe4165209778729cae12f402f03d0a596d5e91897a92ce528c98f0150ab85765722818c5ab92f040398a0a6644ecedcabc71f00181d86bd51257c160922dd2696a0a64e95d5728549b70efb8093e58cbd54e4d61abdc16/69/1920x1080_5903040/index.m3u8",
+      "media_url": "https://amg01753-narrativeentert-greatmovies-samsunguk-7z6eh.amagi.tv/ts-eu-w1-n2/playlist/amg01753-narrativeentert-greatmovies-samsunguk/cb573e1e6573638f84cd3878d1f74382f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879570c6e9a1d8f2902da8d78f902297d16229b85e372889a0f08e7de0f2f7fb0281d03f70f77801f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b2c52a52d53df5a75e807891074c48bec33afbe92c70839b4e3230abdf7cc36eb0ee135467b2a749a817e9cf31fdca6a94d1fd1451e0b3d5de7ad9dfb4271a35f574ef9fcdfb077b04280dd57e11a57b163c91fd3d0eb8374f21187334a324f6b30fa9b8af9c03a96b30a1d/107/1920x1080_5903040/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
-      "is_live": true
-    }
-  },
-  {
-    "name": "Sirippoli TV",
-    "url": "https://segment.yuppcdn.net/240122/siripoli/playlist.m3u8",
-    "group": "Comedy",
-    "tvg_id": "SirippoliTV.in@SD",
-    "tvg_name": "Sirippoli TV",
-    "logo": "https://dtil.tmsimg.com/assets/s143791_ld_h9_aa.png?lock=720x540",
-    "language": "ta",
-    "country": "IN",
-    "category": "series",
-    "source": "IPTV-org, BDIX IPTV",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "SirippoliTV.in@SD",
-      "tvg-logo": "https://dtil.tmsimg.com/assets/s143791_ld_h9_aa.png?lock=720x540",
-      "group-title": "Comedy",
-      "tvg-chno": "341",
-      "tvg-name": "Sirippoli TV",
-      "tvg-language": "tam",
-      "channel-id": "SirippoliTV.in@SD",
-      "tvg-country": "IN"
-    },
-    "headers": null,
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://segment.yuppcdn.net/240122/siripoli/playlist.m3u8",
-      "detail": "HLS master (704x396): Playlist HLS con 8 segmentos, 4s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://segment.yuppcdn.net/240122/siripoli/240122/siripoli_1800/chunks.m3u8",
-      "resolution": "704x396",
-      "segment_count": 8,
       "is_live": true
     }
   },
@@ -624,7 +586,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://tvsen6.aynaott.com/6xyZ3N4oHv2KBJdB6W4p/index.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 6 segmentos, 12s por segmento, en vivo",
+      "detail": "HLS master (1280x720): Playlist HLS con 6 segmentos, 10s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://tvsen6.aynaott.com/6xyZ3N4oHv2KBJdB6W4p/tracks-v1a1/mono.ts.m3u8",
       "resolution": "1280x720",
@@ -700,24 +662,24 @@
       "final_url": "https://media.streambrothers.com:1936/8506/8506/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 12s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://media.streambrothers.com:1936/8506/8506/chunklist_w781452177.m3u8",
+      "media_url": "https://media.streambrothers.com:1936/8506/8506/chunklist_w2074715101.m3u8",
       "resolution": "1920x1080",
       "segment_count": 3,
       "is_live": true
     }
   },
   {
-    "name": "Hope Channel",
+    "name": "IHOP - International House of Prayer",
     "url": "https://v2.tustreaming.cl/tnetv/index.m3u8",
     "group": "CXTv",
     "tvg_id": "TNE.cl@SD",
     "tvg_name": "",
-    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/235bdd86ca94029938bf69ec2682fc28.webp",
+    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/e6e534347244365a59c4de619aa423a9.webp",
     "language": "es",
     "country": "CL",
     "category": "religious",
     "source": "CXTv, IPTV-org",
-    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/hope-channel",
+    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/ihop-international-house-of-prayer",
     "stream_type": "hls",
     "attributes": {
       "tvg-id": "TNE.cl@SD",
@@ -726,7 +688,7 @@
     },
     "headers": {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-      "Referer": "https://www.cxtvenvivo.com/tv-en-vivo/hope-channel"
+      "Referer": "https://www.cxtvenvivo.com/tv-en-vivo/ihop-international-house-of-prayer"
     },
     "directives": [],
     "stream_check": {
@@ -739,6 +701,44 @@
       "media_url": "https://v2.tustreaming.cl/tnetv/tracks-v1a1/mono.ts.m3u8",
       "resolution": "1280x720",
       "segment_count": 4,
+      "is_live": true
+    }
+  },
+  {
+    "name": "Metro TV (Honduras)",
+    "url": "https://s.emisoras.tv:8081/metrotv/index.m3u8",
+    "group": "Entertainment",
+    "tvg_id": "MetroTV.hn@SD",
+    "tvg_name": "Metro TV (Honduras)",
+    "logo": "https://i.imgur.com/BqS8BHi.png",
+    "language": "es",
+    "country": "HN",
+    "category": "general",
+    "source": "IPTV-org, BDIX IPTV",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "MetroTV.hn@SD",
+      "tvg-logo": "https://i.imgur.com/BqS8BHi.png",
+      "group-title": "Entertainment",
+      "tvg-name": "Metro TV (Honduras)",
+      "tvg-chno": "79",
+      "channel-id": "MetroTV.hn",
+      "tvg-language": "spa",
+      "tvg-country": "HN"
+    },
+    "headers": null,
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://s.emisoras.tv:8081/metrotv/index.m3u8",
+      "detail": "HLS master (1920x1080): Playlist HLS con 15 segmentos, 7s por segmento, en vivo",
+      "playlist_kind": "master",
+      "media_url": "https://s.emisoras.tv:8081/metrotv/tracks-v1a1/mono.ts.m3u8",
+      "resolution": "1920x1080",
+      "segment_count": 15,
       "is_live": true
     }
   }
