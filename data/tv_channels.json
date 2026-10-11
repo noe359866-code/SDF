@@ -108,7 +108,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=698653884",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=699091818",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -140,10 +140,10 @@
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/x-mpegurl",
-      "final_url": "https://a.tubi1.apollo.adrise.io/live/cine-estrellatv-caz37g.m3u8?ap.ss=346d60e97662f5548efdcd422568f723&playback_start_ts=1791735301&ap.route=IQA2d83cXu3a_5fEYYRgpr-22Fc&ap.pt=0&ap.furl=0&ap.playback_start_ts=1791735301&ap.sid=0e66bba4-12b2-4c2b-8a52-76f82c87cab1",
+      "final_url": "https://a.tubi1.apollo.adrise.io/live/cine-estrellatv-caz37g.m3u8?ap.furl=0&ap.playback_start_ts=1791761681&ap.sid=7037e98d-009d-400f-a5f4-c6d6acfb154c&ap.ss=e0dd29cd3e32d07d21777d0d178e5d1d&playback_start_ts=1791761681&ap.route=IQA2d83cXu3a_5fEYYRgpr-22Fc&ap.pt=0",
       "detail": "HLS master (1280x720): Playlist HLS con 10 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://a.tubi1.apollo.adrise.io/live/cine-estrellatv-caz37g/1280x720.m3u8?ap.ss=346d60e97662f5548efdcd422568f723&playback_start_ts=1791735301&ap.route=IQA2d83cXu3a_5fEYYRgpr-22Fc&ap.pt=0&ap.playback_start_ts=1791735301&ap.sid=0e66bba4-12b2-4c2b-8a52-76f82c87cab1",
+      "media_url": "https://a.tubi1.apollo.adrise.io/live/cine-estrellatv-caz37g/1280x720.m3u8?ap.ss=e0dd29cd3e32d07d21777d0d178e5d1d&playback_start_ts=1791761681&ap.route=IQA2d83cXu3a_5fEYYRgpr-22Fc&ap.pt=0&ap.playback_start_ts=1791761682&ap.sid=7037e98d-009d-400f-a5f4-c6d6acfb154c",
       "resolution": "1280x720",
       "segment_count": 10,
       "is_live": true
@@ -335,7 +335,7 @@
       "final_url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
       "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKc0tsYjhxeTBDRVRGUDZTNVNWV1VMaFBtbjB2TTBodW1pSUZUbHhXRWRxVkduWlR4NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3hfbDZVNU9PdDQxREItWVRfRG1jQ0U2NWFXaHc0eW5HZFJ3LzI3LzE5MjB4MTA4MF80NTAwMDAwL2luZGV4Lm0zdTg=",
+      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKNEtWZnB2amdWVTNGUDZUaVQxV1VMaFBtbnhQSTBFNm0wb1VOekVDQUlfRkh5NXIwNlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3dfVm9zWldmUTl6WVJXY01adGJ4aC1QR1lQYXZ1YU54alFSQS8xMzgvMTkyMHgxMDgwXzQ1MDAwMDAvaW5kZXgubTN1OA==",
       "resolution": "1920x1080",
       "segment_count": 3,
       "is_live": true
@@ -435,10 +435,10 @@
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/x-mpegurl",
-      "final_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz.m3u8?ap.pt=0&ap.furl=0&ap.playback_start_ts=1791735302&ap.sid=2111f443-866b-4d4b-bd94-bbf3ed525b64&ap.ss=262db2fcd7e0fc0d390401462e649273&playback_start_ts=1791735302&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg",
+      "final_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz.m3u8?ap.sid=18e68676-a08e-4a2a-a6a5-e469dfda6c7d&ap.ss=09aeaab54436460cf018df64f435f47c&playback_start_ts=1791761682&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.furl=0&ap.playback_start_ts=1791761682",
       "detail": "HLS master (1280x720): Playlist HLS con 6 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz/1280x720.m3u8?ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.playback_start_ts=1791735302&ap.sid=2111f443-866b-4d4b-bd94-bbf3ed525b64&ap.ss=262db2fcd7e0fc0d390401462e649273&playback_start_ts=1791735302",
+      "media_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz/1280x720.m3u8?ap.pt=0&ap.playback_start_ts=1791761683&ap.sid=18e68676-a08e-4a2a-a6a5-e469dfda6c7d&ap.ss=09aeaab54436460cf018df64f435f47c&playback_start_ts=1791761682&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg",
       "resolution": "1280x720",
       "segment_count": 6,
       "is_live": true
@@ -548,7 +548,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=698653896",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=699091828",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -691,41 +691,41 @@
       "final_url": "http://168.196.127.137:6001/play/a09v/index.m3u8",
       "detail": "HLS master: Playlist HLS con 4 segmentos, 3s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "http://168.196.127.137:6001/play/a09v/77122751.m3u8",
+      "media_url": "http://168.196.127.137:6001/play/a09v/40235686.m3u8",
       "resolution": "",
       "segment_count": 4,
       "is_live": true
     }
   },
   {
-    "name": "IHOP - International House of Prayer",
-    "url": "https://storage.sardius.media/archives/-K6FGrVYzVr92SDZiDnc/events/site_52641B1329/playlist.m3u8",
+    "name": "Hope Channel",
+    "url": "https://cdn-us-dca.b-cdn.net/hcorg_33O0ldvawCD/s/jsl_0sUSK6VA7GT/master.m3u8",
     "group": "CXTv",
     "tvg_id": "",
     "tvg_name": "",
-    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/e6e534347244365a59c4de619aa423a9.webp",
+    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/235bdd86ca94029938bf69ec2682fc28.webp",
     "language": "unknown",
     "country": "unknown",
     "category": "other",
     "source": "CXTv",
-    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/ihop-international-house-of-prayer",
+    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/hope-channel",
     "stream_type": "hls",
     "attributes": null,
     "headers": {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-      "Referer": "https://www.cxtvenvivo.com/tv-en-vivo/ihop-international-house-of-prayer"
+      "Referer": "https://www.cxtvenvivo.com/tv-en-vivo/hope-channel"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://storage.sardius.media/archives/-K6FGrVYzVr92SDZiDnc/events/site_52641B1329/playlist.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 52 segmentos, 12s por segmento, en vivo",
+      "http_status": 200,
+      "content_type": "application/x-mpegurl",
+      "final_url": "https://cdn-us-dca.b-cdn.net/hcorg_33O0ldvawCD/s/jsl_0sUSK6VA7GT/master.m3u8",
+      "detail": "HLS master (1920x1080): Playlist HLS con 19 segmentos, 20s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://storage.sardius.media/archives/-K6FGrVYzVr92SDZiDnc/events/site_52641B1329/playlist-gpr1080.m3u8",
+      "media_url": "https://cdn-us-dca.b-cdn.net/hcorg_33O0ldvawCD/s/jsl_0sUSK6VA7GT/uZCGR/1080p/main.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 52,
+      "segment_count": 19,
       "is_live": true
     }
   }
