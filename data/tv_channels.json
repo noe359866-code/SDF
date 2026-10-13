@@ -108,7 +108,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=700838020",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=701482454",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -336,7 +336,7 @@
       "final_url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
       "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKdDZCYjlfaTFXVVRGUDZheEhsV1VMaFBtbjBxWWgwcW1oNEZjblVXQ2RfRkNsSkw0NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3k5ZWtWSjYzNW00RHotaDg3YTVTT3BBTnpIVWEweW84aS85LzE5MjB4MTA4MF80NTAwMDAwL2luZGV4Lm0zdTg=",
+      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKdF9ZSzh2X2lXeFRGUDZhMUdWV1VMaFBtbnhETjFScW0xTklQejBLQmM2SVR5TVAxNlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3gtbHFVNUtQdDkxREJ1UEJRMmkwTnhpREo3WHhvNzhyNkVRLzYzLzE5MjB4MTA4MF80NTAwMDAwL2luZGV4Lm0zdTg=",
       "resolution": "1920x1080",
       "segment_count": 3,
       "is_live": true
@@ -472,10 +472,10 @@
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/x-mpegurl",
-      "final_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz.m3u8?ap.pt=0&ap.furl=0&ap.playback_start_ts=1791894980&ap.sid=99cc7368-4bba-425f-adef-3fc76a3e6239&ap.ss=95df39a30b527d6b5231a6cd9b6a7f8a&playback_start_ts=1791894979&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg",
+      "final_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz.m3u8?ap.pt=0&ap.furl=0&ap.playback_start_ts=1791923782&ap.sid=452d5205-fc6e-4a13-a917-43f15b00bbd1&ap.ss=802b82c075b4c73a8d1a8b2809579df3&playback_start_ts=1791923782&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg",
       "detail": "HLS master (1280x720): Playlist HLS con 6 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz/1280x720.m3u8?playback_start_ts=1791894979&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.playback_start_ts=1791894980&ap.sid=99cc7368-4bba-425f-adef-3fc76a3e6239&ap.ss=95df39a30b527d6b5231a6cd9b6a7f8a",
+      "media_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz/1280x720.m3u8?ap.sid=452d5205-fc6e-4a13-a917-43f15b00bbd1&ap.ss=802b82c075b4c73a8d1a8b2809579df3&playback_start_ts=1791923782&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.playback_start_ts=1791923782",
       "resolution": "1280x720",
       "segment_count": 6,
       "is_live": true
@@ -585,7 +585,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=700838029",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=701482490",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
