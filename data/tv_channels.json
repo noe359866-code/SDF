@@ -70,11 +70,11 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 34 segmentos, 9s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 42 segmentos, 9s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/News18_Kannada_NW18_MOB-audio_98835_kan=98800-video=2293600.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 34,
+      "segment_count": 42,
       "is_live": true
     }
   },
@@ -108,7 +108,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=700376809",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=700838020",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -336,7 +336,7 @@
       "final_url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
       "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKN2FCWHB2bTNYa0xGUDZmZ0ZWV1VMaFBtbjBxWWgwcW1oNEZjblVXQ2RfRkNsSkw0NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3dfVjBzWldmZzdUQVJXV0VkQmVmOW0teXZRYmVtVndxUHB0VS8xNDgvMTkyMHgxMDgwXzQ1MDAwMDAvaW5kZXgubTN1OA==",
+      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKdDZCYjlfaTFXVVRGUDZheEhsV1VMaFBtbjBxWWgwcW1oNEZjblVXQ2RfRkNsSkw0NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3k5ZWtWSjYzNW00RHotaDg3YTVTT3BBTnpIVWEweW84aS85LzE5MjB4MTA4MF80NTAwMDAwL2luZGV4Lm0zdTg=",
       "resolution": "1920x1080",
       "segment_count": 3,
       "is_live": true
@@ -472,10 +472,10 @@
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/x-mpegurl",
-      "final_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz.m3u8?playback_start_ts=1791856674&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.furl=0&ap.playback_start_ts=1791856674&ap.sid=f9ea9337-e9c0-439d-a1d5-71c6bccbae08&ap.ss=d5a5723eefa357c470c8aa9e8fa61031",
+      "final_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz.m3u8?ap.pt=0&ap.furl=0&ap.playback_start_ts=1791894980&ap.sid=99cc7368-4bba-425f-adef-3fc76a3e6239&ap.ss=95df39a30b527d6b5231a6cd9b6a7f8a&playback_start_ts=1791894979&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg",
       "detail": "HLS master (1280x720): Playlist HLS con 6 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz/1280x720.m3u8?ap.playback_start_ts=1791856674&ap.sid=f9ea9337-e9c0-439d-a1d5-71c6bccbae08&ap.ss=d5a5723eefa357c470c8aa9e8fa61031&playback_start_ts=1791856674&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0",
+      "media_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz/1280x720.m3u8?playback_start_ts=1791894979&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.playback_start_ts=1791894980&ap.sid=99cc7368-4bba-425f-adef-3fc76a3e6239&ap.ss=95df39a30b527d6b5231a6cd9b6a7f8a",
       "resolution": "1280x720",
       "segment_count": 6,
       "is_live": true
@@ -585,19 +585,19 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=700376822",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=700838029",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
     }
   },
   {
-    "name": "HBO+ Latin America",
-    "url": "http://15.204.246.24:8080/HBOPlusHD/index.m3u8",
+    "name": "HBO Latin America",
+    "url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
     "group": "Undefined",
-    "tvg_id": "HBOPlusLatinAmerica.us@SD",
+    "tvg_id": "HBOLatinAmerica.us@SD",
     "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Logohboplus2019.svg/960px-Logohboplus2019.svg.png",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
     "language": "la",
     "country": "US",
     "category": "movies",
@@ -605,21 +605,24 @@
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "HBOPlusLatinAmerica.us@SD",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Logohboplus2019.svg/960px-Logohboplus2019.svg.png",
+      "tvg-id": "HBOLatinAmerica.us@SD",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
       "group-title": "Undefined"
     },
-    "headers": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
+    },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "http://15.204.246.24:8080/HBOPlusHD/index.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "final_url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "http://15.204.246.24:8080/HBOPlusHD/tracks-v1a1/mono.m3u8",
-      "resolution": "1920x1080",
+      "media_url": "https://streaming.onnethn.com/HBO/tracks-v1a1/mono.ts.m3u8",
+      "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
     }
