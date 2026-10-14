@@ -108,7 +108,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=703047854",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=704053898",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -336,7 +336,7 @@
       "final_url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
       "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKc0tNTW9hbm9ERWZGUDZteEgxV1VMaFBtbnhESmdCaW1pWVVObmtIVWNmRkdsY1NrNlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3dfVmdrWldlRTV6a1JXVG85TWlxOGlEZ1pIVzNiZ0tBbW1fNC8xMTAvMTkyMHgxMDgwXzQ1MDAwMDAvaW5kZXgubTN1OA==",
+      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKNUtGWW92M2dWRUxGUDZtekdGV1VMaFBtbnhDWTFScW0wWUZTbWtyWElQY1Nuc1B5NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3dfVjRtWldlRDIwWVJXVXJGVlA3Q2ZaZ3R2TzRXQnJRalNOQS8xNzIvMTkyMHgxMDgwXzQ1MDAwMDAvaW5kZXgubTN1OA==",
       "resolution": "1920x1080",
       "segment_count": 3,
       "is_live": true
@@ -449,34 +449,38 @@
     }
   },
   {
-    "name": "Estrella Games",
-    "url": "https://live-manifest.production-public.tubi.io/live/1d55cb91-9acf-4617-9207-0ce792931cb4/playlist.m3u8",
-    "group": "Español",
-    "tvg_id": "400000030",
-    "tvg_name": "",
-    "logo": "https://canvas-lb.tubitv.com/opts/99D3V0iTFxlbbw==/24f67f95-6f5f-4db9-8e06-bd7227bcd1c9/CHgQeDoFMS4xLjlAAQ==",
-    "language": "es",
-    "country": "US",
+    "name": "Garage TV Argentina",
+    "url": "https://stream1.sersat.com/hls/garagetv.m3u8",
+    "group": "Deportivos Int.",
+    "tvg_id": "GarageTVLatinAmerica.ar@SD",
+    "tvg_name": "Garage TV Argentina",
+    "logo": "https://pbs.twimg.com/profile_images/1169992187314167808/TeabGtEB_200x200.jpg",
+    "language": "la",
+    "country": "AR",
     "category": "other",
-    "source": "Tubi",
-    "source_url": "https://raw.githubusercontent.com/BuddyChewChew/app-m3u-generator/refs/heads/main/playlists/tubi_all.m3u",
+    "source": "TDTChannels, IPTV-org, Teleonline, Teleonline M3U, Teleonline TV",
+    "source_url": "https://www.tdtchannels.com/lists/tv.m3u8",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "400000030",
-      "tvg-logo": "https://canvas-lb.tubitv.com/opts/99D3V0iTFxlbbw==/24f67f95-6f5f-4db9-8e06-bd7227bcd1c9/CHgQeDoFMS4xLjlAAQ==",
-      "group-title": "Español"
+      "tvg-logo": "https://pbs.twimg.com/profile_images/1169992187314167808/TeabGtEB_200x200.jpg",
+      "group-title": "Deportivos Int.",
+      "tvg-name": "Garage TV Argentina",
+      "tvg-id": "GarageTVLatinAmerica.ar@SD"
     },
-    "headers": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      "Referer": "https://www.teleonline.tv/canal/garage-tv/"
+    },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz.m3u8?ap.ss=4f227b51db38a5621319d3d3afaf2199&playback_start_ts=1792005446&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.furl=0&ap.playback_start_ts=1792005446&ap.sid=e4d1eb39-ccb1-4177-982f-f6a1cc2915dc",
-      "detail": "HLS master (1280x720): Playlist HLS con 6 segmentos, 6s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz/1280x720.m3u8?ap.ss=4f227b51db38a5621319d3d3afaf2199&playback_start_ts=1792005446&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.playback_start_ts=1792005447&ap.sid=e4d1eb39-ccb1-4177-982f-f6a1cc2915dc",
-      "resolution": "1280x720",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://stream1.sersat.com/hls/garagetv.m3u8",
+      "detail": "Playlist HLS con 6 segmentos, 6s por segmento, en vivo",
+      "playlist_kind": "media",
+      "media_url": "",
+      "resolution": "",
       "segment_count": 6,
       "is_live": true
     }
@@ -585,7 +589,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=703047909",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=704053925",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
