@@ -108,7 +108,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=702395875",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=703047854",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -334,10 +334,10 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
-      "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 6s por segmento, en vivo; variantes descartadas: 1",
+      "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKNHZSZTl2M3BXRTNGUDZiakdsV1VMaFBtbnhEUDBSV21oOUplblJhQ0lfVVh6SnJ4NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3dfVjRpWldlcjZ6c1JXWFFUR0FQbmc0b3Y5cWlTcG1EMm1xcy8xNzYvMTI4MHg3MjBfMjAwMDAwMC9pbmRleC5tM3U4",
-      "resolution": "1280x720",
+      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKc0tNTW9hbm9ERWZGUDZteEgxV1VMaFBtbnhESmdCaW1pWVVObmtIVWNmRkdsY1NrNlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3dfVmdrWldlRTV6a1JXVG85TWlxOGlEZ1pIVzNiZ0tBbW1fNC8xMTAvMTkyMHgxMDgwXzQ1MDAwMDAvaW5kZXgubTN1OA==",
+      "resolution": "1920x1080",
       "segment_count": 3,
       "is_live": true
     }
@@ -413,21 +413,21 @@
   },
   {
     "name": "EWTN Español Estados Unidos - Irondale, AL Católico",
-    "url": "https://cdn3.wowza.com/1/SmVrQmZCUXZhVDgz/b3J3MFJv/hls/live/playlist.m3u8",
+    "url": "https://cdn.streamhispanatv.net:3076/live/visiontvlive.m3u8",
     "group": "CXTv",
-    "tvg_id": "EWTN.TV",
+    "tvg_id": "VisionTV.gt@SD",
     "tvg_name": "EWTN",
     "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/019f2213641be368e3d8a76c1d3be3b1.webp",
     "language": "es",
     "country": "US",
     "category": "religious",
-    "source": "CXTv, TDTChannels, IPTV-org, Teleonline, Teleonline M3U",
+    "source": "CXTv, IPTV-org, TDTChannels, Teleonline, Teleonline M3U",
     "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/ewtn-espanol",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "EWTN.TV",
-      "tvg-logo": "https://graph.facebook.com/ewtnespanol/picture?width=200&height=200",
-      "group-title": "Religiosos",
+      "tvg-id": "VisionTV.gt@SD",
+      "tvg-logo": "https://i.imgur.com/S0JrfIl.png",
+      "group-title": "Undefined",
       "tvg-name": "EWTN"
     },
     "headers": {
@@ -438,13 +438,13 @@
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://cdn3.wowza.com/1/SmVrQmZCUXZhVDgz/b3J3MFJv/hls/live/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 10 segmentos, 11s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://cdn3.wowza.com/1/SmVrQmZCUXZhVDgz/b3J3MFJv/hls/hk6brrqm/720/chunklist.m3u8",
-      "resolution": "1280x720",
-      "segment_count": 10,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://cdn.streamhispanatv.net:3076/live/visiontvlive.m3u8",
+      "detail": "Playlist HLS con 20 segmentos, 4s por segmento, en vivo",
+      "playlist_kind": "media",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 20,
       "is_live": true
     }
   },
@@ -472,10 +472,10 @@
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/x-mpegurl",
-      "final_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz.m3u8?ap.sid=1e4bbc92-d7d7-4c68-85df-b2e48b1a2c44&ap.ss=3a6ea677bed11258c0f74ed1819ead98&playback_start_ts=1791972202&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.furl=0&ap.playback_start_ts=1791972202",
+      "final_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz.m3u8?ap.ss=4f227b51db38a5621319d3d3afaf2199&playback_start_ts=1792005446&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.furl=0&ap.playback_start_ts=1792005446&ap.sid=e4d1eb39-ccb1-4177-982f-f6a1cc2915dc",
       "detail": "HLS master (1280x720): Playlist HLS con 6 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz/1280x720.m3u8?ap.ss=3a6ea677bed11258c0f74ed1819ead98&playback_start_ts=1791972202&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.playback_start_ts=1791972202&ap.sid=1e4bbc92-d7d7-4c68-85df-b2e48b1a2c44",
+      "media_url": "https://d.tubi1.apollo.adrise.io/live/estrella-games-a3zolz/1280x720.m3u8?ap.ss=4f227b51db38a5621319d3d3afaf2199&playback_start_ts=1792005446&ap.route=eKI5YxmVWq94SFazdBljLSg_9Pg&ap.pt=0&ap.playback_start_ts=1792005447&ap.sid=e4d1eb39-ccb1-4177-982f-f6a1cc2915dc",
       "resolution": "1280x720",
       "segment_count": 6,
       "is_live": true
@@ -585,7 +585,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=702395881",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=703047909",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -664,38 +664,38 @@
     }
   },
   {
-    "name": "Spacetoon Arabic",
-    "url": "https://live-uae-next.spacetoongo.com/ST_MENA_NEXT/hls/r9p2hjipmw2kl.m3u8",
+    "name": "Disney Channel Latin America South",
+    "url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/disney-channel-key/chunks.m3u8",
     "group": "Animation;Kids",
-    "tvg_id": "SpacetoonArabic.ae@SD",
+    "tvg_id": "DisneyChannelLatinAmerica.ar@South",
     "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/en/2/2b/Spacetoon_logo.png",
-    "language": "ar",
-    "country": "AE",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/f/ff/2024_Disney_Channel_text_logo.svg",
+    "language": "la",
+    "country": "AR",
     "category": "kids",
     "source": "IPTV-org",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "SpacetoonArabic.ae@SD",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/en/2/2b/Spacetoon_logo.png",
-      "http-referrer": "https://spacetoon.com",
+      "tvg-id": "DisneyChannelLatinAmerica.ar@South",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/f/ff/2024_Disney_Channel_text_logo.svg",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
       "group-title": "Animation;Kids"
     },
     "headers": {
-      "Referer": "https://spacetoon.com"
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://live-uae-next.spacetoongo.com/ST_MENA_NEXT/hls/r9p2hjipmw2kl.m3u8",
-      "detail": "HLS master (720x576): Playlist HLS con 15 segmentos, 6s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://live-uae-next.spacetoongo.com/ST_MENA_NEXT/hls/ST_MENA_NEXT_1080p.m3u8?pkg_media=video&pkg_alone=1&pkg_hm=r9p2hjipmw2kl.m3u8&pkg_svc=1&pkg_vcodec=avc1",
-      "resolution": "720x576",
-      "segment_count": 15,
+      "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/disney-channel-key/chunks.m3u8",
+      "detail": "Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
+      "playlist_kind": "media",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 4,
       "is_live": true
     }
   },
