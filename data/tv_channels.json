@@ -106,7 +106,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=711077225",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=711651929",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -368,9 +368,9 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
-      "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 2s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKNDZCZHE2emxXVVBGUF9DMEgxV1VMaFBtbjB2TTBCNm1ob0VObVV1UGR2VVNuTVB5NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3dfVndqWldmZXBrZ1JXVUoxdWpNMV9OZXF2SnpJZ1FQTkFCRS8xNTcvMTkyMHgxMDgwXzQ1MDAwMDAvaW5kZXgubTN1OA==",
+      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKNXFNTXBfaTBDMEhGUF9DMkcxV1VMaFBtbnhQSjBSNm1odEpieUJIVWRLVVJuNXYxNlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3ktdWtWWDRXT200Q1A0VzczVlBXb2xqMkloVDZDdmNwUi82LzE5MjB4MTA4MF80NTAwMDAwL2luZGV4Lm0zdTg=",
       "resolution": "1920x1080",
       "segment_count": 3,
       "is_live": true
@@ -622,7 +622,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=711077277",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=711651969",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
