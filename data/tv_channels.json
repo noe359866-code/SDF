@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w2102465618.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1134203149.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -111,7 +111,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=721008648",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=722045629",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -513,12 +513,12 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
-      "detail": "HLS master con 1 variantes; ninguna confirmó segmentos (1280x720: HTTP 500)",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1266184432",
       "resolution": "1280x720",
-      "segment_count": 0,
-      "is_live": null
+      "segment_count": 4,
+      "is_live": true
     }
   },
   {
@@ -623,7 +623,7 @@
       "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=721008668",
+      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=722045963",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
