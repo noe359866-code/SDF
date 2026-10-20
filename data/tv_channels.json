@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1134203149.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1780531476.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -82,12 +82,12 @@
     }
   },
   {
-    "name": "ESPN 2 Latin America Argentina",
-    "url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/playlist.m3u8",
+    "name": "ESPN Extra Latin America",
+    "url": "https://barinaslive1.boldmss.com/ESPN/ESPN.isml/ESPN.mpd?",
     "group": "Sports",
-    "tvg_id": "ESPN2LatinAmerica.us@Argentina",
+    "tvg_id": "ESPNExtraLatinAmerica.us@Argentine",
     "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/ESPN2_logo.svg/960px-ESPN2_logo.svg.png",
+    "logo": "https://i.imgur.com/8P8N2Ov.png",
     "language": "la",
     "country": "US",
     "category": "sports",
@@ -95,35 +95,35 @@
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "ESPN2LatinAmerica.us@Argentina",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/ESPN2_logo.svg/960px-ESPN2_logo.svg.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
+      "tvg-id": "ESPNExtraLatinAmerica.us@Argentine",
+      "tvg-logo": "https://i.imgur.com/8P8N2Ov.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
       "group-title": "Sports"
     },
     "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn2-mux/chunks.m3u8?nimblesessionid=722045629",
-      "resolution": "1280x720",
-      "segment_count": 4,
-      "is_live": true
+      "content_type": "application/dash+xml",
+      "final_url": "https://barinaslive1.boldmss.com/ESPN/ESPN.isml/ESPN.mpd?",
+      "detail": "HTTP response received; playback was not tested",
+      "playlist_kind": "",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 0,
+      "is_live": null
     }
   },
   {
-    "name": "AXN Latin America South",
-    "url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/axn.stream/chunks.m3u8",
-    "group": "Movies",
-    "tvg_id": "AXNLatinAmerica.us@South",
+    "name": "HBO Latin America",
+    "url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
+    "group": "Undefined",
+    "tvg_id": "HBOLatinAmerica.us@SD",
     "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/AXN_logo_%282015%29.svg/960px-AXN_logo_%282015%29.svg.png",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
     "language": "la",
     "country": "US",
     "category": "movies",
@@ -131,61 +131,63 @@
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "AXNLatinAmerica.us@South",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/AXN_logo_%282015%29.svg/960px-AXN_logo_%282015%29.svg.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
-      "group-title": "Movies"
+      "tvg-id": "HBOLatinAmerica.us@SD",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
+      "group-title": "Undefined"
     },
     "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/axn.stream/chunks.m3u8",
-      "detail": "Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
-      "playlist_kind": "media",
-      "media_url": "",
-      "resolution": "",
+      "final_url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "playlist_kind": "master",
+      "media_url": "https://streaming.onnethn.com/HBO/tracks-v1a1/mono.ts.m3u8",
+      "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
     }
   },
   {
-    "name": "TNT Series Latin America South",
-    "url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/TNTseries.stream/chunks.m3u8",
+    "name": "AVA Series",
+    "url": "https://avaserieshls.wns.live/hls/stream.m3u8",
     "group": "Series",
-    "tvg_id": "TNTSeriesLatinAmerica.us@South",
-    "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/7/75/TNT_Series_Logo_2016.png",
-    "language": "la",
-    "country": "US",
+    "tvg_id": "AVASeries.ir@SD",
+    "tvg_name": "AVA SERIES",
+    "logo": "https://i.imgur.com/8AfAfZE.png",
+    "language": "en",
+    "country": "IR",
     "category": "series",
-    "source": "IPTV-org",
+    "source": "IPTV-org, BDIX IPTV",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "TNTSeriesLatinAmerica.us@South",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/7/75/TNT_Series_Logo_2016.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
-      "group-title": "Series"
+      "tvg-id": "AVASeries.ir@SD",
+      "tvg-logo": "https://i.imgur.com/8AfAfZE.png",
+      "group-title": "Series",
+      "tvg-chno": "47",
+      "tvg-name": "AVA SERIES",
+      "channel-id": "custom.ava.series",
+      "tvg-country": "US",
+      "tvg-language": "eng"
     },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
-    },
+    "headers": null,
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/TNTseries.stream/chunks.m3u8",
-      "detail": "Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
+      "final_url": "https://avaserieshls.wns.live/hls/stream.m3u8",
+      "detail": "Playlist HLS con 20 segmentos, 5s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
-      "segment_count": 4,
+      "segment_count": 20,
       "is_live": true
     }
   },
@@ -226,38 +228,38 @@
     }
   },
   {
-    "name": "Cartoon Network Latin America",
-    "url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/cartoonnetwork.stream/chunks.m3u8",
+    "name": "Spacetoon Arabic",
+    "url": "https://live-uae-next.spacetoongo.com/ST_MENA_NEXT/hls/r9p2hjipmw2kl.m3u8",
     "group": "Animation;Kids",
-    "tvg_id": "CartoonNetworkLatinAmerica.us@SouthAtlanticHD",
+    "tvg_id": "SpacetoonArabic.ae@SD",
     "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Cartoon_Network_2010_logo.svg/960px-Cartoon_Network_2010_logo.svg.png",
-    "language": "la",
-    "country": "US",
+    "logo": "https://upload.wikimedia.org/wikipedia/en/2/2b/Spacetoon_logo.png",
+    "language": "ar",
+    "country": "AE",
     "category": "kids",
     "source": "IPTV-org",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "CartoonNetworkLatinAmerica.us@SouthAtlanticHD",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/80/Cartoon_Network_2010_logo.svg/960px-Cartoon_Network_2010_logo.svg.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
+      "tvg-id": "SpacetoonArabic.ae@SD",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/en/2/2b/Spacetoon_logo.png",
+      "http-referrer": "https://spacetoon.com",
       "group-title": "Animation;Kids"
     },
     "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
+      "Referer": "https://spacetoon.com"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/cartoonnetwork.stream/chunks.m3u8",
-      "detail": "Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
-      "playlist_kind": "media",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 4,
+      "final_url": "https://live-uae-next.spacetoongo.com/ST_MENA_NEXT/hls/r9p2hjipmw2kl.m3u8",
+      "detail": "HLS master (720x576): Playlist HLS con 15 segmentos, 6s por segmento, en vivo",
+      "playlist_kind": "master",
+      "media_url": "https://live-uae-next.spacetoongo.com/ST_MENA_NEXT/hls/ST_MENA_NEXT_1080p.m3u8?pkg_media=video&pkg_alone=1&pkg_hm=r9p2hjipmw2kl.m3u8&pkg_svc=1&pkg_vcodec=avc1",
+      "resolution": "720x576",
+      "segment_count": 15,
       "is_live": true
     }
   },
@@ -445,6 +447,41 @@
     }
   },
   {
+    "name": "AccuWeather",
+    "url": "https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00684-accuweather-accuweather-plex/playlist.m3u8?v=1",
+    "group": "Backup",
+    "tvg_id": "custom.accuweather",
+    "tvg_name": "AccuWeather",
+    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/local-logo-accuweather.svg",
+    "language": "unknown",
+    "country": "unknown",
+    "category": "weather",
+    "source": "BDIX IPTV",
+    "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "custom.accuweather",
+      "tvg-name": "AccuWeather",
+      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/local-logo-accuweather.svg",
+      "channel-id": "custom.accuweather",
+      "group-title": "Backup"
+    },
+    "headers": null,
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/playlist/amg00684-accuweather-accuweather-plex/playlist.m3u8?v=1",
+      "detail": "HLS master (1280x720): Playlist HLS con 5 segmentos, 7s por segmento, en vivo; variantes descartadas: 1",
+      "playlist_kind": "master",
+      "media_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/ts-us-w2-n1/playlist/amg00684-accuweather-accuweather-plex/cb573e1e6573658a84cb3961cef64082f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec06518790759629918dd2a54da8d29fc00297d16229b85e07bd8cd0f08e3df5a2e2fb72f1b58ab0777801f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b2c52a52d53df5a75e807891074c48bec33afbe92c70839b4e3230abdf7cc36eb0ee135467b2a749a817e9cf31fdca6a94d1fd1451e0b3d5de7ad9dfb4271a35f574ef9fcdfb077b04280dd57e11a57b162cb19645179e315bfc124758860a9c7e4aa218f77611d9f61e9/36/1280x720_5188040/index.m3u8",
+      "resolution": "1280x720",
+      "segment_count": 5,
+      "is_live": true
+    }
+  },
+  {
     "name": "EWTN Español Estados Unidos - Irondale, AL Católico",
     "url": "https://cdn.streamhispanatv.net:3076/live/visiontvlive.m3u8",
     "group": "CXTv",
@@ -515,152 +552,119 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1266184432",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1266419567",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
     }
   },
   {
-    "name": "FX Latin America South",
-    "url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/fx-key/chunks.m3u8",
-    "group": "Entertainment",
-    "tvg_id": "FXLatinAmerica.us@South",
-    "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/FX_International_logo.svg/960px-FX_International_logo.svg.png",
-    "language": "la",
-    "country": "US",
-    "category": "general",
-    "source": "IPTV-org",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "FXLatinAmerica.us@South",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/FX_International_logo.svg/960px-FX_International_logo.svg.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
-      "group-title": "Entertainment"
-    },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36"
-    },
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/fx-key/chunks.m3u8",
-      "detail": "Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
-      "playlist_kind": "media",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 4,
-      "is_live": true
-    }
-  },
-  {
-    "name": "Mongolian News Channel",
-    "url": "https://cdn4.skygo.mn/live/disk1/MNCTV/DASH-FTA/MNCTV.mpd",
-    "group": "News",
-    "tvg_id": "MongolianNewsChannel.mn@SD",
-    "tvg_name": "",
-    "logo": "https://www.mongolsat.mn/assets/img/channel/25.png",
-    "language": "mn",
-    "country": "MN",
+    "name": "BBC News",
+    "url": "https://tvsen1.aynaott.com/shn6jGTk/index.m3u8",
+    "group": "International",
+    "tvg_id": "BBCNews.uk",
+    "tvg_name": "BBC News",
+    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/bbc-news.png",
+    "language": "en",
+    "country": "GB",
     "category": "news",
-    "source": "IPTV-org",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "source": "BDIX IPTV, Vizio WatchFree",
+    "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "MongolianNewsChannel.mn@SD",
-      "tvg-logo": "https://www.mongolsat.mn/assets/img/channel/25.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
-      "group-title": "News"
+      "tvg-id": "BBCNews.uk",
+      "tvg-name": "BBC News",
+      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/bbc-news.png",
+      "tvg-chno": "1114",
+      "channel-id": "BBCNews.uk",
+      "group-title": "International",
+      "tvg-country": "GB",
+      "tvg-language": "eng"
     },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
-    },
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/dash+xml",
-      "final_url": "https://cdn4.skygo.mn/live/disk1/MNCTV/DASH-FTA/MNCTV.mpd",
-      "detail": "HTTP response received; playback was not tested",
-      "playlist_kind": "",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 0,
-      "is_live": null
-    }
-  },
-  {
-    "name": "ESPN 3 Latin America Argentina",
-    "url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/playlist.m3u8",
-    "group": "Sports",
-    "tvg_id": "ESPN3LatinAmerica.us@Argentina",
-    "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/ESPN3_Logo.png/960px-ESPN3_Logo.png",
-    "language": "la",
-    "country": "US",
-    "category": "sports",
-    "source": "IPTV-org",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "ESPN3LatinAmerica.us@Argentina",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/ESPN3_Logo.png/960px-ESPN3_Logo.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
-      "group-title": "Sports"
-    },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
-    },
+    "headers": null,
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
+      "final_url": "https://tvsen1.aynaott.com/shn6jGTk/index.m3u8",
+      "detail": "HLS master (768x432): Playlist HLS con 4 segmentos, 5s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/espn3-mux/chunks.m3u8?nimblesessionid=722045963",
-      "resolution": "1280x720",
+      "media_url": "https://tvsen1.aynaott.com/shn6jGTk/tracks-v1a1/mono.ts.m3u8",
+      "resolution": "768x432",
       "segment_count": 4,
       "is_live": true
     }
   },
   {
-    "name": "HBO Latin America",
-    "url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
-    "group": "Undefined",
-    "tvg_id": "HBOLatinAmerica.us@SD",
-    "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
-    "language": "la",
-    "country": "US",
+    "name": "Manoranjan Grand",
+    "url": "https://cdn.pishow.tv/ott/live/1011/master.m3u8",
+    "group": "Movies",
+    "tvg_id": "ManoranjanGrand.in@SD",
+    "tvg_name": "Manoranjan Grand",
+    "logo": "https://dtil.tmsimg.com/assets/s143302_ld_h15_aa.png?lock=720x540",
+    "language": "unknown",
+    "country": "IN",
     "category": "movies",
-    "source": "IPTV-org",
+    "source": "IPTV-org, BDIX IPTV",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "HBOLatinAmerica.us@SD",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
-      "group-title": "Undefined"
+      "tvg-id": "ManoranjanGrand.in@SD",
+      "tvg-logo": "https://dtil.tmsimg.com/assets/s143302_ld_h15_aa.png?lock=720x540",
+      "group-title": "Movies",
+      "tvg-name": "Manoranjan Grand",
+      "channel-id": "custom.manoranjan.grand"
     },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
-    },
+    "headers": null,
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "final_url": "https://cdn.pishow.tv/ott/live/1011/master.m3u8",
+      "detail": "HLS master (1024x576): Playlist HLS con 5 segmentos, 4s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://streaming.onnethn.com/HBO/tracks-v1a1/mono.ts.m3u8",
-      "resolution": "1280x720",
+      "media_url": "https://cdn.pishow.tv/ott/live/1011/1011_1.m3u8",
+      "resolution": "1024x576",
+      "segment_count": 5,
+      "is_live": true
+    }
+  },
+  {
+    "name": "Comedy Central",
+    "url": "https://tvsen3.aynaott.com/5fUWDMxZ/index.m3u8",
+    "group": "International",
+    "tvg_id": "custom.comedy.central",
+    "tvg_name": "Comedy Central",
+    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/nvisionbd-official-comedy-central.png",
+    "language": "en",
+    "country": "US",
+    "category": "series",
+    "source": "BDIX IPTV",
+    "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "custom.comedy.central",
+      "tvg-name": "Comedy Central",
+      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/nvisionbd-official-comedy-central.png",
+      "tvg-chno": "1154",
+      "channel-id": "custom.comedy.central",
+      "tvg-country": "US",
+      "tvg-language": "eng",
+      "group-title": "International"
+    },
+    "headers": null,
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://tvsen3.aynaott.com/5fUWDMxZ/index.m3u8",
+      "detail": "HLS master (768x432): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "playlist_kind": "master",
+      "media_url": "https://tvsen3.aynaott.com/5fUWDMxZ/tracks-v1a1/mono.ts.m3u8",
+      "resolution": "768x432",
       "segment_count": 4,
       "is_live": true
     }
@@ -702,38 +706,38 @@
     }
   },
   {
-    "name": "Disney Channel Latin America South",
-    "url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/disney-channel-key/chunks.m3u8",
-    "group": "Animation;Kids",
-    "tvg_id": "DisneyChannelLatinAmerica.ar@South",
+    "name": "Nickelodeon (Czech Republic)",
+    "url": "http://88.212.15.17/live/test_nickelodeon_hevc_25p/playlist.m3u8",
+    "group": "Kids",
+    "tvg_id": "Nickelodeon.cz@SD",
     "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/f/ff/2024_Disney_Channel_text_logo.svg",
-    "language": "la",
-    "country": "AR",
+    "logo": "https://i.imgur.com/E84jnP8.png",
+    "language": "cs",
+    "country": "CZ",
     "category": "kids",
     "source": "IPTV-org",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "DisneyChannelLatinAmerica.ar@South",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/f/ff/2024_Disney_Channel_text_logo.svg",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
-      "group-title": "Animation;Kids"
+      "tvg-id": "Nickelodeon.cz@SD",
+      "tvg-logo": "https://i.imgur.com/E84jnP8.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+      "group-title": "Kids"
     },
     "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://bantel-cdn1.iptvperu.tv:1936/btnscrtn/disney-channel-key/chunks.m3u8",
-      "detail": "Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
+      "http_status": 200,
+      "content_type": "application/x-mpegurl",
+      "final_url": "http://88.212.15.17/live/test_nickelodeon_hevc_25p/playlist.m3u8",
+      "detail": "Playlist HLS con 10 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
-      "segment_count": 4,
+      "segment_count": 10,
       "is_live": true
     }
   }
