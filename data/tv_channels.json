@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1780531476.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w665205491.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -73,11 +73,11 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 42 segmentos, 9s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 35 segmentos, 9s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/News18_Kannada_NW18_MOB-audio_98835_kan=98800-video=2293600.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 42,
+      "segment_count": 35,
       "is_live": true
     }
   },
@@ -447,37 +447,35 @@
     }
   },
   {
-    "name": "AccuWeather",
-    "url": "https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg00684-accuweather-accuweather-plex/playlist.m3u8?v=1",
-    "group": "Backup",
-    "tvg_id": "custom.accuweather",
-    "tvg_name": "AccuWeather",
-    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/local-logo-accuweather.svg",
+    "name": "News24 Weather",
+    "url": "https://skynewsau-live-premium.akamaized.net/hls/live/2105305/skynewsweather/live_540p.m3u8",
+    "group": "Weather",
+    "tvg_id": "News24Weather.au@SD",
+    "tvg_name": "",
+    "logo": "https://i.imgur.com/HkBec1e.png",
     "language": "unknown",
-    "country": "unknown",
+    "country": "AU",
     "category": "weather",
-    "source": "BDIX IPTV",
-    "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "custom.accuweather",
-      "tvg-name": "AccuWeather",
-      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/local-logo-accuweather.svg",
-      "channel-id": "custom.accuweather",
-      "group-title": "Backup"
+      "tvg-id": "News24Weather.au@SD",
+      "tvg-logo": "https://i.imgur.com/HkBec1e.png",
+      "group-title": "Weather"
     },
     "headers": null,
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/playlist/amg00684-accuweather-accuweather-plex/playlist.m3u8?v=1",
-      "detail": "HLS master (1280x720): Playlist HLS con 5 segmentos, 7s por segmento, en vivo; variantes descartadas: 1",
-      "playlist_kind": "master",
-      "media_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/ts-us-w2-n1/playlist/amg00684-accuweather-accuweather-plex/cb573e1e6573658a84cb3961cef64082f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec06518790759629918dd2a54da8d29fc00297d16229b85e07bd8cd0f08e3df5a2e2fb72f1b58ab0777801f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b2c52a52d53df5a75e807891074c48bec33afbe92c70839b4e3230abdf7cc36eb0ee135467b2a749a817e9cf31fdca6a94d1fd1451e0b3d5de7ad9dfb4271a35f574ef9fcdfb077b04280dd57e11a57b162cb19645179e315bfc124758860a9c7e4aa218f77611d9f61e9/36/1280x720_5188040/index.m3u8",
-      "resolution": "1280x720",
-      "segment_count": 5,
+      "content_type": "application/x-mpegurl",
+      "final_url": "https://skynewsau-live-premium.akamaized.net/hls/live/2105305/skynewsweather/live_540p.m3u8",
+      "detail": "Playlist HLS con 45 segmentos, 4s por segmento, en vivo",
+      "playlist_kind": "media",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 45,
       "is_live": true
     }
   },
@@ -550,12 +548,50 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1266419567",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1266730499",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
+    }
+  },
+  {
+    "name": "Korean Central Television SD",
+    "url": "https://streamer.nknews.org/tvdash/stream.mpd",
+    "group": "General",
+    "tvg_id": "KoreanCentralTelevision.kp@SD",
+    "tvg_name": "",
+    "logo": "https://i.imgur.com/p02AEOF.png",
+    "language": "ko",
+    "country": "KP",
+    "category": "general",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "KoreanCentralTelevision.kp@SD",
+      "tvg-logo": "https://i.imgur.com/p02AEOF.png",
+      "http-referrer": "https://kcnawatch.org/",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.4044.138 Safari/537.36",
+      "group-title": "General"
+    },
+    "headers": {
+      "Referer": "https://kcnawatch.org/",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.4044.138 Safari/537.36"
+    },
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/dash+xml",
+      "final_url": "https://streamer.nknews.org/tvdash/stream.mpd",
+      "detail": "HTTP response received; playback was not tested",
+      "playlist_kind": "",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 0,
+      "is_live": null
     }
   },
   {
@@ -568,7 +604,7 @@
     "language": "en",
     "country": "GB",
     "category": "news",
-    "source": "BDIX IPTV, Vizio WatchFree",
+    "source": "BDIX IPTV, Samsung TV Plus, Vizio WatchFree",
     "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -697,42 +733,6 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "http://88.212.15.17/live/test_viasat_history_atk_tv/playlist.m3u8",
-      "detail": "Playlist HLS con 10 segmentos, 6s por segmento, en vivo",
-      "playlist_kind": "media",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 10,
-      "is_live": true
-    }
-  },
-  {
-    "name": "Nickelodeon (Czech Republic)",
-    "url": "http://88.212.15.17/live/test_nickelodeon_hevc_25p/playlist.m3u8",
-    "group": "Kids",
-    "tvg_id": "Nickelodeon.cz@SD",
-    "tvg_name": "",
-    "logo": "https://i.imgur.com/E84jnP8.png",
-    "language": "cs",
-    "country": "CZ",
-    "category": "kids",
-    "source": "IPTV-org",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "Nickelodeon.cz@SD",
-      "tvg-logo": "https://i.imgur.com/E84jnP8.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-      "group-title": "Kids"
-    },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    },
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "http://88.212.15.17/live/test_nickelodeon_hevc_25p/playlist.m3u8",
       "detail": "Playlist HLS con 10 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
