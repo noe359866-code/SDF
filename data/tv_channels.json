@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1287101126.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1549094931.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -73,11 +73,11 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 38 segmentos, 9s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 42 segmentos, 9s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/News18_Kannada_NW18_MOB-audio_98835_kan=98800-video=2293600.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 38,
+      "segment_count": 42,
       "is_live": true
     }
   },
@@ -333,7 +333,7 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb5439196573608f84cb3d6ecef043a9f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f450e319a4bd77a08c4c329fd0233611675cc99af2988cf4614bade08232ae07b4d50f90841b2416906b130ffc3e44dd4036731cd4b09743781ba00e82b70e4ba38fe1a0917791053134b2f1add021db08a6eb9cfe3487d8c4ddc94a0324f733c97abfe408f2572d0f52b847cf333b34bddc7eff99155c1c5c43fea3da05e756b065bd4b44fdeea55b7d4946c35d15430520c54e5b79cec016dc813313c829fc1dc34aa472ee8b13cec81dd432287073d791c0c57b8cd92f33d95e5/154/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb543d1d7b6c648d9bd43d67d5ef49a2f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f455e34cf1cdb7b5394c329fd0735611675cc99af738dcc1314b68d0a2a2ae5281957ac5c11b275690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e036788f1f47f1ba9afef5cf2e2b204b4e31f65f39774e075bcfbbe098b9e03efc15eb370817017590837894c667f4b0e65a1dba3c1c705376eea29df04b30cb625b48eafec8ab6aed5c9fc771f3004ddb0afa1ad7d0ebf822841187aef796f185167d3e649c1bd1c5e3fbfa/53/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -548,9 +548,9 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 21s por segmento, en vivo",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1270804217",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1271280257",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -586,7 +586,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://tvsen1.aynaott.com/shn6jGTk/index.m3u8",
-      "detail": "HLS master (768x432): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (768x432): Playlist HLS con 4 segmentos, 5s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://tvsen1.aynaott.com/shn6jGTk/tracks-v1a1/mono.ts.m3u8",
       "resolution": "768x432",
@@ -625,7 +625,7 @@
       "final_url": "http://103.151.60.162:2122/play/a00q/index.m3u8",
       "detail": "HLS master: Playlist HLS con 4 segmentos, 3s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "http://103.151.60.162:2122/play/a00q/43923720.m3u8",
+      "media_url": "http://103.151.60.162:2122/play/a00q/86302915.m3u8",
       "resolution": "",
       "segment_count": 4,
       "is_live": true
