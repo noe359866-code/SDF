@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w2106682399.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1334271667.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -73,48 +73,12 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 38 segmentos, 9s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 35 segmentos, 9s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/News18_Kannada_NW18_MOB-audio_98835_kan=98800-video=2293600.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 38,
+      "segment_count": 35,
       "is_live": true
-    }
-  },
-  {
-    "name": "ESPN Extra Latin America",
-    "url": "https://barinaslive1.boldmss.com/ESPN/ESPN.isml/ESPN.mpd?",
-    "group": "Sports",
-    "tvg_id": "ESPNExtraLatinAmerica.us@Argentine",
-    "tvg_name": "",
-    "logo": "https://i.imgur.com/8P8N2Ov.png",
-    "language": "la",
-    "country": "US",
-    "category": "sports",
-    "source": "IPTV-org",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "ESPNExtraLatinAmerica.us@Argentine",
-      "tvg-logo": "https://i.imgur.com/8P8N2Ov.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
-      "group-title": "Sports"
-    },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
-    },
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/dash+xml",
-      "final_url": "https://barinaslive1.boldmss.com/ESPN/ESPN.isml/ESPN.mpd?",
-      "detail": "HTTP response received; playback was not tested",
-      "playlist_kind": "",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 0,
-      "is_live": null
     }
   },
   {
@@ -335,31 +299,31 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb553d19796c678e92d43e66d1ef42a1da244ee22346c95109b727cf249f410cd9a1848ba909be3b18c05dc16014694349609f11da7402cf8b67fc5133290a759bceb366d0cc110aaf8a5a792ee12f4f55ff5a43d8473218aa81dcfd5d5cc5187f71ce3b2c30149fbc07fe2370e4ba38fe1a0917791053134b2f1add021db08a6eb9cfe34e7d005b802f9a1adac6189ff26b20d955d3185169ee59ba03b456c2d2a594b341c0dfd209bb6d9e072d7e6f49afcd5a9bc853b8df96241c84653a471d41e9b1dcaf0068f427393cf29d93ec859e9c331193e7c721e82898edb77ea5cbae2360864104/83/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb5439196573608f84cb3d65cef344a5f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f450e34c91fda7b5396c32ea80034611675cc99af72df9e4114bade0e7b2ab5731c56fa0740b2416906b130ffc3e44dd4036731cd4b09743781ba00e82b70e4ba38fe1a0917791053134b2f1add021db08a6eb9cfe3487d8c4ddc94a0324f733c97abfe408f2572d0f52b847cf333b34bddc7eff99155c1c5c43fea3da05e756b065bd4b44fdeea55b7d4946c35d15430520c54e5b79cec016dc813313c829fc1dc34af442ee8bb71f981dd72b7e0ff2ba0e66bc656df987dbe331d/107/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
     }
   },
   {
-    "name": "Cook & Bake",
-    "url": "https://cc-swbj49v56imaw.akamaized.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-swbj49v56imaw/OTM/OTM_Cooking-SCTE_SAMSUNG/playlist.m3u8",
+    "name": "Food Network",
+    "url": "https://tvsen3.aynaott.com/7hm4TfVp/index.m3u8",
     "group": "International",
-    "tvg_id": "CookBake.us",
-    "tvg_name": "Cook & Bake",
-    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/cook-bake.png",
+    "tvg_id": "FoodNetwork.us",
+    "tvg_name": "Food Network",
+    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/food-network.png",
     "language": "en",
     "country": "US",
     "category": "cooking",
-    "source": "BDIX IPTV, Samsung TV Plus",
+    "source": "BDIX IPTV",
     "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "CookBake.us",
-      "tvg-name": "Cook & Bake",
-      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/cook-bake.png",
-      "tvg-chno": "394",
-      "channel-id": "CookBake.us",
+      "tvg-id": "FoodNetwork.us",
+      "tvg-name": "Food Network",
+      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/food-network.png",
+      "tvg-chno": "402",
+      "channel-id": "FoodNetwork.us",
       "tvg-country": "US",
       "tvg-language": "eng",
       "group-title": "International"
@@ -368,15 +332,15 @@
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://cc-swbj49v56imaw.akamaized.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-swbj49v56imaw/OTM/OTM_Cooking-SCTE_SAMSUNG/playlist.m3u8",
-      "detail": "HLS master con 4 variantes; ninguna confirmó segmentos (1920x1080: HTTP 504)",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://tvsen3.aynaott.com/7hm4TfVp/index.m3u8",
+      "detail": "HLS master (768x432): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "",
-      "resolution": "1920x1080",
-      "segment_count": 0,
-      "is_live": null
+      "media_url": "https://tvsen3.aynaott.com/7hm4TfVp/tracks-v1a1/mono.ts.m3u8",
+      "resolution": "768x432",
+      "segment_count": 4,
+      "is_live": true
     }
   },
   {
@@ -519,34 +483,42 @@
     }
   },
   {
-    "name": "3ABN LATINO Estados Unidos Evangélico",
-    "url": "https://v4.tustreaming.cl/graciatv/index.m3u8",
-    "group": "CXTv",
-    "tvg_id": "",
-    "tvg_name": "",
-    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/702a12939cd0b8c3319aa4180ef4e22a.webp",
-    "language": "es",
-    "country": "CL",
+    "name": "Ananda TV",
+    "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
+    "group": "IPTV Web",
+    "tvg_id": "AnandaTV.bd",
+    "tvg_name": "Ananda TV",
+    "logo": "https://i.imgur.com/jkbo7Qe.png",
+    "language": "bn",
+    "country": "BD",
     "category": "other",
-    "source": "CXTv",
-    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/3-abn-latino",
+    "source": "IPTV Web, BDIX IPTV",
+    "source_url": "https://iptv-web.app/BD/AnandaTV.bd/",
     "stream_type": "hls",
-    "attributes": null,
+    "attributes": {
+      "tvg-id": "AnandaTV.bd",
+      "tvg-name": "Ananda TV",
+      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/ananda-tv.png",
+      "channel-id": "AnandaTV.bd",
+      "tvg-country": "BD",
+      "tvg-language": "ben",
+      "group-title": "Backup"
+    },
     "headers": {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-      "Referer": "https://www.cxtvenvivo.com/tv-en-vivo/3-abn-latino"
+      "Referer": "https://iptv-web.app/BD/AnandaTV.bd/"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://v4.tustreaming.cl/graciatv/index.m3u8",
-      "detail": "Playlist HLS con 6 segmentos, 5s por segmento, en vivo",
-      "playlist_kind": "media",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 6,
+      "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "playlist_kind": "master",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1275951225",
+      "resolution": "1280x720",
+      "segment_count": 4,
       "is_live": true
     }
   },
@@ -653,7 +625,7 @@
       "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F181.78.12.119%3A16123%2Fplay%2Fch46%2Findex.m3u8",
       "detail": "HLS master: Playlist HLS con 4 segmentos, 3s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F181.78.12.119%3A16123%2Fplay%2Fch46%2F58440921.m3u8",
+      "media_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F181.78.12.119%3A16123%2Fplay%2Fch46%2F71060257.m3u8",
       "resolution": "",
       "segment_count": 4,
       "is_live": true
@@ -732,6 +704,44 @@
       "media_url": "",
       "resolution": "",
       "segment_count": 6,
+      "is_live": true
+    }
+  },
+  {
+    "name": "Channel S (Bangladesh)",
+    "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/playlist.m3u8",
+    "group": "Culture",
+    "tvg_id": "ChannelS.bd@SD",
+    "tvg_name": "Channel S",
+    "logo": "https://www.channels.com.bd/storage/project_files/logo/2024-05-14a_n17156821814310.png",
+    "language": "bn",
+    "country": "BD",
+    "category": "culture",
+    "source": "IPTV-org, BDIX IPTV",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "ChannelS.bd@SD",
+      "tvg-logo": "https://www.channels.com.bd/storage/project_files/logo/2024-05-14a_n17156821814310.png",
+      "group-title": "Culture",
+      "tvg-name": "Channel S",
+      "tvg-chno": "20",
+      "channel-id": "ChannelS.uk",
+      "tvg-country": "GB",
+      "tvg-language": "ben"
+    },
+    "headers": null,
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/playlist.m3u8",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "playlist_kind": "master",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/chunks.m3u8?nimblesessionid=1275951127",
+      "resolution": "1280x720",
+      "segment_count": 4,
       "is_live": true
     }
   }
