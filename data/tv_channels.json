@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w140813765.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1571310929.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -73,11 +73,11 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 42 segmentos, 9s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 35 segmentos, 9s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/News18_Kannada_NW18_MOB-audio_98835_kan=98800-video=2293600.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 42,
+      "segment_count": 35,
       "is_live": true
     }
   },
@@ -333,7 +333,7 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb573b1a6570668b84cb3e61cef84782f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879575c31c34c8f2805da8a7baf03297d16229b85ba2dde990f5db4dd082f7fb52f1656ad0e77801f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b2c52a52d53df5a75e807891074c48bec33afbe92c70839b4e3230abdf7cc36eb0ee135467b2a749a817e9cf31fdca6a94d1fd1451e0b3d5de7ad9dfb4271a35f574ef9fcdfb077b04280dd57e11a57b162c917645152e534bfc1535c521c52882ebf41ab7352d1ce1b6e/18/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb513e1e65717b8c9bcf2162d0d36cc3af707fe5312da76d3ef40ac229dc6a11c1fea090a914ad775d811bcc75583f585f60c319de6155c68c2cb550352a1669cbcab629c4981008b08b0e797eb6794c039c5e2ff81d82d9448b606ab00ef714301de11d6b5272bea908e92311e7a830b90158ab3009ac0b576721c01f19bdb02ffeaaa30416894691ab2c4a83179dd0a3915c7fe8ab50a62bb78be5a564bfd9fa0091ec61dfd3d33afa06ad170151217c9e8f43d1a32185febc240daa3c0b4e1f5be8a69fb36b249255425fecf0d9f034b147bce95fe16a55e859782e00836adcccabee54b29d20976f9d0c8012e8e56705/39/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -369,7 +369,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "http://23.237.104.106:8080/USA_COOKING/index.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 8s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 11s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "http://23.237.104.106:8080/USA_COOKING/tracks-v1a1/mono.m3u8",
       "resolution": "1920x1080",
@@ -407,6 +407,42 @@
       "media_url": "",
       "resolution": "",
       "segment_count": 10,
+      "is_live": true
+    }
+  },
+  {
+    "name": "CNBC Indonesia",
+    "url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
+    "group": "Business",
+    "tvg_id": "CNBCIndonesia.id@SD",
+    "tvg_name": "",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
+    "language": "unknown",
+    "country": "ID",
+    "category": "business",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "CNBCIndonesia.id@SD",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+      "group-title": "Business"
+    },
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+    },
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
+      "detail": "Playlist HLS con 9 segmentos, 10s por segmento, en vivo",
+      "playlist_kind": "media",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 9,
       "is_live": true
     }
   },
@@ -514,7 +550,7 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1278095708",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1278637590",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -703,44 +739,6 @@
       "media_url": "",
       "resolution": "",
       "segment_count": 6,
-      "is_live": true
-    }
-  },
-  {
-    "name": "Channel S (Bangladesh)",
-    "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/playlist.m3u8",
-    "group": "Culture",
-    "tvg_id": "ChannelS.bd@SD",
-    "tvg_name": "Channel S",
-    "logo": "https://www.channels.com.bd/storage/project_files/logo/2024-05-14a_n17156821814310.png",
-    "language": "bn",
-    "country": "BD",
-    "category": "culture",
-    "source": "IPTV-org, BDIX IPTV",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "ChannelS.bd@SD",
-      "tvg-logo": "https://www.channels.com.bd/storage/project_files/logo/2024-05-14a_n17156821814310.png",
-      "group-title": "Culture",
-      "tvg-name": "Channel S",
-      "tvg-chno": "20",
-      "channel-id": "ChannelS.uk",
-      "tvg-country": "GB",
-      "tvg-language": "ben"
-    },
-    "headers": null,
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 8s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/chunks.m3u8?nimblesessionid=1278095479",
-      "resolution": "1280x720",
-      "segment_count": 4,
       "is_live": true
     }
   }
