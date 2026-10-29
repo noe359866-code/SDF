@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1184478571.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w2000412840.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -331,11 +331,11 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb56391c6573628884c93878d7f1628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e3e545f60c348dd7b1c93dd7ff94c357d41758790e6298c841a5cba8e0e7f79b3284b59ac6ca9e11f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b3d7061bfddd5a078bd815fabfd8b02c016c564ce2c4b4368b9f122fbf7bb57d008f535433f4818ccd02ac39e0fffb2120e480b64a8ba6ff8c283ea1f2a996916446b58bf0cda2f9032c38c37886336f423904687318d64904bcd9d7d848bf6eb740c1aacc5556f22aca88592ef2732be72f4b0a68c3d28eb966e184dab398ac24aa746167c7254b2948b86dba3958d45f16226438630/42/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb553d19796c678e98d43e67d7ef42a3df244ee22346c95109b727cf249f410cd9a1848ba909be3b18c05dc1601469434933c918d67d53c38b67fc5266740a759bceb3668b9e415caf895a7e79b7291b51fa0f14d8473b18a081e583455ccf1b2231aa675b583b99b80dbd0d0b9bd75ed4220baa97ef145c5dc68b526f77d3d51be1a0a1086fe87691b308704d1864d66c70f06e93c2f0fd2066748bdd949b1288cdfe9652ddc6c47cd508ec300656183ff3fc4ab7ef1082ecd74a319d7f26431218c3bb87ec4f3f92485113a9b19fcd058573c4eb72d18056129275f8e2870b3c781808e8ded11f803923ec7677/70/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 4,
+      "segment_count": 5,
       "is_live": true
     }
   },
@@ -369,7 +369,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "http://23.237.104.106:8080/USA_COOKING/index.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 3s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "http://23.237.104.106:8080/USA_COOKING/tracks-v1a1/mono.m3u8",
       "resolution": "1920x1080",
@@ -540,7 +540,7 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://v4.tustreaming.cl/graciatv/index.m3u8",
-      "detail": "Playlist HLS con 6 segmentos, 4s por segmento, en vivo",
+      "detail": "Playlist HLS con 6 segmentos, 5s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
@@ -626,6 +626,43 @@
     }
   },
   {
+    "name": "Comedy Central",
+    "url": "https://tvsen3.aynaott.com/5fUWDMxZ/index.m3u8",
+    "group": "Not Playing",
+    "tvg_id": "ComedyCentral.us",
+    "tvg_name": "Comedy Central",
+    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/comedy-central.png",
+    "language": "en",
+    "country": "US",
+    "category": "series",
+    "source": "BDIX IPTV",
+    "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "ComedyCentral.us",
+      "tvg-name": "Comedy Central",
+      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/comedy-central.png",
+      "channel-id": "ComedyCentral.us",
+      "tvg-country": "US",
+      "tvg-language": "eng",
+      "group-title": "Not Playing"
+    },
+    "headers": null,
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://tvsen3.aynaott.com/5fUWDMxZ/index.m3u8",
+      "detail": "HLS master (768x432): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "playlist_kind": "master",
+      "media_url": "https://tvsen3.aynaott.com/5fUWDMxZ/tracks-v1a1/mono.ts.m3u8",
+      "resolution": "768x432",
+      "segment_count": 4,
+      "is_live": true
+    }
+  },
+  {
     "name": "Viasat History (Czech Republic)",
     "url": "http://88.212.15.50/live/test_viasat_history_atk_tv/playlist.m3u8",
     "group": "Documentary",
@@ -694,44 +731,6 @@
       "media_url": "",
       "resolution": "",
       "segment_count": 10,
-      "is_live": true
-    }
-  },
-  {
-    "name": "M20 Music",
-    "url": "https://streamcdne2-4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/chunklist_b1064000.m3u8",
-    "group": "International",
-    "tvg_id": "M20Music.us",
-    "tvg_name": "M20 Music",
-    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/m20-music.png",
-    "language": "en",
-    "country": "US",
-    "category": "music",
-    "source": "BDIX IPTV",
-    "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "M20Music.us",
-      "tvg-name": "M20 Music",
-      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/m20-music.png",
-      "tvg-chno": "416",
-      "channel-id": "M20Music.us",
-      "tvg-country": "US",
-      "tvg-language": "eng",
-      "group-title": "International"
-    },
-    "headers": null,
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://streamcdne2-4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/chunklist_b1064000.m3u8",
-      "detail": "Playlist HLS con 6 segmentos, 6s por segmento, en vivo",
-      "playlist_kind": "media",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 6,
       "is_live": true
     }
   }
