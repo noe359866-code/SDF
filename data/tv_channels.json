@@ -34,45 +34,50 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w640739011.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1989643582.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
     }
   },
   {
-    "name": "News Gujarati",
-    "url": "https://fta.ektv.in/live/653/master.m3u8",
-    "group": "News",
-    "tvg_id": "IndiaNewsGujarati.in@SD",
-    "tvg_name": "",
-    "logo": "https://jiotvimages.cdn.jio.com/dare_images/images/India_News_Gujarat.png",
-    "language": "gu",
-    "country": "IN",
+    "name": "RT Documentary Channel",
+    "url": "https://rt-rtd.rttv.com/dvr/rtdoc/playlist.m3u8",
+    "group": "CXTv",
+    "tvg_id": "RTDocumentary.ru@English",
+    "tvg_name": "RT Documentary",
+    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/7ab9a956d38f2361c92545120dee2a95.webp",
+    "language": "en",
+    "country": "RU",
     "category": "news",
-    "source": "IPTV-org",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "source": "CXTv, IPTV-org, BDIX IPTV, TDTChannels",
+    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/rt-documentary-channel",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "IndiaNewsGujarati.in@SD",
-      "tvg-logo": "https://jiotvimages.cdn.jio.com/dare_images/images/India_News_Gujarat.png",
-      "http-user-agent": "#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
-      "group-title": "News"
+      "tvg-id": "RTDocumentary.ru@English",
+      "tvg-logo": "https://i.imgur.com/aeu5zIC.png",
+      "group-title": "Documentary",
+      "tvg-name": "RT Documentary",
+      "channel-id": "RTDocumentary.ru",
+      "tvg-country": "RU",
+      "tvg-language": "eng",
+      "tvg-chno": "550"
     },
     "headers": {
-      "User-Agent": "#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      "Referer": "https://www.cxtvenvivo.com/tv-en-vivo/rt-documentary-channel"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
+      "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://fta.ektv.in/live/653/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
+      "final_url": "https://rt-rtd.rttv.com/dvr/rtdoc/playlist.m3u8",
+      "detail": "HLS master (1920x1080): Playlist HLS con 91 segmentos, 4s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://fta.ektv.in/live/653/653_0_aac.m3u8",
+      "media_url": "https://rt-rtd.rttv.com/dvr/rtdoc/playlist_4500Kb.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 5,
+      "segment_count": 91,
       "is_live": true
     }
   },
@@ -328,7 +333,7 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb563800797667909bc33978d8f0628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6b560c639a4dde741c93da72a84c357d417587c9b3298b841358b0db062d2dbb281807fd6c45ea0d6bf372747872e708863b6826e6007a5336cd8e1dfc320786a222b14d57fa8d40b5f44f7062e1021fa1f84ed2a2b41f1c8b3d8b81067897397d3fb5631a41b74f900429ee6a4e15228136d6987bc92ff3dbc421f004e37b2a502b7e988776a98b37cae9be4f74a84765651654e8ad96f203199e53515dfbebc4ad2aae5d9afb45fb003dd951ccafe5f27a981d6f6b5ff14571f47c3e8387b1a8523165c9/14/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb543d19796c648699d43667cef046a8f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f455567cb4a8a7b06c6c32eac0365611675cc99af72d0cd1514e6895d2e2de57c4c02ac0840b2466906b15ddedae44dd4036737cd4b0971379fb008f33f70e4ba38fe1a0917791053134b2f1add021db08a6eb9cfe3497d005b802ff427d350d39ef26bf14830d1d41f49ee59bb03b456c2d2a594a145c0dac83dc34588483a7c0430adb634b0c15cb8d49f6574b9693c541f56f2ac81b11f72d235232698f5a8ee36adf3af739675d7510a4ef10777e7d75568b0031aceca05a7/132/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -364,7 +369,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "http://23.237.104.106:8080/USA_COOKING/index.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 8s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "http://23.237.104.106:8080/USA_COOKING/tracks-v1a1/mono.m3u8",
       "resolution": "1920x1080",
@@ -402,6 +407,42 @@
       "media_url": "",
       "resolution": "",
       "segment_count": 10,
+      "is_live": true
+    }
+  },
+  {
+    "name": "CNBC Indonesia",
+    "url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
+    "group": "Business",
+    "tvg_id": "CNBCIndonesia.id@SD",
+    "tvg_name": "",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
+    "language": "unknown",
+    "country": "ID",
+    "category": "business",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "CNBCIndonesia.id@SD",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+      "group-title": "Business"
+    },
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+    },
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
+      "detail": "Playlist HLS con 9 segmentos, 10s por segmento, en vivo",
+      "playlist_kind": "media",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 9,
       "is_live": true
     }
   },
@@ -499,7 +540,7 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://v4.tustreaming.cl/graciatv/index.m3u8",
-      "detail": "Playlist HLS con 6 segmentos, 5s por segmento, en vivo",
+      "detail": "Playlist HLS con 6 segmentos, 4s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
@@ -549,43 +590,38 @@
     }
   },
   {
-    "name": "News18 Kannada",
-    "url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/master.m3u8",
+    "name": "News Gujarati",
+    "url": "https://fta.ektv.in/live/653/master.m3u8",
     "group": "News",
-    "tvg_id": "News18Kannada.in@SD",
-    "tvg_name": "News18 Kannada",
-    "logo": "https://i.imgur.com/3XVFxdO.png",
-    "language": "kn",
+    "tvg_id": "IndiaNewsGujarati.in@SD",
+    "tvg_name": "",
+    "logo": "https://jiotvimages.cdn.jio.com/dare_images/images/India_News_Gujarat.png",
+    "language": "gu",
     "country": "IN",
     "category": "news",
-    "source": "IPTV-org, Samsung TV Plus",
+    "source": "IPTV-org",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "News18Kannada.in@SD",
-      "tvg-logo": "https://i.imgur.com/3XVFxdO.png",
-      "http-referrer": "https://kannada.news18.com/",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0",
-      "group-title": "News",
-      "channel-id": "INBD2500012V1-in",
-      "tvg-chno": "1552",
-      "tvg-name": "News18 Kannada"
+      "tvg-id": "IndiaNewsGujarati.in@SD",
+      "tvg-logo": "https://jiotvimages.cdn.jio.com/dare_images/images/India_News_Gujarat.png",
+      "http-user-agent": "#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
+      "group-title": "News"
     },
     "headers": {
-      "Referer": "https://kannada.news18.com/",
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36 Edg/142.0.0.0"
+      "User-Agent": "#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 42 segmentos, 9s por segmento, en vivo",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://fta.ektv.in/live/653/master.m3u8",
+      "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/News18_Kannada_NW18_MOB-audio_98835_kan=98800-video=2293600.m3u8",
+      "media_url": "https://fta.ektv.in/live/653/653_0_aac.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 42,
+      "segment_count": 5,
       "is_live": true
     }
   },
@@ -695,44 +731,6 @@
       "media_url": "",
       "resolution": "",
       "segment_count": 10,
-      "is_live": true
-    }
-  },
-  {
-    "name": "M20 Music",
-    "url": "https://streamcdne2-4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/chunklist_b1064000.m3u8",
-    "group": "International",
-    "tvg_id": "M20Music.us",
-    "tvg_name": "M20 Music",
-    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/m20-music.png",
-    "language": "en",
-    "country": "US",
-    "category": "music",
-    "source": "BDIX IPTV",
-    "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "M20Music.us",
-      "tvg-name": "M20 Music",
-      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/m20-music.png",
-      "tvg-chno": "442",
-      "channel-id": "M20Music.us",
-      "tvg-country": "US",
-      "tvg-language": "eng",
-      "group-title": "International"
-    },
-    "headers": null,
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://streamcdne2-4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/chunklist_b1064000.m3u8",
-      "detail": "Playlist HLS con 6 segmentos, 6s por segmento, en vivo",
-      "playlist_kind": "media",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 6,
       "is_live": true
     }
   }
