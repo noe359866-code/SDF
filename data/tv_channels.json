@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w838204185.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w928909082.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -74,6 +74,42 @@
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
+    }
+  },
+  {
+    "name": "ESPN Extra Latin America",
+    "url": "https://barinaslive1.boldmss.com/ESPN/ESPN.isml/ESPN.mpd?",
+    "group": "Sports",
+    "tvg_id": "ESPNExtraLatinAmerica.us@Argentine",
+    "tvg_name": "",
+    "logo": "https://i.imgur.com/8P8N2Ov.png",
+    "language": "la",
+    "country": "US",
+    "category": "sports",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "ESPNExtraLatinAmerica.us@Argentine",
+      "tvg-logo": "https://i.imgur.com/8P8N2Ov.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+      "group-title": "Sports"
+    },
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+    },
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/dash+xml",
+      "final_url": "https://barinaslive1.boldmss.com/ESPN/ESPN.isml/ESPN.mpd?",
+      "detail": "HTTP response received; playback was not tested",
+      "playlist_kind": "",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 0,
+      "is_live": null
     }
   },
   {
@@ -290,11 +326,11 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb57391c6573608784c83b61cef44082f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879525c35cb1d8c7806da8a7fad07297d16229b85ba7a8fcb0f08e38d0e7b22e5291f54fc0e777414690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e03677adb4fb1eb060f1b74de590ae04dd169453c99d1267c2a9e163f3acab10f80beb32064a2c7498ca1ef9ac04e38bce386bd119a0216fad5b50741b841ea63e419d4eab44a75b5f5309ef6ff2413abe12914c857fa664b93686ef49a5a1becc780353d8f77f476a94d3eda9f3343db363f7efccc5676e98f5007755863c96765958ea9dc176d095f5f73fb87d030fe1402a7ec0ac46eb0ebf3687c1a4e79e/46/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb563e1e6573638784cd3e78d1f0628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6f510b679f11db751c93db72a94c357d417587c9e42ed184160bb48d092f2ae77e4d04fa6c45ea0d6bf372747872e708863b6826e6007a5336cd8e1dfc320786a222b14d57fa8d40b5f44f7062e1021fa1f84ed2a2b41f1c8b3d8b81067897397d3fb5631a41b74f900429ee6a4e15228136d6987bc92ff3dbc421f004e37b2a502b7e988776a98b37cae9be4f74a84765651654e8ad96f203199e53515dfbebc4ad2aae5d9afb45fb003dd953ceafe58807921d6fd672a393f74bb5517884663d6bfc9051/36/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 4,
+      "segment_count": 5,
       "is_live": true
     }
   },
@@ -499,7 +535,7 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://v4.tustreaming.cl/graciatv/index.m3u8",
-      "detail": "Playlist HLS con 6 segmentos, 4s por segmento, en vivo",
+      "detail": "Playlist HLS con 6 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
@@ -695,44 +731,6 @@
       "media_url": "",
       "resolution": "",
       "segment_count": 10,
-      "is_live": true
-    }
-  },
-  {
-    "name": "M20 Music",
-    "url": "https://streamcdne2-4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/chunklist_b1064000.m3u8",
-    "group": "International",
-    "tvg_id": "M20Music.us",
-    "tvg_name": "M20 Music",
-    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/m20-music.png",
-    "language": "en",
-    "country": "US",
-    "category": "music",
-    "source": "BDIX IPTV",
-    "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "M20Music.us",
-      "tvg-name": "M20 Music",
-      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/m20-music.png",
-      "tvg-chno": "442",
-      "channel-id": "M20Music.us",
-      "tvg-country": "US",
-      "tvg-language": "eng",
-      "group-title": "International"
-    },
-    "headers": null,
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://streamcdne2-4c4b867c89244861ac216426883d1ad0.msvdn.net/live/S62628868/uhdWBlkC1AoO/chunklist_b1064000.m3u8",
-      "detail": "Playlist HLS con 6 segmentos, 6s por segmento, en vivo",
-      "playlist_kind": "media",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 6,
       "is_live": true
     }
   }
