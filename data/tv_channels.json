@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1989643582.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1670440214.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -50,7 +50,7 @@
     "language": "en",
     "country": "RU",
     "category": "news",
-    "source": "CXTv, IPTV-org, BDIX IPTV, TDTChannels",
+    "source": "CXTv, IPTV-org, BDIX IPTV",
     "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/rt-documentary-channel",
     "stream_type": "hls",
     "attributes": {
@@ -333,7 +333,7 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb543d19796c648699d43667cef046a8f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f455567cb4a8a7b06c6c32eac0365611675cc99af72d0cd1514e6895d2e2de57c4c02ac0840b2466906b15ddedae44dd4036737cd4b0971379fb008f33f70e4ba38fe1a0917791053134b2f1add021db08a6eb9cfe3497d005b802ff427d350d39ef26bf14830d1d41f49ee59bb03b456c2d2a594a145c0dac83dc34588483a7c0430adb634b0c15cb8d49f6574b9693c541f56f2ac81b11f72d235232698f5a8ee36adf3af739675d7510a4ef10777e7d75568b0031aceca05a7/132/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb573800797667909bc33678d2f34482f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec06518795459339d4cdf7c52da8a7efd59297d16229b85e32d8acd0f0fb4d90f2f22b37c4855a80c77801f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b2c52a52d53df5a75e807891074c48bec33afbe92c70839b4e3230abdf7cc36eb0ee135467b2a749a817e9cf31fdca6a94d1fd1451e0b3d5de7ad9dfb4271a35f574ef9fcdfb077b04280dd57e11a57b163c91bd4d0ebf526fc1087046a0fb7eb02b216602aa6a280af68dd/140/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -411,39 +411,39 @@
     }
   },
   {
-    "name": "CNBC Indonesia",
-    "url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
+    "name": "Bloomberg TV Bulgaria",
+    "url": "http://213.91.179.28:8000/play/a04m",
     "group": "Business",
-    "tvg_id": "CNBCIndonesia.id@SD",
+    "tvg_id": "BloombergTVBulgaria.bg@SD",
     "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
+    "logo": "https://i.imgur.com/cHwOVqk.png",
     "language": "unknown",
-    "country": "ID",
+    "country": "BG",
     "category": "business",
     "source": "IPTV-org",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "CNBCIndonesia.id@SD",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+      "tvg-id": "BloombergTVBulgaria.bg@SD",
+      "tvg-logo": "https://i.imgur.com/cHwOVqk.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.3",
       "group-title": "Business"
     },
     "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.3"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
-      "detail": "Playlist HLS con 9 segmentos, 10s por segmento, en vivo",
-      "playlist_kind": "media",
+      "http_status": 200,
+      "content_type": "application/octet-stream",
+      "final_url": "http://213.91.179.28:8000/play/a04m",
+      "detail": "HTTP response received; playback was not tested",
+      "playlist_kind": "",
       "media_url": "",
       "resolution": "",
-      "segment_count": 9,
-      "is_live": true
+      "segment_count": 0,
+      "is_live": null
     }
   },
   {
