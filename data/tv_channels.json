@@ -17,7 +17,7 @@
       "tvg-logo": "https://i.imgur.com/hVNIwgE.png",
       "group-title": "General",
       "tvg-name": "Love Nature",
-      "tvg-chno": "536",
+      "tvg-chno": "533",
       "channel-id": "LoveNature.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -32,9 +32,9 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
+      "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 18s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1742997740.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w270208821.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -166,7 +166,7 @@
       "tvg-logo": "https://i.imgur.com/8AfAfZE.png",
       "group-title": "Series",
       "tvg-name": "AVA SERIES",
-      "tvg-chno": "417",
+      "tvg-chno": "416",
       "channel-id": "AVASERIES.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -276,7 +276,7 @@
       "group-title": "Musicales",
       "tvg-name": "Dance TV Estonia",
       "tvg-id": "DanceTelevision.nl@SD",
-      "tvg-chno": "429",
+      "tvg-chno": "427",
       "channel-id": "DanceTV.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -314,7 +314,7 @@
       "tvg-logo": "https://i.imgur.com/VwAMqA7.png",
       "group-title": "Lifestyle",
       "tvg-name": "InFast",
-      "tvg-chno": "528",
+      "tvg-chno": "525",
       "channel-id": "INFAST.nl",
       "tvg-country": "NL",
       "tvg-language": "eng"
@@ -328,7 +328,7 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb563b1a6570668b84cd3678d3f2628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6b565f619a1dd77d1c93d97efc4c357d417587cab67b8f841458b3da077c7fb67c1a53fc6c45ea0d6bf372747872e708863b6826e6007a5336cd8e1dfc320786a222b14d57fa8d40b5f44f7062e1021fa1f84ed2a2b41f1c8b3d8b81067897397d3fb5631a41b74f900429ee6a4e15228136d6987bc92ff3dbc421f004e37b2a502b7e988776a98b37cae9be4f74a84765651654e8ad96f203199e53515dfbebc4ad2aae5d9afb45fb003dda51782e6aa64fdccc16a2ccc25f8ae757c9930834cf75d371/1/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb573d1d7f6c668d84cd3778d2f04382f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879035a649a1ddb7b01da8a7df905297d16229b85e37cda9b0f58e7da097e23bb291e55fa5d77801f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b2c52a52d53df5a75e807891074c48bec33afbe92c70839b4e3230abdf7cc36eb0ee135467b2a749a817e9cf31fdca6a94d1fd1451e0b3d5de7ad9dfb4271a35f574ef9fcdfb077b04280dd57e11a57b162ce1664514eb262bec15783394db0f83ef0222f952e51b3fe64/69/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -352,7 +352,7 @@
       "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Cooking_Channel.svg/960px-Cooking_Channel.svg.png",
       "group-title": "Cooking",
       "tvg-name": "Cooking Channel",
-      "tvg-chno": "428",
+      "tvg-chno": "426",
       "channel-id": "CookingChannel.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -406,38 +406,35 @@
     }
   },
   {
-    "name": "CNBC Indonesia",
-    "url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
+    "name": "5Dias TV",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F45.184.109.10%2Flive%2F69393EAE6ADBC65A68F942022362A202%2F13.m3u8",
     "group": "Business",
-    "tvg_id": "CNBCIndonesia.id@SD",
+    "tvg_id": "5DiasTV.py@SD",
     "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
+    "logo": "https://iptv.bbyte.app/icons/5diastv.png",
     "language": "unknown",
-    "country": "ID",
+    "country": "PY",
     "category": "business",
-    "source": "IPTV-org",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "source": "BByte Jellyfin, IPTV-org",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "CNBCIndonesia.id@SD",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+      "tvg-id": "5DiasTV.py@SD",
+      "tvg-logo": "https://iptv.bbyte.app/icons/5diastv.png",
       "group-title": "Business"
     },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
-    },
+    "headers": null,
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
+      "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
-      "detail": "Playlist HLS con 9 segmentos, 10s por segmento, en vivo",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F45.184.109.10%2Flive%2F69393EAE6ADBC65A68F942022362A202%2F13.m3u8",
+      "detail": "Playlist HLS con 6 segmentos, 11s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
-      "segment_count": 9,
+      "segment_count": 6,
       "is_live": true
     }
   },
@@ -455,7 +452,7 @@
     "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-chno": "503",
+      "tvg-chno": "406",
       "channel-id": "custom.accuweather",
       "tvg-id": "custom.accuweather",
       "tvg-name": "AccuWeather",
@@ -473,7 +470,7 @@
       "final_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/playlist/amg00684-accuweather-accuweather-plex/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 5 segmentos, 7s por segmento, en vivo; variantes descartadas: 1",
       "playlist_kind": "master",
-      "media_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/ts-us-w2-n1/playlist/amg00684-accuweather-accuweather-plex/cb563b1a6570668b84cd3678d3f2628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6b565a62cc108b2f1c93d97efc4c357d417587cae17a8884140be0d1062c23bb2e1e55ab6c45ea0d6bf372747872e708863b6826e6007a5336cd8e1dfc320786a222b14d57fa8d40b5f44f7062e1021fa1f84ed2a2b41f1c8b3d8b81067897397d3fb5631a41b74f900429ee6a4e15228136d6987bc92ff3dbc421f004e37b2a502b7e988776a98b37cae9be4f74a84765651654e8ad96f203199e53515dfbebc4ad2aae5d9afb45fb003dd851cf1f645165fd6fbec13525ba2bdde3bd59f2c5661b90830d9f/170/1280x720_5188040/index.m3u8",
+      "media_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/ts-us-w2-n1/playlist/amg00684-accuweather-accuweather-plex/cb573d1d7f6c668d84cd3778d2f04382f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879035a36c848d62a04da8a7df905297d16229b85ba7ddf990f5cb4db07237eb67a1853aa0777801f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b2c52a52d53df5a75e807891074c48bec33afbe92c70839b4e3230abdf7cc36eb0ee135467b2a749a817e9cf31fdca6a94d1fd1451e0b3d5de7ad9dfb4271a35f574ef9fcdfb077b04280dd57e11a57b163c91bdcd0ebae73c11087d2ae4f162a9de8da58013c7be7d42e89/148/1280x720_5188040/index.m3u8",
       "resolution": "1280x720",
       "segment_count": 5,
       "is_live": true
@@ -550,7 +547,7 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1292701926",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1293570287",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -578,7 +575,7 @@
       "channel-id": "DDBangla.in@SD",
       "tvg-country": "IN",
       "tvg-language": "ben",
-      "tvg-chno": "73"
+      "tvg-chno": "71"
     },
     "headers": {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
@@ -652,7 +649,7 @@
     "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-chno": "700",
+      "tvg-chno": "573",
       "channel-id": "ComedyCentral.us",
       "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/comedy-central.png",
       "tvg-id": "ComedyCentral.us",
