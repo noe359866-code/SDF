@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w325528163.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1742997740.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -328,7 +328,7 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb563e1e6573628f84c93678d6f0628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6a595467c319dc2f1c93d82ca14c357d417587c9e772d1844458b6d05c2c7eb52e1705ad6c45ea0d6bf372747872e708863b6826e6007a5336cd8e1dfc320786a222b14d57fa8d40b5f44f7062e1021fa1f84ed2a2b41f1c8b3d8b81067897397d3fb5631a41b74f900429ee6a4e15228136d6987bc92ff3dbc421f004e37b2a502b7e988776a98b37cae9be4f74a84765651654e8ad96f203199e53515dfbebc4ad2aae5d9afb45fb003dd851cb16645154d769bec1c92cf51a6608b70ac4e6e6a4ab63148d/139/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb563b1a6570668b84cd3678d3f2628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6b565f619a1dd77d1c93d97efc4c357d417587cab67b8f841458b3da077c7fb67c1a53fc6c45ea0d6bf372747872e708863b6826e6007a5336cd8e1dfc320786a222b14d57fa8d40b5f44f7062e1021fa1f84ed2a2b41f1c8b3d8b81067897397d3fb5631a41b74f900429ee6a4e15228136d6987bc92ff3dbc421f004e37b2a502b7e988776a98b37cae9be4f74a84765651654e8ad96f203199e53515dfbebc4ad2aae5d9afb45fb003dda51782e6aa64fdccc16a2ccc25f8ae757c9930834cf75d371/1/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -364,7 +364,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "http://23.237.104.106:8080/USA_COOKING/index.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 8s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "http://23.237.104.106:8080/USA_COOKING/tracks-v1a1/mono.m3u8",
       "resolution": "1920x1080",
@@ -473,7 +473,7 @@
       "final_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/playlist/amg00684-accuweather-accuweather-plex/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 5 segmentos, 7s por segmento, en vivo; variantes descartadas: 1",
       "playlist_kind": "master",
-      "media_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/ts-us-w2-n1/playlist/amg00684-accuweather-accuweather-plex/cb563e1e6573628f84c93678d6f0628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6a590b67c848de7d1c93d82ca14c357d417587cae12fda844158b78c0e2b2cb62c1853af6c45ea0d6bf372747872e708863b6826e6007a5336cd8e1dfc320786a222b14d57fa8d40b5f44f7062e1021fa1f84ed2a2b41f1c8b3d8b81067897397d3fb5631a41b74f900429ee6a4e15228136d6987bc92ff3dbc421f004e37b2a502b7e988776a98b37cae9be4f74a84765651654e8ad96f203199e53515dfbebc4ad2aae5d9afb45fb003dd959cfafe5ee36a81d6f9403cb215b951d3449939f9aec10a545/97/1280x720_5188040/index.m3u8",
+      "media_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/ts-us-w2-n1/playlist/amg00684-accuweather-accuweather-plex/cb563b1a6570668b84cd3678d3f2628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6b565a62cc108b2f1c93d97efc4c357d417587cae17a8884140be0d1062c23bb2e1e55ab6c45ea0d6bf372747872e708863b6826e6007a5336cd8e1dfc320786a222b14d57fa8d40b5f44f7062e1021fa1f84ed2a2b41f1c8b3d8b81067897397d3fb5631a41b74f900429ee6a4e15228136d6987bc92ff3dbc421f004e37b2a502b7e988776a98b37cae9be4f74a84765651654e8ad96f203199e53515dfbebc4ad2aae5d9afb45fb003dd851cf1f645165fd6fbec13525ba2bdde3bd59f2c5661b90830d9f/170/1280x720_5188040/index.m3u8",
       "resolution": "1280x720",
       "segment_count": 5,
       "is_live": true
@@ -548,9 +548,9 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1291902480",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1292701926",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
