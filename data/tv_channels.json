@@ -17,7 +17,7 @@
       "tvg-logo": "https://i.imgur.com/hVNIwgE.png",
       "group-title": "General",
       "tvg-name": "Love Nature",
-      "tvg-chno": "533",
+      "tvg-chno": "539",
       "channel-id": "LoveNature.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1289708274.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w460726243.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -113,12 +113,12 @@
     }
   },
   {
-    "name": "HBO Latin America",
-    "url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
+    "name": "HBO+ Latin America",
+    "url": "http://45.134.141.161:2200/ARG/HBO_HD/index.m3u8",
     "group": "Undefined",
-    "tvg_id": "HBOLatinAmerica.us@SD",
+    "tvg_id": "HBOPlusLatinAmerica.us@SD",
     "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Logohboplus2019.svg/960px-Logohboplus2019.svg.png",
     "language": "la",
     "country": "US",
     "category": "movies",
@@ -126,24 +126,21 @@
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "HBOLatinAmerica.us@SD",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
+      "tvg-id": "HBOPlusLatinAmerica.us@SD",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Logohboplus2019.svg/960px-Logohboplus2019.svg.png",
       "group-title": "Undefined"
     },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
-    },
+    "headers": null,
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "final_url": "http://45.134.141.161:2200/ARG/HBO_HD/index.m3u8",
+      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://streaming.onnethn.com/HBO/tracks-v1a1/mono.ts.m3u8",
-      "resolution": "1280x720",
+      "media_url": "http://45.134.141.161:2200/ARG/HBO_HD/tracks-v1a1/mono.m3u8",
+      "resolution": "1920x1080",
       "segment_count": 4,
       "is_live": true
     }
@@ -166,7 +163,7 @@
       "tvg-logo": "https://i.imgur.com/8AfAfZE.png",
       "group-title": "Series",
       "tvg-name": "AVA SERIES",
-      "tvg-chno": "416",
+      "tvg-chno": "421",
       "channel-id": "AVASERIES.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -276,7 +273,7 @@
       "group-title": "Musicales",
       "tvg-name": "Dance TV Estonia",
       "tvg-id": "DanceTelevision.nl@SD",
-      "tvg-chno": "427",
+      "tvg-chno": "433",
       "channel-id": "DanceTV.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -314,7 +311,7 @@
       "tvg-logo": "https://i.imgur.com/VwAMqA7.png",
       "group-title": "Lifestyle",
       "tvg-name": "InFast",
-      "tvg-chno": "525",
+      "tvg-chno": "531",
       "channel-id": "INFAST.nl",
       "tvg-country": "NL",
       "tvg-language": "eng"
@@ -326,11 +323,11 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb573e1e6577629098c83c78d1f74282f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879550e60cd4c8a2d08da8a7dfd56297d16229b85e37cda9b0f58e7da097e23bb291e55fa5d777414690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e03677adb4fb1eb060f1b74de590ae04dd169453c99d1267c2a9e163f3acab10f80beb32064a2c7498ca1ef9ac04e38bce386bd119a0216fad5b50741b841ea63e419d4eab44a75b5f5309ef6ff2413abe12914c857fa664b93686ef49a5a1becc780353d8f77f476a94d3eda9f3343db363f7efccc5676e98f5007755863c96765958ea9dc176d796f5f716b94c030f9c2b8b2c9cad6f780d4e85f7e3ab9c0e/35/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb573e1e6573658784c33d78d2f14982f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879510f6ec311dc2806da8a72ac07297d16229b85bb788f900f09b48c5b2f29e07a1954ad5a77801f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b2c52a52d53df5a75e807891074c48bec33afbe92c70839b4e3230abdf7cc36eb0ee135467b2a749a817e9cf31fdca6a94d1fd1451e0b3d5de7ad9dfb4271a35f574ef9fcdfb077b04280dd57e11a57b162c917645125dd66bec172db431bdba677411160802caf4e9dbe/18/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 4,
+      "segment_count": 5,
       "is_live": true
     }
   },
@@ -352,7 +349,7 @@
       "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Cooking_Channel.svg/960px-Cooking_Channel.svg.png",
       "group-title": "Cooking",
       "tvg-name": "Cooking Channel",
-      "tvg-chno": "426",
+      "tvg-chno": "432",
       "channel-id": "CookingChannel.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -364,7 +361,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "http://23.237.104.106:8080/USA_COOKING/index.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 4s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "http://23.237.104.106:8080/USA_COOKING/tracks-v1a1/mono.m3u8",
       "resolution": "1920x1080",
@@ -455,7 +452,7 @@
     "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-chno": "406",
+      "tvg-chno": "411",
       "channel-id": "custom.accuweather",
       "tvg-id": "custom.accuweather",
       "tvg-name": "AccuWeather",
@@ -473,7 +470,7 @@
       "final_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/playlist/amg00684-accuweather-accuweather-plex/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 5 segmentos, 7s por segmento, en vivo; variantes descartadas: 1",
       "playlist_kind": "master",
-      "media_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/ts-us-w2-n1/playlist/amg00684-accuweather-accuweather-plex/cb573e1e6577629098c83c78d1f74282f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879550e33c24f8d7801da8a7dfd56297d16229b85e37d889e0f0ab48c597e7fb52c4c55f65b777414690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e03677adb4fb1eb060f1b74de590ae04dd169453c99d1267c2a9e163f3acab10f80beb32064a2c7498ca1ef9ac04e38bce386bd119a0216fad5b50741b841ea63e419d4eab44a75b5f5309ef6ff2413abe12914c857fa664b93686ef49a5a1becc780353d8f77f476a94d3eda9f3343db363f7efccc5676e98f5007755863c96765958ea9dc177d5924d76d7821f7dde7b1cac262823b19f0b97514fb2c75cbd02/118/1280x720_5188040/index.m3u8",
+      "media_url": "https://amg00684-accuweather-accuweather-plex-jbd2s.amagi.tv/ts-us-w2-n1/playlist/amg00684-accuweather-accuweather-plex/cb573e1e6573658784c33d78d2f14982f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879510f33c21fd82a09da8a72ac07297d16229b85e32a8b9c0f01e3dd0f7f79ba724c51f90d77801f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b2c52a52d53df5a75e807891074c48bec33afbe92c70839b4e3230abdf7cc36eb0ee135467b2a749a817e9cf31fdca6a94d1fd1451e0b3d5de7ad9dfb4271a35f574ef9fcdfb077b04280dd57e11a57b163c918d3d0ebc41cc51087611adc6809a28b3725c6cf13f2fe0b02/177/1280x720_5188040/index.m3u8",
       "resolution": "1280x720",
       "segment_count": 5,
       "is_live": true
@@ -550,7 +547,7 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1294059704",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1295015038",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -578,7 +575,7 @@
       "channel-id": "DDBangla.in@SD",
       "tvg-country": "IN",
       "tvg-language": "ben",
-      "tvg-chno": "71"
+      "tvg-chno": "72"
     },
     "headers": {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
@@ -630,18 +627,18 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 42 segmentos, 9s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 38 segmentos, 9s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/News18_Kannada_NW18_MOB-audio_98835_kan=98800-video=2293600.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 42,
+      "segment_count": 38,
       "is_live": true
     }
   },
   {
     "name": "Comedy Central",
     "url": "https://tvsen3.aynaott.com/5fUWDMxZ/index.m3u8",
-    "group": "Kids",
+    "group": "International",
     "tvg_id": "ComedyCentral.us",
     "tvg_name": "Comedy Central",
     "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/comedy-central.png",
@@ -652,14 +649,14 @@
     "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-chno": "573",
+      "tvg-chno": "429",
       "channel-id": "ComedyCentral.us",
       "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/comedy-central.png",
       "tvg-id": "ComedyCentral.us",
       "tvg-name": "Comedy Central",
       "tvg-language": "eng",
       "tvg-country": "US",
-      "group-title": "Kids"
+      "group-title": "International"
     },
     "headers": null,
     "directives": [],
