@@ -17,7 +17,7 @@
       "tvg-logo": "https://i.imgur.com/hVNIwgE.png",
       "group-title": "General",
       "tvg-name": "Love Nature",
-      "tvg-chno": "522",
+      "tvg-chno": "532",
       "channel-id": "LoveNature.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1410075171.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1118464693.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -166,7 +166,7 @@
       "tvg-logo": "https://i.imgur.com/8AfAfZE.png",
       "group-title": "Series",
       "tvg-name": "AVA SERIES",
-      "tvg-chno": "405",
+      "tvg-chno": "415",
       "channel-id": "AVASERIES.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -315,7 +315,7 @@
       "tvg-logo": "https://i.imgur.com/VwAMqA7.png",
       "group-title": "Lifestyle",
       "tvg-name": "InFast",
-      "tvg-chno": "514",
+      "tvg-chno": "524",
       "channel-id": "INFAST.nl",
       "tvg-country": "NL",
       "tvg-language": "eng"
@@ -329,7 +329,7 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb573d1d7f6c648d92d43c64cef84282f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879565e6fc91ddc2800da8a2baa52297d16229b85ba7bd0990f0fb48a09287fe17f4c54aa0677b51f701a4732d869f55ccf1b3636aa6f5d413789b8078f5768f7f56fabe3fd469ff7574c381800df0877d5ba6ea1e8d99976f9331085e9f70c5235cec7e1e1e07a8582a441be36c334ae54c88d93cf8c43d9dece3ff43da05e756b065bd4b44fdeea55b7d4946c35d15430520c54e5b79cec016dc813313c829fc1dc34af402ee8ef1bb880ddbfbb577cb2fa4af29ca77db735ba85ff/103/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb543d1d7f6c648d92d43a6ecef342a4f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f450e60c91d8a7b52cfc32ef95767611675cc99af73d1cd1514e7da5d2f2ab37a4c03af5a14b2406901b177c1cae44dd4036720cd4b08652588b90cf35473ffb27fee5fb55f60ef4b0f081f1dc01d08cf904493fdf66581eb4dfe0028bd2ab63897ab076afc28ddbed62b8463f333b34bddc7efe8974fd1ddc93cf50ad87663241159bfcd4da5847ebedb94673c903c0d5e0a47e7a087f15c73d709172e9885abb507ac462ee8ea11ba80ddee1bc91cc479abd20adfc37b4076ee79/35/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -353,7 +353,7 @@
       "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Cooking_Channel.svg/960px-Cooking_Channel.svg.png",
       "group-title": "Cooking",
       "tvg-name": "Cooking Channel",
-      "tvg-chno": "420",
+      "tvg-chno": "430",
       "channel-id": "CookingChannel.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -365,7 +365,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "http://23.237.104.106:8080/USA_COOKING/index.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 8s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "http://23.237.104.106:8080/USA_COOKING/tracks-v1a1/mono.m3u8",
       "resolution": "1920x1080",
@@ -476,39 +476,35 @@
     }
   },
   {
-    "name": "9EWTN EspañolEstados Unidos - Irondale, ALCatólico",
-    "url": "https://cdn3.wowza.com/1/SmVrQmZCUXZhVDgz/b3J3MFJv/hls/live/playlist.m3u8",
-    "group": "CXTv",
-    "tvg_id": "EWTN.TV",
-    "tvg_name": "EWTN USA",
-    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/019f2213641be368e3d8a76c1d3be3b1.webp",
-    "language": "la",
-    "country": "TV",
+    "name": "3ABN Latino",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F138.59.177.78%3A9999%2Fplay%2Fa0a3%2Findex.m3u8",
+    "group": "Religious",
+    "tvg_id": "3ABNLatino.us@SD",
+    "tvg_name": "",
+    "logo": "https://iptv.bbyte.app/icons/3abnlatino1080p.png",
+    "language": "es",
+    "country": "US",
     "category": "religious",
-    "source": "CXTv, TDTChannels, IPTV-org, Teleonline, Teleonline M3U",
-    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/ewtn-espanol",
+    "source": "BByte Jellyfin, IPTV-org",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "EWTN.TV",
-      "tvg-logo": "https://graph.facebook.com/ewtnespanol/picture?width=200&height=200",
-      "group-title": "Religiosos",
-      "tvg-name": "EWTN USA"
+      "tvg-id": "3ABNLatino.us@SD",
+      "tvg-logo": "https://iptv.bbyte.app/icons/3abnlatino1080p.png",
+      "group-title": "Religious"
     },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-      "Referer": "https://www.cxtvenvivo.com/tv-en-vivo/ewtn-espanol"
-    },
+    "headers": null,
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://cdn3.wowza.com/1/SmVrQmZCUXZhVDgz/b3J3MFJv/hls/live/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 10 segmentos, 11s por segmento, en vivo",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F138.59.177.78%3A9999%2Fplay%2Fa0a3%2Findex.m3u8",
+      "detail": "HLS master: Playlist HLS con 4 segmentos, 3s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn3.wowza.com/1/SmVrQmZCUXZhVDgz/b3J3MFJv/hls/lkp2nvdz/720/chunklist.m3u8",
-      "resolution": "1280x720",
-      "segment_count": 10,
+      "media_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F138.59.177.78%3A9999%2Fplay%2Fa0a3%2F73937973.m3u8",
+      "resolution": "",
+      "segment_count": 4,
       "is_live": true
     }
   },
@@ -530,7 +526,7 @@
       "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/ava-family.png",
       "group-title": "Family",
       "tvg-name": "AVA FAMILY",
-      "tvg-chno": "404",
+      "tvg-chno": "414",
       "channel-id": "AVAFAMILY.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -584,7 +580,7 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1299198126",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1299818885",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -611,7 +607,7 @@
       "tvg-country": "US",
       "tvg-language": "eng",
       "group-title": "Backup",
-      "tvg-chno": "416"
+      "tvg-chno": "426"
     },
     "headers": null,
     "directives": [],
@@ -622,7 +618,7 @@
       "final_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/playlist/amg01448-samsungin-cnnnow-samsungin/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb573d1d7f6c648d92d43c64cef84282f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879565a66cb488d7e57da8a2baa52297d16229b85bb28889f0f5ab4d00c2c7cb12b4d55af0c77b51f701a4732d869f55ccf1b3636aa6f5d413789b8078f5768f7f56fabe3fd469ff7574c381800df0877d5ba6ea1e8d99976f9331085e9f70c5235cec7e1e1e07a8582a441be36c334ae54c88d93cf8c43d9dece3ff43da05e756b065bd4b44fdeea55b7d4946c35d15430520c54e5b79cec016dc813313c829fc1dc34ad432ee8f51bb880dd73f62abb928b3661b464ed88395d3cb3/120/1920x1080_4715744/index.m3u8",
+      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb543d1d7f6c648d92d43a6ecef342a4f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f450e369e18db2f04c3c32ef95767611675cc99af73dd901114b4895d2b28b22e1959a80f10b2406901b177c1cae44dd4036720cd4b08652588b90cf35473ffb27fee5fb55f60ef4b0f081f1dc01d08cf904493fdf66581eb4dfe0028bd2ab63897ab076afc28ddbed62b8463f333b34bddc7efe8974fd1ddc93cf50ad87663241159bfcd4da5847ebedb94673c903c0d5e0a47e7a087f15c73d709172e9885abb507a8402ee8f311ba80dd9fbe8b091c6af29ad3c28ab83c135ab2/73/1920x1080_4715744/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -642,13 +638,13 @@
     "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-chno": "417",
-      "channel-id": "ComedyCentral.us",
-      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/comedy-central.png",
       "tvg-id": "ComedyCentral.us",
       "tvg-name": "Comedy Central",
-      "tvg-language": "eng",
+      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/comedy-central.png",
+      "tvg-chno": "427",
+      "channel-id": "ComedyCentral.us",
       "tvg-country": "US",
+      "tvg-language": "eng",
       "group-title": "International"
     },
     "headers": null,
