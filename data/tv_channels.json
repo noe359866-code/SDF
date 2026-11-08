@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1622064099.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1888496214.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -74,6 +74,42 @@
       "resolution": "720x576",
       "segment_count": 5,
       "is_live": true
+    }
+  },
+  {
+    "name": "ESPN Extra Latin America",
+    "url": "https://barinaslive1.boldmss.com/ESPN/ESPN.isml/ESPN.mpd",
+    "group": "Sports",
+    "tvg_id": "ESPNExtraLatinAmerica.us@Argentine",
+    "tvg_name": "",
+    "logo": "https://i.imgur.com/8P8N2Ov.png",
+    "language": "la",
+    "country": "US",
+    "category": "sports",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "ESPNExtraLatinAmerica.us@Argentine",
+      "tvg-logo": "https://i.imgur.com/8P8N2Ov.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36",
+      "group-title": "Sports"
+    },
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36"
+    },
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/dash+xml",
+      "final_url": "https://barinaslive1.boldmss.com/ESPN/ESPN.isml/ESPN.mpd",
+      "detail": "HTTP response received; playback was not tested",
+      "playlist_kind": "",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 0,
+      "is_live": null
     }
   },
   {
@@ -291,7 +327,7 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb5438166570658e84cb3f62cef043a4f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f455462994fde7c5496c32efa5836611675cc99af73ddcb1b14b4de5d7979b3791f55fb5b11b275690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e036788f1f47f1ba9afef5cf2e2b204b4e31f65f39774e075bcfbbe098b9e03efc15eb370817017590837894c667f4b0e65a1dba3c1c705376eea29df04b30cb625b48eafec8ab6aed5c9fc771f3004ddb0afa17d5d0eb9700ab10877782793256ea8d01fb9b29b6c7128d0b/81/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb543e1e6573648b84cb3f64cef044a5f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f450867c918887d05cec32efa0267611675cc99af738dca1414e1de0a2c7eb7281f51fb0916b275690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e036788f1f47f1ba9afef5cf2e2b204b4e31f65f39774e075bcfbbe098b9e03efc15eb370817017590837894c667f4b0e65a1dba3c1c705376eea29df04b30cb625b48eafec8ab6aed5c9fc771f3004ddb0afa16d5d0ebe347ad1087c555efc63fdf3219621b7c1e32d9b5e2/91/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -329,7 +365,7 @@
       "final_url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
       "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKN0taZnE2bTNDRWJGT1BPNEhsV1VMaFBtbnhQTGdFbW0xdFlLbDBPQmN2SWNsSmIwNlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3dfVmtuWldmY2gwUVFXWlRvQWs3cHZWaUFIMExZVzBnTGMwNC8xMDMvMTkyMHgxMDgwXzQ1MDAwMDAvaW5kZXgubTN1OA==",
+      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKc0tCYm9LN2tDRVBGT1BQaVQxV1VMaFBtbjB1YjBobW0xdFlPbVVDQWM2UkdtcGJ6NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3gtVnlVNUk3TWlWSEI1ZXYybHBXSE82dUxCQ3V1ZnUwSnZnLzU1LzE5MjB4MTA4MF80NTAwMDAwL2luZGV4Lm0zdTg=",
       "resolution": "1920x1080",
       "segment_count": 3,
       "is_live": true
@@ -504,11 +540,11 @@
       "http_status": 206,
       "content_type": "application/x-mpegurl",
       "final_url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/manifest.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 9 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 11 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/manifest/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/e8169a95a3e86c43fd9f8464f09e40ae/2.m3u8?ads.network_name=yupptv&ads.partner=yupptv",
+      "media_url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/manifest/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/fb0b7b0804fd08582b5762c1d93c9d46/2.m3u8?ads.network_name=yupptv&ads.partner=yupptv",
       "resolution": "1920x1080",
-      "segment_count": 9,
+      "segment_count": 11,
       "is_live": true
     }
   },
@@ -544,9 +580,9 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1302850218",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1303511760",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -584,7 +620,7 @@
       "final_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/playlist/amg01448-samsungin-cnnnow-samsungin/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb5438166570658e84cb3f62cef043a4f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f45546f9e1e8f7e0094c32efa5836611675cc99af2988984414e6890a292bb02b4c56ff0b16b275690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e036788f1f47f1ba9afef5cf2e2b204b4e31f65f39774e075bcfbbe098b9e03efc15eb370817017590837894c667f4b0e65a1dba3c1c705376eea29df04b30cb625b48eafec8ab6aed5c9fc771f3004ddb0afb1ed2696a0a68a3055628b719abdc4a1da017a75184d60643b82a/169/1920x1080_4715744/index.m3u8",
+      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb543e1e6573648b84cb3f64cef044a5f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f450864cb19dd2a09c5c32efa0267611675cc99af298c991014e3de0b2b79b4781857af5844b275690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e036788f1f47f1ba9afef5cf2e2b204b4e31f65f39774e075bcfbbe098b9e03efc15eb370817017590837894c667f4b0e65a1dba3c1c705376eea29df04b30cb625b48eafec8ab6aed5c9fc771f3004ddb0afa19d4d0ebe647ad108760213314ba38677f56ea885cca511d92/60/1920x1080_4715744/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -697,44 +733,6 @@
       "media_url": "",
       "resolution": "",
       "segment_count": 10,
-      "is_live": true
-    }
-  },
-  {
-    "name": "Dance TV Estonia",
-    "url": "https://m1b2.worldcast.tv/dancetelevisionone/2/dancetelevisionone.m3u8",
-    "group": "Musicales",
-    "tvg_id": "DanceTelevision.nl@SD",
-    "tvg_name": "Dance TV Estonia",
-    "logo": "https://pbs.twimg.com/profile_images/1268129322730127364/OJlQBZpS_200x200.jpg",
-    "language": "en",
-    "country": "EE",
-    "category": "music",
-    "source": "TDTChannels, IPTV-org, BDIX IPTV, Teleonline, Teleonline M3U",
-    "source_url": "https://www.tdtchannels.com/lists/tv.m3u8",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-logo": "https://pbs.twimg.com/profile_images/1268129322730127364/OJlQBZpS_200x200.jpg",
-      "group-title": "Musicales",
-      "tvg-name": "Dance TV Estonia",
-      "tvg-id": "DanceTelevision.nl@SD",
-      "tvg-chno": "379",
-      "channel-id": "DanceTV.us",
-      "tvg-country": "US",
-      "tvg-language": "eng"
-    },
-    "headers": null,
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://m1b2.worldcast.tv/dancetelevisionone/2/dancetelevisionone.m3u8",
-      "detail": "Playlist HLS con 5 segmentos, 2s por segmento, en vivo",
-      "playlist_kind": "media",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 5,
       "is_live": true
     }
   }
