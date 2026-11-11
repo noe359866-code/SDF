@@ -17,7 +17,7 @@
       "tvg-logo": "https://i.imgur.com/hVNIwgE.png",
       "group-title": "General",
       "tvg-name": "Love Nature",
-      "tvg-chno": "477",
+      "tvg-chno": "461",
       "channel-id": "LoveNature.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -34,46 +34,44 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w409165170.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w200116866.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
     }
   },
   {
-    "name": "CNN",
-    "url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/playlist/amg01448-samsungin-cnnnow-samsungin/playlist.m3u8",
-    "group": "Backup",
-    "tvg_id": "CNN.us",
-    "tvg_name": "CNN",
-    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/local-logo-cnn.png",
-    "language": "en",
-    "country": "US",
+    "name": "News Gujarati",
+    "url": "https://fta.ektv.in/live/653/master.m3u8",
+    "group": "News",
+    "tvg_id": "IndiaNewsGujarati.in@SD",
+    "tvg_name": "",
+    "logo": "https://jiotvimages.cdn.jio.com/dare_images/images/India_News_Gujarat.png",
+    "language": "gu",
+    "country": "IN",
     "category": "news",
-    "source": "BDIX IPTV, IPTV-org",
-    "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
+    "source": "IPTV-org",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "CNN.us",
-      "tvg-name": "CNN",
-      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/local-logo-cnn.png",
-      "channel-id": "CNN.us",
-      "tvg-country": "US",
-      "tvg-language": "eng",
-      "group-title": "Backup",
-      "tvg-chno": "391"
+      "tvg-id": "IndiaNewsGujarati.in@SD",
+      "tvg-logo": "https://jiotvimages.cdn.jio.com/dare_images/images/India_News_Gujarat.png",
+      "http-user-agent": "#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
+      "group-title": "News"
     },
-    "headers": null,
+    "headers": {
+      "User-Agent": "#EXTVLCOPT:http-user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+    },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 200,
+      "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/playlist/amg01448-samsungin-cnnnow-samsungin/playlist.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 7s por segmento, en vivo",
+      "final_url": "https://fta.ektv.in/live/653/master.m3u8",
+      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb573d1d6575649098c93878d1f74582f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879590831cb4ddb7e57da8a2eae56297d16229b85ba72de9b0f5fb48c5e232ee77c4c59ff58776c14690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e03677ad81d034b060f1a744eec98105c0169454c9a37846c2a9e177ebaca604e008ef3d075f681af3e521c1990de488d201b1fb007ca6c9750451b7de379cbd0762cdabc56bfff29a59a0a82884723eb801d76b813e9c6eb833e58b3293899d9276777487cc5a6f29a5e9edafe32121bc65efadfb922232cd84740227c30f8d76cb591b7265a3e2a83173802a01e57865776ac63b44b75e/54/1920x1080_4715744/index.m3u8",
-      "resolution": "1920x1080",
+      "media_url": "https://fta.ektv.in/live/653/653_0_aac.m3u8",
+      "resolution": "720x576",
       "segment_count": 5,
       "is_live": true
     }
@@ -146,7 +144,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://fta.ektv.in/live/46/46_0.m3u8",
-      "detail": "Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
+      "detail": "Playlist HLS con 5 segmentos, 4s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
@@ -172,7 +170,7 @@
       "tvg-logo": "https://i.imgur.com/wvQYWsj.png",
       "group-title": "Series",
       "tvg-name": "Inside Crime",
-      "tvg-chno": "470",
+      "tvg-chno": "454",
       "channel-id": "InsideCrime.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -325,7 +323,7 @@
       "tvg-logo": "https://i.imgur.com/VwAMqA7.png",
       "group-title": "Lifestyle",
       "tvg-name": "InFast",
-      "tvg-chno": "469",
+      "tvg-chno": "453",
       "channel-id": "INFAST.nl",
       "tvg-country": "NL",
       "tvg-language": "eng"
@@ -337,47 +335,52 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb573d1d6575649098c93878d1f74582f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879590f61994cdf2807da8a2eae56297d16229b85e3728f9b0f0db4da5a287fb62c4c05fd0d776c14690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e03677ad81d034b060f1a744eec98105c0169454c9a37846c2a9e177ebaca604e008ef3d075f681af3e521c1990de488d201b1fb007ca6c9750451b7de379cbd0762cdabc56bfff29a59a0a82884723eb801d76b813e9c6eb833e58b3293899d9276777487cc5a6f29a5e9edafe32121bc65efadfb922232cd84740227c30f8c76cb59157265a3e2247f0a31fd52ce447096458fc717f25c/44/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb543d1d7e6c648f93d43d65d9ef43a4f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f455460cc1ada7a53c3c32efc0267611675cc99af2ad9ca1514bb89082f22e0784a02fa0e1db275690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e036788f1f47f1ba9afef5cf2e2b204b4e31f65f39774e075bcfbbe098b9e03efc15eb370817017590837894c667f4b0e65a1dba3c1c705376eea29df04b30cb625b48eafec8ab6aed5c9fc771f3004ddb0afa1cd5d0ebe708b8108729f5443024ecb22e29d83f5194668724/31/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 4,
+      "segment_count": 5,
       "is_live": true
     }
   },
   {
-    "name": "Food Network Italia",
-    "url": "https://streaming.aurora.enhanced.live/live/mpc/enl0eG1mLmVncmVzcy5mZDJ2eHI=/out/v1/IT_SIMULCAST/FOODNETWORK/CMAF/index.m3u8",
-    "group": "CXTv",
-    "tvg_id": "FoodNetwork.it@SD",
-    "tvg_name": "",
-    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/72056b5db832790b248d6544b6cbd902.webp",
+    "name": "Foodxp",
+    "url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
+    "group": "Cooking",
+    "tvg_id": "Foodxp.uk@SD",
+    "tvg_name": "Foodxp",
+    "logo": "https://i.imgur.com/zOWog5j.png",
     "language": "unknown",
-    "country": "IT",
+    "country": "GB",
     "category": "cooking",
-    "source": "CXTv, IPTV-org",
-    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/food-network-italia",
+    "source": "IPTV-org, Samsung TV Plus",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "FoodNetwork.it@SD",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Food_Network_New_Logo.png/960px-Food_Network_New_Logo.png",
-      "group-title": "Cooking"
+      "tvg-id": "Foodxp.uk@SD",
+      "tvg-logo": "https://i.imgur.com/zOWog5j.png",
+      "http-referrer": "https://bhoomtv.org/",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0 Win64 x64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/154.0.0.0 Safari/537.36",
+      "group-title": "Cooking",
+      "channel-id": "IN3000003QJ-in",
+      "tvg-chno": "2106",
+      "tvg-name": "Foodxp"
     },
     "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-      "Referer": "https://www.cxtvenvivo.com/tv-en-vivo/food-network-italia"
+      "Referer": "https://bhoomtv.org/",
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0 Win64 x64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/154.0.0.0 Safari/537.36"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
+      "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://streaming.aurora.enhanced.live/live/mpc/enl0eG1mLmVncmVzcy5mZDJ2eHI=/out/v1/IT_SIMULCAST/FOODNETWORK/CMAF/index.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 6 segmentos, 12s por segmento, en vivo",
+      "final_url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
+      "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://streaming.aurora.enhanced.live/live/mpc/enl0eG1mLmVncmVzcy5mZDJ2eHI=/out/v1/IT_SIMULCAST/FOODNETWORK/CMAF/index__1.m3u8",
+      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKN0tjUDhxbmlEeERGT1BYaVQxV1VMaFBtbnhQSjBSMm0wb0ZTbkVhRElxTkN6c1B3NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3gtRjZVNUl1RG5GSEJ5ek5pMnBBMERCVUFodUxmQ3lHbDRRLzQ3LzE5MjB4MTA4MF80NTAwMDAwL2luZGV4Lm0zdTg=",
       "resolution": "1920x1080",
-      "segment_count": 6,
+      "segment_count": 3,
       "is_live": true
     }
   },
@@ -415,39 +418,39 @@
     }
   },
   {
-    "name": "CNBC Indonesia",
-    "url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
+    "name": "Bloomberg TV Bulgaria",
+    "url": "http://213.91.179.28:8000/play/a04m",
     "group": "Business",
-    "tvg_id": "CNBCIndonesia.id@SD",
+    "tvg_id": "BloombergTVBulgaria.bg@SD",
     "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
+    "logo": "https://i.imgur.com/cHwOVqk.png",
     "language": "unknown",
-    "country": "ID",
+    "country": "BG",
     "category": "business",
     "source": "IPTV-org",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "CNBCIndonesia.id@SD",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+      "tvg-id": "BloombergTVBulgaria.bg@SD",
+      "tvg-logo": "https://i.imgur.com/cHwOVqk.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.3",
       "group-title": "Business"
     },
     "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.3"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
-      "detail": "Playlist HLS con 9 segmentos, 10s por segmento, en vivo",
-      "playlist_kind": "media",
+      "http_status": 200,
+      "content_type": "application/octet-stream",
+      "final_url": "http://213.91.179.28:8000/play/a04m",
+      "detail": "HTTP response received; playback was not tested",
+      "playlist_kind": "",
       "media_url": "",
       "resolution": "",
-      "segment_count": 9,
-      "is_live": true
+      "segment_count": 0,
+      "is_live": null
     }
   },
   {
@@ -510,9 +513,46 @@
       "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F138.59.177.78%3A9999%2Fplay%2Fa0a3%2Findex.m3u8",
       "detail": "HLS master: Playlist HLS con 4 segmentos, 3s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F138.59.177.78%3A9999%2Fplay%2Fa0a3%2F56889038.m3u8",
+      "media_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F138.59.177.78%3A9999%2Fplay%2Fa0a3%2F60272814.m3u8",
       "resolution": "",
       "segment_count": 4,
+      "is_live": true
+    }
+  },
+  {
+    "name": "Garage TV Argentina",
+    "url": "https://stream1.sersat.com/hls/garagetv.m3u8",
+    "group": "Deportivos Int.",
+    "tvg_id": "GarageTVLatinAmerica.ar@SD",
+    "tvg_name": "Garage TV Argentina",
+    "logo": "https://pbs.twimg.com/profile_images/1169992187314167808/TeabGtEB_200x200.jpg",
+    "language": "la",
+    "country": "AR",
+    "category": "other",
+    "source": "TDTChannels, IPTV-org, Teleonline, Teleonline M3U, Teleonline TV",
+    "source_url": "https://www.tdtchannels.com/lists/tv.m3u8",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-logo": "https://pbs.twimg.com/profile_images/1169992187314167808/TeabGtEB_200x200.jpg",
+      "group-title": "Deportivos Int.",
+      "tvg-name": "Garage TV Argentina",
+      "tvg-id": "GarageTVLatinAmerica.ar@SD"
+    },
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      "Referer": "https://www.teleonline.tv/canal/garage-tv/"
+    },
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://stream1.sersat.com/hls/garagetv.m3u8",
+      "detail": "Playlist HLS con 6 segmentos, 6s por segmento, en vivo",
+      "playlist_kind": "media",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 6,
       "is_live": true
     }
   },
@@ -548,48 +588,50 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
-      "detail": "HLS master con 1 variantes; ninguna confirmó segmentos (1280x720: HTTP 500)",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1309283906",
       "resolution": "1280x720",
-      "segment_count": 0,
-      "is_live": null
+      "segment_count": 4,
+      "is_live": true
     }
   },
   {
-    "name": "Mongolian News Channel",
-    "url": "https://cdn4.skygo.mn/live/disk1/MNCTV/DASH-FTA/MNCTV.mpd",
-    "group": "News",
-    "tvg_id": "MongolianNewsChannel.mn@SD",
-    "tvg_name": "",
-    "logo": "https://www.mongolsat.mn/assets/img/channel/25.png",
-    "language": "mn",
-    "country": "MN",
+    "name": "CNN",
+    "url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/playlist/amg01448-samsungin-cnnnow-samsungin/playlist.m3u8",
+    "group": "Backup",
+    "tvg_id": "CNN.us",
+    "tvg_name": "CNN",
+    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/local-logo-cnn.png",
+    "language": "en",
+    "country": "US",
     "category": "news",
-    "source": "IPTV-org",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "source": "BDIX IPTV, IPTV-org",
+    "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "MongolianNewsChannel.mn@SD",
-      "tvg-logo": "https://www.mongolsat.mn/assets/img/channel/25.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
-      "group-title": "News"
+      "tvg-id": "CNN.us",
+      "tvg-name": "CNN",
+      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/local-logo-cnn.png",
+      "channel-id": "CNN.us",
+      "tvg-country": "US",
+      "tvg-language": "eng",
+      "group-title": "Backup",
+      "tvg-chno": "375"
     },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
-    },
+    "headers": null,
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/dash+xml",
-      "final_url": "https://cdn4.skygo.mn/live/disk1/MNCTV/DASH-FTA/MNCTV.mpd",
-      "detail": "HTTP response received; playback was not tested",
-      "playlist_kind": "",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 0,
-      "is_live": null
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/playlist/amg01448-samsungin-cnnnow-samsungin/playlist.m3u8",
+      "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 7s por segmento, en vivo",
+      "playlist_kind": "master",
+      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb543d1d7e6c648f93d43d65d9ef43a4f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f4554329e1c8d280692c32efc0267611675cc99af738a911414b3de597822e17b1954fb0714b275690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e036788f1f47f1ba9afef5cf2e2b204b4e31f65f39774e075bcfbbe098b9e03efc15eb370817017590837894c667f4b0e65a1dba3c1c705376eea29df04b30cb625b48eafec8ab6aed5c9fc771f3004ddb0afb1ed3636a0a33ab165628f7e46cc0f9e62e8b33ff499324ecd50a/173/1920x1080_4715744/index.m3u8",
+      "resolution": "1920x1080",
+      "segment_count": 5,
+      "is_live": true
     }
   },
   {
@@ -625,10 +667,10 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://fta.ektv.in/live/584/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
+      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://fta.ektv.in/live/584/584_0_aac.m3u8",
-      "resolution": "1920x1080",
+      "resolution": "720x576",
       "segment_count": 5,
       "is_live": true
     }
@@ -697,51 +739,11 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "http://88.212.15.50/live/test_nickelodeon_hevc_25p/playlist.m3u8",
-      "detail": "Playlist HLS con 10 segmentos, 7s por segmento, en vivo",
+      "detail": "Playlist HLS con 10 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
       "segment_count": 10,
-      "is_live": true
-    }
-  },
-  {
-    "name": "Music India",
-    "url": "https://fta.ektv.in/live/158/master.m3u8",
-    "group": "Music",
-    "tvg_id": "MusicIndia.in@SD",
-    "tvg_name": "Music India",
-    "logo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
-    "language": "hi",
-    "country": "IN",
-    "category": "music",
-    "source": "IPTV-org, BDIX IPTV",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "MusicIndia.in@SD",
-      "tvg-logo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
-      "group-title": "Music",
-      "tvg-name": "Music India",
-      "channel-id": "MusicIndia.in@SD",
-      "tvg-country": "IN",
-      "tvg-language": "hin"
-    },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
-    },
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://fta.ektv.in/live/158/master.m3u8",
-      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://fta.ektv.in/live/158/158_0_aac.m3u8",
-      "resolution": "720x576",
-      "segment_count": 5,
       "is_live": true
     }
   }
