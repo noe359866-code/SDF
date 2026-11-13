@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1912865269.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w819709989.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -72,7 +72,7 @@
       "final_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/playlist/amg01448-samsungin-cnnnow-samsungin/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb543d19796c64869fd43a63cef043a6f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f450c32cd118c7f52c2c32efd0237611675cc99af738dca4014b3de0d7b7be67c1a05ac0e41b2446901b12fefd0e44dd4036735da4b0870208cb30af85473ffb27fee5fb55f60ef4b0f081f1dc01d08cf904493fdf2659def4d3f374e077c723d97ababc49d742305e62b847ff333b34bddc7efeb8252dbc5fb71937bd1102f15164bd4a37192c753b3d6d74c21886329450a5af4ecc2b01a4ee63d23569bae93ec859e8a513e92e7f6551825723925a152cf8d1ce95c3e5e/183/1920x1080_4715744/index.m3u8",
+      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb573e1e6573638784cc3a78d2f44082f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec065187903086fcb1b8a2e09da8a2ffe05297d16229b85e32988cb0f5de3dd092a7eb47d4803fa0977801f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b2c52a52d53df5a75e807891074c48bec33afbe92c70839b4e3230abdf7cc36eb0ee135467b2a749a817e9cf31fdca6a94d1fd1451e0b3d5de7ad9dfb4271a35f574ef9fcdfb077b04280dd57e11a57b163c91fd0d0ebe908b01087e95b7a5e14d43303b5928b628d08e181/104/1920x1080_4715744/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -335,7 +335,7 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb543d19796c64869fd43a63cef043a6f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f450c60994cd67c09c2c32efd0237611675cc99af728fc84114e78d0c7b2db42c1956aa5811b2446901b12fefd0e44dd4036735da4b0870208cb30af85473ffb27fee5fb55f60ef4b0f081f1dc01d08cf904493fdf2659def4d3f374e077c723d97ababc49d742305e62b847ff333b34bddc7efeb8252dbc5fb71937bd1102f15164bd4a37192c753b3d6d74c21886329450a5af4ecc2b01a4ee63d23569aa89a5f04728c793e43fdee958a927f2e2662ff58cffbed4796/71/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb573e1e6573638784cc3a78d2f44082f76516f74a54b2281cf205c92b944344f0f4b581bc18ab371e801ec0651879035564c84ddb7454da8a2ffe05297d16229b85e029dd990f09b4db0c2f2cb07b1703ac5b77801f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b2c52a52d53df5a75e807891074c48bec33afbe92c70839b4e3230abdf7cc36eb0ee135467b2a749a817e9cf31fdca6a94d1fd1451e0b3d5de7ad9dfb4271a35f574ef9fcdfb077b04280dd57e11a57b163c916d1d0ebd308b010877ab3a3c4bd737a99695218e3539c0923/195/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -376,7 +376,7 @@
       "final_url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
       "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKdEtoZThmaXlXRUxGT1BUaUgxV1VMaFBtbnhEQmhVaW1oWUZkbmtXQklfY1FsSkR3NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3hfVkdVNUlpLW1sSEJGOHJpZmwybzlPd2FsQ1Yta0ZZR1JBLzE4LzE5MjB4MTA4MF80NTAwMDAwL2luZGV4Lm0zdTg=",
+      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKdDZoWTlfM21DQlRGT1BUblNGV1VMaFBtbnhPYmdrbW0wWVVKbHhLRmQ2Y1Ztc0R3NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3g5VkNVNUw2RGxGSEJZUzhPdXhTb2ZuLS1GMk01dnVQWDd3Lzk5LzE5MjB4MTA4MF80NTAwMDAwL2luZGV4Lm0zdTg=",
       "resolution": "1920x1080",
       "segment_count": 3,
       "is_live": true
@@ -551,7 +551,7 @@
       "final_url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/manifest.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 11 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/manifest/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/a0d18902a2000af97a9c7612994563f3/2.m3u8?ads.network_name=yupptv&ads.partner=yupptv",
+      "media_url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/manifest/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/73ab7b5cc31997bae27b03b470716611/2.m3u8?ads.network_name=yupptv&ads.partner=yupptv",
       "resolution": "1920x1080",
       "segment_count": 11,
       "is_live": true
@@ -592,7 +592,7 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1312175890",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1312788060",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
