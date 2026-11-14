@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1893990343.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1992988938.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -72,7 +72,7 @@
       "final_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/playlist/amg01448-samsungin-cnnnow-samsungin/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb56391c6573638f84cf3f78d4f0628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e390709339f108b2a1c93882ffe4c357d417587c9e37f8c84440bb3d85d2e2cb7781959f96ca9e11f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b23703bba96d5a07aba8c49f2d58a05cb51a44e46f149a0d2b9b479a8b1f62af60aeb3a0e124517fcd82bc3990fe492f2e15eed25c8913eb71487b387ee07c666d20fc25f8b2800b57def8420936934ba4fbc4a8a268f79904bcd9d7d848bf6eb740c1aacc5556f22aca88592ef2732be72f4b0a68c3d28eb966e184daa3c8c76cb596d7274a3e221e6f0b3a3c02620cd589422ab6ab890/144/1920x1080_4715744/index.m3u8",
+      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb553d1a7e6c648d98d43e66d2ef42a4d8244ee22346c95109b727cf249f410cd9a1848ba909be3b18c05dc1601469434967cc4a8c7b52ced667fd5130750a759bceb366d1cf4608afd90d2c23e72c1d56ad5b16d947e613b39172ad0afad40964698a27421459a3b81df5231099d154df3c0baa97ef145c5dc68b526f77d3d51be1a0a1086ff85422148479b71632a5dd1c908a4beedec67fa6c223eec036afe592a1ea67c0d9cf3af700e73a433e4819c0d72bc29b1bdebbeb127621354ebf34759f13b746dea8ac3d631688dadead6aef1681a828927432a9049942be72e017992d81ac7a96e098d7434f37a1c816443fb4f7a189ef3a21f237b5f69bbd091c9395452914290c09d8a98ff67a70ab9ae58fd3a5c36bf6c3f8db3b68/113/1920x1080_4715744/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -144,11 +144,11 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://aenetworks-insidecrime-rakuten.amagi.tv/playlist.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 10 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 9 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://aenetworks-insidecrime-rakuten.amagi.tv/1080p-vtt/index.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 10,
+      "segment_count": 9,
       "is_live": true
     }
   },
@@ -299,7 +299,7 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb56391c6573638f84cf3f78d4f0628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e39530b609d4dd92e1c93882ffe4c357d41758791b57ddf84400fb78d067c2ab3284d03ad6ca9e11f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b23703bba96d5a07aba8c49f2d58a05cb51a44e46f149a0d2b9b479a8b1f62af60aeb3a0e124517fcd82bc3990fe492f2e15eed25c8913eb71487b387ee07c666d20fc25f8b2800b57def8420936934ba4fbc4a8a268f79904bcd9d7d848bf6eb740c1aacc5556f22aca88592ef2732be72f4b0a68c3d28eb966e184dab398dc24adf1f427c72d75ec11cdb088830485d6df5c2489c99/45/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb553d1a7e6c648d98d43e66d2ef42a4d8244ee22346c95109b727cf249f410cd9a1848ba909be3b18c05dc16014694349319a488c7c0496da67fd5130740a759bceb366d1cc1a5faf895a2f79b47b1b05aa0616d047e613b39172ad0afad40964698a27421459a3b81df5231099d154df3c0baa97ef145c5dc68b526f77d3d51be1a0a1086ff85422148479b71632a5dd1c908a4beedec67fa6c223eec036afe592a1ea67c0d9cf3af700e73a433e4819c0d72bc29b1bdebbeb127621354ebf34759f13b746dea8ac3d631688dadead6aef1681a828927432a9049942be72e017992d81ac7a96e098d7434f37a1c816443fb4f7a189ef3a21f237b5f69bbd091c939545211e290c23d8a98ff6b555a943c3053e2ea61b098e8268375e/199/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 4,
       "is_live": true
@@ -373,7 +373,7 @@
   },
   {
     "name": "CNBC Indonesia",
-    "url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Fvideo.detik.com%2Flivecnbc%2Fsmil%3Acnbctv%2Fchunklist_w1279679883_b384000_sleng.m3u8",
+    "url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
     "group": "Business",
     "tvg_id": "CNBCIndonesia.id@SD",
     "tvg_name": "",
@@ -381,21 +381,24 @@
     "language": "unknown",
     "country": "ID",
     "category": "business",
-    "source": "BByte Jellyfin",
-    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
+    "source": "IPTV-org, BByte Jellyfin",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
       "tvg-id": "CNBCIndonesia.id@SD",
       "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
       "group-title": "Business"
     },
-    "headers": null,
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+    },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 200,
+      "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Fvideo.detik.com%2Flivecnbc%2Fsmil%3Acnbctv%2Fchunklist_w1279679883_b384000_sleng.m3u8",
+      "final_url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
       "detail": "Playlist HLS con 9 segmentos, 10s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
@@ -406,7 +409,7 @@
   },
   {
     "name": "News24 Weather",
-    "url": "https://skynewsau-live-premium.akamaized.net/hls/live/2105305/skynewsweather/live_540p.m3u8",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Fskynewsau-live-premium.akamaized.net%2Fhls%2Flive%2F2105305%2Fskynewsweather%2Flive_540p.m3u8",
     "group": "Weather",
     "tvg_id": "News24Weather.au@SD",
     "tvg_name": "",
@@ -414,8 +417,8 @@
     "language": "unknown",
     "country": "AU",
     "category": "weather",
-    "source": "IPTV-org",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "source": "BByte Jellyfin, IPTV-org",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
     "stream_type": "hls",
     "attributes": {
       "tvg-id": "News24Weather.au@SD",
@@ -427,50 +430,46 @@
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://skynewsau-live-premium.akamaized.net/hls/live/2105305/skynewsweather/live_540p.m3u8",
-      "detail": "Playlist HLS con 45 segmentos, 4s por segmento, en vivo",
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Fskynewsau-live-premium.akamaized.net%2Fhls%2Flive%2F2105305%2Fskynewsweather%2Flive_540p.m3u8",
+      "detail": "Playlist HLS con 20 segmentos, 4s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
-      "segment_count": 45,
+      "segment_count": 20,
       "is_live": true
     }
   },
   {
-    "name": "9EWTN EspañolEstados Unidos - Irondale, ALCatólico",
-    "url": "https://cdn3.wowza.com/1/SmVrQmZCUXZhVDgz/b3J3MFJv/hls/live/playlist.m3u8",
-    "group": "CXTv",
-    "tvg_id": "EWTN.TV",
-    "tvg_name": "EWTN USA",
-    "logo": "https://www.cxtv.com.br/img/Tvs/Logo/webp-l/019f2213641be368e3d8a76c1d3be3b1.webp",
-    "language": "la",
-    "country": "TV",
+    "name": "3ABN English",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fplaylist.m3u8",
+    "group": "Religious",
+    "tvg_id": "3ABNEnglish.us@SD",
+    "tvg_name": "",
+    "logo": "https://iptv.bbyte.app/icons/3abnenglish720p.png",
+    "language": "en",
+    "country": "US",
     "category": "religious",
-    "source": "CXTv, TDTChannels, IPTV-org, Teleonline, Teleonline M3U",
-    "source_url": "https://www.cxtvenvivo.com/tv-en-vivo/ewtn-espanol",
+    "source": "BByte Jellyfin",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "EWTN.TV",
-      "tvg-logo": "https://graph.facebook.com/ewtnespanol/picture?width=200&height=200",
-      "group-title": "Religiosos",
-      "tvg-name": "EWTN USA"
+      "tvg-id": "3ABNEnglish.us@SD",
+      "tvg-logo": "https://iptv.bbyte.app/icons/3abnenglish720p.png",
+      "group-title": "Religious"
     },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
-      "Referer": "https://www.cxtvenvivo.com/tv-en-vivo/ewtn-espanol"
-    },
+    "headers": null,
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://cdn3.wowza.com/1/SmVrQmZCUXZhVDgz/b3J3MFJv/hls/live/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 10 segmentos, 11s por segmento, en vivo",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fplaylist.m3u8",
+      "detail": "HLS master (1280x720): Playlist HLS con 6 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn3.wowza.com/1/SmVrQmZCUXZhVDgz/b3J3MFJv/hls/lkp2nvdz/720/chunklist.m3u8",
+      "media_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fchunklist_w233030824_b1628000_slen.m3u8%3Fnimblesessionid%3D894994705",
       "resolution": "1280x720",
-      "segment_count": 10,
+      "segment_count": 6,
       "is_live": true
     }
   },
@@ -506,7 +505,7 @@
       "final_url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/manifest.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 12 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/manifest/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/1eb16f88cca03bcbabf43ad99db64086/2.m3u8?ads.network_name=yupptv&ads.partner=yupptv",
+      "media_url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/manifest/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/8031a54ab20e71be41de894899e52808/2.m3u8?ads.network_name=yupptv&ads.partner=yupptv",
       "resolution": "1920x1080",
       "segment_count": 12,
       "is_live": true
@@ -547,7 +546,7 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1315391269",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1316470108",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -698,7 +697,7 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/chunks.m3u8?nimblesessionid=1315391772",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/chunks.m3u8?nimblesessionid=1316470763",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -731,7 +730,7 @@
       "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F168.196.127.137%3A6001%2Fplay%2Fa09v%2Findex.m3u8",
       "detail": "HLS master: Playlist HLS con 4 segmentos, 3s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F168.196.127.137%3A6001%2Fplay%2Fa09v%2F56469252.m3u8",
+      "media_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F168.196.127.137%3A6001%2Fplay%2Fa09v%2F27339457.m3u8",
       "resolution": "",
       "segment_count": 4,
       "is_live": true
