@@ -17,10 +17,10 @@
       "tvg-logo": "https://i.imgur.com/hVNIwgE.png",
       "group-title": "General",
       "tvg-name": "Love Nature",
-      "tvg-chno": "509",
       "channel-id": "LoveNature.us",
       "tvg-country": "US",
-      "tvg-language": "eng"
+      "tvg-language": "eng",
+      "tvg-chno": "481"
     },
     "headers": {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w632536521.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1134646170.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -57,11 +57,11 @@
       "tvg-id": "CNN.us",
       "tvg-name": "CNN",
       "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/local-logo-cnn.png",
-      "tvg-chno": "394",
       "channel-id": "CNN.us",
       "tvg-country": "US",
       "tvg-language": "eng",
-      "group-title": "Backup"
+      "group-title": "Backup",
+      "tvg-chno": "390"
     },
     "headers": null,
     "directives": [],
@@ -72,45 +72,90 @@
       "final_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/playlist/amg01448-samsungin-cnnnow-samsungin/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb563e1e657a65909bca3678d9f0628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6953086f9f1fdc291c92df72aa4c357d41758791b22dd884110fe7890b2379e02c1756f86ca9e11f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b3d7061bfddd5a078bd815fabfd8b02c016c564ce2c4b4368b9f122fbf7bb57d008f535433f4818ccd02ac39e0fffb2120e480b64a8ba6ff8c283ea1f2a996916446b58bf0cda2f9032c38c37886336f423904687318d64904bcd9d7d848bf6eb740c1aacc5556f22aca88592ef2732be72f4b0a68c3d28eb966e184daa3c8872cb59442841a3e22ae8f5446596e84cb0cf04bb34be6e7b/100/1920x1080_4715744/index.m3u8",
+      "media_url": "https://amg01448-samsungin-cnnnow-samsungin-4npqg.amagi.tv/ts-eu-w1-n2/playlist/amg01448-samsungin-cnnnow-samsungin/cb543e1e6573628f84cb3d65cef043a7f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f455b61ce188c7a52c1c32fa90765611675cc99af73db9f1014b28d0b227ce1281750aa5d44b275690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e036788f1f47f1ba9afef5cf2e2b204b4e31f65f39774e075bcfbbe098b9e03efc15eb370817017590837894c667f4b0e65a1dba3c1c705376eea29df04b30cb625b48eafec8ab6aed5c9fc771f3004ddb0afa1cd3d0ebc802841087458f0d40b3178be96ff3fcd5eb65e741/37/1920x1080_4715744/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
     }
   },
   {
-    "name": "HBO Latin America",
-    "url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
-    "group": "Undefined",
-    "tvg_id": "HBOLatinAmerica.us@SD",
-    "tvg_name": "",
-    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
-    "language": "la",
-    "country": "US",
-    "category": "movies",
-    "source": "IPTV-org, BByte Jellyfin",
+    "name": "Eurosport (France)",
+    "url": "http://103.253.74.210:7070/stream/122/index.m3u8",
+    "group": "Sports",
+    "tvg_id": "Eurosport.fr@Asia",
+    "tvg_name": "Eurosport",
+    "logo": "https://i.imgur.com/s4jDnJh.png",
+    "language": "en",
+    "country": "FR",
+    "category": "sports",
+    "source": "IPTV-org, BDIX IPTV, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "HBOLatinAmerica.us@SD",
-      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
-      "group-title": "Undefined"
+      "tvg-id": "Eurosport.fr@Asia",
+      "tvg-logo": "https://i.imgur.com/s4jDnJh.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+      "group-title": "Sports",
+      "tvg-name": "Eurosport",
+      "channel-id": "Eurosport.fr@Asia",
+      "tvg-country": "FR",
+      "tvg-language": "eng",
+      "tvg-chno": "583"
     },
     "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "final_url": "http://103.253.74.210:7070/cloud/stream/122/index.m3u8",
+      "detail": "Playlist HLS con 5 segmentos, 2s por segmento, en vivo",
+      "playlist_kind": "media",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 5,
+      "is_live": true
+    }
+  },
+  {
+    "name": "Goldmines Action",
+    "url": "https://fta.ektv.in/live/584/master.m3u8",
+    "group": "Movies",
+    "tvg_id": "GoldminesAction.in@SD",
+    "tvg_name": "Goldmines Action",
+    "logo": "https://yt3.googleusercontent.com/_X6U6bMLF-pTu5wBMFwsSI6aubGrXk2B0kUKdGiLIMqFLyDIne4Ot4ro76BS1S8fX3pWcCwS=s900-c-k-c0x00ffffff-no-rj",
+    "language": "hi",
+    "country": "IN",
+    "category": "movies",
+    "source": "IPTV-org, BDIX IPTV",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "GoldminesAction.in@SD",
+      "tvg-logo": "https://yt3.googleusercontent.com/_X6U6bMLF-pTu5wBMFwsSI6aubGrXk2B0kUKdGiLIMqFLyDIne4Ot4ro76BS1S8fX3pWcCwS=s900-c-k-c0x00ffffff-no-rj",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
+      "group-title": "Movies",
+      "tvg-name": "Goldmines Action",
+      "channel-id": "GoldminesAction.in",
+      "tvg-country": "IN",
+      "tvg-language": "hin"
+    },
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+    },
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://fta.ektv.in/live/584/master.m3u8",
+      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://streaming.onnethn.com/HBO/tracks-v1a1/mono.ts.m3u8",
-      "resolution": "1280x720",
-      "segment_count": 4,
+      "media_url": "https://fta.ektv.in/live/584/584_0_aac.m3u8",
+      "resolution": "720x576",
+      "segment_count": 5,
       "is_live": true
     }
   },
@@ -132,10 +177,10 @@
       "tvg-logo": "https://i.imgur.com/wvQYWsj.png",
       "group-title": "Series",
       "tvg-name": "Inside Crime",
-      "tvg-chno": "504",
       "channel-id": "InsideCrime.us",
       "tvg-country": "US",
-      "tvg-language": "eng"
+      "tvg-language": "eng",
+      "tvg-chno": "476"
     },
     "headers": null,
     "directives": [],
@@ -244,7 +289,6 @@
       "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/154.0.0.0 Safari/537.36",
       "group-title": "Entertainment",
       "tvg-name": "MTV India",
-      "tvg-chno": "179",
       "channel-id": "MTV.in@SD",
       "tvg-country": "IN",
       "tvg-language": "hin"
@@ -285,10 +329,10 @@
       "tvg-logo": "https://i.imgur.com/VwAMqA7.png",
       "group-title": "Lifestyle",
       "tvg-name": "InFast",
-      "tvg-chno": "503",
       "channel-id": "INFAST.nl",
       "tvg-country": "NL",
-      "tvg-language": "eng"
+      "tvg-language": "eng",
+      "tvg-chno": "475"
     },
     "headers": null,
     "directives": [],
@@ -297,11 +341,11 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb563e1e657a65909bca3678d9f0628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6e540860cd4cdb2a1c92df72aa4c357d417587c9e37b8a84400be78e0a7c7fba2c1d57fe6ca9e11f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b3d7061bfddd5a078bd815fabfd8b02c016c564ce2c4b4368b9f122fbf7bb57d008f535433f4818ccd02ac39e0fffb2120e480b64a8ba6ff8c283ea1f2a996916446b58bf0cda2f9032c38c37886336f423904687318d64904bcd9d7d848bf6eb740c1aacc5556f22aca88592ef2732be72f4b0a68c3d28eb966e184dab3e88c24ac745777c72a214634a8d14af1db19825e5ed7ca048/30/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb543e1e6573628f84cb3d65cef043a7f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f45586f984fd7740493c32fa90765611675cc99af72dc9c1214e089062922e7284803fc0640b275690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e036788f1f47f1ba9afef5cf2e2b204b4e31f65f39774e075bcfbbe098b9e03efc15eb370817017590837894c667f4b0e65a1dba3c1c705376eea29df04b30cb625b48eafec8ab6aed5c9fc771f3004ddb0afb1ed3686a0a67a12a56285d53f642933b40ae27596ecd33850112/178/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 4,
+      "segment_count": 5,
       "is_live": true
     }
   },
@@ -467,33 +511,33 @@
       "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fplaylist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 6 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fchunklist_w518710065_b1628000_slen.m3u8%3Fnimblesessionid%3D896222732",
+      "media_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fchunklist_w105198839_b1628000_slen.m3u8%3Fnimblesessionid%3D896663491",
       "resolution": "1280x720",
       "segment_count": 6,
       "is_live": true
     }
   },
   {
-    "name": "Bang Bang TV",
-    "url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/manifest.m3u8",
+    "name": "BBC World",
+    "url": "https://tvsen1.aynaott.com/shn6jGTk/index.m3u8",
     "group": "International",
-    "tvg_id": "BangBangTV",
-    "tvg_name": "Bang Bang TV",
-    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/bang-bang-tv.png",
+    "tvg_id": "custom.bbcworld",
+    "tvg_name": "BBC World",
+    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/bbc-world-news.png",
     "language": "en",
-    "country": "US",
+    "country": "GB",
     "category": "other",
     "source": "BDIX IPTV",
     "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "BangBangTV",
-      "tvg-name": "Bang Bang TV",
-      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/bang-bang-tv.png",
-      "tvg-chno": "388",
-      "channel-id": "BangBangTV",
-      "tvg-country": "US",
+      "tvg-id": "custom.bbcworld",
+      "tvg-name": "BBC World",
+      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/bbc-world-news.png",
+      "channel-id": "custom.bbcworld",
+      "tvg-country": "GB",
       "tvg-language": "eng",
+      "tvg-chno": "383",
       "group-title": "International"
     },
     "headers": null,
@@ -501,13 +545,13 @@
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/master/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/manifest.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 10 segmentos, 6s por segmento, en vivo",
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://tvsen1.aynaott.com/shn6jGTk/index.m3u8",
+      "detail": "HLS master (768x432): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://streams.sofast.tv/ptnr-yupptv/title-BANG-BANG-TV-ENG_yupptv/v1/manifest/611d79b11b77e2f571934fd80ca1413453772ac7/6a98fce2-bf4c-4bfb-91f4-c43851bb3801/8603a0b5798bfb1a3d63052e7a15f790/2.m3u8?ads.network_name=yupptv&ads.partner=yupptv",
-      "resolution": "1920x1080",
-      "segment_count": 10,
+      "media_url": "https://tvsen1.aynaott.com/shn6jGTk/tracks-v1a1/mono.ts.m3u8",
+      "resolution": "768x432",
+      "segment_count": 4,
       "is_live": true
     }
   },
@@ -529,7 +573,6 @@
       "tvg-logo": "https://i.imgur.com/jkbo7Qe.png",
       "group-title": "Entertainment",
       "tvg-name": "Ananda TV",
-      "tvg-chno": "2",
       "channel-id": "AnandaTV.bd",
       "tvg-country": "BD",
       "tvg-language": "ben"
@@ -546,7 +589,7 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1319981473",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1321410121",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -589,6 +632,82 @@
     }
   },
   {
+    "name": "Real Madrid TV",
+    "url": "http://90.163.85.113:8093/stream/26/index.m3u8",
+    "group": "Sports",
+    "tvg_id": "RealMadridTV.es@SD",
+    "tvg_name": "Real Madrid TV",
+    "logo": "https://i.imgur.com/5pMo7dL.png",
+    "language": "es",
+    "country": "ES",
+    "category": "sports",
+    "source": "IPTV-org, BDIX IPTV, Tubi, BByte Jellyfin",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "RealMadridTV.es@SD",
+      "tvg-logo": "https://i.imgur.com/5pMo7dL.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+      "group-title": "Sports",
+      "tvg-name": "Real Madrid TV",
+      "channel-id": "custom.realmadridtv",
+      "tvg-country": "ES",
+      "tvg-language": "spa"
+    },
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
+    },
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "http://90.163.85.113:8093/stream/26/index.m3u8",
+      "detail": "Playlist HLS con 5 segmentos, 3s por segmento, en vivo",
+      "playlist_kind": "media",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 5,
+      "is_live": true
+    }
+  },
+  {
+    "name": "HBO Latin America",
+    "url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
+    "group": "Undefined",
+    "tvg_id": "HBOLatinAmerica.us@SD",
+    "tvg_name": "",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
+    "language": "la",
+    "country": "US",
+    "category": "movies",
+    "source": "IPTV-org, BByte Jellyfin",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "HBOLatinAmerica.us@SD",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/HBO_logo.svg/960px-HBO_logo.svg.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18",
+      "group-title": "Undefined"
+    },
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, como Gecko) Chrome/154.0.0.0 Safari/537.36 VLC/3.0.18 LibVLC/3.0.18"
+    },
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://streaming.onnethn.com/HBO/playlist.m3u8",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "playlist_kind": "master",
+      "media_url": "https://streaming.onnethn.com/HBO/tracks-v1a1/mono.ts.m3u8",
+      "resolution": "1280x720",
+      "segment_count": 4,
+      "is_live": true
+    }
+  },
+  {
     "name": "Viasat History (Czech Republic)",
     "url": "http://88.212.15.50/live/test_viasat_history_atk_tv/playlist.m3u8",
     "group": "Documentary",
@@ -621,126 +740,6 @@
       "media_url": "",
       "resolution": "",
       "segment_count": 10,
-      "is_live": true
-    }
-  },
-  {
-    "name": "Music India",
-    "url": "https://fta.ektv.in/live/158/master.m3u8",
-    "group": "Music",
-    "tvg_id": "MusicIndia.in@SD",
-    "tvg_name": "Music India",
-    "logo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
-    "language": "hi",
-    "country": "IN",
-    "category": "music",
-    "source": "IPTV-org, BDIX IPTV",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "MusicIndia.in@SD",
-      "tvg-logo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
-      "group-title": "Music",
-      "tvg-name": "Music India",
-      "tvg-chno": "180",
-      "channel-id": "MusicIndia.in@SD",
-      "tvg-country": "IN",
-      "tvg-language": "hin"
-    },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
-    },
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://fta.ektv.in/live/158/master.m3u8",
-      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://fta.ektv.in/live/158/158_0_aac.m3u8",
-      "resolution": "720x576",
-      "segment_count": 5,
-      "is_live": true
-    }
-  },
-  {
-    "name": "Channel S (Bangladesh)",
-    "url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/playlist.m3u8",
-    "group": "Culture",
-    "tvg_id": "ChannelS.bd@SD",
-    "tvg_name": "Channel S",
-    "logo": "https://www.channels.com.bd/storage/project_files/logo/2024-05-14a_n17156821814310.png",
-    "language": "bn",
-    "country": "BD",
-    "category": "culture",
-    "source": "IPTV-org, BDIX IPTV, BByte Jellyfin",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "ChannelS.bd@SD",
-      "tvg-logo": "https://www.channels.com.bd/storage/project_files/logo/2024-05-14a_n17156821814310.png",
-      "group-title": "Culture",
-      "tvg-name": "Channel S",
-      "tvg-chno": "19",
-      "channel-id": "ChannelS.bd",
-      "tvg-country": "BD",
-      "tvg-language": "ben"
-    },
-    "headers": null,
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/chunks.m3u8?nimblesessionid=1319982013",
-      "resolution": "1280x720",
-      "segment_count": 4,
-      "is_live": true
-    }
-  },
-  {
-    "name": "Foodxp",
-    "url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
-    "group": "Cooking",
-    "tvg_id": "Foodxp.uk@SD",
-    "tvg_name": "Foodxp",
-    "logo": "https://i.imgur.com/zOWog5j.png",
-    "language": "unknown",
-    "country": "GB",
-    "category": "cooking",
-    "source": "IPTV-org, Samsung TV Plus",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "Foodxp.uk@SD",
-      "tvg-logo": "https://i.imgur.com/zOWog5j.png",
-      "http-referrer": "https://bhoomtv.org/",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0 Win64 x64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/154.0.0.0 Safari/537.36",
-      "group-title": "Cooking",
-      "channel-id": "IN3000003QJ-in",
-      "tvg-chno": "2106",
-      "tvg-name": "Foodxp"
-    },
-    "headers": {
-      "Referer": "https://bhoomtv.org/",
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0 Win64 x64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/154.0.0.0 Safari/537.36"
-    },
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
-      "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKNGFJSTlxemxYaERGT2FDNUhsV1VMaFBtbnhESjFFaW1nSUVPbUVPQkk2QVdsSlB3NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3dfVnNpWldmMC1Hd1FXVEhpeFNSTE1GdVkzaUxkWVF6UDlJZy8xMjYvMTkyMHgxMDgwXzQ1MDAwMDAvaW5kZXgubTN1OA==",
-      "resolution": "1920x1080",
-      "segment_count": 3,
       "is_live": true
     }
   }
