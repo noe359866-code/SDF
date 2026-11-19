@@ -9,7 +9,7 @@
     "language": "en",
     "country": "AE",
     "category": "general",
-    "source": "IPTV-org, IPTV Web, BDIX IPTV",
+    "source": "IPTV-org, IPTV Web, BDIX IPTV, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w633672268.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w139762322.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -50,7 +50,7 @@
     "language": "en",
     "country": "US",
     "category": "news",
-    "source": "IPTV-org, BDIX IPTV, Samsung TV Plus",
+    "source": "IPTV-org, BDIX IPTV, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -88,7 +88,7 @@
     "language": "en",
     "country": "EE",
     "category": "sports",
-    "source": "IPTV-org, BDIX IPTV",
+    "source": "IPTV-org, BDIX IPTV, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -111,12 +111,12 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "http://stream.mcquack.net/416/index.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 5s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): playlist sin segmentos en la muestra",
       "playlist_kind": "master",
       "media_url": "http://stream.mcquack.net/416/tracks-v1a1/mono.ts.m3u8?ads=1&filter.tracks=v1a1",
       "resolution": "1920x1080",
-      "segment_count": 4,
-      "is_live": true
+      "segment_count": 0,
+      "is_live": null
     }
   },
   {
@@ -151,7 +151,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://fta.ektv.in/live/584/master.m3u8",
-      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
+      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 4s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://fta.ektv.in/live/584/584_0_aac.m3u8",
       "resolution": "720x576",
@@ -169,7 +169,7 @@
     "language": "en",
     "country": "US",
     "category": "series",
-    "source": "IPTV-org, BDIX IPTV, Samsung TV Plus",
+    "source": "IPTV-org, BDIX IPTV, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -207,7 +207,7 @@
     "language": "cs",
     "country": "CZ",
     "category": "documentary",
-    "source": "IPTV-org",
+    "source": "IPTV-org, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -243,7 +243,7 @@
     "language": "ar",
     "country": "AE",
     "category": "kids",
-    "source": "IPTV-org",
+    "source": "IPTV-org, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -322,7 +322,7 @@
     "language": "en",
     "country": "IN",
     "category": "culture",
-    "source": "IPTV-org, BDIX IPTV",
+    "source": "IPTV-org, BDIX IPTV, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -348,43 +348,35 @@
     }
   },
   {
-    "name": "Foodxp",
-    "url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
-    "group": "Cooking",
-    "tvg_id": "Foodxp.uk@SD",
-    "tvg_name": "Foodxp",
-    "logo": "https://i.imgur.com/zOWog5j.png",
-    "language": "unknown",
-    "country": "GB",
+    "name": "Food Network (Czech Republic)",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F88.212.15.50%2Flive%2Ftest_food_network_atk_tv%2Fplaylist.m3u8",
+    "group": "Undefined",
+    "tvg_id": "FoodNetwork.cz@SD",
+    "tvg_name": "",
+    "logo": "https://static.wikia.nocookie.net/logopedia/images/7/75/FN-Logo.svg/revision/latest?cb=20171221110545",
+    "language": "cs",
+    "country": "CZ",
     "category": "cooking",
-    "source": "IPTV-org, Samsung TV Plus",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "source": "BByte Jellyfin, IPTV-org",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "Foodxp.uk@SD",
-      "tvg-logo": "https://i.imgur.com/zOWog5j.png",
-      "http-referrer": "https://bhoomtv.org/",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0 Win64 x64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/154.0.0.0 Safari/537.36",
-      "group-title": "Cooking",
-      "channel-id": "IN3000003QJ-in",
-      "tvg-chno": "2106",
-      "tvg-name": "Foodxp"
+      "tvg-id": "FoodNetwork.cz@SD",
+      "tvg-logo": "https://static.wikia.nocookie.net/logopedia/images/7/75/FN-Logo.svg/revision/latest?cb=20171221110545",
+      "group-title": "Undefined"
     },
-    "headers": {
-      "Referer": "https://bhoomtv.org/",
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0 Win64 x64) AppleWebKit/537.36 (KHTML like Gecko) Chrome/154.0.0.0 Safari/537.36"
-    },
+    "headers": null,
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://techtraveleat.in/stream.m3u8?id=foodxp",
-      "detail": "HLS master (1920x1080): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://techtraveleat.in/stream.php?proxy=on&url=aHR0cHM6Ly9hbWcwMDQxNi1hbWcwMDQxNmMxMC1zYW1zdW5nLWluLTQ4ODMucGxheW91dHMubm93LmFtYWdpLnR2L3RzLWFwLXMxLW4xL3BsYXlsaXN0L2FtZzAwNDE2LXRyYXZlbHhwLWZvb2R4cC1zYW1zdW5naW4veTFNNEYyVnhZNUNhMUQ5RWo0d2Y2b0phUHRCSU5jbzFmN0l6eml1VlFCN0dySS1uX1VydmRseVVEN2s0Vkd0VlZuZURIOXBsRWJhZU92UUVVeWxGRDhQY3JYN2FuZ3dLdE1nWFVWTFhCMkpON2xKTWkzQkRWZHpxRVFmTWZaWnhGeHpsRENFSFk5anpXYk4yVE1XUWFkb3BlTW4wd21RNmVrUmNtVTlKczZOYnF2YmxDeGZGT2FLNFNsV1VMaFBtbjBxYTB4bW1oNEVPejBHSGQ2SVdsWkQ0NlpncXZiNVg3TlI5Z0IwbkdrZFVsNFJ3a3JzeTNMaTdXa2xYOWJVa1pESEhzSnJfTkU3dTlLS29tNDJna1dUcEdvNmtNSXhpTnJKQzdTZEd4cWNaeUNTUG15V05yTFBlVUVBcXJOQkpZRzNJajhiZXFtVmg3RGFwNElHM0FrVEFJcnh1S1pwTm9jWHNEenF2N3lha2lYbTNwU3FFLTBJU05NdVFVWnFuZi1LRnY2QkZoaXpHeV9YWGFBd2VJMHcxajFPbWxYcklhZk5NNko5RGJ3d1dCSnFUVzVMU2doNG9OQnZQd0hfRUF4ZTg3STZCOUFjdmhUVklEYVl6anh0TlItUUFRVkNwYmZXVE4ybkpBUS1HUGpLeUdCYUlVUE8xS2JyMmlyQklhX3VPaVJLX1hPNnpDOERfVGZ3LWF4ZFI1WUJaTlM5N2RON3FhUm9qT1pJVmxyVGsxVGRZVUtLbnQ3MnFOUjhJTmhCZUNmR1N4SGlKZ2Mwc1hWdUJaQzl1Y0I4QWhVYXhUZG9UUWhRaDJSU3gtVnFVNU9TT3RWSEJsNmF2bF8xRnNsaU1ieW9ZU09RUkhBLzUzLzE5MjB4MTA4MF80NTAwMDAwL2luZGV4Lm0zdTg=",
-      "resolution": "1920x1080",
-      "segment_count": 3,
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2F88.212.15.50%2Flive%2Ftest_food_network_atk_tv%2Fplaylist.m3u8",
+      "detail": "Playlist HLS con 10 segmentos, 6s por segmento, en vivo",
+      "playlist_kind": "media",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 10,
       "is_live": true
     }
   },
@@ -431,7 +423,7 @@
     "language": "unknown",
     "country": "ID",
     "category": "business",
-    "source": "IPTV-org",
+    "source": "IPTV-org, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -459,7 +451,7 @@
   },
   {
     "name": "News24 Weather",
-    "url": "https://skynewsau-live-premium.akamaized.net/hls/live/2105305/skynewsweather/live_540p.m3u8",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Fskynewsau-live-premium.akamaized.net%2Fhls%2Flive%2F2105305%2Fskynewsweather%2Flive_540p.m3u8",
     "group": "Weather",
     "tvg_id": "News24Weather.au@SD",
     "tvg_name": "",
@@ -467,8 +459,8 @@
     "language": "unknown",
     "country": "AU",
     "category": "weather",
-    "source": "IPTV-org",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "source": "BByte Jellyfin, IPTV-org",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
     "stream_type": "hls",
     "attributes": {
       "tvg-id": "News24Weather.au@SD",
@@ -480,13 +472,46 @@
     "stream_check": {
       "status": "http_ok",
       "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "https://skynewsau-live-premium.akamaized.net/hls/live/2105305/skynewsweather/live_540p.m3u8",
-      "detail": "Playlist HLS con 45 segmentos, 4s por segmento, en vivo",
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Fskynewsau-live-premium.akamaized.net%2Fhls%2Flive%2F2105305%2Fskynewsweather%2Flive_540p.m3u8",
+      "detail": "Playlist HLS con 20 segmentos, 4s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
-      "segment_count": 45,
+      "segment_count": 20,
+      "is_live": true
+    }
+  },
+  {
+    "name": "3ABN English",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fplaylist.m3u8",
+    "group": "Religious",
+    "tvg_id": "3ABNEnglish.us@SD",
+    "tvg_name": "",
+    "logo": "https://iptv.bbyte.app/icons/3abnenglish720p.png",
+    "language": "en",
+    "country": "US",
+    "category": "religious",
+    "source": "BByte Jellyfin",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "3ABNEnglish.us@SD",
+      "tvg-logo": "https://iptv.bbyte.app/icons/3abnenglish720p.png",
+      "group-title": "Religious"
+    },
+    "headers": null,
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fplaylist.m3u8",
+      "detail": "HLS master (1280x720): Playlist HLS con 6 segmentos, 7s por segmento, en vivo",
+      "playlist_kind": "master",
+      "media_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fchunklist_w1528545901_b1628000_slen.m3u8%3Fnimblesessionid%3D898475588",
+      "resolution": "1280x720",
+      "segment_count": 6,
       "is_live": true
     }
   },
@@ -506,12 +531,12 @@
     "attributes": {
       "tvg-id": "custom.bbcworld",
       "tvg-name": "BBC World",
+      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/bbc-world-news.png",
       "tvg-chno": "400",
       "channel-id": "custom.bbcworld",
       "tvg-country": "GB",
       "tvg-language": "eng",
-      "group-title": "International",
-      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/bbc-world-news.png"
+      "group-title": "International"
     },
     "headers": null,
     "directives": [],
@@ -562,34 +587,65 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1326221402",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1326992518",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
     }
   },
   {
-    "name": "DW News",
-    "url": "https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/stream02/streamPlaylist.m3u8",
-    "group": "International",
-    "tvg_id": "DWNews.de",
-    "tvg_name": "DW News",
-    "logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/dw-news.png",
-    "language": "en",
-    "country": "DE",
+    "name": "Mongolian News Channel",
+    "url": "https://cdn4.skygo.mn/live/disk1/MNCTV/DASH-FTA/MNCTV.mpd",
+    "group": "News",
+    "tvg_id": "MongolianNewsChannel.mn@SD",
+    "tvg_name": "",
+    "logo": "https://www.mongolsat.mn/assets/img/channel/25.png",
+    "language": "mn",
+    "country": "MN",
     "category": "news",
-    "source": "BDIX IPTV",
-    "source_url": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/IPTV-Playlist.m3u",
+    "source": "IPTV-org, BByte Jellyfin",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "DWNews.de",
-      "tvg-name": "DW News",
-      "tvg-logo": "https://raw.githubusercontent.com/saeidrahmanbd/BDIX-IPTV/main/logos/dw-news.png",
-      "tvg-chno": "411",
-      "channel-id": "DWNews.de",
-      "tvg-country": "DE",
-      "tvg-language": "eng",
-      "group-title": "International"
+      "tvg-id": "MongolianNewsChannel.mn@SD",
+      "tvg-logo": "https://www.mongolsat.mn/assets/img/channel/25.png",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36",
+      "group-title": "News"
+    },
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36"
+    },
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 206,
+      "content_type": "application/dash+xml",
+      "final_url": "https://cdn4.skygo.mn/live/disk1/MNCTV/DASH-FTA/MNCTV.mpd",
+      "detail": "HTTP response received; playback was not tested",
+      "playlist_kind": "",
+      "media_url": "",
+      "resolution": "",
+      "segment_count": 0,
+      "is_live": null
+    }
+  },
+  {
+    "name": "Setanta Sports 1 Eurasia",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2Fstream.mcquack.net%2F234%2Findex.m3u8",
+    "group": "Sports",
+    "tvg_id": "SetantaSports1Eurasia.ie@SD",
+    "tvg_name": "",
+    "logo": "https://i.imgur.com/zlJK7ca.png",
+    "language": "unknown",
+    "country": "IE",
+    "category": "sports",
+    "source": "BByte Jellyfin",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "SetantaSports1Eurasia.ie@SD",
+      "tvg-logo": "https://i.imgur.com/zlJK7ca.png",
+      "group-title": "Sports"
     },
     "headers": null,
     "directives": [],
@@ -597,12 +653,12 @@
       "status": "http_ok",
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://dwamdstream102.akamaized.net/hls/live/2015525/dwstream102/stream02/streamPlaylist.m3u8",
-      "detail": "Playlist HLS con 29 segmentos, 6s por segmento, en vivo",
-      "playlist_kind": "media",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 29,
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2Fstream.mcquack.net%2F234%2Findex.m3u8",
+      "detail": "HLS master (1920x1080): Playlist HLS con 4 segmentos, 5s por segmento, en vivo",
+      "playlist_kind": "master",
+      "media_url": "https://iptv.bbyte.app/proxy/stream?url=http%3A%2F%2Fstream.mcquack.net%2F234%2Ftracks-v1a1%2Fmono.ts.m3u8%3Fads%3D1%26filter.tracks%3Dv1a1",
+      "resolution": "1920x1080",
+      "segment_count": 4,
       "is_live": true
     }
   },
@@ -616,7 +672,7 @@
     "language": "la",
     "country": "US",
     "category": "movies",
-    "source": "IPTV-org",
+    "source": "IPTV-org, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -652,7 +708,7 @@
     "language": "cs",
     "country": "CZ",
     "category": "documentary",
-    "source": "IPTV-org",
+    "source": "IPTV-org, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -675,82 +731,6 @@
       "media_url": "",
       "resolution": "",
       "segment_count": 10,
-      "is_live": true
-    }
-  },
-  {
-    "name": "Nickelodeon (Czech Republic)",
-    "url": "http://88.212.15.50/live/test_nickelodeon_hevc_25p/playlist.m3u8",
-    "group": "Kids",
-    "tvg_id": "Nickelodeon.cz@SD",
-    "tvg_name": "",
-    "logo": "https://i.imgur.com/E84jnP8.png",
-    "language": "cs",
-    "country": "CZ",
-    "category": "kids",
-    "source": "IPTV-org",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "Nickelodeon.cz@SD",
-      "tvg-logo": "https://i.imgur.com/E84jnP8.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-      "group-title": "Kids"
-    },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-    },
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/x-mpegurl",
-      "final_url": "http://88.212.15.50/live/test_nickelodeon_hevc_25p/playlist.m3u8",
-      "detail": "Playlist HLS con 10 segmentos, 6s por segmento, en vivo",
-      "playlist_kind": "media",
-      "media_url": "",
-      "resolution": "",
-      "segment_count": 10,
-      "is_live": true
-    }
-  },
-  {
-    "name": "Music India",
-    "url": "https://fta.ektv.in/live/158/master.m3u8",
-    "group": "Music",
-    "tvg_id": "MusicIndia.in@SD",
-    "tvg_name": "Music India",
-    "logo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
-    "language": "hi",
-    "country": "IN",
-    "category": "music",
-    "source": "IPTV-org, BDIX IPTV",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "MusicIndia.in@SD",
-      "tvg-logo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
-      "group-title": "Music",
-      "tvg-name": "Music India",
-      "channel-id": "MusicIndia.in@SD",
-      "tvg-country": "IN",
-      "tvg-language": "hin"
-    },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
-    },
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 206,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://fta.ektv.in/live/158/master.m3u8",
-      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://fta.ektv.in/live/158/158_0_aac.m3u8",
-      "resolution": "720x576",
-      "segment_count": 5,
       "is_live": true
     }
   }
