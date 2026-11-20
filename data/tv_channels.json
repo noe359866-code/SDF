@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w2039775913.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w359316835.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -238,7 +238,7 @@
     "language": "hi",
     "country": "IN",
     "category": "music",
-    "source": "IPTV-org, BDIX IPTV",
+    "source": "IPTV-org, BDIX IPTV, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -303,7 +303,7 @@
       "final_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/playlist/amg00861-terninternation-lifestyle-samsungau/playlist.m3u8",
       "detail": "HLS master (1920x1080): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb563f007f737b8c9bca2167d3f3628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6e525e32cb488f751c92da2ff94c357d417587cab52edc841b58b689062a2dbb791603af6c45ea0d6bf372747872e708863b6826e6007a5336cd8e1dfc320786a222b14d57fa8d40b5f44f7062e1021fa1f84ed2a2b41f1c8b3d8b81067897397d3fb5631a41b74f900429ee6a4e15228136d6987bc92ff3dbc421f004e37b2a502b7e988776a98b37cae9be4f74a84765651654e8ad96f203199e53515dfbebc4ad2aae5d9afb45fb003dd951ccafe5c3498a126fac40ab6945ec084439e41a8b88d71d1c/14/1920x1080_4716800/index.m3u8",
+      "media_url": "https://amg00861-terninternation-lifestyle-samsungau-kdlyy.amagi.tv/ts-eu-w1-n2/playlist/amg00861-terninternation-lifestyle-samsungau/cb543e1e6573648684c83c6fcef049a9f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f455532ca1edf2f09cfc32fad5362611675cc99af2988cf1114b1de5c2e22b27a4f58fe0a11b275690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e036788f1f47f1ba9afef5cf2e2b204b4e31f65f39774e075bcfbbe098b9e03efc15eb370817017590837894c667f4b0e65a1dba3c1c705376eea29df04b30cb625b48eafec8ab6aed5c9fc771f3004ddb0afa1cd5d0ebe441ea1f877988a9dcfcf7ef07150fdf80baece479/31/1920x1080_4716800/index.m3u8",
       "resolution": "1920x1080",
       "segment_count": 5,
       "is_live": true
@@ -438,7 +438,7 @@
       "final_url": "https://amg00488-foxdigital-fox2sanfranciscoktvu-vizious-cshim.amagi.tv/playlist/amg00488-foxdigital-fox2sanfranciscoktvu-vizious/playlist.m3u8",
       "detail": "HLS master (720x404): Playlist HLS con 5 segmentos, 7s por segmento, en vivo; variantes descartadas: 1",
       "playlist_kind": "master",
-      "media_url": "https://amg00488-foxdigital-fox2sanfranciscoktvu-vizious-cshim.amagi.tv/ts-us-w2-n2/playlist/amg00488-foxdigital-fox2sanfranciscoktvu-vizious/cb563f007f737b8c9bca2167d3f3628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e6e520c34c84d8d741c92da2ff94c357d41758790b178d9841a0be3df597c2fe5294803a86c45ea0d6bf372747872e708863b6826e6007a5336cd8e1dfc320786a222b14d57fa8d40b5f44f7062e1021fa1f84ed2a2b41f1c8b3d8b81067897397d3fb5631a41b74f900429ee6a4e15228136d6987bc92ff3dbc421f004e37b2a502b7e988776a98b37cae9be4f74a84765651654e8ad96f203199e53515dfbebc4ad2aae5d9afb45fb003dd851cd1764517ea84bb1c14e2f343d036a634d587b24776517e689/158/720x404_1513283/index.m3u8",
+      "media_url": "https://amg00488-foxdigital-fox2sanfranciscoktvu-vizious-cshim.amagi.tv/ts-us-w2-n2/playlist/amg00488-foxdigital-fox2sanfranciscoktvu-vizious/cb543e1e6573648684c83c6fcef049a9f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f455532c21c8c7c55c0c32fad5362611675cc99af738f9d4314b7da09232ce27d1b03fb0916b275690ab168b195e747d74c3651853c605f2688b949ce320381d549a95713b9d3ac41a4a9976db56023bae21afbef9000109a35f2e036788f1f47f1ba9afef5cf2e2b204b4e31f65f39774e075bcfbbe098b9e03efc15eb370817017590837894c667f4b0e65a1dba3c1c705376eea29df04b30cb625b48eafec8ab6aed5c9fc771f3004ddb0afb1ed3646a0a3ae244592817b7a286cda6c791537a876ae9a634bd/174/720x404_1513283/index.m3u8",
       "resolution": "720x404",
       "segment_count": 5,
       "is_live": true
@@ -471,7 +471,7 @@
       "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fplaylist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 6 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fchunklist_w244541239_b1628000_slen.m3u8%3Fnimblesessionid%3D899522561",
+      "media_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2F3abn.bozztv.com%2F3abn2%2F3abn_live%2Fsmil%3A3abn_live.smil%2Fchunklist_w1030351545_b1628000_slen.m3u8%3Fnimblesessionid%3D899826447",
       "resolution": "1280x720",
       "segment_count": 6,
       "is_live": true
@@ -549,7 +549,7 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1329924137",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1330724617",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -735,7 +735,7 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/chunks.m3u8?nimblesessionid=1329924729",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/channels.stream/live-orgin/channels.stream/chunks.m3u8?nimblesessionid=1330725113",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
