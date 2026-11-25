@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w773332716.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w1402251617.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -82,6 +82,47 @@
     }
   },
   {
+    "name": "TyC Sports",
+    "url": "https://amg26268-amg26268c14-freelivesports-emea-10267.playouts.now.amagi.tv/ts-us-e2-n2/playlist/amg26268-sportsstudio-tycsports-freelivesportsemea/playlist.m3u8",
+    "group": "Sports",
+    "tvg_id": "TyCSports.ar@SD",
+    "tvg_name": "TYC Sports",
+    "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/TyC_Sports_logo.svg/960px-TyC_Sports_logo.svg.png",
+    "language": "es",
+    "country": "AR",
+    "category": "sports",
+    "source": "IPTV-org, BDIX IPTV, Teleonline, BByte Jellyfin",
+    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "stream_type": "hls",
+    "attributes": {
+      "tvg-id": "TyCSports.ar@SD",
+      "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/TyC_Sports_logo.svg/960px-TyC_Sports_logo.svg.png",
+      "group-title": "Sports",
+      "tvg-name": "TYC Sports",
+      "tvg-chno": "694",
+      "channel-id": "custom.tycsports",
+      "tvg-country": "AR",
+      "tvg-language": "spa"
+    },
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36",
+      "Referer": "https://teleonline.org/canal/tyc-sports/"
+    },
+    "directives": [],
+    "stream_check": {
+      "status": "http_ok",
+      "http_status": 200,
+      "content_type": "application/vnd.apple.mpegurl",
+      "final_url": "https://amg26268-amg26268c14-freelivesports-emea-10267.playouts.now.amagi.tv/ts-us-e2-n2/playlist/amg26268-sportsstudio-tycsports-freelivesportsemea/playlist.m3u8",
+      "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 6s por segmento, en vivo; variantes descartadas: 1",
+      "playlist_kind": "master",
+      "media_url": "https://amg26268-amg26268c14-freelivesports-emea-10267.playouts.now.amagi.tv/ts-us-e2-n2/playlist/amg26268-sportsstudio-tycsports-freelivesportsemea/cb553d19796c64879ad43e67d8ef42a3db243dfc087a8d6933fb4b926bc10f41e2e5af97b20cac7822fb0fdf61146d5a4d009247d8780ad7967cac48240d5734c6cdd52e8be24b4daddd0c2d34b07c0e49857671ad594f32d5e0110dc51ab07a0e1ca1494d5e2082b00cb27750c39e0a957f378bbdbe306f2c180680585ee2be5da5edf50e458b38a7b34819887a4ce78b5fc8d54aba9d865d96169b75f317cb93a18a8510d3d3c701f96d9a5c88f3bf1fe3e24ca08b3083d4937d3c98311b521f41e3b0e186245ea86633917c62a9c508d11cdc9d2dc1413abe12914c854aea21ca5be189c6c7dc381ab9e57924e67b18bf93666571ef0d93f709daafeccf7a7f98b937704eca6cdf2d11f5f197c4398bd91c9aba22cae1274d7888a64c9599bd94fcf0a37edc749a89a4c37d75476d5256dd1dbacc399269fc68b8c21616594f6fa48e1a91d58e1063340fceab76e03e37f59b878ad40b7bed651851e72999780d7ec3396933b47fafd46c22d9685ac5063cfd5927890da9eb7bbbf48d977351dfe9ce4cfb60f8a64a83a670ce43081953e3bc7c2506261bf7e1690a3c7cb935c7dbd8ee7a0c40a1b7faf7ce5737102a5535288ef1ec64949eca4a4c4f93b34780edecaff02c7cf4dd1533955a971f656b22fd04d1/192/1280x720_4077093/index.m3u8",
+      "resolution": "1280x720",
+      "segment_count": 3,
+      "is_live": true
+    }
+  },
+  {
     "name": "Goldmines Action",
     "url": "https://fta.ektv.in/live/584/master.m3u8",
     "group": "Movies",
@@ -113,7 +154,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://fta.ektv.in/live/584/master.m3u8",
-      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
+      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 4s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://fta.ektv.in/live/584/584_0_aac.m3u8",
       "resolution": "720x576",
@@ -169,7 +210,7 @@
     "language": "en",
     "country": "IN",
     "category": "documentary",
-    "source": "IPTV-org, BDIX IPTV, BByte Jellyfin",
+    "source": "IPTV-org, BDIX IPTV",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -178,8 +219,8 @@
       "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
       "group-title": "Documentary",
       "tvg-name": "Safari TV",
-      "tvg-country": "IN",
       "channel-id": "SafariTV.in@SD",
+      "tvg-country": "IN",
       "tvg-language": "eng",
       "x-discovery-source-country": "IN",
       "tvg-chno": "523"
@@ -269,7 +310,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://fta.ektv.in/live/469/master.m3u8",
-      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 7s por segmento, en vivo",
+      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://fta.ektv.in/live/469/469_0_aac.m3u8",
       "resolution": "720x576",
@@ -307,7 +348,7 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "https://dash2.antik.sk/live/test_fashionbox_medium_atk/playlist.m3u8",
-      "detail": "Playlist HLS con 10 segmentos, 6s por segmento, en vivo",
+      "detail": "Playlist HLS con 10 segmentos, 5s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
@@ -383,7 +424,7 @@
   },
   {
     "name": "CNBC Indonesia",
-    "url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
+    "url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Fvideo.detik.com%2Flivecnbc%2Fsmil%3Acnbctv%2Fchunklist_w1279679883_b384000_sleng.m3u8",
     "group": "Business",
     "tvg_id": "CNBCIndonesia.id@SD",
     "tvg_name": "",
@@ -391,24 +432,21 @@
     "language": "unknown",
     "country": "ID",
     "category": "business",
-    "source": "IPTV-org, BByte Jellyfin",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
+    "source": "BByte Jellyfin",
+    "source_url": "https://iptv.bbyte.app/jellyfin/live.m3u",
     "stream_type": "hls",
     "attributes": {
       "tvg-id": "CNBCIndonesia.id@SD",
       "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/CNBC_Indonesia_2025.svg/960px-CNBC_Indonesia_2025.svg.png",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
       "group-title": "Business"
     },
-    "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36"
-    },
+    "headers": null,
     "directives": [],
     "stream_check": {
       "status": "http_ok",
-      "http_status": 206,
+      "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://video.detik.com/livecnbc/smil:cnbctv/chunklist_w1279679883_b384000_sleng.m3u8",
+      "final_url": "https://iptv.bbyte.app/proxy/stream?url=https%3A%2F%2Fvideo.detik.com%2Flivecnbc%2Fsmil%3Acnbctv%2Fchunklist_w1279679883_b384000_sleng.m3u8",
       "detail": "Playlist HLS con 9 segmentos, 10s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
@@ -442,11 +480,11 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://amg00488-foxdigital-fox2sanfranciscoktvu-vizious-cshim.amagi.tv/playlist/amg00488-foxdigital-fox2sanfranciscoktvu-vizious/playlist.m3u8",
-      "detail": "HLS master (720x404): Playlist HLS con 4 segmentos, 7s por segmento, en vivo; variantes descartadas: 1",
+      "detail": "HLS master (720x404): Playlist HLS con 5 segmentos, 7s por segmento, en vivo; variantes descartadas: 1",
       "playlist_kind": "master",
-      "media_url": "https://amg00488-foxdigital-fox2sanfranciscoktvu-vizious-cshim.amagi.tv/ts-us-w2-n2/playlist/amg00488-foxdigital-fox2sanfranciscoktvu-vizious/cb563e1e657b6d909bcf3778d8f1628cb872149c3356c94637fb0ac9209d022ccdf8b392be0fb02a439e01da731e39585f31984a8d7b1c92d62bad4c357d417587cab67ddc84460fe6d15b782bb67e1b03aa6ca9e11f7b1a5842876aff5f804a477edd0767423789fd3ae9271690c328a3451bf5dcfdfcedb06875a22302a7e406b38ebc0807813ff09b3d7061bfddd5a078bd815fabfd8b02c016c564ce2c4b4368b9f122fbf7bb57d008f535433f4818ccd02ac39e0fffb2120e480b64a8ba6ff8c283ea1f2a996916446b58bf0cda2f9032c38c37886336f423904687318d64904bcd9d7d848bf6eb740c1aacc5556f22aca88592ef2732be72f4b0a68c3d28eb966e184dab3c89c24abb59077372fa522e0b2a3f5f020ce6718dd103203a/11/720x404_1513283/index.m3u8",
+      "media_url": "https://amg00488-foxdigital-fox2sanfranciscoktvu-vizious-cshim.amagi.tv/ts-us-w2-n2/playlist/amg00488-foxdigital-fox2sanfranciscoktvu-vizious/cb553d19796c64879ad43e67d8ef42a3db244ee22346c95109b727cf249f410cd9a1848ba909be3b18c05dc1601469434934ca4a8f2a08ce8f67fd5834750a759bceb3668b9e4101af895e7e2ab0794a07fb0f1086470318a1819ba3185fcf1b3020aa645b583b99b80dbd151694c45fc85d01b19fa31019e08e92ad77609bff1ce7a7f12c188d2ef8e24d62a53575e5947a11e33d68157faf8e93f406d8dcfe4165209778729cae12f402f03d0a596d5e91897a92ce528c98f0150ab85765722818c5ab92f040398a0a6644ecedcabc71f00181d86bd51257c160922cd568d28bcbeb3e1df6c6dff2faedae2ccb835f8f4ab728b3158a/188/720x404_1513283/index.m3u8",
       "resolution": "720x404",
-      "segment_count": 4,
+      "segment_count": 5,
       "is_live": true
     }
   },
@@ -560,7 +598,7 @@
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1340584422",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1341695009",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -690,8 +728,8 @@
       "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
       "group-title": "Entertainment",
       "tvg-name": "MTV (India)",
-      "tvg-country": "IN",
       "channel-id": "MTV.in@SD",
+      "tvg-country": "IN",
       "tvg-language": "hin;eng",
       "x-discovery-source-country": "IN",
       "tvg-chno": "199"
@@ -711,44 +749,6 @@
       "resolution": "704x396",
       "segment_count": 0,
       "is_live": null
-    }
-  },
-  {
-    "name": "Global Fashion Channel",
-    "url": "https://pubgfc.teleosmedia.com/linear/globalfashionchannel/globalfashionchannel/playlist.m3u8",
-    "group": "Lifestyle",
-    "tvg_id": "GlobalFashionChannel.us@SD",
-    "tvg_name": "Global Fashion Channel",
-    "logo": "https://i.imgur.com/s4eGYEP.jpg",
-    "language": "en",
-    "country": "US",
-    "category": "culture",
-    "source": "IPTV-org, BDIX IPTV, BByte Jellyfin",
-    "source_url": "https://iptv-org.github.io/iptv/index.m3u",
-    "stream_type": "hls",
-    "attributes": {
-      "tvg-id": "GlobalFashionChannel.us@SD",
-      "tvg-logo": "https://i.imgur.com/s4eGYEP.jpg",
-      "group-title": "Lifestyle",
-      "tvg-name": "Global Fashion Channel",
-      "tvg-chno": "427",
-      "channel-id": "GlobalFashionChannel.us@SD",
-      "tvg-country": "US",
-      "tvg-language": "eng"
-    },
-    "headers": null,
-    "directives": [],
-    "stream_check": {
-      "status": "http_ok",
-      "http_status": 200,
-      "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://pubgfc.teleosmedia.com/linear/globalfashionchannel/globalfashionchannel/playlist.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 13 segmentos, 7s por segmento, en vivo",
-      "playlist_kind": "master",
-      "media_url": "https://pubgfc.teleosmedia.com/linear/globalfashionchannel/globalfashionchannel/cdbe280e-0aea-4bbe-861f-fd115abcfec7_1080p.m3u8",
-      "resolution": "1920x1080",
-      "segment_count": 13,
-      "is_live": true
     }
   }
 ]
