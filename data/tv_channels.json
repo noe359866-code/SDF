@@ -17,7 +17,7 @@
       "tvg-logo": "https://i.imgur.com/hVNIwgE.png",
       "group-title": "General",
       "tvg-name": "Love Nature",
-      "tvg-chno": "516",
+      "tvg-chno": "517",
       "channel-id": "LoveNature.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -34,7 +34,7 @@
       "final_url": "https://cdn1.logichost.in/ajmantv/live/playlist.m3u8",
       "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 19s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w474132443.m3u8",
+      "media_url": "https://cdn1.logichost.in/ajmantv/live/chunklist_w600886843.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -73,11 +73,11 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/master.m3u8",
-      "detail": "HLS master (1920x1080): Playlist HLS con 34 segmentos, 9s por segmento, en vivo",
+      "detail": "HLS master (1920x1080): Playlist HLS con 35 segmentos, 9s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://n18syndication.akamaized.net/bpk-tv/News18_Kannada_NW18_MOB/output01/News18_Kannada_NW18_MOB-audio_98835_kan=98800-video=2293600.m3u8",
       "resolution": "1920x1080",
-      "segment_count": 34,
+      "segment_count": 35,
       "is_live": true
     }
   },
@@ -99,7 +99,7 @@
       "tvg-logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/TyC_Sports_logo.svg/960px-TyC_Sports_logo.svg.png",
       "group-title": "Sports",
       "tvg-name": "TYC Sports",
-      "tvg-chno": "699",
+      "tvg-chno": "700",
       "channel-id": "custom.tycsports",
       "tvg-country": "AR",
       "tvg-language": "spa"
@@ -114,9 +114,9 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://amg26268-amg26268c14-freelivesports-emea-10267.playouts.now.amagi.tv/ts-us-e2-n2/playlist/amg26268-sportsstudio-tycsports-freelivesportsemea/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (1280x720): Playlist HLS con 3 segmentos, 6s por segmento, en vivo; variantes descartadas: 1",
       "playlist_kind": "master",
-      "media_url": "https://amg26268-amg26268c14-freelivesports-emea-10267.playouts.now.amagi.tv/ts-us-e2-n2/playlist/amg26268-sportsstudio-tycsports-freelivesportsemea/cb543d166570648a84cb3d65cef047a7f9591fde1d6988693eb5518975d1073edce2a59caa08ff16388f1ede7f0a66413a3e951fda77118fd87eb141453c5728cfffe729a2c05616b7db083429b56a062a866a68ac39437ed0e21f48a238b6720a5aa82a66443d80b846ac7454db80148b61299bce8c37683f03409a5e5afba358b1ebe45843dd69f3b44d55c07e11e39f43c8821da689d759cd5e8e23f11c94c7a389d016d6d4f3dd986d9a5c88f3bf1fe3e24ca08b3083d4937d3c98311b521f41e3b0e186245ea86633917c62a9c508d11cdc9d2dc1413abe12914c854ae4036ca466833cc78ca8d740542baa862809972278c2f8990312c70ecdabfbda7a7290f75e1f2dac3f88737f61c2b7a39ce3b2768edd67cd524a3d418092cba1bf8cb04ff01229d655ebcaf18a34414f2c2a0791629b957fd0131019c2c13e2e464448a19b1a91c8891e785546888451c3005b97efcbd28f406b91202c53e6368d0045749a60253cc43de996395b8c24218c2172ae0b62ce11aaf864de8fefc82a77f5d2ce49fa2fc8b009d9f94be94e344b0dbef7630e171a3380a036436039f044e2d2d8e8385c53bbb99ea8b226526d0e1e5c0884f5f430cadeb24e33228102762e246a54fc62f166d007450554b93ddbbe067980466c6dd1ae3159557b858ad6a582c5c150ba6fd9acac617edb38dc26fbbd40ffb389c0e6c342165d58f276a1fbd988/181/1280x720_4077093/index.m3u8",
+      "media_url": "https://amg26268-amg26268c14-freelivesports-emea-10267.playouts.now.amagi.tv/ts-us-e2-n2/playlist/amg26268-sportsstudio-tycsports-freelivesportsemea/cb553d19796c648893d43d65d6ef41a7d3243dfc087a8d6933fb4b926bc10f41e2e5af97b20cac7822fb0fdf61146d5a4d009247d8780ad7967cac48240d5734c6cdd52e8be24b4daddd0c2d34b07c0e49857671ad594f32d5e0110dc51ab07a0e1ca1494d5e2082b00cb27750c39e0a957f378bbdbe306f2c180680585ee2be5da5edf55d13da64f3e51e4c887a17e4865fc8d54aba9d85529b429b22f7149a93f7da814583d39301f96d9a5c88f3bf1fe3e24ca08b3083d4937d3c98311b521f41e3b0e186245ea86633917c62a9c508d11cdc9d2dc1413abe12914c854aea21ca5be189c6c7dc381ab9e57924e67b18bf93666571ef0d93f709daafeccf7a7f98b937704eca6cdf2d11f5f197c4398bd91c9aba22cae1274d7888a64c9599bd94fcf0a37edc749a89a4c37d75476d5256dd1dbacc399269fc68b8c21616594f6fa48e1a91d58e1063340fceab76e03e37f59b878ad40b7bed651851e72999780d7ec3396933b47fafd46c22d9685ac5063cfd5927890da9eb7bbbf48d977351dfe9ce4cfb60f8a64a83a670ce43081953e3bc7c2506261bf7e1690a3c7cb935c7dbd8ee7a0c40a1b7faf7ce5737102a5535288ef1ec64949eca484ff6a0cafaabcc769595d61b8b917e7ea447c9646de9a38c/2/1280x720_4077093/index.m3u8",
       "resolution": "1280x720",
       "segment_count": 3,
       "is_live": true
@@ -180,7 +180,7 @@
       "tvg-logo": "https://i.imgur.com/wvQYWsj.png",
       "group-title": "Series",
       "tvg-name": "Inside Crime",
-      "tvg-chno": "511",
+      "tvg-chno": "512",
       "channel-id": "InsideCrime.us",
       "tvg-country": "US",
       "tvg-language": "eng"
@@ -223,7 +223,7 @@
       "tvg-country": "IN",
       "tvg-language": "eng",
       "x-discovery-source-country": "IN",
-      "tvg-chno": "527"
+      "tvg-chno": "528"
     },
     "headers": {
       "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
@@ -274,7 +274,7 @@
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://fta.ektv.in/live/469/master.m3u8",
-      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
+      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 6s por segmento, en vivo",
       "playlist_kind": "master",
       "media_url": "https://fta.ektv.in/live/469/469_0_aac.m3u8",
       "resolution": "720x576",
@@ -312,7 +312,7 @@
       "http_status": 200,
       "content_type": "application/x-mpegurl",
       "final_url": "https://dash2.antik.sk/live/test_fashionbox_medium_atk/playlist.m3u8",
-      "detail": "Playlist HLS con 10 segmentos, 6s por segmento, en vivo",
+      "detail": "Playlist HLS con 10 segmentos, 5s por segmento, en vivo",
       "playlist_kind": "media",
       "media_url": "",
       "resolution": "",
@@ -432,7 +432,7 @@
     "language": "unknown",
     "country": "US",
     "category": "weather",
-    "source": "IPTV-org, BByte Jellyfin",
+    "source": "IPTV-org",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
@@ -447,11 +447,11 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://amg00488-foxdigital-fox2sanfranciscoktvu-vizious-cshim.amagi.tv/playlist/amg00488-foxdigital-fox2sanfranciscoktvu-vizious/playlist.m3u8",
-      "detail": "HLS master (720x404): Playlist HLS con 4 segmentos, 7s por segmento, en vivo; variantes descartadas: 1",
+      "detail": "HLS master (720x404): Playlist HLS con 5 segmentos, 7s por segmento, en vivo; variantes descartadas: 1",
       "playlist_kind": "master",
-      "media_url": "https://amg00488-foxdigital-fox2sanfranciscoktvu-vizious-cshim.amagi.tv/ts-us-w2-n2/playlist/amg00488-foxdigital-fox2sanfranciscoktvu-vizious/cb543d166570648a84cb3d65cef047a7f92a01f5212db05372d90cc62b9f4a0598c9b987af1abc2c03dd00df7f0e7f455861cf108a7900c4c32ff90530611675cc99af738f994714e38d0b2e7ce17e4c57f80643b29b6218a1819ba3185fcf1b3020aa645b583b99b80dbd151694c45fc85d01b19fa31019e08e92ad77609bff1ce7a7f12c188d2ef8e24d62ab17d31a1370ebe36df8d8861edc1d9455c9f44f5fc2a9e176f3aca905f015e53d07512337feea1cc1990ce283c8235114165925063ea2eb75dd6e45c644cd66dac1f81f25607084f9048c6525b2039900aa359d549306b5ea74e2c7c7ec66677490f216422fa1ebae8ff77816a572e9a3eac97c6ed6a75a2c35a917b8284869c0ad2b750458dd2ed04ab600afd1fa1afde1a5809bd966b44c/100/720x404_1513283/index.m3u8",
+      "media_url": "https://amg00488-foxdigital-fox2sanfranciscoktvu-vizious-cshim.amagi.tv/ts-us-w2-n2/playlist/amg00488-foxdigital-fox2sanfranciscoktvu-vizious/cb553d19796c648893d43d65d6ef41a7d3244ee22346c95109b727cf249f410cd9a1848ba909be3b18c05dc1601469434966cb1cdb7405cedc67fd0337780a759bceb366889a175fafd9097b29b3291702fc5b16d7470318a1819ba3185fcf1b3020aa645b583b99b80dbd151694c45fc85d01b19fa31019e08e92ad77609bff1ce7a7f12c188d2ef8e24d62a53575e5947a11e33d68157faf8e93f406d8dcfe4165209778729cae12f402f03d0a596d5e91897a92ce528c98f0150ab85765722818c5ab92f040398a0a6644ecedcabc71f00181d86bd51257c160922dd1606a0a31d56c5928dc869f2874370e234b1075babaac0951/50/720x404_1513283/index.m3u8",
       "resolution": "720x404",
-      "segment_count": 4,
+      "segment_count": 5,
       "is_live": true
     }
   },
@@ -563,9 +563,9 @@
       "http_status": 200,
       "content_type": "application/vnd.apple.mpegurl",
       "final_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/playlist.m3u8",
-      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 6s por segmento, en vivo",
+      "detail": "HLS master (1280x720): Playlist HLS con 4 segmentos, 7s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1346724806",
+      "media_url": "https://app.ncare.live/c3VydmVyX8RpbEU9Mi8xNy8yMDE0GIDU6RgzQ6NTAgdEoaeFzbF92YWxIZTO0U0ezN1IzMyfvcGVMZEJCTEFWeVN3PTOmdFsaWRtaW51aiPhnPTI2/anandatv.stream/live-orgin/anandatv.stream/chunks.m3u8?nimblesessionid=1347758122",
       "resolution": "1280x720",
       "segment_count": 4,
       "is_live": true
@@ -677,42 +677,42 @@
     }
   },
   {
-    "name": "Music India",
-    "url": "https://fta.ektv.in/live/158/master.m3u8",
-    "group": "Music",
-    "tvg_id": "MusicIndia.in@SD",
-    "tvg_name": "Music India",
-    "logo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
+    "name": "MTV (India)",
+    "url": "https://da86m1sqpm3o0.cloudfront.net/28072023/smil:mtvindia.smil/playlist.m3u8",
+    "group": "Entertainment",
+    "tvg_id": "MTV.in@SD",
+    "tvg_name": "MTV (India) (396p)",
+    "logo": "https://static.wikia.nocookie.net/logopedia/images/d/d2/MTV_2021_%283D%29_%28Print%29.svg/revision/latest?cb=20220218200449",
     "language": "hi",
     "country": "IN",
     "category": "music",
-    "source": "IPTV-org, BDIX IPTV",
+    "source": "IPTV-org, BDIX IPTV, BByte Jellyfin",
     "source_url": "https://iptv-org.github.io/iptv/index.m3u",
     "stream_type": "hls",
     "attributes": {
-      "tvg-id": "MusicIndia.in@SD",
-      "tvg-logo": "https://dtil.tmsimg.com/assets/s143563_ld_h15_aa.png?lock=720x540",
-      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36",
-      "group-title": "Music",
-      "tvg-name": "Music India",
-      "channel-id": "MusicIndia.in@SD",
+      "tvg-id": "MTV.in@SD",
+      "tvg-logo": "https://static.wikia.nocookie.net/logopedia/images/d/d2/MTV_2021_%283D%29_%28Print%29.svg/revision/latest?cb=20220218200449",
+      "http-user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
+      "group-title": "Entertainment",
+      "tvg-name": "MTV (India) (396p)",
       "tvg-country": "IN",
-      "tvg-language": "hin"
+      "tvg-language": "hin",
+      "x-discovery-source-country": "IN"
     },
     "headers": {
-      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
     },
     "directives": [],
     "stream_check": {
       "status": "http_ok",
       "http_status": 206,
       "content_type": "application/vnd.apple.mpegurl",
-      "final_url": "https://fta.ektv.in/live/158/master.m3u8",
-      "detail": "HLS master (720x576): Playlist HLS con 5 segmentos, 5s por segmento, en vivo",
+      "final_url": "https://da86m1sqpm3o0.cloudfront.net/28072023/smil:mtvindia.smil/playlist.m3u8",
+      "detail": "HLS master (704x396): Playlist HLS con 8 segmentos, 4s por segmento, en vivo",
       "playlist_kind": "master",
-      "media_url": "https://fta.ektv.in/live/158/158_0_aac.m3u8",
-      "resolution": "720x576",
-      "segment_count": 5,
+      "media_url": "https://da86m1sqpm3o0.cloudfront.net/28072023/smil:mtvindia.smil/chunklist_b1928000.m3u8",
+      "resolution": "704x396",
+      "segment_count": 8,
       "is_live": true
     }
   },
